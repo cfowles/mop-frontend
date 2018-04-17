@@ -288,19 +288,19 @@ describe('<SignatureAddForm />', () => {
   })
   describe('Email validation tests', () => {
     forEach([ // Valid emails
-        'foo@example.com',
-        'foo.bar@example.com',
-        'c\u017Fsaire@example.com',
-        'foo@gmail.edu.ca'
+      'foo@example.com',
+      'foo.bar@example.com',
+      'c\u017Fsaire@example.com',
+      'foo@gmail.edu.ca'
     ]).it('valid email %s', (goodEmail) => {
       expect(isValidEmail(goodEmail)).to.be.equal(true)
     })
     forEach([ // Invalid emails
-        'foo@example..com',
-        'foo@example.com ',
-        'foo@example.com xyz',
-        'foo@example.com<',
-        'foo@gmau=il.com'
+      'foo@example..com',
+      'foo@example.com ',
+      'foo@example.com xyz',
+      'foo@example.com<',
+      'foo@gmau=il.com'
     ]).it('invalid email %s', (badEmail) => {
       expect(isValidEmail(badEmail)).to.be.equal(false)
     })

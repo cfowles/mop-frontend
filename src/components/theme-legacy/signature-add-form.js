@@ -65,7 +65,7 @@ const SignatureAddForm = ({
         id='sign'
         method='post'
         action='.'
-        accept-charset='utf-8'
+        acceptCharset='utf-8'
         onSubmit={submit}
       >
         <input type='hidden' name='petition_id' value={petition.id} />

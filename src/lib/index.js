@@ -98,16 +98,16 @@ export const petitionShortCode = (mode, petitionId, userId, responseMd5) => {
 
 // IE-crap hack:
 let supportsUnicode = true
-try { new RegExp('\\w', 'iu') } catch(err) { supportsUnicode = false }
+try { RegExp('\\w', 'iu') } catch (err) { supportsUnicode = false }
 
-const userRegex = new RegExp('^[-!#$%&\'*+/=?^_`{}|~\\w]+(\\.[-!#$%&\'*+/=?^_`{}|~\\w]+)*$', supportsUnicode ? 'iu' : 'i')
-const quotedUserRegex = /^"([\001-\010\013\014\016-\037!#-\[\]-\177]|\\[\001-\011\013\014\016-\177])*"$/i
+const userRegex = RegExp('^[-!#$%&\'*+/=?^_`{}|~\\w]+(\\.[-!#$%&\'*+/=?^_`{}|~\\w]+)*$', supportsUnicode ? 'iu' : 'i')
+const quotedUserRegex = /^"([\001-\010\013\014\016-\037!#-[\]-\177]|\\[\001-\011\013\014\016-\177])*"$/i
 const domainRegex = /^((?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+)(?:[A-Z0-9-]{1,62}[A-Z0-9])$/i
 
 export const isValidEmail = (email) => {
   if (!email) { return false }
   const parts = email.split('@')
-  if (parts.length != 2) { return false }
+  if (parts.length !== 2) { return false }
   return ((userRegex.test(parts[0]) || quotedUserRegex.test(parts[0]))
           && domainRegex.test(parts[1]))
 }
