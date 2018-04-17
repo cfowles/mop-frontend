@@ -14,7 +14,9 @@ export const PetitionCard = ({
   renderShare,
   renderSignersButton
 }) => (
-  <Card className='col-12 petition-card' heading={heading}>
+  <Card reducePadding className='col-12 petition-card' heading={heading}>
+    {renderShare}
+
     {children}
 
     <div className='petition-card__range'>
@@ -37,7 +39,6 @@ export const PetitionCard = ({
       className: 'mo-btn petition-card__cta',
       CaretRight: CaretRightSvg
     })}
-    {renderShare}
   </Card>
 )
 
