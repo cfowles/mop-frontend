@@ -83,12 +83,12 @@ export const routes = (store) => {
       <IndexRoute prodReady component={LoadableHome} />
 
       {/* Sign pages are popular entry page, so they get included in the main bundle (not Loadable) */}
-      <Route path='sign/:petition_slug' component={Sign} />
-      <Route path=':organization/sign/:petition_slug' component={Sign} onEnter={orgLoader} />
+      <Route path='sign/:petition_slug' component={Sign} prodReady />
+      <Route path=':organization/sign/:petition_slug' component={Sign} onEnter={orgLoader} prodReady />
 
-      <Route path='pac/' component={LoadablePacHome} />
+      <Route path='pac/' component={LoadablePacHome} prodReady />
       <Route path='thanks.html' component={ThanksShim} prodReady minimalNav />
-      <Route path=':organization/thanks.html' component={ThanksShim} onEnter={orgLoader} minimalNav />
+      <Route path=':organization/thanks.html' component={ThanksShim} onEnter={orgLoader} prodReady minimalNav />
       <Route path='find' component={LoadableSearch} />
       <Route path='dashboard.html' component={LoadableDashboard} />
       <Route path='create_start.html' component={LoadableCreate} minimalNav />
