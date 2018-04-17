@@ -1,5 +1,4 @@
 import React from 'react' // needed to get JSX in scope for text2paraJsx
-import emailRegex from 'email-regex'
 import Config from '../config'
 
 export { getStateFullName, getRegions, armedForcesRegions } from './state-abbrev'
@@ -94,7 +93,7 @@ export const petitionShortCode = (mode, petitionId, userId, responseMd5) => {
 }
 
 export const isValidEmail = (email) => {
-  const regex = emailRegex({ exact: true })
+  const regex = /^[^.\s@:][^\s@:]*(?!\.)@[^.\s@]+(?:\.[^.\s@]+)*$/ // https://github.com/sindresorhus/email-regex/blob/master/index.js
   return regex.test(email)
 }
 

@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import emailRegex from 'email-regex'
 
 import SignatureAddFormComponent from 'Theme/signature-add-form'
 
@@ -33,7 +32,7 @@ class SignatureAddForm extends React.Component {
       required: {}
     }
     this.validationRegex = {
-      email: emailRegex({ exact: true }),
+      email: /^[^.\s@:][^\s@:]*(?!\.)@[^.\s@]+(?:\.[^.\s@]+)*$/, // https://github.com/sindresorhus/email-regex/blob/master/index.js
       zip: /(\d\D*){5}/,
       phone: /(\d\D*){10}/ // 10-digits
     }
