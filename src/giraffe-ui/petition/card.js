@@ -32,6 +32,10 @@ export const PetitionCard = ({
         />
       </div>
     </div>
+    <div className='bold mt-4 text-align-center'>
+      {formatNumber(currentSignatures)} signatures. NEW goal - We need{' '}
+      {formatNumber(goalSignatures)}!
+    </div>
 
     {renderSignersButton({
       className: 'mo-btn petition-card__cta',
