@@ -53,7 +53,7 @@ const Petition = ({
           </Scrollchor>
         )}
       >
-        <p>To be delivered to {p.target.map(t => t.name).join(', ')}</p>
+        <p className='pt-3'>To be delivered to {p.target.map(t => t.name).join(', ')}</p>
 
         {adminLink && (
           <a style={{ position: 'absolute', top: 10, right: 10 }} href={adminLink}>
