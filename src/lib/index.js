@@ -92,9 +92,24 @@ export const petitionShortCode = (mode, petitionId, userId, responseMd5) => {
   return `${Config.BASE_URL}/p/${shortCode}`
 }
 
+// isValidEmail is ripped off from Django
+// https://github.com/django/django/blob/2.0.4/django/core/validators.py#L164
+// Two differences: 1. accepting \w unicode for user-portion 2. not accepting ipv6 domain addresses
+
+// IE-crap hack:
+let supportsUnicode = true
+try { new RegExp('\\w', 'iu') } catch(err) { supportsUnicode = false }
+
+const userRegex = new RegExp('^[-!#$%&\'*+/=?^_`{}|~\\w]+(\\.[-!#$%&\'*+/=?^_`{}|~\\w]+)*$', supportsUnicode ? 'iu' : 'i')
+const quotedUserRegex = /^"([\001-\010\013\014\016-\037!#-\[\]-\177]|\\[\001-\011\013\014\016-\177])*"$/i
+const domainRegex = /^((?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+)(?:[A-Z0-9-]{1,62}[A-Z0-9])$/i
+
 export const isValidEmail = (email) => {
-  const regex = /^[^.\s@:][^\s@:]*(?!\.)@[^.\s@]+(?:\.[^.\s@]+)*$/ // https://github.com/sindresorhus/email-regex/blob/master/index.js
-  return regex.test(email)
+  if (!email) { return false }
+  const parts = email.split('@')
+  if (parts.length != 2) { return false }
+  return ((userRegex.test(parts[0]) || quotedUserRegex.test(parts[0]))
+          && domainRegex.test(parts[1]))
 }
 
 export const formatNumber = number =>
