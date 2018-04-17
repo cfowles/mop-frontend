@@ -26,8 +26,8 @@ const SignatureAddForm = ({
   innerRef,
   id
 }) => (
-  <form ref={innerRef} onSubmit={submit} className='sign-form' id={id}>
-    <h4>SIGN THIS PETITION</h4>
+  <form ref={innerRef} onSubmit={submit} className='sign-form bg-ice-blue p-4' id={id}>
+    <h2 className='text-align-center'>SIGN THIS PETITION</h2>
     {user.signonId ? (
       // Recognized
       <div>
