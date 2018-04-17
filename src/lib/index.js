@@ -1,4 +1,5 @@
 import React from 'react' // needed to get JSX in scope for text2paraJsx
+import emailRegex from 'email-regex'
 import Config from '../config'
 
 export { getStateFullName, getRegions, armedForcesRegions } from './state-abbrev'
@@ -93,7 +94,7 @@ export const petitionShortCode = (mode, petitionId, userId, responseMd5) => {
 }
 
 export const isValidEmail = (email) => {
-  const regex = /.+@.+\..+/ // Forgiving email regex
+  const regex = emailRegex({ exact: true })
   return regex.test(email)
 }
 
