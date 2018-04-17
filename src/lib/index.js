@@ -146,3 +146,22 @@ export const getPageLoadTime = () => {
 }
 
 export const scrollToTop = () => window && window.scrollTo(0, 0)
+
+export const rejectNetworkErrorsAs500 = () => Promise.reject({ response_code: 500 })
+
+export const parseAPIResponse = response =>
+  new Promise(resolve => resolve(response.text()))
+    .then(responseBody => {
+      try {
+        const parsedJSON = JSON.parse(responseBody)
+        if (response.ok) return parsedJSON
+        if (!parsedJSON.response_code) throw Error('Response contains no response code')
+        return Promise.reject(parsedJSON)
+      } catch (error) {
+        // The response contains invalid JSON or no response code
+        return Promise.reject({
+          response_code: 500,
+          error
+        })
+      }
+    })
