@@ -24,10 +24,11 @@ const SignatureAddForm = ({
   validationError,
   setRef,
   innerRef,
-  id
+  id,
+  hideUntilInteract
 }) => (
   <form ref={innerRef} onSubmit={submit} className='sign-form' id={id} acceptCharset='utf-8'>
-    <h4>SIGN THIS PETITION</h4>
+    <h2 className='text-align-center'>SIGN THIS PETITION</h2>
     {user.signonId ? (
       // Recognized
       <div>
@@ -56,7 +57,7 @@ const SignatureAddForm = ({
       </div>
     )}
 
-    {showAddressFields ? (
+    {(!hideUntilInteract && showAddressFields) ? (
       <div>
         <CountrySelect
           className='override-collapse'
@@ -197,7 +198,8 @@ SignatureAddForm.propTypes = {
   validationError: PropTypes.func,
   setRef: PropTypes.func,
   innerRef: PropTypes.func,
-  id: PropTypes.string
+  id: PropTypes.string,
+  hideUntilInteract: PropTypes.bool
 }
 
 export default SignatureAddForm

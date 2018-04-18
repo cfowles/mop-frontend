@@ -46,7 +46,8 @@ describe('<SignatureAddForm />', () => {
       expect(component.props.user.anonymous).to.be.equal(true)
       expect(context.text().toLowerCase()).to.contain('sign this petition')
     })
-
+    /* Note: These tests are disabled so we can do some live tests where some of the sign form
+              is hidden. See https://github.com/MoveOnOrg/mop-frontend/issues/459
     it('anonymous fields displaying', () => {
       const store = createMockStore(storeAnonymous)
       const context = mount(<SignatureAddForm {...propsProfileBase} store={store} />)
@@ -104,7 +105,7 @@ describe('<SignatureAddForm />', () => {
       // expect(context.find('input[name="state"]').length).to.equal(1);
       expect(context.find('input[name="zip"]').length).to.equal(1)
     })
-
+    */
     it('show optin warning', () => {
       // Should be: megapartner + not recognized user
       const showStore = createMockStore(storeAnonymous)
@@ -188,7 +189,7 @@ describe('<SignatureAddForm />', () => {
               `optin checkbox with user should NOT show for ${JSON.stringify(query)}`
             ).to.equal(0)
     })
-
+    /*
     it('logged in shows unrecognize link', () => {
       const store = createMockStore(storeAkid)
       const context = mount(<SignatureAddForm {...propsProfileBase} store={store} />)
@@ -215,10 +216,11 @@ describe('<SignatureAddForm />', () => {
       expect(context.find('input[name="address2"]').length).to.equal(1)
       expect(context.find('input[name="city"]').length).to.equal(1)
     })
+    */
   })
   describe('<SignatureAddForm /> stateful tests', () => {
     // THESE ARE TESTS WHERE WE CHANGE THE STATE (FILL IN FORM, ETC)
-
+    /*
     it('typing incomplete fields submit fails and displays validation error messages', () => {
       const store = createMockStore(storeAnonymous)
       const context = mount(<SignatureAddForm {...propsProfileBase} store={store} />)
@@ -229,7 +231,7 @@ describe('<SignatureAddForm />', () => {
       expect(component.state.validationTried).to.be.equal(true)
       expect(context.find('.alert').length).to.equal(6)
     })
-
+    */
     it('adding a non-US address updates requirements to not require state or zip', () => {
       const store = createMockStore(storeAnonymous)
       const context = mount(<SignatureAddForm {...propsProfileBase} store={store} />)

@@ -29,7 +29,8 @@ class SignatureAddForm extends React.Component {
       validationTried: false,
       thirdparty_optin: props.hiddenOptin || props.showOptinCheckbox,
       hidden_optin: props.hiddenOptin,
-      required: {}
+      required: {},
+      hideUntilInteract: true
     }
     this.validationFunction = {
       email: isValidEmail,
@@ -134,7 +135,10 @@ class SignatureAddForm extends React.Component {
   updateStateFromValue(field, isCheckbox = false) {
     return (event) => {
       const value = isCheckbox ? event.target.checked : event.target.value
-      this.setState({ [field]: value })
+      this.setState({
+        [field]: value,
+        hideUntilInteract: false // show some hidden fields if they are hidden
+      })
     }
   }
 
@@ -241,6 +245,7 @@ class SignatureAddForm extends React.Component {
         setRef={setRef}
         innerRef={innerRef}
         id={id}
+        hideUntilInteract={this.state.hideUntilInteract}
       />
     )
   }
