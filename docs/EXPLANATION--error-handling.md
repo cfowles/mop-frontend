@@ -14,6 +14,8 @@ We didn't want to have to change the url to /404 or /500 for every error, so err
 
 To do this, there is some logic in Wrapper's render function to display the corresponding error component if `store.errorStore.response_code` is `404` or `500`. We will also override the message on the error page if `store.errorStore.description` is set.
 
+We also need to clear this error in the router's `onChange` callback, so if they navigate to another page, or go back or something, this error is cleared and they can see the page contents again.
+
 ### Setting Error: On Page Load
 
 When the user enters the app at certain special routes, e.g. the petition sign page, the django server provides the app with some data in `window.preloadObjects`. This saves the time of calling the extra `fetch()`.

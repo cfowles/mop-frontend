@@ -8,6 +8,8 @@ const reducer = (state = {}, action) => {
     case petitionActionTypes.FETCH_PETITION_FAILURE:
     case serverErrorActionTypes.SERVER_ERROR:
       return action.error
+    case serverErrorActionTypes.CLEAR_ERROR:
+      return {}
     default:
       return state
   }

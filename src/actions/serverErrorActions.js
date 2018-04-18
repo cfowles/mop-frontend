@@ -1,6 +1,7 @@
 export const actionTypes = {
   SERVER_ERROR: 'SERVER_ERROR',
-  SERVER_OK: 'SERVER_OK'
+  SERVER_OK: 'SERVER_OK',
+  CLEAR_ERROR: 'CLEAR_ERROR'
 }
 
 export function checkServerError() {
@@ -14,4 +15,8 @@ export function checkServerError() {
   return {
     type: actionTypes.SERVER_OK
   }
+}
+
+export function clearError() {
+  return { type: actionTypes.CLEAR_ERROR }
 }
