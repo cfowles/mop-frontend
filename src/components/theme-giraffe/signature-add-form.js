@@ -24,7 +24,8 @@ const SignatureAddForm = ({
   validationError,
   setRef,
   innerRef,
-  id
+  id,
+  hideUntilInteract
 }) => (
   <form ref={innerRef} onSubmit={submit} className='sign-form bg-ice-blue p-4' id={id}>
     <h2 className='text-align-center'>SIGN THIS PETITION</h2>
@@ -56,7 +57,7 @@ const SignatureAddForm = ({
       </div>
     )}
 
-    {showAddressFields ? (
+    {(!hideUntilInteract && showAddressFields) ? (
       <div>
         <CountrySelect
           className='override-collapse'
@@ -197,7 +198,8 @@ SignatureAddForm.propTypes = {
   validationError: PropTypes.func,
   setRef: PropTypes.func,
   innerRef: PropTypes.func,
-  id: PropTypes.string
+  id: PropTypes.string,
+  hideUntilInteract: PropTypes.bool
 }
 
 export default SignatureAddForm
