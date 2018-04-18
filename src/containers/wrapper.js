@@ -40,7 +40,7 @@ Wrapper.propTypes = {
 function mapStateToProps(store, ownProps) {
   // Fetch the petition only if the route has a `petition_slug` param
   const petitionSlug = ownProps.params && ownProps.params.petition_slug
-  const petition = petitionSlug && store.petitionStore.petitions[petitionSlug]
+  const petition = petitionSlug && store.petitionStore.petitions[petitionSlug.split('.')[0]]
 
   return {
     petitionEntity: petition && petition.entity

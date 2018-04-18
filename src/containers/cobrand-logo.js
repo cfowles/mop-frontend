@@ -47,7 +47,7 @@ const mapStateToProps = ({ navStore, petitionStore }, { params }) => {
 
   // Will be present if we are viewing a petition
   const petitionSlug = params && params.petition_slug
-  const petition = petitionSlug && petitionStore.petitions[petitionSlug]
+  const petition = petitionSlug && petitionStore.petitions[petitionSlug.split('.')[0]]
 
   if (orgName) {
     // check the url for an organization
