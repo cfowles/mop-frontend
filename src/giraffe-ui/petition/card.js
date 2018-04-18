@@ -19,13 +19,11 @@ export const PetitionCard = ({
 
     {children}
 
-    <div className='petition-card__range'>
-      <div className='petition-card__range__current'>
-        {formatNumber(currentSignatures)}
-      </div>
-      <div className='petition-card__range__max'>
-        {formatNumber(goalSignatures)}
-      </div>
+    <div className='mt-4'>
+      {formatNumber(currentSignatures)} signature{currentSignatures > 1 && 's'}.
+      NEW goal - We need {formatNumber(goalSignatures)}!
+    </div>
+    <div className='petition-card__range mt-0'>
       <div className='petition-card__range__bar'>
         <div className='petition-card__range__bar__max' />
         <div
