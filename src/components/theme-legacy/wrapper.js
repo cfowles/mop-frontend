@@ -18,7 +18,7 @@ const Wrapper = ({ children, minimalNav, entity }) => (
 )
 
 Wrapper.propTypes = {
-  children: PropTypes.object.isRequired,
+  children: PropTypes.node.isRequired,
   minimalNav: PropTypes.bool,
   entity: PropTypes.string
 }
