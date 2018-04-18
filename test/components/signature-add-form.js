@@ -300,7 +300,11 @@ describe('<SignatureAddForm />', () => {
       'foo@example.com ',
       'foo@example.com xyz',
       'foo@example.com<',
-      'foo@gmau=il.com'
+      'foo@gmau=il.com',
+      'foo@gmail.5',
+      'foo@gmail',
+      'foo@@example',
+      'fooexample.com',
     ]).it('invalid email %s', (badEmail) => {
       expect(isValidEmail(badEmail)).to.be.equal(false)
     })
