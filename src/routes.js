@@ -55,6 +55,7 @@ const updateHistoryObject = (historyObj, routes) => {
       (error, newlocation, props) => {
         if (!error && props) {
           const matchedComponent = props.routes[props.routes.length - 1]
+
           if (matchedComponent.prodReady || (!Config.ONLY_PROD_ROUTES && Config.BASE_URL !== PROD_URL)) {
             origPush.call(this, matchPath, state)
             return
@@ -119,9 +120,6 @@ export const routes = (store) => {
       {/* Mostly errors will be shown by Wrapper, but these are nice for development */}
       <Route path='404' component={Error404} />
       <Route path='500' component={Error500} />
-
-      {/* Important: THIS HAS TO BE LAST */}
-      <Route path='*' exact component={Error404} />
     </Route>
   )
   updateHistoryObject(appLocation, routeHierarchy)
