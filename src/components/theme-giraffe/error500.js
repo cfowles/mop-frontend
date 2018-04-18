@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import Config from '../../config'
 
+// See /docs/EXPLANATION--error-handling.md for how errors can be shown
 export const Error500 = ({ error: { description } }) => (
   <div className='container'>
     <div className='row my-5'>

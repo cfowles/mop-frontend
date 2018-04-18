@@ -1,5 +1,6 @@
 import React from 'react'
 
+// See /docs/EXPLANATION--error-handling.md for how errors can be shown
 export const Error404 = () => (
   <div className='container background-moveon-white bump-top-1'>
     <div className='row'>
