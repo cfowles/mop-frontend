@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import Config from '../../config'
+
 export const Error404 = ({ error: { description } }) => (
   <div className='container'>
     <div className='row my-5'>
@@ -18,7 +20,7 @@ export const Error404 = ({ error: { description } }) => (
           )}
         </p>
         <img
-          src='https://static.moveon.org/giraffe/images/error404.svg'
+          src={`${Config.STATIC_ROOT}error404.svg`}
           alt='404 error'
         />
       </div>

@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import Config from '../../config'
+
 export const Error500 = ({ error: { description } }) => (
   <div className='container'>
     <div className='row my-5'>
@@ -21,7 +23,7 @@ export const Error500 = ({ error: { description } }) => (
       </div>
       <div className='col-12 col-md-5 order-md-first'>
         <img
-          src='https://static.moveon.org/giraffe/images/error500.svg'
+          src={`${Config.STATIC_ROOT}error500.svg`}
           alt='500 error'
         />
       </div>
