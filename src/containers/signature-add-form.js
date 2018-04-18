@@ -6,7 +6,7 @@ import SignatureAddFormComponent from 'Theme/signature-add-form'
 
 import { actions as petitionActions } from '../actions/petitionActions.js'
 import { actions as sessionActions } from '../actions/sessionActions.js'
-
+import { isValidEmail } from '../lib'
 
 class SignatureAddForm extends React.Component {
 
@@ -32,10 +32,10 @@ class SignatureAddForm extends React.Component {
       required: {},
       hideUntilInteract: true
     }
-    this.validationRegex = {
-      email: /^[^.\s@:][^\s@:]*(?!\.)@[^.\s@]+(?:\.[^.\s@]+)*$/, // https://github.com/sindresorhus/email-regex/blob/master/index.js
-      zip: /(\d\D*){5}/,
-      phone: /(\d\D*){10}/ // 10-digits
+    this.validationFunction = {
+      email: isValidEmail,
+      zip: (zip) => /(\d\D*){5}/.test(zip),
+      phone: (phone) => /(\d\D*){10}/.test(phone) // 10-digits
     }
 
     this.volunteer = this.volunteer.bind(this)
@@ -111,8 +111,8 @@ class SignatureAddForm extends React.Component {
   validationError(key) {
     if (this.state.validationTried) {
       if (Object.keys(this.state.required).indexOf(key) > -1) {
-        const regex = this.validationRegex[key]
-        if (!this.state[key] || (regex && !regex.test(String(this.state[key])))) {
+        const func = this.validationFunction[key]
+        if (!this.state[key] || (func && !func(String(this.state[key])))) {
           return (
             <div className='alert alert-danger red' role='alert'>{this.state.required[key]}</div>
           )
@@ -127,8 +127,8 @@ class SignatureAddForm extends React.Component {
     this.updateRequiredFields(true)
     return Object.keys(this.state.required).map(
       key => !!(this.state[key]
-                && (!this.validationRegex[key]
-                    || this.validationRegex[key].test(String(this.state[key]))))
+                && (!this.validationFunction[key]
+                    || this.validationFunction[key](String(this.state[key]))))
     ).reduce((a, b) => a && b, true)
   }
 

@@ -11,6 +11,7 @@ import { mount } from 'enzyme'
 import { unwrapReduxComponent } from '../lib'
 
 import SignatureAddForm from '../../src/containers/signature-add-form'
+import { isValidEmail } from '../../src/lib'
 
 describe('<SignatureAddForm />', () => {
   // This file is organized into two sub- describe() buckets.
@@ -285,6 +286,29 @@ describe('<SignatureAddForm />', () => {
 
       component.volunteer({ target: { checked: true } })
       expect(component.state.volunteer).to.be.equal(true)
+    })
+  })
+  describe('Email validation tests', () => {
+    forEach([ // Valid emails
+      'foo@example.com',
+      'foo.bar@example.com',
+      'c\u017Fsaire@example.com',
+      'foo@gmail.edu.ca'
+    ]).it('valid email %s', (goodEmail) => {
+      expect(isValidEmail(goodEmail)).to.be.equal(true)
+    })
+    forEach([ // Invalid emails
+      'foo@example..com',
+      'foo@example.com ',
+      'foo@example.com xyz',
+      'foo@example.com<',
+      'foo@gmau=il.com',
+      'foo@gmail.5',
+      'foo@gmail',
+      'foo@@example',
+      'fooexample.com'
+    ]).it('invalid email %s', (badEmail) => {
+      expect(isValidEmail(badEmail)).to.be.equal(false)
     })
   })
 })
