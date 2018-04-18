@@ -21,7 +21,7 @@ export const Error404 = ({ error: { description } }) => (
           )}
         </p>
         <img
-          src={`${Config.STATIC_ROOT}error404.svg`}
+          src={`${Config.STATIC_ROOT}images/error404.svg`}
           alt='404 error'
         />
       </div>

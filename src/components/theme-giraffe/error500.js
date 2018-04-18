@@ -24,7 +24,7 @@ export const Error500 = ({ error: { description } }) => (
       </div>
       <div className='col-12 col-md-5 order-md-first'>
         <img
-          src={`${Config.STATIC_ROOT}error500.svg`}
+          src={`${Config.STATIC_ROOT}images/error500.svg`}
           alt='500 error'
         />
       </div>
