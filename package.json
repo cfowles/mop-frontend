@@ -11,7 +11,7 @@
     "build": "THEME=legacy webpack && THEME=giraffe webpack",
     "dev-build": "THEME=legacy webpack -d && THEME=giraffe webpack -d",
     "webpack-watch": "webpack -w",
-    "dev": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --hot --progress --colors --port ${PORT:-8080} --inline",
+    "dev": "webpack-dev-server --hot --progress --colors --port ${PORT:-8080} --inline --mode=development",
     "lint": "eslint src test .*.js --ignore-pattern='!.eslintrc.js' ",
     "lint-and-test": "npm run lint && npm test"
   },
@@ -53,17 +53,16 @@
     "babel-register": "^6.26.0",
     "chai": "^3.5.0",
     "enzyme": "^2.7.1",
-    "enzyme-redux": "^0.1.7",
     "eslint": "~3.12.2",
     "eslint-config-airbnb": "^9.0.1",
-    "eslint-import-resolver-webpack": "^0.8.4",
+    "eslint-import-resolver-webpack": "^0.9.0",
     "eslint-plugin-import": "^1.10.2",
     "eslint-plugin-jsx-a11y": "^1.5.5",
     "eslint-plugin-mocha": "^4.11.0",
     "eslint-plugin-prefer-object-spread": "^1.2.1",
     "eslint-plugin-react": "^5.2.2",
     "file-loader": "^0.11.1",
-    "html-webpack-plugin": "^2.22.0",
+    "html-webpack-plugin": "^3.1.0",
     "isomorphic-fetch": "^2.2.1",
     "jsdom": "11.5.1",
     "jsdom-global": "3.0.2",
@@ -80,10 +79,9 @@
     "require-hacker": "^3.0.1",
     "sinon": "^4.2.2",
     "svg-react-loader": "^0.4.5",
-    "webpack": "^2.3.3",
+    "webpack": "^4.6.0",
     "webpack-bundle-analyzer": "^2.11.1",
-    "webpack-dev-middleware": "^1.9.0",
-    "webpack-dev-server": "^2.4.2",
-    "webpack-hot-middleware": "^2.13.2"
+    "webpack-cli": "^2.0.13",
+    "webpack-dev-server": "^3.1.3"
   }
 }

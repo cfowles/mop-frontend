@@ -100,20 +100,20 @@ var config = {
     'react': 'React',
     'react-dom': 'ReactDOM',
   },
-  module : {
-    loaders : [
+  module: {
+    rules: [
       {
-        test : /\.jsx?$/,
-        include : APP_DIR,
-        loader : 'babel-loader'
+        test: /\.jsx?$/,
+        include: APP_DIR,
+        use: 'babel-loader'
       },
       {
         test: /\.json$/,
-        loader: "file-loader?name=[name].[ext]"
+        use: 'file-loader?name=[name].[ext]'
       },
       {
         test: /\.svg$/,
-        loader: "svg-react-loader"
+        use: 'svg-react-loader'
       }
     ]
   },
