@@ -23,9 +23,10 @@ const SignatureAddForm = ({
   updateStateFromValue,
   validationError,
   setRef,
-  innerRef
+  innerRef,
+  id
 }) => (
-  <form ref={innerRef} onSubmit={submit} className='sign-form'>
+  <form ref={innerRef} onSubmit={submit} className='sign-form' id={id}>
     <h4>SIGN THIS PETITION</h4>
     {user.signonId ? (
       // Recognized
@@ -195,7 +196,8 @@ SignatureAddForm.propTypes = {
   updateStateFromValue: PropTypes.func,
   validationError: PropTypes.func,
   setRef: PropTypes.func,
-  innerRef: PropTypes.func
+  innerRef: PropTypes.func,
+  id: PropTypes.string
 }
 
 export default SignatureAddForm

@@ -1,5 +1,3 @@
-import 'whatwg-fetch'
-
 import Config from '../config.js'
 
 export const actionTypes = {

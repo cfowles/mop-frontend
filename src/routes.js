@@ -6,20 +6,23 @@ import { Config } from './config'
 import { scrollToTop } from './lib'
 import { trackPage } from './actions/sessionActions'
 import { loadOrganization } from './actions/navActions.js'
-import { Home } from 'Theme/home'
-import PacHome from './containers/pac-home'
-import SignPetition from './containers/sign-petition'
-import ThanksShim from './loaders/thanks-shim'
-import SearchPage from './containers/search'
-import PetitionCreatorDashboard from './containers/petition-creator-dashboard'
-import PetitionReport from './containers/petition-report'
-import CreatePetitionPage from './containers/create-petition'
+
 import Wrapper from './containers/wrapper'
-import ForgotPassword from './containers/forgot-password'
-import Register from './containers/register'
-import Login from './containers/login'
-import Static from './containers/static'
-import NoPetition from 'LegacyTheme/no-petition'
+import ThanksShim from './loaders/thanks-shim'
+import Sign from './containers/sign-petition'
+import {
+  LoadableHome,
+  LoadablePacHome,
+  LoadableSearch,
+  LoadableDashboard,
+  LoadableNoPetition,
+  LoadableCreate,
+  LoadableRegister,
+  LoadableLogin,
+  LoadableStatic,
+  LoadableForgotPassword,
+  LoadablePetitionReport
+} from './loaders/index'
 
 
 const baseAppPath = window.baseAppPath || process.env.BASE_APP_PATH || '/'
@@ -78,39 +81,42 @@ export const routes = (store) => {
   }
   const routeHierarchy = (
     <Route path={baseAppPath} component={Wrapper} onChange={scrollToTop}>
-      <IndexRoute prodReady component={Home} />
-      <Route path='pac/' component={PacHome} />
-      <Route path='sign/:petition_slug' component={SignPetition} />
-      <Route path=':organization/sign/:petition_slug' component={SignPetition} onEnter={orgLoader} />
+      <IndexRoute prodReady component={LoadableHome} />
+
+      {/* Sign pages are popular entry page, so they get included in the main bundle (not Loadable) */}
+      <Route path='sign/:petition_slug' component={Sign} />
+      <Route path=':organization/sign/:petition_slug' component={Sign} onEnter={orgLoader} />
+
+      <Route path='pac/' component={LoadablePacHome} />
       <Route path='thanks.html' component={ThanksShim} prodReady minimalNav />
       <Route path=':organization/thanks.html' component={ThanksShim} onEnter={orgLoader} minimalNav />
-      <Route path='find' component={SearchPage} />
-      <Route path='create_start.html' component={CreatePetitionPage} minimalNav />
-      <Route path='petition_report.html' component={PetitionReport} />
-      <Route path=':organization/create_start.html' component={CreatePetitionPage} onEnter={orgLoader} minimalNav />
-      <Route path='login/' component={Login} />
-      <Route path='login/index.html' component={Login} />
-      <Route path='login/register.html' component={Register} />
-      <Route path='login/forgot_password.html' component={ForgotPassword} />
+      <Route path='find' component={LoadableSearch} />
+      <Route path='create_start.html' component={LoadableCreate} minimalNav />
+      <Route path='petition_report.html' component={LoadablePetitionReport} />
+      <Route path=':organization/create_start.html' component={LoadableCreate} onEnter={orgLoader} minimalNav />
+      <Route path='login/' component={LoadableLogin} />
+      <Route path='login/index.html' component={LoadableLogin} />
+      <Route path='login/register.html' component={LoadableRegister} />
+      <Route path='login/forgot_password.html' component={LoadableForgotPassword} />
 
       {/* Authenticated routes (check happens in Wrapper) */}
-      <Route path='dashboard.html' component={PetitionCreatorDashboard} authenticated />
-      <Route path='no_petition.html' component={NoPetition} authenticated />
+      <Route path='dashboard.html' component={LoadableDashboard} authenticated />
+      <Route path='no_petition.html' component={LoadableNoPetition} authenticated />
 
       {/* Static pages with content from wordpress api */}
-      <Route path='about.html' component={Static} wordpressId={60931} />
-      <Route path='brandmerge.html' component={Static} wordpressId={61002} />
-      <Route path='campaign_tips.html' component={Static} wordpressId={60942} />
-      <Route path='funding.html' component={Static} wordpressId={60943} />
-      <Route path='howto_campaign.html' component={Static} wordpressId={60944} />
-      <Route path='howto_communication.html' component={Static} wordpressId={60945} />
-      <Route path='howto_delivery.html' component={Static} wordpressId={60946} />
-      <Route path='howto_petition.html' component={Static} wordpressId={60947} />
-      <Route path='howto_twitter.html' component={Static} wordpressId={60948} />
-      <Route path='organizations.html' component={Static} wordpressId={60949} />
-      <Route path='privacy.html' component={Static} wordpressId={60950} />
-      <Route path='terms.html' component={Static} wordpressId={60951} />
-      <Route path='victories.html' component={Static} wordpressId={61001} />
+      <Route path='about.html' component={LoadableStatic} wordpressId={60931} />
+      <Route path='brandmerge.html' component={LoadableStatic} wordpressId={61002} />
+      <Route path='campaign_tips.html' component={LoadableStatic} wordpressId={60942} />
+      <Route path='funding.html' component={LoadableStatic} wordpressId={60943} />
+      <Route path='howto_campaign.html' component={LoadableStatic} wordpressId={60944} />
+      <Route path='howto_communication.html' component={LoadableStatic} wordpressId={60945} />
+      <Route path='howto_delivery.html' component={LoadableStatic} wordpressId={60946} />
+      <Route path='howto_petition.html' component={LoadableStatic} wordpressId={60947} />
+      <Route path='howto_twitter.html' component={LoadableStatic} wordpressId={60948} />
+      <Route path='organizations.html' component={LoadableStatic} wordpressId={60949} />
+      <Route path='privacy.html' component={LoadableStatic} wordpressId={60950} />
+      <Route path='terms.html' component={LoadableStatic} wordpressId={60951} />
+      <Route path='victories.html' component={LoadableStatic} wordpressId={61001} />
     </Route>
   )
   updateHistoryObject(appLocation, routeHierarchy)

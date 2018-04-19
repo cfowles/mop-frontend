@@ -1,3 +1,4 @@
+/* eslint-disable */
 var webpack = require('webpack');
 var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -8,10 +9,13 @@ var APP_ENTRY = process.env.APP_ENTRY || "main";
 
 var THEME = process.env.THEME || "legacy";
 var THEME_DIR = path.resolve(__dirname, 'src/components/theme-' + THEME);
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 
 var config = {
   entry: {
-    javascript: APP_DIR + '/apps/' + APP_ENTRY + '.js'
+    polyfills: APP_DIR + '/apps/polyfills.js',
+    [APP_ENTRY]: APP_DIR + '/apps/' + APP_ENTRY + '.js'
   },
   devServer: {
     host: "0.0.0.0",
@@ -28,8 +32,8 @@ var config = {
     publicPath: process.env.PUBLIC_ROOT || "/",
     //NOTE: when process.env.PROD is true this will be the minified file
     //TODO: maybe we should hash this and figure out a way to pass the hashed version to it
-    filename: APP_ENTRY + '.' + THEME + '.js',
-    chunkFilename: 'chunk-[id]' + '.' + THEME + '.js?v=[hash]'
+    filename: '[name].' + THEME + '.js',
+    chunkFilename: 'chunk-[id]' + '.' + THEME + '.js?v=[chunkhash]'
   },
   externals: {
     'react': 'React',
@@ -62,8 +66,8 @@ var config = {
   plugins : [
     new HtmlWebpackPlugin({
       template: 'local/index.html',
-      inject: 'body',
-      //hash: true,
+      chunksSortMode: 'none',
+      inject: false,
       filename: 'index.html',
       staticPath: (process.env.STATIC_ROOT || ''),
       theme: THEME,
@@ -102,8 +106,8 @@ var config = {
         'USE_HASH_BROWSING': JSON.stringify(process.env.USE_HASH_BROWSING || false),
         'PROD': process.env.PROD
       }
-    })
-
+    }),
+    // new BundleAnalyzerPlugin(),
   ]
 };
 

@@ -2,20 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
+import { PetitionReportComponent } from 'LegacyTheme/petition-report'
 import { loadPetition } from '../actions/petitionActions'
-import { petitionReportLoader } from '../loaders/petition'
-
 
 class PetitionReport extends React.Component {
 
   componentWillMount() {
-    const self = this
     const { petition, location, dispatchLoadPetition } = this.props
     const petitionId = location.query.petition_id
-    petitionReportLoader().then((deps) => {
-      self.petitionReport = deps.petitionReport.default
-      self.forceUpdate()
-    })
 
     if (!petition) {
       if (petitionId) {
@@ -53,9 +47,9 @@ class PetitionReport extends React.Component {
         email: [0, 0, 0, 0, 1588, 1336, 273]
       }
     }
-    if (this.petitionReport && petition) {
+    if (petition) {
       return (
-        <this.petitionReport petition={petition} signatureStats={signatureStats} />
+        <PetitionReportComponent petition={petition} signatureStats={signatureStats} />
       )
     }
     return null

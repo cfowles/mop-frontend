@@ -1,18 +1,21 @@
 import React from 'react'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
+import Scrollchor from 'react-scrollchor'
 
-export const FloatingSignButton = ({ onClick, visible }) => (
+export const FloatingSignButton = ({ getScrollProps, visible }) => (
   <div
     className={cx('sign-form__fixed-button', {
       'sign-form__fixed-button--hidden': !visible
     })}
   >
-    <button onClick={onClick}>Sign Now</button>
+    <Scrollchor disableHistory {...getScrollProps()}>
+      <button>Sign Now</button>
+    </Scrollchor>
   </div>
 )
 
 FloatingSignButton.propTypes = {
-  onClick: PropTypes.func,
+  getScrollProps: PropTypes.func,
   visible: PropTypes.bool
 }

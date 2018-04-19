@@ -213,7 +213,8 @@ class SignatureAddForm extends React.Component {
       showOptinCheckbox,
       showOptinWarning,
       setRef,
-      innerRef
+      innerRef,
+      id
     } = this.props
     const creator = (petition._embedded && petition._embedded.creator) || {}
     const petitionBy = creator.name || petition.contact_name
@@ -239,6 +240,7 @@ class SignatureAddForm extends React.Component {
         showOptinCheckbox={showOptinCheckbox}
         setRef={setRef}
         innerRef={innerRef}
+        id={id}
       />
     )
   }
@@ -258,7 +260,8 @@ SignatureAddForm.propTypes = {
   showOptinCheckbox: PropTypes.bool,
   hiddenOptin: PropTypes.bool,
   setRef: PropTypes.func,
-  innerRef: PropTypes.func
+  innerRef: PropTypes.func,
+  id: PropTypes.string
 }
 
 function shouldShowAddressFields(user, petition) {

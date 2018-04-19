@@ -29,7 +29,7 @@ const Petition = ({
   petitionBy,
   outOfDate,
   isFloatingSignVisible,
-  onClickFloatingSign,
+  scrollToSignFormProps,
   hideFloatingSign,
   showFloatingSign,
   setRef
@@ -47,6 +47,7 @@ const Petition = ({
             className={className}
             to='#comments'
             animate={{ offset: -150 }}
+            disableHistory
           >
             MOST RECENT SIGNERS <CaretRight />
           </Scrollchor>
@@ -72,6 +73,7 @@ const Petition = ({
       <MobileSign>
         <Waypoint onEnter={hideFloatingSign} onLeave={showFloatingSign} topOffset='57px'>
           <SignatureAddForm
+            id='mobile-sign'
             setRef={setRef({ isMobile: true })}
             petition={p}
             query={query}
@@ -100,6 +102,7 @@ const Petition = ({
     <SignColumn>
       <Waypoint onEnter={hideFloatingSign} onLeave={showFloatingSign} topOffset='120px'>
         <SignatureAddForm
+          id='desktop-sign'
           setRef={setRef({ isMobile: false })}
           petition={p}
           query={query}
@@ -108,7 +111,7 @@ const Petition = ({
     </SignColumn>
 
     <FloatingSignButton
-      onClick={onClickFloatingSign}
+      getScrollProps={scrollToSignFormProps}
       visible={isFloatingSignVisible}
     />
   </Container>
@@ -122,7 +125,7 @@ Petition.propTypes = {
   petitionBy: PropTypes.string,
   outOfDate: PropTypes.string,
   setRef: PropTypes.func,
-  onClickFloatingSign: PropTypes.func,
+  scrollToSignFormProps: PropTypes.func,
   isFloatingSignVisible: PropTypes.bool,
   hideFloatingSign: PropTypes.func,
   showFloatingSign: PropTypes.func

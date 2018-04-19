@@ -2,19 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { thanksLoader } from './petition.js'
+import { LoadableThanks } from './index'
 import { actions as petitionActions } from '../actions/petitionActions.js'
 
 // This component is used in place of the Thanks component,
-// and handles lazy-loading the actual Thanks component (with thanksLoader)
+// and handles lazy-loading the actual Thanks component (with LoadableThanks)
 class ThanksShim extends React.Component {
   componentWillMount() {
-    const self = this
-    thanksLoader().then((deps) => {
-      self.Thanks = deps.Thanks.default
-      self.forceUpdate()
-    })
-
     const { dispatch, petition } = this.props
     if (!petition) {
       const query = this.props.location.query
@@ -29,8 +23,8 @@ class ThanksShim extends React.Component {
   render() {
     return (
       <div className='moveon-petitions share container background-moveon-white bump-top-1'>
-        {(this.Thanks && this.props.petition ?
-          <this.Thanks
+        {(this.props.petition ?
+          <LoadableThanks
             petition={this.props.petition}
             user={this.props.user}
             signatureMessage={this.props.signatureMessage}

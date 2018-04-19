@@ -11,10 +11,31 @@
     <% } else { %>
       <link rel='stylesheet' href="<%= htmlWebpackPlugin.options.cssPath %>" type='text/css' media='all' />
     <% } %>
+    <script>
+      var scripts = [
+        '<%= htmlWebpackPlugin.options.reactJs %>',
+        '<%= htmlWebpackPlugin.options.reactDomJs %>',
+        '<%= htmlWebpackPlugin.files.js[0] %>'
+      ]
+
+      var modernBrowser = (
+        'fetch' in window &&
+        'Promise' in window &&
+        'assign' in Object
+      );
+
+      if (!modernBrowser) {
+        scripts.unshift('/polyfills.<%= htmlWebpackPlugin.options.theme %>.js');
+      }
+      scripts.forEach(function(src) {
+        var script = document.createElement('script');
+        script.src = src;
+        script.async = false;
+        document.head.appendChild(script);
+      });
+    </script>
   </head>
   <body class="moveon-petitions">
     <div id="root"></div>
-    <script src="<%= htmlWebpackPlugin.options.reactJs %>"></script>
-    <script src="<%= htmlWebpackPlugin.options.reactDomJs %>"></script>
   </body>
 </html>

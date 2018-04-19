@@ -1,5 +1,3 @@
-import 'whatwg-fetch'
-
 import Config from '../config.js'
 import { parseServerErrors } from '../lib'
 import { actions as sessionActions } from './sessionActions'
