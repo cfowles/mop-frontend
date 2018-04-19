@@ -25,7 +25,7 @@ const LongSearchBar = ({
     <div className='col-6 col-md-3'>
       <StateSelect
         className='input-inline input-inline--large'
-        placeholder='State'
+        placeholder='All States'
         onChange={changeQueryState}
         value={stateValue}
         inline

@@ -2,6 +2,7 @@ import { combineReducers } from 'redux'
 import { actionTypes as petitionActionTypes } from '../actions/petitionActions.js'
 import { actionTypes as accountActionTypes } from '../actions/accountActions.js'
 import navStore from './nav'
+import errorReducer from './error'
 import staticPageReducer from './static-pages'
 import userReducer from './user'
 import petitionTargetsReducer from './petition-targets'
@@ -171,7 +172,8 @@ const rootReducer = combineReducers({
   userStore: userReducer,
   staticPageStore: staticPageReducer,
   petitionTargetsStore: petitionTargetsReducer,
-  petitionCreateStore: petitionCreateReducer
+  petitionCreateStore: petitionCreateReducer,
+  errorStore: errorReducer
 })
 
 export default rootReducer

@@ -6,7 +6,7 @@ import SignatureAddFormComponent from 'Theme/signature-add-form'
 
 import { actions as petitionActions } from '../actions/petitionActions.js'
 import { actions as sessionActions } from '../actions/sessionActions.js'
-
+import { isValidEmail } from '../lib'
 
 class SignatureAddForm extends React.Component {
 
@@ -29,12 +29,13 @@ class SignatureAddForm extends React.Component {
       validationTried: false,
       thirdparty_optin: props.hiddenOptin || props.showOptinCheckbox,
       hidden_optin: props.hiddenOptin,
-      required: {}
+      required: {},
+      hideUntilInteract: true
     }
-    this.validationRegex = {
-      email: /.+@.+\..+/, // Forgiving email regex
-      zip: /(\d\D*){5}/,
-      phone: /(\d\D*){10}/ // 10-digits
+    this.validationFunction = {
+      email: isValidEmail,
+      zip: (zip) => /(\d\D*){5}/.test(zip),
+      phone: (phone) => /(\d\D*){10}/.test(phone) // 10-digits
     }
 
     this.volunteer = this.volunteer.bind(this)
@@ -110,8 +111,8 @@ class SignatureAddForm extends React.Component {
   validationError(key) {
     if (this.state.validationTried) {
       if (Object.keys(this.state.required).indexOf(key) > -1) {
-        const regex = this.validationRegex[key]
-        if (!this.state[key] || (regex && !regex.test(String(this.state[key])))) {
+        const func = this.validationFunction[key]
+        if (!this.state[key] || (func && !func(String(this.state[key])))) {
           return (
             <div className='alert alert-danger red' role='alert'>{this.state.required[key]}</div>
           )
@@ -126,15 +127,18 @@ class SignatureAddForm extends React.Component {
     this.updateRequiredFields(true)
     return Object.keys(this.state.required).map(
       key => !!(this.state[key]
-                && (!this.validationRegex[key]
-                    || this.validationRegex[key].test(String(this.state[key]))))
+                && (!this.validationFunction[key]
+                    || this.validationFunction[key](String(this.state[key]))))
     ).reduce((a, b) => a && b, true)
   }
 
   updateStateFromValue(field, isCheckbox = false) {
     return (event) => {
       const value = isCheckbox ? event.target.checked : event.target.value
-      this.setState({ [field]: value })
+      this.setState({
+        [field]: value,
+        hideUntilInteract: false // show some hidden fields if they are hidden
+      })
     }
   }
 
@@ -241,6 +245,7 @@ class SignatureAddForm extends React.Component {
         setRef={setRef}
         innerRef={innerRef}
         id={id}
+        hideUntilInteract={this.state.hideUntilInteract}
       />
     )
   }

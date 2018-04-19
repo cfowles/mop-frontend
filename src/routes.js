@@ -5,10 +5,13 @@ import { IndexRoute, Route, Router, browserHistory, hashHistory, match } from 'r
 import { Config } from './config'
 import { scrollToTop } from './lib'
 import { trackPage } from './actions/sessionActions'
-import { loadOrganization } from './actions/navActions.js'
+import { loadOrganization } from './actions/navActions'
+import { clearError } from './actions/serverErrorActions'
 
 import Wrapper from './containers/wrapper'
 import ThanksShim from './loaders/thanks-shim'
+import { Error404 } from 'Theme/error404'
+import { Error500 } from 'Theme/error500'
 import Sign from './containers/sign-petition'
 import {
   LoadableHome,
@@ -54,6 +57,7 @@ const updateHistoryObject = (historyObj, routes) => {
       (error, newlocation, props) => {
         if (!error && props) {
           const matchedComponent = props.routes[props.routes.length - 1]
+
           if (matchedComponent.prodReady || (!Config.ONLY_PROD_ROUTES && Config.BASE_URL !== PROD_URL)) {
             origPush.call(this, matchPath, state)
             return
@@ -79,17 +83,21 @@ export const routes = (store) => {
       store.dispatch(loadOrganization(nextState.params.organization))
     }
   }
+  const onChange = () => {
+    store.dispatch(clearError()) // Stop showing any error page
+    scrollToTop()
+  }
   const routeHierarchy = (
-    <Route path={baseAppPath} component={Wrapper} onChange={scrollToTop}>
+    <Route path={baseAppPath} component={Wrapper} onChange={onChange}>
       <IndexRoute prodReady component={LoadableHome} />
 
-      {/* Sign pages are popular entry page, so they get included in the main bundle (not Loadable) */}
-      <Route path='sign/:petition_slug' component={Sign} />
-      <Route path=':organization/sign/:petition_slug' component={Sign} onEnter={orgLoader} />
+      {/* Sign pages are popular entry pages, so they get included in the main bundle (not Loadable) */}
+      <Route path='sign/:petition_slug' component={Sign} prodReady />
+      <Route path=':organization/sign/:petition_slug' component={Sign} onEnter={orgLoader} prodReady />
 
-      <Route path='pac/' component={LoadablePacHome} />
+      <Route path='pac/' component={LoadablePacHome} prodReady />
       <Route path='thanks.html' component={ThanksShim} prodReady minimalNav />
-      <Route path=':organization/thanks.html' component={ThanksShim} onEnter={orgLoader} minimalNav />
+      <Route path=':organization/thanks.html' component={ThanksShim} onEnter={orgLoader} prodReady minimalNav />
       <Route path='find' component={LoadableSearch} />
       <Route path='create_start.html' component={LoadableCreate} minimalNav />
       <Route path='petition_report.html' component={LoadablePetitionReport} />
@@ -117,6 +125,10 @@ export const routes = (store) => {
       <Route path='privacy.html' component={LoadableStatic} wordpressId={60950} />
       <Route path='terms.html' component={LoadableStatic} wordpressId={60951} />
       <Route path='victories.html' component={LoadableStatic} wordpressId={61001} />
+
+      {/* Mostly errors will be shown by Wrapper, but these are nice for development */}
+      <Route path='404' component={Error404} />
+      <Route path='500' component={Error500} />
     </Route>
   )
   updateHistoryObject(appLocation, routeHierarchy)

@@ -10,11 +10,11 @@ const Billboard = ({ className }) => (
     center
     reducePadding
     className={className}
-    heading={<h1>{splitIntoSpansJsx('PEOPLE POWERED PETITIONS')}</h1>}
+    heading={<h1>{splitIntoSpansJsx('PEOPLE-POWERED PETITIONS')}</h1>}
   >
     <p className='large'>
       <strong>
-        There are Millions of MoveOn members. Tap into our shared people power
+        There are millions of MoveOn members. Tap into our shared people power
         and create progressive change.
       </strong>
     </p>

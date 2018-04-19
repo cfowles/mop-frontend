@@ -23,7 +23,7 @@ class SignPetition extends React.Component {
 
   componentWillMount() {
     const { dispatch, params, petition } = this.props
-    dispatch(petitionActions.loadPetition(params.petition_slug))
+    dispatch(petitionActions.loadPetition(params.petition_slug.split('.')[0]))
     if (petition) {
       this.checkOrgPathMatches(petition, params.organization)
     }
@@ -99,7 +99,8 @@ class SignPetition extends React.Component {
       return false
     }
     // URL has org that doesn't match petition
-    if (orgPath && orgPath !== creator.source) {
+    // 2018/2018r are because of this https://github.com/MoveOnOrg/mop-frontend/issues/440
+    if (orgPath && orgPath !== creator.source && orgPath !== '2018' && orgPath !== '2018r') {
       appLocation.push(`/sign/${petition.name}`)
       return false
     }
@@ -147,7 +148,7 @@ SignPetition.propTypes = {
 }
 
 function mapStateToProps(store, ownProps) {
-  const petition = store.petitionStore.petitions[ownProps.params.petition_slug]
+  const petition = store.petitionStore.petitions[ownProps.params.petition_slug.split('.')[0]]
   return {
     petition,
     sign_success:
