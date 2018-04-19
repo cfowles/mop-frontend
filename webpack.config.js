@@ -40,13 +40,6 @@ var webpackPlugins = [
   })
 ]
 
-// Plugins for production
-if (process.env.PROD) {
-  webpackPlugins = webpackPlugins.concat([
-    new webpack.optimize.UglifyJsPlugin({sourceMap: true})
-  ])
-}
-
 // Plugins for development
 if (!process.env.PROD) {
   webpackPlugins = webpackPlugins.concat([
