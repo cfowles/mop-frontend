@@ -78,5 +78,3 @@ PetitionReport.propTypes = {
   petition: PropTypes.object,
   signatureStats: PropTypes.object
 }
-
-export default PetitionReport
