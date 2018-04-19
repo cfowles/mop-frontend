@@ -19,32 +19,32 @@ export const Footer = ({ entity }) => (
     <Logo />
     <MoFooter.Top>
       <Nav>
-        <Nav.Links heading='Company'>
+        <Nav.Links heading='Organization'>
           <Link to='https://front.moveon.org/careers'>Careers</Link>
-          <Link to=' https://petitions.moveon.org/organizations.html'>
-            Partner with Us
-          </Link>
           <Link to='https://front.moveon.org/blog/'>News</Link>
+          <Link to='https://www.facebook.com/moveon/videos'>Videos</Link>
+          <Link to='https://act.moveon.org/signup/signup'>
+            Sign Up for Emails
+          </Link>
+          <Link to='https://act.moveon.org/survey/get-texts-moveon/'>
+            Sign up for Text Msg Alerts
+          </Link>
         </Nav.Links>
         <Nav.Links heading='Contact'>
-          <Link to='https://front.moveon.org/frequently-asked-questions-and-contact-information/'>
+          <Link to='http://moveon.desk.com/customer/portal/emails/new'>
             General Inquiries
           </Link>
-          <Link to='https://front.moveon.org/frequently-asked-questions-and-contact-information/'>
-            Petition Inquiries
-          </Link>
-          <Link to='https://act.moveon.org/survey/press/'>
-            Press Inquiries
-          </Link>
+          <Link to='/feedback.html'>Petition Inquiries</Link>
+          <Link to='https://act.moveon.org/survey/press/'>Press Inquiries</Link>
+          <Link to='/organizations.html'>Partner with Us</Link>
         </Nav.Links>
         <Nav.Links heading='Support'>
-          <Link to='https://front.moveon.org/frequently-asked-questions-and-contact-information/'>
+          <Link to='https://front.moveon.org/frequently-asked-questions-and-contact-information-2/'>
             FAQs
           </Link>
-          <Link to='http://petitions.moveon.org/privacy.html'>
-            Privacy Policy
+          <Link to='https://front.moveon.org/privacy-policy/'>
+            Privacy Policy and ToS
           </Link>
-          <Link to='http://petitions.moveon.org/terms.html'>Terms of Use</Link>
         </Nav.Links>
         <Nav.CallToAction
           copy={

@@ -1,4 +1,5 @@
 import Config from '../config.js'
+import { parseAPIResponse, rejectNetworkErrorsAs500 } from '../lib'
 
 export const actionTypes = {
   FETCH_PAGE_REQUEST: 'FETCH_PAGE_REQUEST',
@@ -20,20 +21,20 @@ export function loadStaticPage(wordpressId) {
       })
     }
     return fetch(`${Config.WORDPRESS_API_URI}/wp/v2/pages/${wordpressId}`)
-      .then(
-        (response) => response.json().then((json) => {
-          dispatch({
-            type: actionTypes.FETCH_PAGE_SUCCESS,
-            page: json
-          })
-        }),
-        (err) => {
-          dispatch({
-            type: actionTypes.FETCH_PAGE_FAILURE,
-            error: err,
-            wordpressId
-          })
-        }
-      )
+      .catch(rejectNetworkErrorsAs500)
+      .then(parseAPIResponse)
+      .then(page => {
+        dispatch({
+          type: actionTypes.FETCH_PAGE_SUCCESS,
+          page
+        })
+      })
+      .catch(error => {
+        dispatch({
+          type: actionTypes.FETCH_PAGE_FAILURE,
+          error,
+          wordpressId
+        })
+      })
   }
 }

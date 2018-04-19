@@ -10,7 +10,7 @@ export const FloatingSignButton = ({ getScrollProps, visible }) => (
     })}
   >
     <Scrollchor disableHistory {...getScrollProps()}>
-      <button>Sign Now</button>
+      <button>Sign The Petition</button>
     </Scrollchor>
   </div>
 )

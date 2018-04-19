@@ -1,5 +1,5 @@
 import Config from '../config.js'
-import { getPageLoadTime, stringifyParams } from '../lib'
+import { getPageLoadTime, stringifyParams, rejectNetworkErrorsAs500, parseAPIResponse } from '../lib'
 import { appLocation } from '../routes.js'
 
 export const actionTypes = {
@@ -55,22 +55,22 @@ export function loadPetition(petitionSlug, forceReload) {
       })
     }
     return fetch(`${Config.API_URI}/${urlKey}.json`)
-      .then(
-        (response) => response.json().then((json) => {
-          dispatch({
-            type: actionTypes.FETCH_PETITION_SUCCESS,
-            petition: json,
-            slug: json.name || petitionSlug
-          })
-        }),
-        (err) => {
-          dispatch({
-            type: actionTypes.FETCH_PETITION_FAILURE,
-            error: err,
-            slug: petitionSlug
-          })
-        }
-      )
+      .catch(rejectNetworkErrorsAs500)
+      .then(parseAPIResponse)
+      .then((json) => {
+        dispatch({
+          type: actionTypes.FETCH_PETITION_SUCCESS,
+          petition: json,
+          slug: json.name || petitionSlug
+        })
+      })
+      .catch(err => {
+        dispatch({
+          type: actionTypes.FETCH_PETITION_FAILURE,
+          error: err,
+          slug: petitionSlug
+        })
+      })
   }
 }
 

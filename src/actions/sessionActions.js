@@ -42,11 +42,17 @@ function callSessionApi(tokens = {}) {
         // segment tracking
         if (window.analytics && window.analytics.identify
             && json && json.identifiers && json.identifiers.length) {
+          let trackIdentity = null
           json.identifiers.forEach((id) => {
             if (/^actionkit:/.test(id)) {
-              window.analytics.identify(id.substring('actionkit:'.length))
+              trackIdentity = id.substring('actionkit:'.length)
             }
           })
+          if (!trackIdentity) {
+            const anonId = String(Math.random()).substr(2)
+            trackIdentity = `anon${anonId}`
+          }
+          window.analytics.identify(trackIdentity)
         }
       }),
       (err) => {
