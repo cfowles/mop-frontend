@@ -15,6 +15,14 @@ export function unRecognize() {
   }
 }
 
+let hasIdentified = false
+function identify(id) {
+  if (hasIdentified || !id || !window.analytics || !window.analytics.identify) return
+
+  window.analytics.identify(id) // segment tracking
+  hasIdentified = true
+}
+
 function callSessionApi(tokens) {
   return (dispatch) => {
     const args = Object.keys(tokens)
@@ -32,8 +40,7 @@ function callSessionApi(tokens) {
           tokens
         })
         // segment tracking
-        if (window.analytics && window.analytics.identify
-            && json && json.identifiers && json.identifiers.length) {
+        if (json && json.identifiers && json.identifiers.length) {
           let trackIdentity = null
           json.identifiers.forEach((id) => {
             if (/^actionkit:/.test(id)) {
@@ -44,7 +51,7 @@ function callSessionApi(tokens) {
             const anonId = String(Math.random()).substr(2)
             trackIdentity = `anon${anonId}`
           }
-          window.analytics.identify(trackIdentity)
+          identify(trackIdentity)
         }
       }),
       (err) => {
@@ -68,11 +75,14 @@ export const loadSession = (location) => {
       || (location && location.query
           && (location.query.akid || location.query.id))) {
     const tokens = {}
-    if (location.query.akid) {
-      tokens.akid = location.query.akid
+    const { id, akid } = location.query
+
+    if (akid) {
+      tokens.akid = akid
+      identify(akid.split('.')[1])
     }
-    if (location.query.id) {
-      tokens.hashedId = location.query.id
+    if (id) {
+      tokens.hashedId = id
     }
     return callSessionApi(tokens)
   }
