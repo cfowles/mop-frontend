@@ -5,7 +5,8 @@ import { IndexRoute, Route, Router, browserHistory, hashHistory, match } from 'r
 import { Config } from './config'
 import { scrollToTop } from './lib'
 import { trackPage } from './actions/sessionActions'
-import { loadOrganization } from './actions/navActions.js'
+import { loadOrganization } from './actions/navActions'
+import { clearError } from './actions/serverErrorActions'
 
 import Wrapper from './containers/wrapper'
 import ThanksShim from './loaders/thanks-shim'
@@ -81,8 +82,12 @@ export const routes = (store) => {
       store.dispatch(loadOrganization(nextState.params.organization))
     }
   }
+  const onChange = () => {
+    store.dispatch(clearError()) // Stop showing any error page
+    scrollToTop()
+  }
   const routeHierarchy = (
-    <Route path={baseAppPath} component={Wrapper} onChange={scrollToTop}>
+    <Route path={baseAppPath} component={Wrapper} onChange={onChange}>
       <IndexRoute prodReady component={LoadableHome} />
 
       {/* Sign pages are popular entry pages, so they get included in the main bundle (not Loadable) */}
