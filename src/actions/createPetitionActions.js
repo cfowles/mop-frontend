@@ -27,7 +27,7 @@ export function loadTargets(group, geoState) {
     })
     const { petitionTargetStore } = getState()
 
-    let url = `${Config.LEGACY_API_URI}/target_search.html?group=${group}`
+    let url = `${Config.API_URI}/targets.json?group=${group}`
     let storeKey = group
 
     if (group === 'state') {

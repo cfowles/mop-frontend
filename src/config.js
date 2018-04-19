@@ -9,7 +9,6 @@ export const Config = {
   TRACK_SHARE_URL: process.env.TRACK_SHARE_URL || '',
   USE_HASH_BROWSING: process.env.USE_HASH_BROWSING,
   STATIC_ROOT: process.env.STATIC_ROOT,
-  WORDPRESS_API_URI: process.env.WORDPRESS_API_URI,
-  LEGACY_API_URI: process.env.LEGACY_API_URI
+  WORDPRESS_API_URI: process.env.WORDPRESS_API_URI
 }
 export default Config

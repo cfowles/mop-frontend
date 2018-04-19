@@ -5,7 +5,6 @@ API_WRITABLE                      | When true, server actions to submit new data
 APP_ENTRY                         | For WebPack build, file name for app. _Default_: "main".
 API_SIGN_PETITION                 | Full url endpoint to send submitted signatures to.  Without this, it will default to `${API_URI}/signatures`
 WORDPRESS_API_URI                 | Base URI for the wordpress API, to fetch content for static pages. _Required in prod_. _Dev default_:"/local/api"
-LEGACY_API_URI                    | Base URI for the legacy API (includes target-search for petition creation). _Default_: "".
 BASE_APP_PATH                     | If the app is being served from a path other than the domain root, set this to that path. _Default_: "/".
 ONLY_PROD_ROUTES                  | Only render production-ready routes (marked `prodReady`) and redirect all other paths to petitions.moveon.org
 PROD                              | Boolean value indicating whether site should act as a production environment. _Options_: 0, 1. _Default_: "".

@@ -16,7 +16,6 @@ before_deploy:
   - export API_URI="https://broom.moveon.org/api/v1"
   - export API_SIGN_PETITION="https://broom.moveon.org/api-v1-signatures"
   - export WORDPRESS_API_URI="https://front.moveon.org/wp-json"
-  - export LEGACY_API_URI="https://broom.moveon.org/api/legacy/target_search.html"
   - export BASE_APP_PATH="/"
   - export BASE_URL="https://broom.moveon.org"
   - export SESSION_COOKIE_NAME="SO_DEV_SESSION"

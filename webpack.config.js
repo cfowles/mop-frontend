@@ -92,7 +92,6 @@ var config = {
                                             || (process.env.PROD ? '' : '/local/api')),
         'API_WRITABLE': JSON.stringify(process.env.API_WRITABLE || process.env.PROD),
         'API_SIGN_PETITION': JSON.stringify(process.env.API_SIGN_PETITION || ''),
-        'LEGACY_API_URI': JSON.stringify(process.env.LEGACY_API_URI || '/local/api/legacy'),
         'BASE_APP_PATH': JSON.stringify(process.env.BASE_APP_PATH || '/'),
         'BASE_URL': JSON.stringify(process.env.BASE_URL
                                    || (process.env.PROD ? 'https://petitions.moveon.org' : '')),
