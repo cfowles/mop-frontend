@@ -24,14 +24,14 @@ export function unRecognize({ redirect } = {}) {
 }
 
 let hasIdentified = false
-function identify(id) {
-  if (hasIdentified || !id || !window.analytics || !window.analytics.identify) return
+function identify(id, force = false) {
+  if ((!force && hasIdentified) || !id || !window.analytics || !window.analytics.identify) return
 
   window.analytics.identify(id) // segment tracking
   hasIdentified = true
 }
 
-function callSessionApi(tokens = {}) {
+function callSessionApi({ tokens = {}, forceIdentify = false } = {}) {
   return (dispatch) => {
     const args = Object.keys(tokens)
       .map((k) => ((tokens[k]) ? `${encodeURIComponent(k)}=${encodeURIComponent(tokens[k])}` : ''))
@@ -59,7 +59,7 @@ function callSessionApi(tokens = {}) {
             const anonId = String(Math.random()).substr(2)
             trackIdentity = `anon${anonId}`
           }
-          identify(trackIdentity)
+          identify(trackIdentity, forceIdentify)
         }
       }),
       (err) => {
@@ -92,7 +92,7 @@ export const loadSession = (location) => {
     if (id) {
       tokens.hashedId = id
     }
-    return callSessionApi(tokens)
+    return callSessionApi({ tokens })
   }
   // If there was no cookie or tokens, we don't even need to call the api
   return (dispatch) => {
