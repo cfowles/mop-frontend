@@ -66,7 +66,6 @@ export class CreatePetition extends React.Component {
     if (!data.summary) errors.push(ERRORS.text_statement)
     if (!data.target.length) errors.push(ERRORS.target)
     if (!data.description) errors.push(ERRORS.text_about)
-
     if (errors.length) {
       this.setState({ errors })
       return false
