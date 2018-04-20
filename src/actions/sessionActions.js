@@ -89,9 +89,10 @@ export const loadSession = (location) => {
       tokens.hashedId = id
     }
     return callSessionApi(tokens)
-  } else {
-    identify() // anonymous session tracking
   }
+
+  identify() // anonymous session tracking
+
   // If there was no cookie or tokens, we don't even need to call the api
   return (dispatch) => {
     dispatch({
