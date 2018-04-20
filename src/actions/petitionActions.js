@@ -1,5 +1,5 @@
 import Config from '../config.js'
-import { getPageLoadTime, stringifyParams, rejectNetworkErrorsAs500, parseAPIResponse } from '../lib'
+import { getPageLoadTime, stringifyParams, rejectNetworkErrorsAs500, parseAPIResponse, parseSQSApiResponse } from '../lib'
 import { appLocation } from '../routes.js'
 
 export const actionTypes = {
@@ -194,9 +194,6 @@ const signatureSuccess = (dispatch, response, petition, signature, options) => {
     if (sqsResponse) {
       dispatchData.messageId = sqsResponse.MessageId
       dispatchData.messageMd5 = sqsResponse.MD5OfMessageBody
-      // If Error, should we return FAILURE instead?
-      dispatchData.messageError = (sqsResponse.Error
-                                    && sqsResponse.Error.Message)
     }
   }
   const dispatchResult = dispatch(dispatchData)
@@ -234,7 +231,8 @@ export function signPetition(petitionSignature, petition, options) {
       delete fetchArgs.body
     }
     fetch(signingEndpoint, fetchArgs)
-      .then(res => res.json())
+      .catch(rejectNetworkErrorsAs500)
+      .then(parseSQSApiResponse)
       .then(response => {
         signatureSuccess(dispatch, response, petition, petitionSignature, options)
       })

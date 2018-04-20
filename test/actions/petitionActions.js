@@ -3,7 +3,10 @@ import sinon from 'sinon'
 import fetchMock from 'fetch-mock'
 import Config from '../../src/config'
 
-import { signPetition, devLocalSignPetition } from '../../src/actions/petitionActions'
+import {
+  signPetition,
+  devLocalSignPetition
+} from '../../src/actions/petitionActions'
 
 const SQS_RESPONSE = {
   SendMessageResponse: {
@@ -15,6 +18,15 @@ const SQS_RESPONSE = {
       SequenceNumber: null
     }
   }
+}
+
+const SQS_RESPONSE_ERROR = {
+  Error: {
+    Code: 'InvalidMessageContents',
+    Message: 'you bad',
+    Type: 'Sender'
+  },
+  RequestId: '123'
 }
 
 const SIGNATURE = {
@@ -38,10 +50,15 @@ describe('petitionActions signPetition configured as prod', () => {
   })
 
   it('calls sign petition endpoint', done => {
-    fetchMock.post('https://petitions.example.com/api-v1-signatures', SQS_RESPONSE)
+    fetchMock.post(
+      'https://petitions.example.com/api-v1-signatures',
+      SQS_RESPONSE
+    )
     const dispatch = sinon.spy(() => {
       if (dispatch.callCount === 2) {
-        expect(fetchMock.lastUrl()).to.equal('https://petitions.example.com/api-v1-signatures')
+        expect(fetchMock.lastUrl()).to.equal(
+          'https://petitions.example.com/api-v1-signatures'
+        )
         const opts = fetchMock.lastOptions()
         expect(opts.method).to.equal('POST')
         expect(opts.body).to.equal(JSON.stringify(SIGNATURE))
@@ -60,8 +77,10 @@ describe('petitionActions signPetition configured as prod', () => {
     signPetition(SIGNATURE, PETITION)(dispatch)
   })
 
-  it('dispatches failure if endpoint returns invalid json', done => {
-    fetchMock.post('https://petitions.example.com/api-v1-signatures', { status: 200 })
+  it('dispatches failure if endpoint returns no json', done => {
+    fetchMock.post('https://petitions.example.com/api-v1-signatures', {
+      status: 200
+    })
     const dispatch = sinon.spy(() => {
       if (dispatch.callCount === 2) {
         expect(dispatch.firstCall.args[0].type).to.equal(
@@ -70,6 +89,47 @@ describe('petitionActions signPetition configured as prod', () => {
         expect(dispatch.secondCall.args[0].type).to.equal(
           'PETITION_SIGNATURE_FAILURE'
         )
+        expect(dispatch.secondCall.args[0].error.response_code).to.equal(500)
+        done()
+      }
+    })
+    signPetition(SIGNATURE, PETITION)(dispatch)
+  })
+
+  it('dispatches failure if endpoint returns 500', done => {
+    fetchMock.post('https://petitions.example.com/api-v1-signatures', {
+      status: 500,
+      body: SQS_RESPONSE
+    })
+    const dispatch = sinon.spy(() => {
+      if (dispatch.callCount === 2) {
+        expect(dispatch.firstCall.args[0].type).to.equal(
+          'PETITION_SIGNATURE_SUBMIT'
+        )
+        expect(dispatch.secondCall.args[0].type).to.equal(
+          'PETITION_SIGNATURE_FAILURE'
+        )
+        expect(dispatch.secondCall.args[0].error.response_code).to.equal(500)
+        done()
+      }
+    })
+    signPetition(SIGNATURE, PETITION)(dispatch)
+  })
+
+  it('dispatches failure if endpoint returns Error key', done => {
+    fetchMock.post('https://petitions.example.com/api-v1-signatures', {
+      status: 200,
+      body: SQS_RESPONSE_ERROR
+    })
+    const dispatch = sinon.spy(() => {
+      if (dispatch.callCount === 2) {
+        expect(dispatch.firstCall.args[0].type).to.equal(
+          'PETITION_SIGNATURE_SUBMIT'
+        )
+        expect(dispatch.secondCall.args[0].type).to.equal(
+          'PETITION_SIGNATURE_FAILURE'
+        )
+        expect(dispatch.secondCall.args[0].error.response_code).to.equal(500)
         done()
       }
     })
@@ -77,7 +137,9 @@ describe('petitionActions signPetition configured as prod', () => {
   })
 
   it('dispatches failure when `fetch` throws (network error)', done => {
-    fetchMock.post('https://petitions.example.com/api-v1-signatures', { throws: new TypeError() })
+    fetchMock.post('https://petitions.example.com/api-v1-signatures', {
+      throws: new TypeError()
+    })
     const dispatch = sinon.spy(() => {
       if (dispatch.callCount === 2) {
         expect(fetchMock.called()).to.equal(true)
@@ -87,6 +149,7 @@ describe('petitionActions signPetition configured as prod', () => {
         expect(dispatch.secondCall.args[0].type).to.equal(
           'PETITION_SIGNATURE_FAILURE'
         )
+        expect(dispatch.secondCall.args[0].error.response_code).to.equal(500)
         done()
       }
     })
@@ -100,7 +163,6 @@ describe('petitionActions signPetition configured as prod', () => {
     Config.API_WRITABLE = prevWritable
   })
 })
-
 
 describe('petitionActions signPetition configured dev', () => {
   let prevApi
@@ -137,7 +199,9 @@ describe('petitionActions signPetition configured dev', () => {
     fetchMock.get('http://localhost:4174/signatures.json', SQS_RESPONSE)
     const dispatch = sinon.spy(() => {
       if (dispatch.callCount === 2) {
-        expect(fetchMock.lastUrl()).to.equal('http://localhost:4174/signatures.json')
+        expect(fetchMock.lastUrl()).to.equal(
+          'http://localhost:4174/signatures.json'
+        )
         const opts = fetchMock.lastOptions()
         expect(opts.method).to.equal('GET')
         expect(opts.body).to.equal(undefined)

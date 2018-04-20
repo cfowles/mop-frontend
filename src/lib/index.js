@@ -165,3 +165,22 @@ export const parseAPIResponse = response =>
         })
       }
     })
+
+export const parseSQSApiResponse = response =>
+  new Promise(resolve => resolve(response.text()))
+    .then(responseBody => {
+      try {
+        const parsedJSON = JSON.parse(responseBody)
+        if (response.ok && !parsedJSON.Error) return parsedJSON
+        return Promise.reject({
+          response_code: 500,
+          error: parsedJSON
+        })
+      } catch (error) {
+        // The response contains invalid JSON or no response code
+        return Promise.reject({
+          response_code: 500,
+          error
+        })
+      }
+    })
