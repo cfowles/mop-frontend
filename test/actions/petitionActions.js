@@ -194,7 +194,7 @@ describe('petitionActions signPetition configured dev', () => {
     devLocalSignPetition(SIGNATURE, PETITION)(dispatch)
   })
 
-  it('can write to fake api', done => {
+  it('can get fake sqs response from local api', done => {
     Config.API_WRITABLE = 'fake'
     fetchMock.get('http://localhost:4174/signatures.json', SQS_RESPONSE)
     const dispatch = sinon.spy(() => {
