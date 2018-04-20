@@ -7,7 +7,7 @@
   "directories": {},
   "scripts": {
     "test": "NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --require babel-core/register --require jsdom-global/register --require isomorphic-fetch --require ./test-setup.js --recursive",
-    "test:coverage": "nyc npm test",
+    "test:coverage": "nyc --reporter=html --reporter=text npm test",
     "build": "THEME=legacy webpack && THEME=giraffe webpack",
     "dev-build": "THEME=legacy webpack -d && THEME=giraffe webpack -d",
     "webpack-watch": "webpack -w",
