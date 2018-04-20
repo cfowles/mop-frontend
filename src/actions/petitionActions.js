@@ -191,34 +191,28 @@ export function signPetition(petitionSignature, petition, options) {
       signature: petitionSignature
     })
 
-    const completion = (data) => {
-      const finalDispatch = (json) => {
-        const dispatchData = {
-          type: actionTypes.PETITION_SIGNATURE_SUCCESS,
-          petition,
-          signature: petitionSignature
-        }
-        if (json && json.SendMessageResponse) {
-          const sqsResponse = json.SendMessageResponse.SendMessageResult
-          if (sqsResponse) {
-            dispatchData.messageId = sqsResponse.MessageId
-            dispatchData.messageMd5 = sqsResponse.MD5OfMessageBody
-            // If Error, should we return FAILURE instead?
-            dispatchData.messageError = (sqsResponse.Error
-                                         && sqsResponse.Error.Message)
-          }
-        }
-        const dispatchResult = dispatch(dispatchData)
-        if (options && options.redirectOnSuccess) {
-          registerSignatureAndThanks(dispatchResult.petition, dispatchResult.signature)(dispatch)
+    const completion = (json) => {
+      const dispatchData = {
+        type: actionTypes.PETITION_SIGNATURE_SUCCESS,
+        petition,
+        signature: petitionSignature
+      }
+      if (json && json.SendMessageResponse) {
+        const sqsResponse = json.SendMessageResponse.SendMessageResult
+        if (sqsResponse) {
+          dispatchData.messageId = sqsResponse.MessageId
+          dispatchData.messageMd5 = sqsResponse.MD5OfMessageBody
+          // If Error, should we return FAILURE instead?
+          dispatchData.messageError = (sqsResponse.Error
+                                        && sqsResponse.Error.Message)
         }
       }
-      if (data && typeof data.json === 'function') {
-        data.json().then(finalDispatch, finalDispatch)
-      } else {
-        finalDispatch()
+      const dispatchResult = dispatch(dispatchData)
+      if (options && options.redirectOnSuccess) {
+        registerSignatureAndThanks(dispatchResult.petition, dispatchResult.signature)(dispatch)
       }
     }
+
     if (Config.API_WRITABLE) {
       const signingEndpoint = ((Config.API_SIGN_PETITION)
                                ? Config.API_SIGN_PETITION
@@ -241,6 +235,7 @@ export function signPetition(petitionSignature, petition, options) {
         delete fetchArgs.body
       }
       fetch(signingEndpoint, fetchArgs)
+        .then(res => res.json())
         .then(completion, (err) => {
           dispatch({
             type: actionTypes.PETITION_SIGNATURE_FAILURE,
