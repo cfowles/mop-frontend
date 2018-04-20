@@ -223,7 +223,7 @@ export function signPetition(petitionSignature, petition, options) {
     }
     const fetchArgs = {
       method: 'POST',
-      body: JSON.stringify(petitionSignature),
+      body: JSON.stringify(body),
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json'
