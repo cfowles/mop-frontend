@@ -37,15 +37,10 @@ describe('petitionActions', () => {
     Config.API_WRITABLE = true
   })
 
-  it('calls sign petition endpoint', done => {
-    fetchMock.post('https://petitions.example.com/api-v1-signatures', SQS_RESPONSE)
+  it('still dispatches success if endpoint returns 500', done => {
+    fetchMock.post('https://petitions.example.com/api-v1-signatures', { status: 500 })
     const dispatch = sinon.spy(() => {
       if (dispatch.callCount === 2) {
-        expect(fetchMock.lastUrl()).to.equal('https://petitions.example.com/api-v1-signatures')
-        const opts = fetchMock.lastOptions()
-        expect(opts.method).to.equal('POST')
-        expect(opts.body).to.equal(JSON.stringify(SIGNATURE))
-
         expect(dispatch.firstCall.args[0].type).to.equal(
           'PETITION_SIGNATURE_SUBMIT'
         )
@@ -68,6 +63,28 @@ describe('petitionActions', () => {
         )
         expect(dispatch.secondCall.args[0].type).to.equal(
           'PETITION_SIGNATURE_FAILURE'
+        )
+        done()
+        fetchMock.restore()
+      }
+    })
+    signPetition(SIGNATURE, PETITION)(dispatch)
+  })
+
+  it('calls sign petition endpoint', done => {
+    fetchMock.post('https://petitions.example.com/api-v1-signatures', SQS_RESPONSE)
+    const dispatch = sinon.spy(() => {
+      if (dispatch.callCount === 2) {
+        expect(fetchMock.lastUrl()).to.equal('https://petitions.example.com/api-v1-signatures')
+        const opts = fetchMock.lastOptions()
+        expect(opts.method).to.equal('POST')
+        expect(opts.body).to.equal(JSON.stringify(SIGNATURE))
+
+        expect(dispatch.firstCall.args[0].type).to.equal(
+          'PETITION_SIGNATURE_SUBMIT'
+        )
+        expect(dispatch.secondCall.args[0].type).to.equal(
+          'PETITION_SIGNATURE_SUCCESS'
         )
         done()
         fetchMock.restore()
