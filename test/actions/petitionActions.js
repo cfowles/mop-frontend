@@ -3,7 +3,7 @@ import sinon from 'sinon'
 import fetchMock from 'fetch-mock'
 import Config from '../../src/config'
 
-import { signPetition } from '../../src/actions/petitionActions'
+import { signPetition, devLocalSignPetition } from '../../src/actions/petitionActions'
 
 const SQS_RESPONSE = {
   SendMessageResponse: {
@@ -80,6 +80,7 @@ describe('petitionActions signPetition configured as prod', () => {
     fetchMock.post('https://petitions.example.com/api-v1-signatures', { throws: new TypeError() })
     const dispatch = sinon.spy(() => {
       if (dispatch.callCount === 2) {
+        expect(fetchMock.called()).to.equal(true)
         expect(dispatch.firstCall.args[0].type).to.equal(
           'PETITION_SIGNATURE_SUBMIT'
         )
@@ -128,7 +129,7 @@ describe('petitionActions signPetition configured dev', () => {
         done()
       }
     })
-    signPetition(SIGNATURE, PETITION)(dispatch)
+    devLocalSignPetition(SIGNATURE, PETITION)(dispatch)
   })
 
   it('can write to fake api', done => {
