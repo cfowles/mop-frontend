@@ -17,10 +17,18 @@ export function unRecognize() {
 
 let hasIdentified = false
 function identify(id) {
-  if (hasIdentified || !id || !window.analytics || !window.analytics.identify) return
+  // segment tracking
+  if (hasIdentified || !window.analytics || !window.analytics.identify) return
 
-  window.analytics.identify(id) // segment tracking
-  hasIdentified = true
+  if (!id) {
+    const anonId = String(Math.random()).substr(2)
+    window.analytics.identify(`anon${anonId}`)
+    // We don't mark it as hasIdentified in this branch because
+    // if we load up session info, it might be non-anonymous
+  } else {
+    window.analytics.identify(id)
+    hasIdentified = true
+  }
 }
 
 function callSessionApi(tokens) {
@@ -47,10 +55,6 @@ function callSessionApi(tokens) {
               trackIdentity = id.substring('actionkit:'.length)
             }
           })
-          if (!trackIdentity) {
-            const anonId = String(Math.random()).substr(2)
-            trackIdentity = `anon${anonId}`
-          }
           identify(trackIdentity)
         }
       }),
@@ -86,6 +90,9 @@ export const loadSession = (location) => {
     }
     return callSessionApi(tokens)
   }
+
+  identify() // anonymous session tracking
+
   // If there was no cookie or tokens, we don't even need to call the api
   return (dispatch) => {
     dispatch({
