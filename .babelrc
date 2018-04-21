@@ -11,6 +11,11 @@
         "dynamic-import-node",
         "transform-es2015-modules-commonjs"
       ]
+    },
+    "production": { // N.B.: This needs NODE_ENV=production to run
+      "plugins": [
+        ["transform-react-remove-prop-types", { "removeImport": true }] // Saves less than 5kb
+      ]
     }
   }
 }
