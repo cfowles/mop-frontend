@@ -36,7 +36,7 @@ const Nav = ({
 
           {/* More Top level */}
           <NavLink href='https://moveon.org/events'>Events</NavLink>
-          <NavLink to='https://front.moveon.org/about'>About Us</NavLink>
+          <NavLink href='https://front.moveon.org/about'>About Us</NavLink>
         </Primary>
         <Secondary>
           <Secondary.Top>
