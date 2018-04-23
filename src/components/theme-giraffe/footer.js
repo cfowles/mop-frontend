@@ -20,31 +20,29 @@ export const Footer = ({ entity }) => (
     <MoFooter.Top>
       <Nav>
         <Nav.Links heading='Organization'>
-          <Link to='https://front.moveon.org/careers'>Careers</Link>
-          <Link to='https://front.moveon.org/blog/'>News</Link>
-          <Link to='https://www.facebook.com/moveon/videos'>Videos</Link>
-          <Link to='https://act.moveon.org/signup/signup'>
-            Sign Up for Emails
-          </Link>
-          <Link to='https://act.moveon.org/survey/get-texts-moveon/'>
+          <a href='https://front.moveon.org/careers'>Careers</a>
+          <a href='https://front.moveon.org/blog/'>News</a>
+          <a href='https://www.facebook.com/moveon/videos'>Videos</a>
+          <a href='https://act.moveon.org/signup/signup'>Sign Up for Emails</a>
+          <a href='https://act.moveon.org/survey/get-texts-moveon/'>
             Sign up for Text Msg Alerts
-          </Link>
+          </a>
         </Nav.Links>
         <Nav.Links heading='Contact'>
-          <Link to='http://moveon.desk.com/customer/portal/emails/new'>
+          <a href='http://moveon.desk.com/customer/portal/emails/new'>
             General Inquiries
-          </Link>
+          </a>
           <Link to='/feedback.html'>Petition Inquiries</Link>
-          <Link to='https://act.moveon.org/survey/press/'>Press Inquiries</Link>
+          <a href='https://act.moveon.org/survey/press/'>Press Inquiries</a>
           <Link to='/organizations.html'>Partner with Us</Link>
         </Nav.Links>
         <Nav.Links heading='Support'>
-          <Link to='https://front.moveon.org/frequently-asked-questions-and-contact-information-2/'>
+          <a href='https://front.moveon.org/frequently-asked-questions-and-contact-information-2/'>
             FAQs
-          </Link>
-          <Link to='https://front.moveon.org/privacy-policy/'>
+          </a>
+          <a href='https://front.moveon.org/privacy-policy/'>
             Privacy Policy and ToS
-          </Link>
+          </a>
         </Nav.Links>
         <Nav.CallToAction
           copy={
@@ -54,7 +52,7 @@ export const Footer = ({ entity }) => (
             </span>
           }
         >
-          <Link to='http://petitions.moveon.org/create_start.html?source=homepage'>
+          <Link to='/create_start.html?source=petitionfooter'>
             <DocumentSvg />
             Start A Petition
             <CaretRightSvg />
