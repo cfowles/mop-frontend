@@ -1,5 +1,5 @@
 import Config from '../config.js'
-import { getPageLoadTime, stringifyParams, rejectNetworkErrorsAs500, parseAPIResponse } from '../lib'
+import { getPageLoadTime, stringifyParams, rejectNetworkErrorsAs500, parseAPIResponse, parseSQSApiResponse } from '../lib'
 import { appLocation } from '../routes.js'
 
 export const actionTypes = {
@@ -183,6 +183,25 @@ export const registerSignatureAndThanks = (petition, signature) => () => {
   }&name=${petition.name}${fromSource}`)
 }
 
+const signatureSuccess = (dispatch, response, petition, signature, options) => {
+  const dispatchData = {
+    type: actionTypes.PETITION_SIGNATURE_SUCCESS,
+    petition,
+    signature
+  }
+  if (response && response.SendMessageResponse) {
+    const sqsResponse = response.SendMessageResponse.SendMessageResult
+    if (sqsResponse) {
+      dispatchData.messageId = sqsResponse.MessageId
+      dispatchData.messageMd5 = sqsResponse.MD5OfMessageBody
+    }
+  }
+  const dispatchResult = dispatch(dispatchData)
+  if (options && options.redirectOnSuccess) {
+    registerSignatureAndThanks(dispatchResult.petition, dispatchResult.signature)(dispatch)
+  }
+}
+
 export function signPetition(petitionSignature, petition, options) {
   return (dispatch) => {
     dispatch({
@@ -191,67 +210,53 @@ export function signPetition(petitionSignature, petition, options) {
       signature: petitionSignature
     })
 
-    const completion = (data) => {
-      const finalDispatch = (json) => {
-        const dispatchData = {
-          type: actionTypes.PETITION_SIGNATURE_SUCCESS,
+    const signingEndpoint = ((Config.API_SIGN_PETITION)
+                              ? Config.API_SIGN_PETITION
+                              : `${Config.API_URI}/signatures.json`)
+    const body = petitionSignature
+    const pageLoadTime = getPageLoadTime()
+    if (pageLoadTime) {
+      body.loadTime = pageLoadTime
+    }
+    const fetchArgs = {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      }
+    }
+    if (Config.API_WRITABLE === 'fake') {
+      fetchArgs.method = 'GET'
+      delete fetchArgs.body
+    }
+    fetch(signingEndpoint, fetchArgs)
+      .catch(rejectNetworkErrorsAs500)
+      .then(parseSQSApiResponse)
+      .then(response => {
+        signatureSuccess(dispatch, response, petition, petitionSignature, options)
+      })
+      .catch(err =>
+        dispatch({
+          type: actionTypes.PETITION_SIGNATURE_FAILURE,
           petition,
-          signature: petitionSignature
-        }
-        if (json && json.SendMessageResponse) {
-          const sqsResponse = json.SendMessageResponse.SendMessageResult
-          if (sqsResponse) {
-            dispatchData.messageId = sqsResponse.MessageId
-            dispatchData.messageMd5 = sqsResponse.MD5OfMessageBody
-            // If Error, should we return FAILURE instead?
-            dispatchData.messageError = (sqsResponse.Error
-                                         && sqsResponse.Error.Message)
-          }
-        }
-        const dispatchResult = dispatch(dispatchData)
-        if (options && options.redirectOnSuccess) {
-          registerSignatureAndThanks(dispatchResult.petition, dispatchResult.signature)(dispatch)
-        }
-      }
-      if (data && typeof data.json === 'function') {
-        data.json().then(finalDispatch, finalDispatch)
-      } else {
-        finalDispatch()
-      }
-    }
-    if (Config.API_WRITABLE) {
-      const signingEndpoint = ((Config.API_SIGN_PETITION)
-                               ? Config.API_SIGN_PETITION
-                               : `${Config.API_URI}/signatures.json`)
-      const body = petitionSignature
-      const pageLoadTime = getPageLoadTime()
-      if (pageLoadTime) {
-        body.loadTime = pageLoadTime
-      }
-      const fetchArgs = {
-        method: 'POST',
-        body: JSON.stringify(petitionSignature),
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json'
-        }
-      }
-      if (Config.API_WRITABLE === 'fake') {
-        fetchArgs.method = 'GET'
-        delete fetchArgs.body
-      }
-      fetch(signingEndpoint, fetchArgs)
-        .then(completion, (err) => {
-          dispatch({
-            type: actionTypes.PETITION_SIGNATURE_FAILURE,
-            petition,
-            signature: petitionSignature,
-            error: err
-          })
+          signature: petitionSignature,
+          error: err
         })
-    } else {
-      completion()
-    }
+      )
+  }
+}
+
+// This thunk is for development when no backend server is running
+// It is configured to be used in the component when API_WRITEABLE is false
+export function devLocalSignPetition(signature, petition, options) {
+  return (dispatch) => {
+    dispatch({
+      type: actionTypes.PETITION_SIGNATURE_SUBMIT,
+      petition,
+      signature
+    })
+    signatureSuccess(dispatch, null, petition, signature, options)
   }
 }
 

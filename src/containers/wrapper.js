@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
+import { scrollToTop } from '../lib'
 import { loadSession } from '../actions/sessionActions'
 import { checkServerError } from '../actions/serverErrorActions'
 
@@ -13,6 +14,14 @@ class Wrapper extends React.Component {
   componentDidMount() {
     this.props.dispatch(checkServerError())
     this.props.dispatch(loadSession(this.props.location))
+  }
+
+  componentDidUpdate() {
+    if (this.props.error && this.props.error.response_code) {
+      // Normally we scroll to top on route change, however we can display an
+      // error without a route change
+      scrollToTop()
+    }
   }
 
   render() {

@@ -7,7 +7,7 @@
   "directories": {},
   "scripts": {
     "test": "NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --require babel-core/register --require jsdom-global/register --require isomorphic-fetch --require ./test-setup.js --recursive",
-    "test:coverage": "nyc npm test",
+    "test:coverage": "nyc --reporter=html --reporter=text npm test",
     "build": "THEME=legacy webpack && THEME=giraffe webpack",
     "dev-build": "THEME=legacy webpack -d && THEME=giraffe webpack -d",
     "webpack-watch": "webpack -w",
@@ -62,6 +62,7 @@
     "eslint-plugin-mocha": "^4.11.0",
     "eslint-plugin-prefer-object-spread": "^1.2.1",
     "eslint-plugin-react": "^5.2.2",
+    "fetch-mock": "^5.1.5",
     "file-loader": "^0.11.1",
     "html-webpack-plugin": "^2.22.0",
     "isomorphic-fetch": "^2.2.1",

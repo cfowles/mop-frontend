@@ -4,9 +4,10 @@ import { connect } from 'react-redux'
 
 import SignatureAddFormComponent from 'Theme/signature-add-form'
 
-import { actions as petitionActions } from '../actions/petitionActions.js'
+import { signPetition, devLocalSignPetition } from '../actions/petitionActions.js'
 import { actions as sessionActions } from '../actions/sessionActions.js'
 import { isValidEmail } from '../lib'
+import Config from '../config'
 
 class SignatureAddForm extends React.Component {
 
@@ -199,9 +200,12 @@ class SignatureAddForm extends React.Component {
   submit(event) {
     event.preventDefault()
     const { dispatch, petition } = this.props
+    // In dev, by default, don't actually call the api
+    const signAction = Config.API_WRITABLE ? signPetition : devLocalSignPetition
+
     if (this.formIsValid()) {
       const osdiSignature = this.getOsdiSignature()
-      dispatch(petitionActions.signPetition(osdiSignature, petition, { redirectOnSuccess: true }))
+      dispatch(signAction(osdiSignature, petition, { redirectOnSuccess: true }))
     }
     return false
   }
