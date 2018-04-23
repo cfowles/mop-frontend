@@ -30,12 +30,13 @@ const Nav = ({
             <NavLink href='https://moveon.org/browse-campaigns'>
               Browse Campaigns
             </NavLink>
-            <NavLink href='https://moveon.org/campaign-tips'>Campaign Tips</NavLink>
             <NavLink href='https://moveon.org/our-impact'>Our Impact</NavLink>
           </Primary.Section>
 
           {/* More Top level */}
-          <NavLink href='https://moveon.org/events'>Events</NavLink>
+          <NavLink href='https://act.moveon.org/event/niatl-organizing-meetings/search/'>
+            Events
+          </NavLink>
           <NavLink to='https://front.moveon.org/about'>About Us</NavLink>
         </Primary>
         <Secondary>
