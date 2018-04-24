@@ -25,7 +25,7 @@ export const Footer = ({ entity }) => (
           <a href='https://www.facebook.com/moveon/videos'>Videos</a>
           <a href='https://act.moveon.org/signup/signup'>Sign Up for Emails</a>
           <a href='https://act.moveon.org/survey/get-texts-moveon/'>
-            Sign up for Text Msg Alerts
+            Sign up for SMS
           </a>
         </Nav.Links>
         <Nav.Links heading='Contact'>
@@ -41,7 +41,7 @@ export const Footer = ({ entity }) => (
             FAQs
           </a>
           <a href='https://front.moveon.org/privacy-policy/'>
-            Privacy Policy and ToS
+            Privacy Policy & ToS
           </a>
         </Nav.Links>
         <Nav.CallToAction
