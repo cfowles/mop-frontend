@@ -23,7 +23,7 @@ Primary.propTypes = {
 const Section = ({ openSections, toggleSection, name, children }) => {
   const dropdownCn = section =>
     cn('mo-nav__dropdown', {
-      'mo-nav__dropdown--expanded': openSections.indexOf(section) !== -1
+      'nav__dropdown--expanded': openSections.indexOf(section) !== -1
     })
 
   return (
