@@ -4,7 +4,7 @@ import { expect } from 'chai'
 
 import { mount, shallow } from 'enzyme'
 
-import LoginForm from 'LegacyTheme/login-form'
+import LoginForm from 'Theme/login-form'
 
 describe('<LoginForm />', () => {
   it('displays fields', () => {
