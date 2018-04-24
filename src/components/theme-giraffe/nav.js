@@ -27,25 +27,25 @@ const Nav = ({
           </Primary.Section>
 
           <Primary.Section name='Campaigns'>
-            <NavLink to='https://moveon.org/browse-campaigns'>
+            <NavLink href='https://moveon.org/browse-campaigns'>
               Browse Campaigns
             </NavLink>
-            <NavLink to='https://moveon.org/campaign-tips'>Campaign Tips</NavLink>
-            <NavLink to='https://moveon.org/our-impact'>Our Impact</NavLink>
+            <NavLink to='/campaign_tips.html'>Campaign Tips</NavLink>
+            <NavLink href='https://moveon.org/our-impact'>Our Impact</NavLink>
           </Primary.Section>
 
           {/* More Top level */}
-          <NavLink to='https://moveon.org/events'>Events</NavLink>
-          <NavLink to='https://front.moveon.org/about'>About Us</NavLink>
+          <NavLink href='https://moveon.org/events'>Events</NavLink>
+          <NavLink href='https://front.moveon.org/about'>About Us</NavLink>
         </Primary>
         <Secondary>
           <Secondary.Top>
-            <NavLink to='https://front.moveon.org/blog'>News</NavLink>
-            <NavLink to='https://store.moveon.org'>Store</NavLink>
+            <NavLink href='https://front.moveon.org/blog'>News</NavLink>
+            <NavLink href='https://store.moveon.org'>Store</NavLink>
           </Secondary.Top>
           <Secondary.Bottom>
-            <NavLink to='https://front.moveon.org/#join'>Join</NavLink>
-            <NavLink to='https://act.moveon.org/donate/civ-donation?utm_source=petitions_nav&source=petitions_nav'>
+            <NavLink href='https://front.moveon.org/#join'>Join</NavLink>
+            <NavLink href='https://act.moveon.org/donate/civ-donation?utm_source=petitions_nav&source=petitions_nav'>
               Donate
             </NavLink>
             <NavLink to='/create_start.html?source=topnav'>
