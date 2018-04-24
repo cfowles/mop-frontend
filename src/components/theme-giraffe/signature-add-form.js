@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 
-import { InputBlock, CountrySelect, StateSelect } from 'GiraffeUI/petition'
+import { CountrySelect, StateSelect } from 'GiraffeUI/petition'
+import { InputBlock } from 'GiraffeUI/input-block'
 import { Submit as Button } from 'GiraffeUI/button'
 
 const SignatureAddForm = ({
