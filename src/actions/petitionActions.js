@@ -303,7 +303,7 @@ export const recordShareClick = (petition, tracking, medium, source, user) => {
 
 export const loadPetitionSignatures = (petition, page = 1) => {
   const petitionListId = getPetitionListId(petition)
-  const petitionSlug = petition.slug
+  const petitionSlug = petition.name
   const urlKey = (petitionListId
                   ? `petitions/list${petitionListId}/signatures`
                   : `petitions/${petitionSlug}/signatures`)

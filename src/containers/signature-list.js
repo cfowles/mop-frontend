@@ -81,7 +81,7 @@ SignatureList.propTypes = {
 }
 
 const mapStateToProps = (store, ownProps) => ({
-  signatures: store.petitionStore.petitionSignatures[ownProps.petition.slug]
+  signatures: store.petitionStore.petitionSignatures[ownProps.petition.name]
 })
 
 const mapDispatchToProps = (dispatch) => ({
