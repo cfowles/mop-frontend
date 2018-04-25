@@ -2,9 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Config from '../config'
 
+const inlineLogo = document.getElementById('mologo')
+
 export const Logo = () => (
   <a href='https://front.moveon.org/' className='logo'>
-    <img src={`${Config.STATIC_ROOT}images/logo.svg`} alt='MoveOn Logo' />
+    {inlineLogo
+     ? <svg className='header-logo' alt='MoveOn Logo'><use href='#mologo' /></svg>
+     : <img src={`${Config.STATIC_ROOT}images/logo.svg`} alt='MoveOn Logo' />
+    }
   </a>
 )
 
