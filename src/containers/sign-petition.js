@@ -12,7 +12,7 @@ class SignPetition extends React.Component {
     super(props)
     this.state = {
       deviceSize: null,
-      floatingSignVisible: false
+      floatingSignVisible: true
     }
     this.setRef = this.setRef.bind(this)
     this.focusSign = this.focusSign.bind(this)
