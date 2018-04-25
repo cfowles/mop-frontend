@@ -24,6 +24,7 @@ const Nav = ({
             <NavLink to='/create_start.html?source=topnav'>
               Start A Petition
             </NavLink>
+            <NavLink to='/dashboard.html'>Manage Petitions</NavLink>
           </Primary.Section>
 
           <Primary.Section name='Campaigns'>
