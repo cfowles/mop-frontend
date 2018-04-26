@@ -20,7 +20,7 @@ We also need to clear this error in the router's `onChange` callback, so if they
 
 When the user enters the app at certain special routes, e.g. the petition sign page, the django server provides the app with some data in `window.preloadObjects`. This saves the time of calling the extra `fetch()`.
 
-The user could load the app at a path that the django server recognizes, but some parameter (e.g. petition slug) could be incorrect, or there could be some other server-side issue that means that the server can't provide preload data.
+The user could load the app at a path that the django server recognizes, but some parameter (e.g. petition name) could be incorrect, or there could be some other server-side issue that means that the server can't provide preload data.
 
 In that case, the server will set `window.error` in the html body. We want to look for this on load and render based on it, so we check the error object in `actions/serverErrorActions.js:checkServerError()`, called on `componentDidMount` of Wrapper (so when the page loads). This function dispatches an action with the contents of any `window.error`, which causes the error to be set in `store.errorStore`.
 
