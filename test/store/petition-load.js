@@ -33,10 +33,8 @@ describe('Petition loading', () => {
 
   it('creates FETCH_PETITION_SUCCESS when loading petition', (done) => {
     const expectedActions = [
-      { type: actionTypes.FETCH_PETITION_REQUEST, slug: 'outkast' },
-      { type: actionTypes.FETCH_PETITION_SUCCESS,
-        slug: 'outkast',
-        petition: samplePetition }
+      { type: actionTypes.FETCH_PETITION_REQUEST, name: 'outkast' },
+      { type: actionTypes.FETCH_PETITION_SUCCESS, petition: samplePetition }
     ]
     const store = mockStore()
     expectAsync(store.dispatch(loadPetition('outkast')),
