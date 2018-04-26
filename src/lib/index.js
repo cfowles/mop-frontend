@@ -184,3 +184,5 @@ export const parseSQSApiResponse = response =>
         })
       }
     })
+
+export const byIdAndName = p => ({ [p.petition_id]: p, [p.name]: p })
