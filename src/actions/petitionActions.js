@@ -33,15 +33,14 @@ export function loadPetition(petitionSlug, forceReload) {
     return dispatch => {
       dispatch({
         type: actionTypes.FETCH_PETITION_SUCCESS,
-        petition: window.preloadObjects[urlKey],
-        slug: petitionSlug
+        petition: window.preloadObjects[urlKey]
       })
     }
   }
   return (dispatch, getState) => {
     dispatch({
       type: actionTypes.FETCH_PETITION_REQUEST,
-      slug: petitionSlug
+      name: petitionSlug
     })
     const { petitionStore } = getState()
     if (!forceReload
@@ -50,8 +49,7 @@ export function loadPetition(petitionSlug, forceReload) {
         && petitionStore.petitions[petitionSlug]) {
       return dispatch({
         type: actionTypes.FETCH_PETITION_SUCCESS,
-        petition: petitionStore.petitions[petitionSlug],
-        slug: petitionSlug
+        petition: petitionStore.petitions[petitionSlug]
       })
     }
     return fetch(`${Config.API_URI}/${urlKey}.json`)
@@ -60,15 +58,14 @@ export function loadPetition(petitionSlug, forceReload) {
       .then(json => {
         dispatch({
           type: actionTypes.FETCH_PETITION_SUCCESS,
-          petition: json,
-          slug: json.name || petitionSlug
+          petition: json
         })
       })
       .catch(err => {
         dispatch({
           type: actionTypes.FETCH_PETITION_FAILURE,
           error: err,
-          slug: petitionSlug
+          name: petitionSlug
         })
       })
   }
@@ -312,14 +309,14 @@ export const loadPetitionSignatures = (petition, page = 1) => {
   return dispatch => {
     dispatch({
       type: actionTypes.FETCH_PETITION_SIGNATURES_REQUEST,
-      slug: petitionSlug,
+      name: petitionSlug,
       page
     })
     const dispatchError = err => {
       dispatch({
         type: actionTypes.FETCH_PETITION_SIGNATURES_FAILURE,
         error: err,
-        slug: petitionSlug,
+        name: petitionSlug,
         page
       })
     }
@@ -329,7 +326,6 @@ export const loadPetitionSignatures = (petition, page = 1) => {
           dispatch({
             type: actionTypes.FETCH_PETITION_SIGNATURES_SUCCESS,
             signatures: json,
-            slug: petitionSlug,
             page
           })
         }, dispatchError),

@@ -1,21 +1,18 @@
+/* eslint-disable no-underscore-dangle */
 import { combineReducers } from 'redux'
 import { actionTypes as petitionActionTypes } from '../actions/petitionActions'
 import { actionTypes as sessionActionTypes } from '../actions/sessionActions'
 import { actionTypes as accountActionTypes } from '../actions/accountActions'
+import { byIdAndName } from '../lib'
+
 import navStore from './nav'
 import errorReducer from './error'
 import staticPageReducer from './static-pages'
-// Function fetchPetitionRequest(petitionSlug) {
-//     Return {
-//         Type: FETCH_PETTION_REQUEST,
-//         PetitionSlug
-//     }
-// }
 
 const initialPetitionState = {
-  petitions: {}, // Keyed by slug AND petition_id for petition route
-  petitionSignatures: {}, // Keyed by petition slug, then page
-  signatureStatus: {}, // Keyed by petition_id (because form doesn't have slug)
+  petitions: {}, // Keyed by name AND petition_id for petition route
+  petitionSignatures: {}, // Keyed by petition name, then page
+  signatureStatus: {}, // Keyed by petition_id (because form doesn't have name)
   signatureMessages: {}, // Keyed by petition_id, MessageId value from SQS post
   topPetitions: {}, // Lists of petition IDs keyed by pac then megapartner
   nextPetitions: [], // List of petition IDs that can be suggested to sign next
@@ -55,30 +52,23 @@ const initialUserState = {
 function petitionReducer(state = initialPetitionState, action) {
   const {
     type,
-    petition: petitionWithoutSlug,
-    slug,
+    petition,
     page,
     signatures,
     petitions,
     topPetitionsKey,
     useCache
   } = action
-  let petition = {}
   let updateData = {}
-  if (typeof petitionWithoutSlug === 'object') {
-    Object.assign(petition, petitionWithoutSlug, { slug })
-  } else if (slug && typeof state.petitions[slug] !== 'undefined') {
-    petition = state.petitions[slug]
-  }
+
   switch (type) {
     case petitionActionTypes.FETCH_PETITION_SUCCESS:
       return {
         ...state,
         petitions: {
           ...state.petitions,
-          // Key it both by id and by slug, for different lookup needs
-          [slug]: petition,
-          [petition.petition_id]: petition
+          // Key it both by id and by name, for different lookup needs
+          ...byIdAndName(petition)
         }
       }
     case petitionActionTypes.PETITION_SIGNATURE_SUCCESS:
@@ -105,24 +95,20 @@ function petitionReducer(state = initialPetitionState, action) {
         ...updateData
       }
     case petitionActionTypes.FETCH_PETITION_SIGNATURES_SUCCESS:
-      petition = { ...petition, total_signatures: signatures.count }
       return {
         ...state,
         petitionSignatures: {
           ...state.petitionSignatures,
-          [slug]: {
-            ...state.petitionSignatures[slug],
-            // eslint-disable-next-line no-underscore-dangle
+          [petition.name]: {
+            ...state.petitionSignatures[petition.name],
             [page]: signatures._embedded.map(signature =>
-              // eslint-disable-next-line no-underscore-dangle
               Object.assign(signature, { user: signature._embedded.user })
             )
           }
         },
         petitions: {
           ...state.petitions,
-          [slug]: petition,
-          [petition.petition_id]: petition
+          ...byIdAndName({ ...petition, total_signatures: signatures.count })
         }
       }
     case petitionActionTypes.FETCH_TOP_PETITIONS_SUCCESS:
@@ -130,11 +116,7 @@ function petitionReducer(state = initialPetitionState, action) {
         return state
       }
       updateData = {
-        petitions: Object.assign({}, state.petitions,
-          ...petitions.map(topPetition => ({
-            [topPetition.name]: topPetition,
-            [topPetition.petition_id]: topPetition
-          }))),
+        petitions: Object.assign({}, state.petitions, ...petitions.map(byIdAndName)),
         topPetitions: {
           ...state.topPetitions,
           [topPetitionsKey]: petitions.map(topPetition => topPetition.petition_id)
