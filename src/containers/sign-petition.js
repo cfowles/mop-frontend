@@ -23,7 +23,7 @@ class SignPetition extends React.Component {
 
   componentWillMount() {
     const { dispatch, params, petition } = this.props
-    dispatch(petitionActions.loadPetition(params.petition_slug.split('.')[0]))
+    dispatch(petitionActions.loadPetition(params.petitionName.split('.')[0]))
     if (petition) {
       this.checkOrgPathMatches(petition, params.organization)
     }
@@ -147,7 +147,7 @@ SignPetition.propTypes = {
 }
 
 function mapStateToProps(store, ownProps) {
-  const petition = store.petitionStore.petitions[ownProps.params.petition_slug.split('.')[0]]
+  const petition = store.petitionStore.petitions[ownProps.params.petitionName.split('.')[0]]
   return {
     petition,
     sign_success:

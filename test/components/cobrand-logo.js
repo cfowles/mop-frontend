@@ -6,16 +6,16 @@ import { createMockStore } from 'redux-test-utils'
 import CobrandLogo from '../../src/containers/cobrand-logo'
 
 function getParams({ embed, org }) {
-  const petitionSlug = 'test'
+  const petitionName = 'test'
   const orgSlug = 'test-org'
   const store = {}
   const params = {}
   if (embed) {
     store.petitionStore = {
-      petitions: { [petitionSlug]: { _embedded: embed } }
+      petitions: { [petitionName]: { _embedded: embed } }
     }
 
-    params.petition_slug = petitionSlug
+    params.petitionName = petitionName
   }
 
   if (org) {

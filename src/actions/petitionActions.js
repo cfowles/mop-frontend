@@ -27,8 +27,8 @@ export const actionTypes = {
   FEEDBACK_FAILURE: 'FEEDBACK_FAILURE'
 }
 
-export function loadPetition(petitionSlug, forceReload) {
-  const urlKey = `petitions/${petitionSlug}`
+export function loadPetition(petitionName, forceReload) {
+  const urlKey = `petitions/${petitionName}`
   if (global && global.preloadObjects && global.preloadObjects[urlKey]) {
     return (dispatch) => {
       dispatch({
@@ -40,16 +40,16 @@ export function loadPetition(petitionSlug, forceReload) {
   return (dispatch, getState) => {
     dispatch({
       type: actionTypes.FETCH_PETITION_REQUEST,
-      name: petitionSlug
+      name: petitionName
     })
     const { petitionStore } = getState()
     if (!forceReload
         && petitionStore
         && petitionStore.petitions
-        && petitionStore.petitions[petitionSlug]) {
+        && petitionStore.petitions[petitionName]) {
       return dispatch({
         type: actionTypes.FETCH_PETITION_SUCCESS,
-        petition: petitionStore.petitions[petitionSlug]
+        petition: petitionStore.petitions[petitionName]
       })
     }
     return fetch(`${Config.API_URI}/${urlKey}.json`)
@@ -65,7 +65,7 @@ export function loadPetition(petitionSlug, forceReload) {
         dispatch({
           type: actionTypes.FETCH_PETITION_FAILURE,
           error: err,
-          name: petitionSlug
+          name: petitionName
         })
       })
   }
@@ -259,7 +259,7 @@ export function devLocalSignPetition(signature, petition, options) {
 
 function getPetitionListId(petition) {
   // Every petition has a couple of identifiers
-  // slug, petition_id, and also a list_id
+  // name, petition_id, and also a list_id
   // which is the object in the database that tracks the owner and signers
   // Since petition signatures are indexed against list_id, it's
   // more efficient to load through that value.
@@ -300,21 +300,21 @@ export const recordShareClick = (petition, tracking, medium, source, user) => {
 
 export const loadPetitionSignatures = (petition, page = 1) => {
   const petitionListId = getPetitionListId(petition)
-  const petitionSlug = petition.name
+  const petitionName = petition.name
   const urlKey = (petitionListId
                   ? `petitions/list${petitionListId}/signatures`
-                  : `petitions/${petitionSlug}/signatures`)
+                  : `petitions/${petitionName}/signatures`)
   return (dispatch) => {
     dispatch({
       type: actionTypes.FETCH_PETITION_SIGNATURES_REQUEST,
-      name: petitionSlug,
+      name: petitionName,
       page
     })
     const dispatchError = (err) => {
       dispatch({
         type: actionTypes.FETCH_PETITION_SIGNATURES_FAILURE,
         error: err,
-        name: petitionSlug,
+        name: petitionName,
         page
       })
     }
