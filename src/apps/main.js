@@ -10,7 +10,7 @@ const store = configureStore()
 
 function run() {
   ReactDOM.render(
-    <Provider store={store} children={routes(store)} />,
+    <Provider store={store}>{routes(store)}</Provider>,
     document.getElementById('root')
   )
 }
