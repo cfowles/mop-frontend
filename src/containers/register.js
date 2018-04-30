@@ -19,7 +19,7 @@ class Register extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
+    if (nextProps.formErrors) {
       this.setState({ presubmitErrors: null })
     }
     this.password.value = ''
