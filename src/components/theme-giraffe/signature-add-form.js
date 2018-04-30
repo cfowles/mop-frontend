@@ -171,7 +171,7 @@ const SignatureAddForm = ({
       </div>
     )}
     <Link to='/privacy.html' className='sign-form__link'>
-      See Privacy Policy >
+      See Privacy Policy &gt;
     </Link>
   </form>
 )
