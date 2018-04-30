@@ -4,7 +4,7 @@ import Config from '../config'
 export { getStateFullName, getRegions, armedForcesRegions } from './state-abbrev'
 export { countries } from './countries'
 
-export const formatDate = (date) => {
+export const formatDate = date => {
   const monthAbbr = [
     'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
@@ -31,7 +31,7 @@ export const ellipsize = (str, length) => {
   return match[1]
 }
 
-export const text2paraJsx = (str) => {
+export const text2paraJsx = str => {
   const paras = text2paras(str)
   return paras.map((paragraph, i) => {
     const paragraphKey = `p${i}`
@@ -48,7 +48,7 @@ export const splitIntoSpansJsx = str => (
     .map((word, i) => <span key={i}>{word}</span>)
 )
 
-export const moNumber2base62 = (num) => {
+export const moNumber2base62 = num => {
   // This converts a number to base62, and will be used to generate petition redirect urls
   // example: 125962 => 'pju'
   // See petitionShortCode() below
@@ -105,7 +105,7 @@ const userRegex = RegExp('^[-!#$%&\'*+/=?^_`{}|~\\w]+(\\.[-!#$%&\'*+/=?^_`{}|~\\
 const quotedUserRegex = /^"([\001-\010\013\014\016-\037!#-[\]-\177]|\\[\001-\011\013\014\016-\177])*"$/i
 const domainRegex = /^((?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+)(?:[A-Z0-9-]{1,62}[A-Z0-9])$/i
 
-export const isValidEmail = (email) => {
+export const isValidEmail = email => {
   if (!email) { return false }
   const parts = email.split('@')
   if (parts.length !== 2) { return false }

@@ -30,7 +30,7 @@ export const actionTypes = {
 export function loadPetition(petitionSlug, forceReload) {
   const urlKey = `petitions/${petitionSlug}`
   if (global && global.preloadObjects && global.preloadObjects[urlKey]) {
-    return (dispatch) => {
+    return dispatch => {
       dispatch({
         type: actionTypes.FETCH_PETITION_SUCCESS,
         petition: window.preloadObjects[urlKey],
@@ -57,7 +57,7 @@ export function loadPetition(petitionSlug, forceReload) {
     return fetch(`${Config.API_URI}/${urlKey}.json`)
       .catch(rejectNetworkErrorsAs500)
       .then(parseAPIResponse)
-      .then((json) => {
+      .then(json => {
         dispatch({
           type: actionTypes.FETCH_PETITION_SUCCESS,
           petition: json,
@@ -75,7 +75,7 @@ export function loadPetition(petitionSlug, forceReload) {
 }
 
 export function searchPetitions(query, pageNumber, selectState) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({
       type: actionTypes.SEARCH_PETITIONS_REQUEST,
       query,
@@ -89,7 +89,7 @@ export function searchPetitions(query, pageNumber, selectState) {
 
     return fetch(`${Config.API_URI}/search/petitions.json?q=${query}${selState}${page}`)
       .then(
-        (response) => response.json().then((json) => {
+        response => response.json().then(json => {
           dispatch({
             type: actionTypes.SEARCH_PETITIONS_SUCCESS,
             searchResults: json,
@@ -98,7 +98,7 @@ export function searchPetitions(query, pageNumber, selectState) {
             selectState: selState
           })
         }),
-        (err) => {
+        err => {
           dispatch({
             type: actionTypes.SEARCH_PETITIONS_FAILURE,
             error: err
@@ -142,14 +142,14 @@ export function loadTopPetitions(pac, megapartner, forceReload) {
     const queryString = ((query.length) ? `?${query.join('&')}` : '')
     return fetch(`${Config.API_URI}/top-petitions.json${queryString}`)
       .then(
-        (response) => response.json().then((json) => {
+        response => response.json().then(json => {
           dispatch({
             type: actionTypes.FETCH_TOP_PETITIONS_SUCCESS,
             petitions: json._embedded,
             topPetitionsKey
           })
         }),
-        (err) => {
+        err => {
           dispatch({
             type: actionTypes.FETCH_TOP_PETITIONS_FAILURE,
             error: err,
@@ -205,7 +205,7 @@ const signatureSuccess = (dispatch, response, petition, signature, options) => {
 }
 
 export function signPetition(petitionSignature, petition, options) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({
       type: actionTypes.PETITION_SIGNATURE_SUBMIT,
       petition,
@@ -252,7 +252,7 @@ export function signPetition(petitionSignature, petition, options) {
 // This thunk is for development when no backend server is running
 // It is configured to be used in the component when API_WRITEABLE is false
 export function devLocalSignPetition(signature, petition, options) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({
       type: actionTypes.PETITION_SIGNATURE_SUBMIT,
       petition,
@@ -269,8 +269,8 @@ function getPetitionListId(petition) {
   // Since petition signatures are indexed against list_id, it's
   // more efficient to load through that value.
   const petitionListIds = petition.identifiers
-    .filter((ident) => /^list_id:/.test(ident))
-    .map((ident) => ident.substr(8))
+    .filter(ident => /^list_id:/.test(ident))
+    .map(ident => ident.substr(8))
   return (petitionListIds.length ? petitionListIds[0] : null)
 }
 
@@ -309,13 +309,13 @@ export const loadPetitionSignatures = (petition, page = 1) => {
   const urlKey = (petitionListId
                   ? `petitions/list${petitionListId}/signatures`
                   : `petitions/${petitionSlug}/signatures`)
-  return (dispatch) => {
+  return dispatch => {
     dispatch({
       type: actionTypes.FETCH_PETITION_SIGNATURES_REQUEST,
       slug: petitionSlug,
       page
     })
-    const dispatchError = (err) => {
+    const dispatchError = err => {
       dispatch({
         type: actionTypes.FETCH_PETITION_SIGNATURES_FAILURE,
         error: err,
@@ -325,7 +325,7 @@ export const loadPetitionSignatures = (petition, page = 1) => {
     }
     return fetch(`${Config.API_URI}/${urlKey}.json?per_page=10&page=${page}`)
       .then(
-        (response) => response.json().then((json) => {
+        response => response.json().then(json => {
           dispatch({
             type: actionTypes.FETCH_PETITION_SIGNATURES_SUCCESS,
             signatures: json,
@@ -338,7 +338,7 @@ export const loadPetitionSignatures = (petition, page = 1) => {
   }
 }
 
-export const flagPetition = (petitionId, reason) => (dispatch) =>
+export const flagPetition = (petitionId, reason) => dispatch =>
   fetch(`${Config.API_URI}/petitions/${petitionId}/reviews`, {
     method: 'POST',
     headers: {
@@ -347,14 +347,14 @@ export const flagPetition = (petitionId, reason) => (dispatch) =>
     },
     body: stringifyParams({ reason })
   }).then(
-      (response) => {
+      response => {
         dispatch({
           type: actionTypes.FEEDBACK_SUCCESS,
           petitionId,
           reason,
           response })
       },
-      (error) => {
+      error => {
         dispatch({
           type: actionTypes.FEEDBACK_FAILURE,
           petitionId,
@@ -363,7 +363,7 @@ export const flagPetition = (petitionId, reason) => (dispatch) =>
       }
     )
 
-export const flagComment = (commentId) => (dispatch) =>
+export const flagComment = commentId => dispatch =>
   fetch(`${Config.API_URI}/petitions/reviews`, {
     method: 'POST',
     headers: {
@@ -372,13 +372,13 @@ export const flagComment = (commentId) => (dispatch) =>
     },
     body: stringifyParams({ comment_id: commentId })
   }).then(
-      (response) => {
+      response => {
         dispatch({
           type: actionTypes.FEEDBACK_SUCCESS,
           commentId,
           response })
       },
-      (error) => {
+      error => {
         dispatch({
           type: actionTypes.FEEDBACK_FAILURE,
           commentId,
@@ -386,12 +386,12 @@ export const flagComment = (commentId) => (dispatch) =>
       }
     )
 
-export const getSharebanditShareLink = (petitionSharebanditUrl) => {
+export const getSharebanditShareLink = petitionSharebanditUrl => {
   const jsonSampleUrl = petitionSharebanditUrl.replace('/r/0/', '/jsonaction/')
   const fallbackResponse = () => petitionSharebanditUrl
   return fetch(`${jsonSampleUrl}`).then(
-    (success) => success.json().then(
-      (jsonData) => jsonData.shareurl,
+    success => success.json().then(
+      jsonData => jsonData.shareurl,
       fallbackResponse
     ),
     fallbackResponse)

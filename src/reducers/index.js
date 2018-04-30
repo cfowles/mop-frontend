@@ -208,7 +208,7 @@ function userReducer(state = initialUserState, action) {
         const { identifiers } = action.session
         if (identifiers && identifiers.length) {
           newData.signonId = identifiers[0]
-          identifiers.forEach((id) => {
+          identifiers.forEach(id => {
             if (/^(ak|token)?id:/.test(id)) {
               newData.token = id
             }

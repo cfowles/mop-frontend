@@ -9,7 +9,7 @@ export const actionTypes = {
 export function loadOrganization(orgSlug, forceReload) {
   const urlKey = `organizations/${orgSlug}`
   if (global && global.preloadObjects && global.preloadObjects[urlKey]) {
-    return (dispatch) => {
+    return dispatch => {
       dispatch({
         type: actionTypes.FETCH_ORG_SUCCESS,
         org: window.preloadObjects[urlKey],
@@ -35,14 +35,14 @@ export function loadOrganization(orgSlug, forceReload) {
     }
     return fetch(`${Config.API_URI}/${urlKey}.json`)
       .then(
-        (response) => response.json().then((json) => {
+        response => response.json().then(json => {
           dispatch({
             type: actionTypes.FETCH_ORG_SUCCESS,
             org: json,
             slug: json.name || orgSlug
           })
         }),
-        (err) => {
+        err => {
           dispatch({
             type: actionTypes.FETCH_ORG_FAILURE,
             error: err,

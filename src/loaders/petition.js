@@ -14,7 +14,7 @@ const { Promise } = global
 // (sub) component
 
 export const thanksLoader = () =>
-  new Promise((resolve) => {
+  new Promise(resolve => {
     require.ensure([], () => {
       resolve({
         // eslint-disable-next-line global-require
@@ -24,7 +24,7 @@ export const thanksLoader = () =>
   })
 
 export const petitionReportLoader = () =>
-  new Promise((resolve) => {
+  new Promise(resolve => {
     require.ensure([], () => {
       resolve({
         // eslint-disable-next-line global-require

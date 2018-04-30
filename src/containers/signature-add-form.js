@@ -133,7 +133,7 @@ class SignatureAddForm extends React.Component {
   }
 
   updateStateFromValue(field, isCheckbox = false) {
-    return (event) => {
+    return event => {
       const value = isCheckbox ? event.target.checked : event.target.value
       this.setState({
         [field]: value,

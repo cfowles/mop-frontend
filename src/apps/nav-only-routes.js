@@ -11,6 +11,6 @@ export const appLocation = (Config.USE_HASH_BROWSING ? hashHistory : browserHist
 
 export const routes = store => (
   <Router history={appLocation}>
-    <Route path='*' component={Nav} onEnter={(nextState) => { store.dispatch(loadSession(nextState)) }} />
+    <Route path='*' component={Nav} onEnter={nextState => { store.dispatch(loadSession(nextState)) }} />
   </Router>
 )

@@ -31,7 +31,7 @@ describe('Petition loading', () => {
     .get('/petitions/outkast.json')
     .reply(200, samplePetition)
 
-  it('creates FETCH_PETITION_SUCCESS when loading petition', (done) => {
+  it('creates FETCH_PETITION_SUCCESS when loading petition', done => {
     const expectedActions = [
       { type: actionTypes.FETCH_PETITION_REQUEST, slug: 'outkast' },
       { type: actionTypes.FETCH_PETITION_SUCCESS,
