@@ -1,4 +1,4 @@
-export const unwrapReduxComponent = (mountedContext) => (
+export const unwrapReduxComponent = mountedContext => (
   // MountedContext will be something like mount(<Foo ... />)
   // This method gets you the Foo context, unwrapped from its redux and mount wrapper
 

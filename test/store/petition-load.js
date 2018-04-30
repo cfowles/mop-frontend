@@ -1,9 +1,9 @@
 import { expect } from 'chai'
 
-import Config from '../../src/config.js'
+import Config from '../../src/config'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-import { actionTypes, loadPetition } from '../../src/actions/petitionActions.js'
+import { actionTypes, loadPetition } from '../../src/actions/petitionActions'
 import nock from 'nock'
 import samplePetition from '../../local/api/v1/petitions/outkast.json'
 
