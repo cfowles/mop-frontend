@@ -7,7 +7,7 @@ const SignatureListPage = ({ signatures, startNumber }) => (
   <div className='signers'>
     {signatures.map(({ user, comments, comment_id: commentId, created_date: createdDate }, index) => (
       <SignatureListItem
-        key={startNumber + index}
+        key={commentId}
         number={startNumber + index}
         user={user}
         createdDate={createdDate}

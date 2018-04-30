@@ -65,7 +65,7 @@ class CustomTargetSelect extends React.Component {
         <div id='selected_targets_div' className='selected_targets' />
         <div id='more_custom_group'>
           {targets ? targets.map((target, index) => (
-            <div className='checkbox wrapper' key={index}>
+            <div className='checkbox wrapper' key={target.value}>
               <label className='target_label' style={addedTargetStyle}>
                 <input type='checkbox' value={index} checked onChange={this.deleteTarget} />
                 {target.name}, {target.title} &#40;{target.email}&#41;

@@ -45,7 +45,7 @@ export const text2paraJsx = str => {
 export const splitIntoSpansJsx = str => (
   str
     .match(/[\S]+/gi)
-    .map((word, i) => <span key={i}>{word}</span>)
+    .map((word, i) => <span key={i}>{word}</span>) // eslint-disable-line react/no-array-index-key
 )
 
 export const moNumber2base62 = num => {

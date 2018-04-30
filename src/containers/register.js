@@ -76,7 +76,7 @@ class Register extends React.Component {
    */
   errorList() {
     const errors = this.state.presubmitErrors || this.props.formErrors || []
-    return errors.map((error, idx) => <li key={idx}>{error.message}</li>)
+    return errors.map(error => <li key={error.message}>{error.message}</li>)
   }
 
   render() {
