@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { actionTypes as navActionTypes } from '../actions/navActions.js'
+import { actionTypes as navActionTypes } from '../actions/navActions'
 
 const { FETCH_ORG_SUCCESS } = navActionTypes
 

@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
-import { actions as petitionActions } from '../actions/petitionActions.js'
-import { appLocation } from '../routes.js'
+import { actions as petitionActions } from '../actions/petitionActions'
+import { appLocation } from '../routes'
 
 import SearchResultPaginationComponent from 'LegacyTheme/search-result-pagination'
 

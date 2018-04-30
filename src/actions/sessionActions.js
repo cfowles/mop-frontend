@@ -1,4 +1,4 @@
-import Config from '../config.js'
+import Config from '../config'
 
 export const actionTypes = {
   ANONYMOUS_SESSION_START: 'ANONYMOUS_SESSION_START',

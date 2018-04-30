@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import SignatureListPage from 'Theme/signature-list-page'
 import { NextButton, PreviousButton, Pager } from 'Theme/signature-list-pagination'
-import { loadPetitionSignatures } from '../actions/petitionActions.js'
+import { loadPetitionSignatures } from '../actions/petitionActions'
 
 class SignatureList extends React.Component {
   constructor(props) {

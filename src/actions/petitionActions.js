@@ -1,6 +1,6 @@
 import Config from '../config'
 import { getPageLoadTime, stringifyParams, rejectNetworkErrorsAs500, parseAPIResponse, parseSQSApiResponse } from '../lib'
-import { appLocation } from '../routes.js'
+import { appLocation } from '../routes'
 
 export const actionTypes = {
   FETCH_PETITION_REQUEST: 'FETCH_PETITION_REQUEST',

@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 
 import Petition from 'Theme/petition'
 import { LoadableThanks } from '../loaders/'
-import { actions as petitionActions } from '../actions/petitionActions.js'
-import { appLocation } from '../routes.js'
+import { actions as petitionActions } from '../actions/petitionActions'
+import { appLocation } from '../routes'
 
 class SignPetition extends React.Component {
   constructor(props) {

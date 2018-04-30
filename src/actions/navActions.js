@@ -1,4 +1,4 @@
-import Config from '../config.js'
+import Config from '../config'
 
 export const actionTypes = {
   FETCH_ORG_REQUEST: 'FETCH_ORG_REQUEST',

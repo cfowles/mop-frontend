@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import { LoadableThanks } from './index'
-import { actions as petitionActions } from '../actions/petitionActions.js'
+import { actions as petitionActions } from '../actions/petitionActions'
 
 // This component is used in place of the Thanks component,
 // and handles lazy-loading the actual Thanks component (with LoadableThanks)
