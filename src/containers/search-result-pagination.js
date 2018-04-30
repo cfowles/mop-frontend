@@ -10,11 +10,6 @@ import SearchResultPaginationComponent from 'LegacyTheme/search-result-paginatio
 class SearchResultPagination extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      query: props.query || '',
-      selectState: props.selectState || ''
-    }
-
     this.changePage = this.changePage.bind(this)
   }
 
@@ -97,12 +92,8 @@ class SearchResultPagination extends React.Component {
   }
 }
 
-SearchResultPagination.defaultProps = {
-  resultsCount: false
-}
-
 SearchResultPagination.propTypes = {
-  resultsCount: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]).isRequired,
+  resultsCount: PropTypes.number,
   pageSize: PropTypes.number.isRequired,
   currentPage: PropTypes.number.isRequired,
   selectState: PropTypes.string,
