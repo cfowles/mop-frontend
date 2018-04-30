@@ -32,7 +32,7 @@ const PetitionReport = ({ petition, signatureStats }) => (
           <table className='table'>
             <tbody>
               <tr>
-                <th></th>
+                <th />
                 <th>Signers...</th>
                 <th>/Hour</th>
                 <th>/Day</th>

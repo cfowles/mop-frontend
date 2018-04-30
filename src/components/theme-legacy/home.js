@@ -11,7 +11,7 @@ export const Home = ({ isPac }) => (
     <BillBoard />
     <div>
       <SearchBar isLong />
-      <div className='clear'></div>
+      <div className='clear' />
     </div>
 
     <div className='row front-content'>
@@ -25,8 +25,5 @@ export const Home = ({ isPac }) => (
 )
 
 Home.propTypes = {
-  orgName: PropTypes.string,
-  orgData: PropTypes.object,
-  isOrganization: PropTypes.bool,
   isPac: PropTypes.bool
 }

@@ -37,6 +37,7 @@ export const PetitionMessage = ({ outOfDate, petition: p, isFwd }) => (
             <a
               href='https://act.moveon.org/cms/thanks/thanks-your-input'
               target='_blank'
+              rel='noopener noreferrer'
             >
               Click here
             </a>{' '}
