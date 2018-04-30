@@ -8,18 +8,19 @@ import PetitionOverview from 'LegacyTheme/petition-overview'
 import { actions as accountActions } from '../actions/accountActions'
 
 class PetitionCreatorDashboard extends Component {
-  componentWillMount() {
-    const { dispatch } = this.props
-    dispatch(accountActions.loadUserPetitions())
-  }
-
-  onSelectPetition(e) {
+  static onSelectPetition(e) {
     const value = e.target.value
     if (value === 'more' || !value) {
       return appLocation.push('/your_petitions.html')
     }
     return appLocation.push(`/dashboard.html?petition_id=${value}`)
   }
+
+  componentWillMount() {
+    const { dispatch } = this.props
+    dispatch(accountActions.loadUserPetitions())
+  }
+
 
   render() {
     const { petition, userPetitions } = this.props
@@ -33,7 +34,7 @@ class PetitionCreatorDashboard extends Component {
               otherPetitions={userPetitions.filter(
                 p => petition.petition_id !== p.petition_id
               )}
-              onSelectPetition={this.onSelectPetition}
+              onSelectPetition={PetitionCreatorDashboard.onSelectPetition}
             />
           )}
         </div>

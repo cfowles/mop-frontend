@@ -8,6 +8,21 @@ import { actions as petitionActions } from '../actions/petitionActions'
 import { appLocation } from '../routes'
 
 class SignPetition extends React.Component {
+  static checkOrgPathMatches(petition, orgPath) {
+    const { creator } = petition._embedded
+    // Petition has org that doesn't match URL
+    if (creator.source && creator.source !== orgPath) {
+      appLocation.push(`/${creator.source}/sign/${petition.name}`)
+      return false
+    }
+    // URL has org that doesn't match petition
+    if (orgPath && orgPath !== creator.source) {
+      appLocation.push(`/sign/${petition.name}`)
+      return false
+    }
+    return true
+  }
+
   constructor(props) {
     super(props)
     this.state = {
@@ -25,7 +40,7 @@ class SignPetition extends React.Component {
     const { dispatch, params, petition } = this.props
     dispatch(petitionActions.loadPetition(params.petition_slug.split('.')[0]))
     if (petition) {
-      this.checkOrgPathMatches(petition, params.organization)
+      SignPetition.checkOrgPathMatches(petition, params.organization)
     }
   }
 
@@ -39,7 +54,7 @@ class SignPetition extends React.Component {
   componentWillReceiveProps(nextProps) {
     const { params, petition } = nextProps
     if (petition) {
-      this.checkOrgPathMatches(petition, params.organization)
+      SignPetition.checkOrgPathMatches(petition, params.organization)
     }
   }
 
@@ -90,21 +105,6 @@ class SignPetition extends React.Component {
 
   updateWindowDimensions() {
     this.setState({ deviceSize: window.innerWidth < 768 ? 'mobile' : 'desktop' })
-  }
-
-  checkOrgPathMatches(petition, orgPath) {
-    const { creator } = petition._embedded
-    // Petition has org that doesn't match URL
-    if (creator.source && creator.source !== orgPath) {
-      appLocation.push(`/${creator.source}/sign/${petition.name}`)
-      return false
-    }
-    // URL has org that doesn't match petition
-    if (orgPath && orgPath !== creator.source) {
-      appLocation.push(`/sign/${petition.name}`)
-      return false
-    }
-    return true
   }
 
   render() {
