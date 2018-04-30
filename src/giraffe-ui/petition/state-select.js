@@ -28,7 +28,6 @@ export const StateSelect = ({ label, placeholder, onChange, className, onlyState
 
 StateSelect.propTypes = {
   onChange: PropTypes.func,
-  value: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   className: PropTypes.string,
   onlyStates: PropTypes.bool,
   label: PropTypes.string,

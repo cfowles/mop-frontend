@@ -52,7 +52,7 @@ PetitionCard.propTypes = {
 export const Media = ({ imageUrl }) => (
   <div className='petition-card__media'>
     <div className='media'>
-      <img src={imageUrl} role='presentation' />
+      <img src={imageUrl} alt='main' />
     </div>
   </div>
 )
