@@ -35,7 +35,6 @@ class ThanksShim extends React.Component {
       </div>
     )
   }
-
 }
 
 ThanksShim.propTypes = {
