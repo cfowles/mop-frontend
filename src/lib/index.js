@@ -15,7 +15,7 @@ export const formatDate = (date) => {
   return `${monthAbbr[monthIndex]} ${day}, ${year}`
 }
 
-export const text2paras = (str) => str.split(/\n+/)
+export const text2paras = str => str.split(/\n+/)
 
 export const ellipsize = (str, length) => {
   const re = new RegExp(`^(.{0,${length}})(\\s|$)`)
@@ -42,10 +42,10 @@ export const text2paraJsx = (str) => {
 }
 
 // Helps the css work properly
-export const splitIntoSpansJsx = (str) => (
+export const splitIntoSpansJsx = str => (
   str
-  .match(/[\S]+/gi)
-  .map((word, i) => <span key={i}>{word}</span>)
+    .match(/[\S]+/gi)
+    .map((word, i) => <span key={i}>{word}</span>)
 )
 
 export const moNumber2base62 = (num) => {
@@ -56,14 +56,15 @@ export const moNumber2base62 = (num) => {
   const char62s = []
   let numLeft = num
   let tooMany = 13
-  while (numLeft > 0 && --tooMany) {
+  while (numLeft > 0 && tooMany > 0) {
     char62s.push(base62[numLeft % 62])
     numLeft = parseInt(numLeft / 62, 10)
+    tooMany -= 1
   }
   return char62s.reverse().join('')
 }
 
-export const md5ToToken = (responseMd5) => (
+export const md5ToToken = responseMd5 => (
   moNumber2base62(parseInt(responseMd5.slice(0, 12), 16))
 )
 
@@ -150,37 +151,37 @@ export const scrollToTop = () => window && window.scrollTo(0, 0)
 export const rejectNetworkErrorsAs500 = () => Promise.reject({ response_code: 500 })
 
 export const parseAPIResponse = response =>
-  new Promise(resolve => resolve(response.text()))
-    .then(responseBody => {
-      try {
-        const parsedJSON = JSON.parse(responseBody)
-        if (response.ok) return parsedJSON
-        if (!parsedJSON.response_code) throw Error('Response contains no response code')
-        return Promise.reject(parsedJSON)
-      } catch (error) {
-        // The response contains invalid JSON or no response code
-        return Promise.reject({
-          response_code: 500,
-          error
-        })
+  new Promise(resolve => resolve(response.text())).then(responseBody => {
+    try {
+      const parsedJSON = JSON.parse(responseBody)
+      if (response.ok) return parsedJSON
+      if (!parsedJSON.response_code) {
+        throw Error('Response contains no response code')
       }
-    })
+      return Promise.reject(parsedJSON)
+    } catch (error) {
+      // The response contains invalid JSON or no response code
+      return Promise.reject({
+        response_code: 500,
+        error
+      })
+    }
+  })
 
 export const parseSQSApiResponse = response =>
-  new Promise(resolve => resolve(response.text()))
-    .then(responseBody => {
-      try {
-        const parsedJSON = JSON.parse(responseBody)
-        if (response.ok && !parsedJSON.Error) return parsedJSON
-        return Promise.reject({
-          response_code: 500,
-          error: parsedJSON
-        })
-      } catch (error) {
-        // The response contains invalid JSON or no response code
-        return Promise.reject({
-          response_code: 500,
-          error
-        })
-      }
-    })
+  new Promise(resolve => resolve(response.text())).then(responseBody => {
+    try {
+      const parsedJSON = JSON.parse(responseBody)
+      if (response.ok && !parsedJSON.Error) return parsedJSON
+      return Promise.reject({
+        response_code: 500,
+        error: parsedJSON
+      })
+    } catch (error) {
+      // The response contains invalid JSON or no response code
+      return Promise.reject({
+        response_code: 500,
+        error
+      })
+    }
+  })
