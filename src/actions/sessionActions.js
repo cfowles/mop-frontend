@@ -34,7 +34,7 @@ function identify(id) {
 function callSessionApi(tokens) {
   return (dispatch) => {
     const args = Object.keys(tokens)
-      .map((k) => ((tokens[k]) ? `${encodeURIComponent(k)}=${encodeURIComponent(tokens[k])}` : ''))
+      .map(k => ((tokens[k]) ? `${encodeURIComponent(k)}=${encodeURIComponent(tokens[k])}` : ''))
       .join('&')
     const queryString = (args && args !== '&') ? `?${args}` : ''
     fetch(`${Config.API_URI}/user/session.json${queryString}`, {

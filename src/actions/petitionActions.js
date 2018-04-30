@@ -1,4 +1,4 @@
-import Config from '../config.js'
+import Config from '../config'
 import { getPageLoadTime, stringifyParams, rejectNetworkErrorsAs500, parseAPIResponse, parseSQSApiResponse } from '../lib'
 import { appLocation } from '../routes.js'
 
@@ -78,7 +78,9 @@ export function searchPetitions(query, pageNumber, selectState) {
   return (dispatch) => {
     dispatch({
       type: actionTypes.SEARCH_PETITIONS_REQUEST,
-      query, pageNumber, selectState
+      query,
+      pageNumber,
+      selectState
     })
 
     const page = pageNumber ? `&page=${pageNumber}` : ''
