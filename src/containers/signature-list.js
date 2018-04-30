@@ -27,14 +27,14 @@ class SignatureList extends React.Component {
 
   nextPage() {
     this.loadSignaturesIfNeeded(this.state.page + 1)
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       page: prevState.page + 1
     }))
   }
 
   previousPage() {
     this.loadSignaturesIfNeeded(this.state.page - 1)
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       page: prevState.page - 1
     }))
   }
@@ -84,7 +84,7 @@ const mapStateToProps = (store, ownProps) => ({
   signatures: store.petitionStore.petitionSignatures[ownProps.petition.name]
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   loadSignatures: (petition, page) =>
     dispatch(loadPetitionSignatures(petition, page))
 })

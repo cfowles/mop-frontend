@@ -43,7 +43,6 @@ class PetitionCreatorDashboard extends Component {
 }
 PetitionCreatorDashboard.propTypes = {
   userPetitions: PropTypes.array,
-  location: PropTypes.object,
   petition: PropTypes.object,
   dispatch: PropTypes.func
 }

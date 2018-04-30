@@ -68,6 +68,7 @@ class SearchResultPagination extends React.Component {
     const startPage = Math.max(1, currentPage - 3)
     const endPage = Math.min(currentPage + 3, numPages)
 
+    // eslint-disable-next-line no-plusplus
     for (let i = startPage; i <= endPage; i++) {
       if (i === currentPage) {
         const url = `find?q=${q}&page=${currentPage}`
@@ -104,7 +105,6 @@ SearchResultPagination.propTypes = {
   resultsCount: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]).isRequired,
   pageSize: PropTypes.number.isRequired,
   currentPage: PropTypes.number.isRequired,
-  searchNavLinks: PropTypes.object.isRequired,
   selectState: PropTypes.string,
   dispatch: PropTypes.func,
   query: PropTypes.string

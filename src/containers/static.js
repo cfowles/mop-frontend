@@ -19,6 +19,7 @@ class Static extends React.Component {
   }
 
   render() {
+    /* eslint-disable react/no-danger */
     const page = this.props.page
     if (!this.props.page) return null
     return (

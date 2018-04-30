@@ -8,7 +8,6 @@ import { actions as petitionActions } from '../actions/petitionActions'
 import { appLocation } from '../routes'
 
 class StateCheckBox extends React.Component {
-
   constructor(props) {
     super(props)
     this.state = {

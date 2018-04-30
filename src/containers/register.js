@@ -26,7 +26,7 @@ class Register extends React.Component {
     this.passwordConfirm.value = ''
   }
 
-    /**
+  /**
    * Validates the form for client side errors.
    * If valid returns true otherwise false.
    * If errors it will update the local state `presubmitErrors`
@@ -85,6 +85,7 @@ class Register extends React.Component {
         <RegisterForm
           errorList={this.errorList}
           handleSubmit={this.handleSubmit}
+          // eslint-disable-next-line no-return-assign
           setRef={input => input && (this[input.name] = input)}
           isSubmitting={this.props.isSubmitting}
         />

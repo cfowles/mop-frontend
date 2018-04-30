@@ -68,6 +68,7 @@ class SignPetition extends React.Component {
 
   setRef({ isMobile }) {
     const formName = isMobile ? 'mobile' : 'desktop'
+    // eslint-disable-next-line no-return-assign
     return input => input && (this[`${formName}-${input.name}Input`] = input)
   }
 

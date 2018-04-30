@@ -21,6 +21,7 @@ class CreatePetition extends React.Component {
   }
 
   setRef(name) {
+    // eslint-disable-next-line no-return-assign
     return input => input && (this[name] = input)
   }
   toggleOpen(section) {
