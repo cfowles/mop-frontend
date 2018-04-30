@@ -113,7 +113,7 @@ function petitionReducer(state = initialPetitionState, action) {
           [slug]: {
             ...state.petitionSignatures[slug],
             // eslint-disable-next-line no-underscore-dangle
-            [page]: signatures._embedded.map((signature) =>
+            [page]: signatures._embedded.map(signature =>
               // eslint-disable-next-line no-underscore-dangle
               Object.assign(signature, { user: signature._embedded.user })
             )
@@ -131,10 +131,10 @@ function petitionReducer(state = initialPetitionState, action) {
       }
       updateData = {
         petitions: Object.assign({}, state.petitions,
-                                 ...petitions.map((topPetition) => ({
-                                   [topPetition.name]: topPetition,
-                                   [topPetition.petition_id]: topPetition
-                                 }))),
+          ...petitions.map(topPetition => ({
+            [topPetition.name]: topPetition,
+            [topPetition.petition_id]: topPetition
+          }))),
         topPetitions: {
           ...state.topPetitions,
           [topPetitionsKey]: petitions.map(topPetition => topPetition.petition_id)
