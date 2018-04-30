@@ -88,8 +88,8 @@ const SignatureAddForm = ({
           />
         ) : (
           <InputBlock
-            name={'region'}
-            label={'Region'}
+            name='region'
+            label='Region'
             onChange={updateStateFromValue('region')}
           />
         )}
@@ -180,16 +180,13 @@ SignatureAddForm.propTypes = {
   submit: PropTypes.func,
   petition: PropTypes.object.isRequired,
   user: PropTypes.object,
-  query: PropTypes.object,
   showAddressFields: PropTypes.bool,
   requireAddressFields: PropTypes.bool,
-  petitionBy: PropTypes.string,
   creator: PropTypes.object,
   onUnrecognize: PropTypes.func,
   showOptinWarning: PropTypes.bool,
   showOptinCheckbox: PropTypes.bool,
   thirdPartyOptin: PropTypes.bool,
-  hiddenOptin: PropTypes.bool,
   volunteer: PropTypes.bool,
   onClickVolunteer: PropTypes.func,
   country: PropTypes.string,
