@@ -295,7 +295,7 @@ const SignatureAddForm = ({
         className='codebox percent-95 hidden-phone moveon-track-click'
       >
         {`<iframe src="https://petitions.moveon.org/embed/widget.html?v=3&name=${
-          petition.slug
+          petition.name
         }" class="moveon-petition" id="petition-embed" width="300px" height="500px"></iframe>`}
       </div>
     </div>

@@ -3,11 +3,19 @@ import PropTypes from 'prop-types'
 
 import { connect } from 'react-redux'
 
-import { appLocation } from '../routes.js'
+import { appLocation } from '../routes'
 import PetitionOverview from 'LegacyTheme/petition-overview'
-import { actions as accountActions } from '../actions/accountActions.js'
+import { actions as accountActions } from '../actions/accountActions'
 
 class PetitionCreatorDashboard extends Component {
+  static onSelectPetition(e) {
+    const value = e.target.value
+    if (value === 'more' || !value) {
+      return appLocation.push('/your_petitions.html')
+    }
+    return appLocation.push(`/dashboard.html?petition_id=${value}`)
+  }
+
   componentDidMount() {
     const { dispatch } = this.props
     dispatch(accountActions.loadUserPetitions())
@@ -17,14 +25,6 @@ class PetitionCreatorDashboard extends Component {
     if (this.props.hasFetched && !this.props.petition) {
       appLocation.push('/no_petition.html')
     }
-  }
-
-  onSelectPetition(e) {
-    const value = e.target.value
-    if (value === 'more' || !value) {
-      return appLocation.push('/your_petitions.html')
-    }
-    return appLocation.push(`/dashboard.html?petition_id=${value}`)
   }
 
   render() {
@@ -39,7 +39,7 @@ class PetitionCreatorDashboard extends Component {
               otherPetitions={userPetitions.filter(
                 p => petition.petition_id !== p.petition_id
               )}
-              onSelectPetition={this.onSelectPetition}
+              onSelectPetition={PetitionCreatorDashboard.onSelectPetition}
             />
           )}
         </div>
@@ -50,7 +50,6 @@ class PetitionCreatorDashboard extends Component {
 PetitionCreatorDashboard.propTypes = {
   userPetitions: PropTypes.array,
   hasFetched: PropTypes.bool,
-  location: PropTypes.object,
   petition: PropTypes.object,
   dispatch: PropTypes.func
 }

@@ -83,6 +83,7 @@ const Petition = ({
 
       <Details>
         <Details.Narrative heading='Background'>
+          {/* eslint-disable-next-line react/no-danger */}
           <div dangerouslySetInnerHTML={{ __html: p.description }} />
         </Details.Narrative>
 

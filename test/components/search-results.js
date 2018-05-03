@@ -20,7 +20,9 @@ describe('<SearchResults />', () => {
   })
 
   it('can render a page of results', () => {
-    const embed = [{ name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }, { name: 'a' }]
+    const embed = [{ short_name: 'a', name: 'a' }, { short_name: 'b', name: 'b' },
+    { short_name: 'c', name: 'c' }, { short_name: 'd', name: 'd' },
+    { short_name: 'e', name: 'e' }]
     const links = { next: '', url: '' }
     const baseStore = createMockStore({ userStore: {}, petitionSearchStore: { searchResults: { _embed: embed, _links: links, count: '10', page_size: 5 } } })
     const props = { pageNumber: '1', query: '', pageSize: 5 }

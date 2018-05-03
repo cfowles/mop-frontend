@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { searchPetitions } from '../actions/petitionActions.js'
+import { searchPetitions } from '../actions/petitionActions'
 
 import SearchResultsComponent from 'LegacyTheme/search-results'
 

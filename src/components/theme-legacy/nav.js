@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-indent */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router'
@@ -73,7 +74,7 @@ const Nav = ({ user, minimal, toggleOpen, onLogout, isOpenMobile, entity }) => {
               </div>
 
               <Link className='btn visible-phone pull-right bump-top-2' onClick={toggleOpen} >
-                <span className='icon-th-list'></span>
+                <span className='icon-th-list' />
               </Link>
 
               {user.signonId ? userLinks : guestLinks}
@@ -102,7 +103,6 @@ const Nav = ({ user, minimal, toggleOpen, onLogout, isOpenMobile, entity }) => {
 
 Nav.propTypes = {
   user: PropTypes.object,
-  cobrand: PropTypes.object,
   minimal: PropTypes.bool,
   toggleOpen: PropTypes.func,
   isOpenMobile: PropTypes.bool,

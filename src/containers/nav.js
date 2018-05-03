@@ -57,8 +57,6 @@ class Nav extends React.Component {
 
 Nav.propTypes = {
   user: PropTypes.object,
-  nav: PropTypes.object,
-  organization: PropTypes.string,
   minimal: PropTypes.bool,
   entity: PropTypes.string,
   dispatch: PropTypes.func

@@ -10,7 +10,7 @@ const SignatureCount = ({ current, goal }) => current !== undefined && (
       NEW goal - We need <span className='progress-goal'>{formatNumber(goal)}</span> signatures.
     </div>
     <div className='progress progress-danger no-bottom-margin'>
-      <div className='bar' style={{ width: percent(current, goal) }}></div>
+      <div className='bar' style={{ width: percent(current, goal) }} />
     </div>
   </div>
 )

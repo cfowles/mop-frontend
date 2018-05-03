@@ -4,10 +4,25 @@ import { connect } from 'react-redux'
 
 import Petition from 'Theme/petition'
 import { LoadableThanks } from '../loaders/'
-import { actions as petitionActions } from '../actions/petitionActions.js'
-import { appLocation } from '../routes.js'
+import { actions as petitionActions } from '../actions/petitionActions'
+import { appLocation } from '../routes'
 
 class SignPetition extends React.Component {
+  static checkOrgPathMatches(petition, orgPath) {
+    const { creator } = petition._embedded
+    // Petition has org that doesn't match URL
+    if (creator.source && creator.source !== orgPath) {
+      appLocation.push(`/${creator.source}/sign/${petition.name}`)
+      return false
+    }
+    // URL has org that doesn't match petition
+    if (orgPath && orgPath !== creator.source) {
+      appLocation.push(`/sign/${petition.name}`)
+      return false
+    }
+    return true
+  }
+
   constructor(props) {
     super(props)
     this.state = {
@@ -25,7 +40,7 @@ class SignPetition extends React.Component {
     const { dispatch, params, petition } = this.props
     dispatch(petitionActions.loadPetition(params.petition_slug.split('.')[0]))
     if (petition) {
-      this.checkOrgPathMatches(petition, params.organization)
+      SignPetition.checkOrgPathMatches(petition, params.organization)
     }
   }
 
@@ -39,7 +54,7 @@ class SignPetition extends React.Component {
   componentWillReceiveProps(nextProps) {
     const { params, petition } = nextProps
     if (petition) {
-      this.checkOrgPathMatches(petition, params.organization)
+      SignPetition.checkOrgPathMatches(petition, params.organization)
     }
   }
 
@@ -68,6 +83,7 @@ class SignPetition extends React.Component {
 
   setRef({ isMobile }) {
     const formName = isMobile ? 'mobile' : 'desktop'
+    // eslint-disable-next-line no-return-assign
     return input => input && (this[`${formName}-${input.name}Input`] = input)
   }
 
@@ -89,22 +105,6 @@ class SignPetition extends React.Component {
 
   updateWindowDimensions() {
     this.setState({ deviceSize: window.innerWidth < 768 ? 'mobile' : 'desktop' })
-  }
-
-  checkOrgPathMatches(petition, orgPath) {
-    const { creator } = petition._embedded
-    // Petition has org that doesn't match URL
-    if (creator.source && creator.source !== orgPath) {
-      appLocation.push(`/${creator.source}/sign/${petition.name}`)
-      return false
-    }
-    // URL has org that doesn't match petition
-    // 2018/2018r are because of this https://github.com/MoveOnOrg/mop-frontend/issues/440
-    if (orgPath && orgPath !== creator.source && orgPath !== '2018' && orgPath !== '2018r') {
-      appLocation.push(`/sign/${petition.name}`)
-      return false
-    }
-    return true
   }
 
   render() {

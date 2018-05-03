@@ -1,11 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router'
 import Config from '../config'
-export const Logo = () => (
-  <Link to='/' className='logo'>
-    <img src={`${Config.STATIC_ROOT}images/logo.svg`} alt='MoveOn Logo' />
-  </Link>
+
+const inlineLogo = document.getElementById('mologo')
+
+export const Logo = ({ className }) => (
+  <a href='https://front.moveon.org/' className={`logo ${className}`}>
+    {inlineLogo ? (
+      <svg alt='MoveOn Logo'>
+        <use xlinkHref='#mologo' />
+      </svg>
+    ) : (
+      <img src={`${Config.STATIC_ROOT}images/logo.svg`} alt='MoveOn Logo' />
+    )}
+  </a>
 )
 
 Logo.propTypes = {

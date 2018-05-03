@@ -12,6 +12,7 @@ module.exports = Object.assign({}, parent, {
     'no-unused-expressions': ['off'],
     'mocha/no-skipped-tests': 'error',
     'mocha/no-exclusive-tests': 'error',
-    'mocha/handle-done-callback': 'warn'
+    'mocha/handle-done-callback': 'warn',
+    'react/no-children-prop': 0
   })
 })

@@ -2,15 +2,15 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 
-import configureStore from '../store/configureStore.js'
-import { routes } from '../routes.js'
+import configureStore from '../store/configureStore'
+import { routes } from '../routes'
 
 // See reducers/index.js for initialState (and all possible transient states
 const store = configureStore()
 
 function run() {
   ReactDOM.render(
-    <Provider store={store} children={routes(store)} />,
+    <Provider store={store}>{routes(store)}</Provider>,
     document.getElementById('root')
   )
 }

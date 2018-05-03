@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import SignatureListPage from 'Theme/signature-list-page'
 import { NextButton, PreviousButton, Pager } from 'Theme/signature-list-pagination'
-import { loadPetitionSignatures } from '../actions/petitionActions.js'
+import { loadPetitionSignatures } from '../actions/petitionActions'
 
 class SignatureList extends React.Component {
   constructor(props) {
@@ -27,14 +27,14 @@ class SignatureList extends React.Component {
 
   nextPage() {
     this.loadSignaturesIfNeeded(this.state.page + 1)
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       page: prevState.page + 1
     }))
   }
 
   previousPage() {
     this.loadSignaturesIfNeeded(this.state.page - 1)
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       page: prevState.page - 1
     }))
   }
@@ -81,10 +81,10 @@ SignatureList.propTypes = {
 }
 
 const mapStateToProps = (store, ownProps) => ({
-  signatures: store.petitionStore.petitionSignatures[ownProps.petition.slug]
+  signatures: store.petitionStore.petitionSignatures[ownProps.petition.name]
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   loadSignatures: (petition, page) =>
     dispatch(loadPetitionSignatures(petition, page))
 })

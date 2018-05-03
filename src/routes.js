@@ -77,8 +77,8 @@ const updateHistoryObject = (historyObj, routes) => {
   historyObj.listen(trackPage)
 }
 
-export const routes = (store) => {
-  const orgLoader = (nextState) => {
+export const routes = store => {
+  const orgLoader = nextState => {
     if (nextState.params && nextState.params.organization) {
       store.dispatch(loadOrganization(nextState.params.organization))
     }

@@ -84,7 +84,7 @@ const RegisterForm = ({ errorList, handleSubmit, setRef, isSubmitting }) => (
               this and other important campaigns by email. If at any time you
               would like to unsubscribe from our email list, you may do so. For
               our complete privacy policy,{' '}
-              <a href='http://petitions.moveon.org/privacy.html' target='_blank'>
+              <a href='http://petitions.moveon.org/privacy.html' target='_blank' rel='noopener noreferrer'>
                 click here
               </a>.
             </p>

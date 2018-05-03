@@ -12,13 +12,13 @@ const updatedHeader = (q, s) => {
   if (q && !s) {
     return (
       <h2 id='title' className='light'>
-        TOP PETITIONS MATCHING '{q}'
+        TOP PETITIONS MATCHING ‘{q}’
       </h2>
     )
   } else if (q && s) {
     return (
       <h2 id='title' className='light'>
-        TOP PETITIONS MATCHING '{q}' FROM {stateFullName}
+        TOP PETITIONS MATCHING ‘{q}’ FROM {stateFullName}
       </h2>
     )
   } else if (s) {
