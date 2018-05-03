@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux'
 import { actionTypes as petitionActionTypes } from '../actions/petitionActions'
-import { actionTypes as sessionActionTypes } from '../actions/sessionActions'
 import { actionTypes as accountActionTypes } from '../actions/accountActions'
 import navStore from './nav'
 import errorReducer from './error'

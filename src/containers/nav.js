@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import NavComponent from 'Theme/nav'
 
-import { actions as sessionActions } from '../actions/sessionActions.js'
+import { actions as sessionActions } from '../actions/sessionActions'
 
 class Nav extends React.Component {
   constructor() {
