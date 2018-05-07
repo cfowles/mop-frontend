@@ -7,6 +7,7 @@ import StateSelect from '../state-select'
 
 const StateTargetSelect = ({
   selected,
+  remove,
   onSelect,
   geoState,
   onChangeGeoState,
@@ -30,13 +31,8 @@ const StateTargetSelect = ({
           <label>
             <input
               type='checkbox'
-              onChange={() =>
-                onSelect({
-                  ...selectedItem,
-                  checked: !selectedItem.checked
-                })
-              }
-              checked={selectedItem.checked}
+              onChange={() => remove(selectedItem)}
+              checked
             />{' '}
             {selectedItem.label}
           </label>
@@ -68,6 +64,7 @@ function mapStateToProps(store, ownProps) {
 
 StateTargetSelect.propTypes = {
   selected: PropTypes.array,
+  remove: PropTypes.func,
   onSelect: PropTypes.func,
   autocompleteItems: PropTypes.array,
   geoState: PropTypes.string,

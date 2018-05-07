@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import LegislatorAutocomplete from './legislator-autocomplete'
 
-const NationalTargetSelect = ({ selected, onSelect, items }) => (
+const NationalTargetSelect = ({ selected, onSelect, remove, items }) => (
   <div>
     <div id='national_group_checkboxes'>
       {selected.map(selectedItem => (
@@ -11,10 +11,8 @@ const NationalTargetSelect = ({ selected, onSelect, items }) => (
           <label>
             <input
               type='checkbox'
-              onChange={() =>
-                onSelect({ ...selectedItem, checked: !selectedItem.checked })
-              }
-              checked={selectedItem.checked}
+              onChange={() => remove(selectedItem)}
+              checked
             />{' '}
             {selectedItem.label}
           </label>
@@ -41,6 +39,7 @@ function mapStateToProps(store) {
 NationalTargetSelect.propTypes = {
   selected: PropTypes.array,
   onSelect: PropTypes.func,
+  remove: PropTypes.func,
   items: PropTypes.array
 }
 
