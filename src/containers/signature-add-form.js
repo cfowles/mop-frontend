@@ -26,6 +26,7 @@ class SignatureAddForm extends React.Component {
       comment: false,
       volunteer: false,
       phone: false,
+      mobile: false,
       validationTried: false,
       thirdparty_optin: props.hiddenOptin || props.showOptinCheckbox,
       hidden_optin: props.hiddenOptin,
@@ -34,8 +35,9 @@ class SignatureAddForm extends React.Component {
     }
     this.validationFunction = {
       email: isValidEmail,
-      zip: zip => /(\d\D*){5}/.test(zip),
-      phone: phone => /(\d\D*){10}/.test(phone) // 10-digits
+      zip: (zip) => /(\d\D*){5}/.test(zip),
+      phone: (phone) => /(\d\D*){10}/.test(phone), // 10-digits
+      mobile: (phone) => /(\d\D*){10}/.test(phone)
     }
 
     this.volunteer = this.volunteer.bind(this)
@@ -77,6 +79,9 @@ class SignatureAddForm extends React.Component {
     }
     if (this.state.phone) {
       osdiSignature.person.phone_numbers = [this.state.phone]
+    }
+    if (this.state.mobile) {
+      osdiSignature.mobile.phone_numbers = [this.state.mobile]
     }
     if (this.state.city) {
       osdiSignature.person.postal_addresses.push({

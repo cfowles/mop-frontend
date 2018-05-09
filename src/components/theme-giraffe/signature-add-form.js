@@ -60,6 +60,22 @@ const SignatureAddForm = ({
 
     {(!hideUntilInteract && showAddressFields) ? (
       <div>
+        <InputBlock
+          name='mobile'
+          label='Mobile'
+          id='mobile'
+          autoComplete='off'
+          onChange={updateStateFromValue('mobile')}
+        />
+        <div className='mobile-opt-in'>
+          <InputBlock
+            name='mobile-opt-in'
+            type='checkbox'
+            onChange={updateStateFromValue('mobileOptIn')}
+            label='Receive mobile alerts from MoveOn. Msg & data rates may apply. Text STOP to 668366 to stop receiving messages. Text HELP to 668366 for more information'
+          />
+          <Link to='https://front.moveon.org/moveon-sms-terms-conditions/'> Terms & Conditions </Link>
+        </div>
         <CountrySelect
           className='override-collapse'
           onChange={onChangeCountry}
