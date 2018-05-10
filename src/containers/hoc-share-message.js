@@ -25,8 +25,8 @@ function generateMailMessage(
   return `Hi,
 ${petitionAbout}
 ${petitionAbout ? '\nThat‘s why ' : ''}I ${actedOn} a petition to ${target}${
-    petitionStatement ? ', which says:\n' : '.'
-  }
+  petitionStatement ? ', which says:\n' : '.'
+}
 ${petitionStatement}
 Will you sign this petition? Click here:
 

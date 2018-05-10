@@ -15,6 +15,7 @@ class SignatureListItem extends React.Component {
   }
 
   flagComment(commentId) {
+    // eslint-disable-next-line no-restricted-globals
     if (confirm('Flag this comment as inappropriate?')) {
       this.props.dispatch(flagComment(commentId))
       this.setState({ flagged: true })

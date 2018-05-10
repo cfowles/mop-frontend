@@ -3,7 +3,7 @@ import nock from 'nock'
 import { expect } from 'chai'
 import { mount } from 'enzyme'
 
-import Config from '../../src/config.js'
+import Config from '../../src/config'
 import ForgotPassword from '../../src/containers/forgot-password'
 import ForgotPasswordForm from 'LegacyTheme/forgot-password-form'
 

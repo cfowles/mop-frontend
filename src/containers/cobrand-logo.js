@@ -60,8 +60,7 @@ const mapStateToProps = ({ navStore, petitionStore }, { params }) => {
 }
 
 CobrandLogo.propTypes = {
-  cobrand: PropTypes.object,
-  link: PropTypes.bool
+  cobrand: PropTypes.object
 }
 
 export default withRouter(connect(mapStateToProps)(CobrandLogo))

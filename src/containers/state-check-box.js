@@ -8,23 +8,17 @@ import { actions as petitionActions } from '../actions/petitionActions'
 import { appLocation } from '../routes'
 
 class StateCheckBox extends React.Component {
-
   constructor(props) {
     super(props)
     this.state = {
-      query: props.query,
-      selectState: props.selectState
+      query: props.query
     }
-    this.stateBoxChecked = this.stateBoxChecked.bind(this)
+    this.stateBoxUnchecked = this.stateBoxUnchecked.bind(this)
   }
 
-  stateBoxChecked(e) {
+  stateBoxUnchecked(e) {
     e.preventDefault()
     const dispatch = this.props.dispatch
-
-    this.setState({
-      selectState: ''
-    })
 
     appLocation.push(`/find/?q=${this.state.query}`)
     const currentPage = 1
@@ -35,7 +29,7 @@ class StateCheckBox extends React.Component {
     return (
       <StateCheckBoxComponent
         selectState={this.props.selectState}
-        onChangeState={this.stateBoxChecked}
+        onChangeState={this.stateBoxUnchecked}
       />
     )
   }
@@ -47,11 +41,4 @@ StateCheckBox.propTypes = {
   query: PropTypes.string
 }
 
-function mapStateToProps(store, ownProps) {
-  return {
-    selectState: ownProps.selectState,
-    query: ownProps.query
-  }
-}
-
-export default connect(mapStateToProps)(StateCheckBox)
+export default connect()(StateCheckBox)

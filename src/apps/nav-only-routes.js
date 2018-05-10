@@ -9,8 +9,8 @@ import Nav from '../containers/nav'
 
 export const appLocation = (Config.USE_HASH_BROWSING ? hashHistory : browserHistory)
 
-export const routes = (store) => (
+export const routes = store => (
   <Router history={appLocation}>
-    <Route path='*' component={Nav} onEnter={(nextState) => { store.dispatch(loadSession(nextState)) }} />
+    <Route path='*' component={Nav} onEnter={nextState => { store.dispatch(loadSession(nextState)) }} />
   </Router>
 )

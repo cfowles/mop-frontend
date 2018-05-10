@@ -1,4 +1,4 @@
-import Config from '../config.js'
+import Config from '../config'
 
 export const actionTypes = {
   ANONYMOUS_SESSION_START: 'ANONYMOUS_SESSION_START',
@@ -8,7 +8,7 @@ export const actionTypes = {
 }
 
 export function unRecognize() {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({
       type: actionTypes.UNRECOGNIZE_USER_SESSION
     })
@@ -32,16 +32,16 @@ function identify(id) {
 }
 
 function callSessionApi(tokens) {
-  return (dispatch) => {
+  return dispatch => {
     const args = Object.keys(tokens)
-      .map((k) => ((tokens[k]) ? `${encodeURIComponent(k)}=${encodeURIComponent(tokens[k])}` : ''))
+      .map(k => ((tokens[k]) ? `${encodeURIComponent(k)}=${encodeURIComponent(tokens[k])}` : ''))
       .join('&')
     const queryString = (args && args !== '&') ? `?${args}` : ''
     fetch(`${Config.API_URI}/user/session.json${queryString}`, {
       credentials: 'include'
     })
     .then(
-      (response) => response.json().then((json) => {
+      response => response.json().then(json => {
         dispatch({
           type: actionTypes.USER_SESSION_START,
           session: json,
@@ -50,7 +50,7 @@ function callSessionApi(tokens) {
         // segment tracking
         if (json && json.identifiers && json.identifiers.length) {
           let trackIdentity = null
-          json.identifiers.forEach((id) => {
+          json.identifiers.forEach(id => {
             if (/^actionkit:/.test(id)) {
               trackIdentity = id.substring('actionkit:'.length)
             }
@@ -58,7 +58,7 @@ function callSessionApi(tokens) {
           identify(trackIdentity)
         }
       }),
-      (err) => {
+      err => {
         dispatch({
           type: actionTypes.USER_SESSION_FAILURE,
           error: err,
@@ -69,7 +69,7 @@ function callSessionApi(tokens) {
   }
 }
 
-export const loadSession = (location) => {
+export const loadSession = location => {
   // Called from Wrapper container, so it's done only once on first-load
 
   // A cookie doesn't actually indicate authenticated -- we just mark the session differently
@@ -94,7 +94,7 @@ export const loadSession = (location) => {
   identify() // anonymous session tracking
 
   // If there was no cookie or tokens, we don't even need to call the api
-  return (dispatch) => {
+  return dispatch => {
     dispatch({
       type: actionTypes.ANONYMOUS_SESSION_START
     })

@@ -125,7 +125,7 @@ describe('<SignatureAddForm />', () => {
       ]
       const mockStoreAnon = createMockStore(storeAnonymous)
 
-      normalProfiles.forEach((profile) => {
+      normalProfiles.forEach(profile => {
         const realProfile = { petition: petitionProfiles[profile.petition], query: profile.query }
         const context = mount(<SignatureAddForm {...realProfile} store={mockStoreAnon} />)
         const component = unwrapReduxComponent(context)
@@ -294,7 +294,7 @@ describe('<SignatureAddForm />', () => {
       'foo.bar@example.com',
       'c\u017Fsaire@example.com',
       'foo@gmail.edu.ca'
-    ]).it('valid email %s', (goodEmail) => {
+    ]).it('valid email %s', goodEmail => {
       expect(isValidEmail(goodEmail)).to.be.equal(true)
     })
     forEach([ // Invalid emails
@@ -307,7 +307,7 @@ describe('<SignatureAddForm />', () => {
       'foo@gmail',
       'foo@@example',
       'fooexample.com'
-    ]).it('invalid email %s', (badEmail) => {
+    ]).it('invalid email %s', badEmail => {
       expect(isValidEmail(badEmail)).to.be.equal(false)
     })
   })

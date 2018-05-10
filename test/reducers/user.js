@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import reducer from '../../src/reducers'
 
-import { actionTypes as accountActionTypes } from '../../src/actions/accountActions.js'
+import { actionTypes as accountActionTypes } from '../../src/actions/accountActions'
 import sampleUserPetions from '../../local/api/v1/user/petitions.json'
 
 const defaultState = reducer(undefined, {})

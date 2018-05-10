@@ -9,6 +9,7 @@ const CountrySelect = ({ value, onChange }) => (
     value={value}
     onChange={onChange}
   >
+    {/* eslint-disable-next-line react/no-array-index-key */}
     {countries.map((name, i) => <option key={i}>{name}</option>)}
   </select>
 )

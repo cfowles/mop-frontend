@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
-import { actionTypes as petitionActionTypes } from '../actions/petitionActions.js'
-import { actionTypes as sessionActionTypes } from '../actions/sessionActions.js'
-import { actionTypes as accountActionTypes } from '../actions/accountActions.js'
+import { actionTypes as petitionActionTypes } from '../actions/petitionActions'
+import { actionTypes as sessionActionTypes } from '../actions/sessionActions'
+import { actionTypes as accountActionTypes } from '../actions/accountActions'
 import navStore from './nav'
 import errorReducer from './error'
 import staticPageReducer from './static-pages'
@@ -113,7 +113,7 @@ function petitionReducer(state = initialPetitionState, action) {
           [slug]: {
             ...state.petitionSignatures[slug],
             // eslint-disable-next-line no-underscore-dangle
-            [page]: signatures._embedded.map((signature) =>
+            [page]: signatures._embedded.map(signature =>
               // eslint-disable-next-line no-underscore-dangle
               Object.assign(signature, { user: signature._embedded.user })
             )
@@ -131,10 +131,10 @@ function petitionReducer(state = initialPetitionState, action) {
       }
       updateData = {
         petitions: Object.assign({}, state.petitions,
-                                 ...petitions.map((topPetition) => ({
-                                   [topPetition.name]: topPetition,
-                                   [topPetition.petition_id]: topPetition
-                                 }))),
+          ...petitions.map(topPetition => ({
+            [topPetition.name]: topPetition,
+            [topPetition.petition_id]: topPetition
+          }))),
         topPetitions: {
           ...state.topPetitions,
           [topPetitionsKey]: petitions.map(topPetition => topPetition.petition_id)
@@ -208,7 +208,7 @@ function userReducer(state = initialUserState, action) {
         const { identifiers } = action.session
         if (identifiers && identifiers.length) {
           newData.signonId = identifiers[0]
-          identifiers.forEach((id) => {
+          identifiers.forEach(id => {
             if (/^(ak|token)?id:/.test(id)) {
               newData.token = id
             }

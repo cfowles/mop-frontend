@@ -1,9 +1,9 @@
 import { expect } from 'chai'
 
-import Config from '../../src/config.js'
+import Config from '../../src/config'
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-import { actionTypes, loadPetition } from '../../src/actions/petitionActions.js'
+import { actionTypes, loadPetition } from '../../src/actions/petitionActions'
 import nock from 'nock'
 import samplePetition from '../../local/api/v1/petitions/outkast.json'
 
@@ -31,7 +31,7 @@ describe('Petition loading', () => {
     .get('/petitions/outkast.json')
     .reply(200, samplePetition)
 
-  it('creates FETCH_PETITION_SUCCESS when loading petition', (done) => {
+  it('creates FETCH_PETITION_SUCCESS when loading petition', done => {
     const expectedActions = [
       { type: actionTypes.FETCH_PETITION_REQUEST, slug: 'outkast' },
       { type: actionTypes.FETCH_PETITION_SUCCESS,

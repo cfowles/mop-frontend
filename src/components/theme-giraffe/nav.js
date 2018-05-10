@@ -67,9 +67,6 @@ const Nav = ({
 }
 
 Nav.propTypes = {
-  user: PropTypes.object,
-  nav: PropTypes.object,
-  organization: PropTypes.string,
   minimal: PropTypes.bool,
   toggleOpen: PropTypes.func,
   close: PropTypes.func,

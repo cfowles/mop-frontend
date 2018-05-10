@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { ThanksNextPetition as ThanksNextPetitionComponent } from 'Theme/thanks-next-petition'
 
-import { appLocation } from '../routes.js'
+import { appLocation } from '../routes'
 
 /* A nice description of how/when this works from the Platform Team:
    You have to click on a share link and have that open in another tab.

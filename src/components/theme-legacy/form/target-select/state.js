@@ -30,7 +30,7 @@ const StateTargetSelect = () => (
         </label>
       </div>
     </div>
-    <div className='autocomplete_selected' id='state_group_autocomplete_selected'></div>
+    <div className='autocomplete_selected' id='state_group_autocomplete_selected' />
     <div id='state_group_autocomplete_wrapper' className='autocomplete_wrapper text wrapper small'>
       <input name='state_group_autocomplete' type='text' className='text autocomplete' id='state_group_autocomplete' placeholder="Or, enter a specific legislator's name" />
     </div>

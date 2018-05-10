@@ -33,7 +33,7 @@ const Footer = ({ entity }) => (
       </div>
       <div className='lh-20 span8 disclaimer bump-top-1'>
         <p>A joint website of MoveOn.org Civic Action and MoveOn.org Political Action.</p>
-        {entity === 'pac' && <p>This tool was licensed to and paid for by <a href='http://pol.moveon.org/'>MoveOn.org Political Action</a>. Not authorized by any candidate or candidate's committee. <Link to='/terms.html'>Terms of Service.</Link></p>}
+        {entity === 'pac' && <p>This tool was licensed to and paid for by <a href='http://pol.moveon.org/'>MoveOn.org Political Action</a>. Not authorized by any candidate or candidate’s committee. <Link to='/terms.html'>Terms of Service.</Link></p>}
         <p><a href='https://civic.moveon.org/'>MoveOn.org Civic Action</a> is a 501(c)(4) organization which primarily focuses on nonpartisan education and advocacy on important national issues. MoveOn.org Political Action is a federal political committee which primarily helps members elect candidates who reflect our values through a variety of activities aimed at influencing the outcome of the next election. MoveOn.org Political Action and MoveOn.org Civic Action are separate organizations.</p>
       </div>
     </div>

@@ -12,8 +12,8 @@ const SearchResults = ({
   query,
   setResultsRef
 }) => {
-  const resultsList = results.map((result, index) => (
-    <div className='result search-page' key={index}>
+  const resultsList = results.map(result => (
+    <div className='result search-page' key={result.short_name}>
       <div className='result-text'>
         <p className='result-name'>
           <a

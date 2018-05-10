@@ -6,7 +6,6 @@ import { PetitionReport as PetitionReportComponent } from 'LegacyTheme/petition-
 import { loadPetition } from '../actions/petitionActions'
 
 class PetitionReport extends React.Component {
-
   componentWillMount() {
     const { petition, location, dispatchLoadPetition } = this.props
     const petitionId = location.query.petition_id
@@ -70,8 +69,8 @@ const mapStateToProps = (store, ownProps) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  dispatchLoadPetition: (petitionId) => dispatch(loadPetition(petitionId))
+const mapDispatchToProps = dispatch => ({
+  dispatchLoadPetition: petitionId => dispatch(loadPetition(petitionId))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PetitionReport)
