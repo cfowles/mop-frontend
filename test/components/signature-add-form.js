@@ -75,7 +75,7 @@ describe('<SignatureAddForm />', () => {
       expect(context.find('input[name="zip"]').length).to.equal(1)
     })
 
-    it('anonymous fields displaying', (done) => {
+    it('anonymous fields displaying', done => {
       const store = createMockStore(storeAnonymous)
       const context = mount(<SignatureAddForm {...propsProfileBase} store={store} />)
       const component = unwrapReduxComponent(context)
