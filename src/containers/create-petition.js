@@ -1,6 +1,7 @@
 import React from 'react'
 
-import CreatePetitionForm from 'LegacyTheme/create-petition-form'
+//import CreatePetitionForm from 'LegacyTheme/create-petition-form'
+import CreatePetitionForm from 'Theme/create-petition-form'
 
 class CreatePetition extends React.Component {
   constructor(props) {
