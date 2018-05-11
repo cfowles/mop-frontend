@@ -4,6 +4,8 @@ import { Link } from 'react-router'
 
 import { CountrySelect, StateSelect } from 'GiraffeUI/petition'
 import { InputBlock } from 'GiraffeUI/input-block'
+import MobileSubscribe from './signature-mobile-subscribe'
+
 import { Submit as Button } from 'GiraffeUI/button'
 
 const SignatureAddForm = ({
@@ -60,22 +62,9 @@ const SignatureAddForm = ({
 
     {(!hideUntilInteract && showAddressFields) ? (
       <div>
-        <InputBlock
-          name='mobile'
-          label='Mobile'
-          id='mobile'
-          autoComplete='off'
-          onChange={updateStateFromValue('mobile')}
+        <MobileSubscribe
+          className='mobile_subscribe'
         />
-        <div className='mobile-opt-in'>
-          <InputBlock
-            name='mobile-opt-in'
-            type='checkbox'
-            onChange={updateStateFromValue('mobileOptIn')}
-            label='Receive mobile alerts from MoveOn. Msg & data rates may apply. Text STOP to 668366 to stop receiving messages. Text HELP to 668366 for more information'
-          />
-          <Link to='https://front.moveon.org/moveon-sms-terms-conditions/'> Terms & Conditions </Link>
-        </div>
         <CountrySelect
           className='override-collapse'
           onChange={onChangeCountry}

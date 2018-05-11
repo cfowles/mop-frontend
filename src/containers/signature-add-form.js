@@ -28,6 +28,7 @@ class SignatureAddForm extends React.Component {
       phone: false,
       mobile: false,
       validationTried: false,
+      mobilesubscribe_optin: false,
       thirdparty_optin: props.hiddenOptin || props.showOptinCheckbox,
       hidden_optin: props.hiddenOptin,
       required: {},
@@ -81,7 +82,7 @@ class SignatureAddForm extends React.Component {
       osdiSignature.person.phone_numbers = [this.state.phone]
     }
     if (this.state.mobile) {
-      osdiSignature.mobile.phone_numbers = [this.state.mobile]
+      osdiSignature.person.phone_numbers = [this.state.mobile]
     }
     if (this.state.city) {
       osdiSignature.person.postal_addresses.push({
@@ -104,7 +105,7 @@ class SignatureAddForm extends React.Component {
     if (referrerData.length) {
       osdiSignature.referrer_data = Object.assign({}, ...referrerData)
     }
-    const customFields = ['thirdparty_optin', 'hidden_optin', 'volunteer']
+    const customFields = ['thirdparty_optin', 'hidden_optin', 'volunteer', 'mobilesubscribe_optin']
     const customData = customFields.filter(k => this.state[k]).map(k => ({ [k]: this.state[k] }))
     if (customData.length) {
       osdiSignature.person.custom_fields = Object.assign({}, ...customData)
