@@ -27,31 +27,34 @@ export const actionTypes = {
   FEEDBACK_FAILURE: 'FEEDBACK_FAILURE'
 }
 
-export function loadPetition(petitionSlug, forceReload) {
-  const urlKey = `petitions/${petitionSlug}`
+/**
+ * Fetches a petition by name (slugified), and dispatches an action to place it in the store
+ * @param {string} petitionName A slugified version of the petition name, as returned by the api
+ * @param {boolean} forceReload Whether we should ignore petitions already in the redux store
+ */
+export function loadPetition(petitionName, forceReload) {
+  const urlKey = `petitions/${petitionName}`
   if (global && global.preloadObjects && global.preloadObjects[urlKey]) {
     return dispatch => {
       dispatch({
         type: actionTypes.FETCH_PETITION_SUCCESS,
-        petition: window.preloadObjects[urlKey],
-        slug: petitionSlug
+        petition: window.preloadObjects[urlKey]
       })
     }
   }
   return (dispatch, getState) => {
     dispatch({
       type: actionTypes.FETCH_PETITION_REQUEST,
-      slug: petitionSlug
+      name: petitionName
     })
     const { petitionStore } = getState()
     if (!forceReload
         && petitionStore
         && petitionStore.petitions
-        && petitionStore.petitions[petitionSlug]) {
+        && petitionStore.petitions[petitionName]) {
       return dispatch({
         type: actionTypes.FETCH_PETITION_SUCCESS,
-        petition: petitionStore.petitions[petitionSlug],
-        slug: petitionSlug
+        petition: petitionStore.petitions[petitionName]
       })
     }
     return fetch(`${Config.API_URI}/${urlKey}.json`)
@@ -60,15 +63,14 @@ export function loadPetition(petitionSlug, forceReload) {
       .then(json => {
         dispatch({
           type: actionTypes.FETCH_PETITION_SUCCESS,
-          petition: json,
-          slug: json.name || petitionSlug
+          petition: json
         })
       })
       .catch(err => {
         dispatch({
           type: actionTypes.FETCH_PETITION_FAILURE,
           error: err,
-          slug: petitionSlug
+          name: petitionName
         })
       })
   }
@@ -264,7 +266,7 @@ export function devLocalSignPetition(signature, petition, options) {
 
 function getPetitionListId(petition) {
   // Every petition has a couple of identifiers
-  // slug, petition_id, and also a list_id
+  // name, petition_id, and also a list_id
   // which is the object in the database that tracks the owner and signers
   // Since petition signatures are indexed against list_id, it's
   // more efficient to load through that value.
@@ -305,21 +307,21 @@ export const recordShareClick = (petition, tracking, medium, source, user) => {
 
 export const loadPetitionSignatures = (petition, page = 1) => {
   const petitionListId = getPetitionListId(petition)
-  const petitionSlug = petition.name
+  const petitionName = petition.name
   const urlKey = (petitionListId
                   ? `petitions/list${petitionListId}/signatures`
-                  : `petitions/${petitionSlug}/signatures`)
+                  : `petitions/${petitionName}/signatures`)
   return dispatch => {
     dispatch({
       type: actionTypes.FETCH_PETITION_SIGNATURES_REQUEST,
-      slug: petitionSlug,
+      name: petitionName,
       page
     })
     const dispatchError = err => {
       dispatch({
         type: actionTypes.FETCH_PETITION_SIGNATURES_FAILURE,
         error: err,
-        slug: petitionSlug,
+        name: petitionName,
         page
       })
     }
@@ -329,7 +331,6 @@ export const loadPetitionSignatures = (petition, page = 1) => {
           dispatch({
             type: actionTypes.FETCH_PETITION_SIGNATURES_SUCCESS,
             signatures: json,
-            slug: petitionSlug,
             page
           })
         }, dispatchError),

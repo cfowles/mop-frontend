@@ -46,19 +46,49 @@ describe('<SignatureAddForm />', () => {
       expect(component.props.user.anonymous).to.be.equal(true)
       expect(context.text().toLowerCase()).to.contain('sign this petition')
     })
-    /* Note: These tests are disabled so we can do some live tests where some of the sign form
-              is hidden. See https://github.com/MoveOnOrg/mop-frontend/issues/459
-    it('anonymous fields displaying', () => {
+
+    it('displays only some fields at first (giraffe only)', () => {
+      if (process.env.THEME !== 'giraffe') return
+
       const store = createMockStore(storeAnonymous)
       const context = mount(<SignatureAddForm {...propsProfileBase} store={store} />)
-      const component = unwrapReduxComponent(context).instance()
-      expect(component.props.user.anonymous).to.be.equal(true)
+
       expect(context.find('input[name="name"]').length).to.equal(1)
       expect(context.find('input[name="email"]').length).to.equal(1)
+      expect(context.find('input[name="address1"]').length).to.equal(0)
+      expect(context.find('input[name="address2"]').length).to.equal(0)
+      expect(context.find('input[name="city"]').length).to.equal(0)
+      expect(context.find('input[name="zip"]').length).to.equal(0)
+      expect(context.find('textarea[name="comment"]').length).to.equal(1)
+    })
+
+    it('shows more fields when a character is typed (giraffe only)', () => {
+      if (process.env.THEME !== 'giraffe') return
+
+      const store = createMockStore(storeAnonymous)
+      const context = mount(<SignatureAddForm {...propsProfileBase} store={store} />)
+      context.find('input[name="name"]').simulate('change', { target: { value: 'Hello' } })
+
       expect(context.find('input[name="address1"]').length).to.equal(1)
       expect(context.find('input[name="address2"]').length).to.equal(1)
       expect(context.find('input[name="city"]').length).to.equal(1)
       expect(context.find('input[name="zip"]').length).to.equal(1)
+    })
+
+    it('anonymous fields displaying', done => {
+      const store = createMockStore(storeAnonymous)
+      const context = mount(<SignatureAddForm {...propsProfileBase} store={store} />)
+      const component = unwrapReduxComponent(context)
+      component.setState({ hideUntilInteract: false }, () => {
+        expect(component.props.user.anonymous).to.be.equal(true)
+        expect(context.find('input[name="name"]').length).to.equal(1)
+        expect(context.find('input[name="email"]').length).to.equal(1)
+        expect(context.find('input[name="address1"]').length).to.equal(1)
+        expect(context.find('input[name="address2"]').length).to.equal(1)
+        expect(context.find('input[name="city"]').length).to.equal(1)
+        expect(context.find('input[name="zip"]').length).to.equal(1)
+        done()
+      })
     })
 
     it('petition with user fields displaying', () => {
@@ -83,6 +113,12 @@ describe('<SignatureAddForm />', () => {
       const context = mount(<SignatureAddForm {...propsProfileBase} store={store} />)
       const component = unwrapReduxComponent(context).instance()
       expect(Boolean(component.props.user.anonymous)).to.be.equal(false)
+
+      const comment = context.find('textarea[name="comment"]')
+      // In giraffe, address fields are hidden until change
+      comment.simulate('change', { target: { value: 'Hello' } })
+
+      expect(comment.length).to.equal(1)
       expect(context.find('input[name="name"]').length).to.equal(0)
       expect(context.find('input[name="email"]').length).to.equal(0)
       expect(context.find('input[name="address1"]').length).to.equal(1)
@@ -96,6 +132,11 @@ describe('<SignatureAddForm />', () => {
       const context = mount(<SignatureAddForm {...propsProfileBase} store={store} />)
       const component = unwrapReduxComponent(context).instance()
       expect(Boolean(component.props.user.anonymous)).to.be.equal(false)
+
+      const comment = context.find('textarea[name="comment"]')
+      // In giraffe, address fields are hidden until change
+      comment.simulate('change', { target: { value: 'Hello' } })
+
       expect(context.find('input[name="name"]').length).to.equal(0)
       expect(context.find('input[name="email"]').length).to.equal(0)
       expect(context.find('input[name="address1"]').length).to.equal(1)
@@ -105,7 +146,7 @@ describe('<SignatureAddForm />', () => {
       // expect(context.find('input[name="state"]').length).to.equal(1);
       expect(context.find('input[name="zip"]').length).to.equal(1)
     })
-    */
+
     it('show optin warning', () => {
       // Should be: megapartner + not recognized user
       const showStore = createMockStore(storeAnonymous)
@@ -189,7 +230,7 @@ describe('<SignatureAddForm />', () => {
               `optin checkbox with user should NOT show for ${JSON.stringify(query)}`
             ).to.equal(0)
     })
-    /*
+
     it('logged in shows unrecognize link', () => {
       const store = createMockStore(storeAkid)
       const context = mount(<SignatureAddForm {...propsProfileBase} store={store} />)
@@ -199,9 +240,6 @@ describe('<SignatureAddForm />', () => {
       expect(context.text()).to.contain('Not Three Stacks? Click here.')
       expect(context.find('input[name="name"]').length).to.equal(0)
       expect(context.find('input[name="email"]').length).to.equal(0)
-      expect(context.find('input[name="address1"]').length).to.equal(1)
-      expect(context.find('input[name="address2"]').length).to.equal(1)
-      expect(context.find('input[name="city"]').length).to.equal(1)
     })
 
     it('logout/unrecognize shows anonymous field list', () => {
@@ -212,26 +250,26 @@ describe('<SignatureAddForm />', () => {
       expect(context.text()).to.not.contain('Click here.')
       expect(context.find('input[name="name"]').length).to.equal(1)
       expect(context.find('input[name="email"]').length).to.equal(1)
-      expect(context.find('input[name="address1"]').length).to.equal(1)
-      expect(context.find('input[name="address2"]').length).to.equal(1)
-      expect(context.find('input[name="city"]').length).to.equal(1)
     })
-    */
   })
   describe('<SignatureAddForm /> stateful tests', () => {
     // THESE ARE TESTS WHERE WE CHANGE THE STATE (FILL IN FORM, ETC)
-    /*
     it('typing incomplete fields submit fails and displays validation error messages', () => {
       const store = createMockStore(storeAnonymous)
       const context = mount(<SignatureAddForm {...propsProfileBase} store={store} />)
       const component = unwrapReduxComponent(context).instance()
       expect(component.state.validationTried).to.be.equal(false)
+
+      const comment = context.find('textarea[name="comment"]')
+      // In giraffe, address fields are hidden until change
+      comment.simulate('change', { target: { value: 'Hello' } })
+
       context.find('button[type="submit"]').simulate('click')
       expect(component.formIsValid()).to.be.equal(false)
       expect(component.state.validationTried).to.be.equal(true)
       expect(context.find('.alert').length).to.equal(6)
     })
-    */
+
     it('adding a non-US address updates requirements to not require state or zip', () => {
       const store = createMockStore(storeAnonymous)
       const context = mount(<SignatureAddForm {...propsProfileBase} store={store} />)
