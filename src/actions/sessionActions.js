@@ -62,10 +62,6 @@ function callSessionApi({ tokens = {}, forceIdentify = false } = {}) {
               trackIdentity = id.substring('actionkit:'.length)
             }
           })
-          if (!trackIdentity) {
-            const anonId = String(Math.random()).substr(2)
-            trackIdentity = `anon${anonId}`
-          }
           identify(trackIdentity, forceIdentify)
         }
       }),
