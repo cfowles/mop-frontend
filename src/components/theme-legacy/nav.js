@@ -19,7 +19,7 @@ const Nav = ({ user, minimal, toggleOpen, isOpenMobile, entity }) => {
         <NavLink to='/admin'>Admin</NavLink>
         <NavLink to='/campaign_tips.html'>Campaign Tips</NavLink>
         <NavLink to='/edit_account.html'>Edit account</NavLink>
-        <NavLink to='/login/do_logout.html?redirect=/index.html'>Logout</NavLink>
+        <NavLink to='/login/do_logout.html'>Logout</NavLink>
         <NavLink to='https://civic.moveon.org/donatec4/creditcard.html?cpn_id=511'>Donate</NavLink>
       </ul>
     </div>

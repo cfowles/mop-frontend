@@ -53,6 +53,11 @@ export const LoadableDashboard = Loadable({
   loading: Loading
 })
 
+export const LoadableNoPetition = Loadable({
+  loader: () => import('LegacyTheme/no-petition'),
+  loading: Loading
+})
+
 export const LoadableStatic = Loadable({
   loader: () => import('../containers/static'),
   loading: Loading

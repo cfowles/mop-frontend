@@ -1,4 +1,5 @@
 import Config from '../config'
+import { appLocation } from '../routes'
 
 export const actionTypes = {
   ANONYMOUS_SESSION_START: 'ANONYMOUS_SESSION_START',
@@ -7,18 +8,24 @@ export const actionTypes = {
   USER_SESSION_FAILURE: 'USER_SESSION_FAILURE'
 }
 
-export function unRecognize() {
+/**
+ * Asynchronously POST to the logout api, mark user as anonymous in the userStore,
+ * and (optionally) push a new route
+ */
+export function unRecognize({ redirect } = {}) {
   return dispatch => {
-    dispatch({
-      type: actionTypes.UNRECOGNIZE_USER_SESSION
+    fetch(`${Config.API_URI}/user/session/logout`, {
+      method: 'POST',
+      credentials: 'include'
     })
+    dispatch({ type: actionTypes.UNRECOGNIZE_USER_SESSION })
+    if (redirect) appLocation.push(redirect)
   }
 }
 
 let hasIdentified = false
-function identify(id) {
-  // segment tracking
-  if (hasIdentified || !window.analytics || !window.analytics.identify) return
+function identify(id, force = false) {
+  if ((!force && hasIdentified) || !window.analytics || !window.analytics.identify) return
 
   if (!id) {
     const anonId = String(Math.random()).substr(2)
@@ -31,7 +38,7 @@ function identify(id) {
   }
 }
 
-function callSessionApi(tokens) {
+function callSessionApi({ tokens = {}, forceIdentify = false } = {}) {
   return dispatch => {
     const args = Object.keys(tokens)
       .map(k => ((tokens[k]) ? `${encodeURIComponent(k)}=${encodeURIComponent(tokens[k])}` : ''))
@@ -55,7 +62,7 @@ function callSessionApi(tokens) {
               trackIdentity = id.substring('actionkit:'.length)
             }
           })
-          identify(trackIdentity)
+          identify(trackIdentity, forceIdentify)
         }
       }),
       err => {
@@ -88,7 +95,7 @@ export const loadSession = location => {
     if (id) {
       tokens.hashedId = id
     }
-    return callSessionApi(tokens)
+    return callSessionApi({ tokens })
   }
 
   identify() // anonymous session tracking
@@ -125,5 +132,6 @@ export const trackPage = () => {
 
 export const actions = {
   unRecognize,
-  loadSession
+  loadSession,
+  callSessionApi
 }

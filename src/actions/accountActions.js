@@ -1,44 +1,86 @@
 import Config from '../config'
+import { parseServerErrors } from '../lib'
+import { actions as sessionActions } from './sessionActions'
 
 export const actionTypes = {
   REGISTER_SUBMIT: 'REGISTER_SUBMIT',
   REGISTER_FAILURE: 'REGISTER_FAILURE',
   REGISTER_SUCCESS: 'REGISTER_SUCCESS',
+  LOGIN_SUBMIT: 'LOGIN_SUBMIT',
+  LOGIN_FAILURE: 'LOGIN_FAILURE',
+  LOGIN_SUCCESS: 'LOGIN_SUCCESS',
   FETCH_USER_PETITIONS_REQUEST: 'FETCH_USER_PETITIONS_REQUEST',
   FETCH_USER_PETITIONS_SUCCESS: 'FETCH_USER_PETITIONS_SUCCESS',
   FETCH_USER_PETITIONS_FAILURE: 'FETCH_USER_PETITIONS_FAILURE'
 }
 
-export function register(fields) {
+function checkSuccess(response) {
+  if (!response.success) {
+    return Promise.reject(response)
+  }
+  return response
+}
+
+export function register(fields, successCallback) {
   return dispatch => {
     dispatch({
       type: actionTypes.REGISTER_SUBMIT
     })
-    return fetch(`${Config.API_URI}/users/register.json`, {
+    return fetch(`${Config.API_URI}/user`, {
       method: 'POST',
-      body: JSON.stringify(fields)
+      credentials: 'same-origin',
+      body: JSON.stringify({ user: fields })
     })
-      .then(response =>
-        response.json().then(() => {
-          // if (false) {
-          //   // login user if valid and route user to https://petitions.moveon.org/no_petition.html
-          //   // otherwise disatch failure with errors
-          //   dispatch({
-          //     type: actionTypes.REGISTER_SUCCESS,
-          //     nice: 'nice'
-          //   })
-          // } else {
-          dispatch({
-            type: actionTypes.REGISTER_FAILURE,
-            formErrors: [{ message: 'failed to register user' }]
-          })
-          // }
+      .then(res => res.json())
+      .then(checkSuccess)
+      .then(() => {
+        dispatch({
+          type: actionTypes.REGISTER_SUCCESS
         })
-      )
-      .catch(() => {
+        dispatch(sessionActions.callSessionApi({ forceIdentity: true }))
+        successCallback()
+      })
+      .catch(err => {
+        let formErrors = [{ message: 'server error: account was not created' }]
+        if (err && err.fields) {
+          formErrors = parseServerErrors(err.fields)
+        }
         dispatch({
           type: actionTypes.REGISTER_FAILURE,
-          formErrors: [{ message: 'server error: account was not created' }]
+          formErrors
+        })
+      })
+  }
+}
+
+export function login(fields, successCallback) {
+  return dispatch => {
+    dispatch({
+      type: actionTypes.LOGIN_SUBMIT
+    })
+    return fetch(`${Config.API_URI}/user/session/login`, {
+      method: 'POST',
+      credentials: 'same-origin',
+      body: JSON.stringify(fields)
+    })
+      .then(res => res.json())
+      .then(checkSuccess)
+      .then(() => {
+        dispatch({
+          type: actionTypes.LOGIN_SUCCESS
+        })
+        dispatch(sessionActions.callSessionApi({ forceIdentity: true }))
+        successCallback()
+      })
+      .catch(() => {
+        dispatch({
+          type: actionTypes.LOGIN_FAILURE,
+          formErrors: [
+            {
+              message:
+                'Login failed: the email address or password you provided was not correct.'
+            }
+          ]
         })
       })
   }
@@ -49,7 +91,7 @@ export function loadUserPetitions() {
     dispatch({
       type: actionTypes.FETCH_USER_PETITIONS_REQUEST
     })
-    return fetch(`${Config.API_URI}/user/petitions.json`)
+    return fetch(`${Config.API_URI}/user/petitions.json`, { credentials: 'include' })
       .then(response => response.json())
       .then(
         json => {
@@ -80,6 +122,7 @@ export function forgotPassword(email) {
 
 export const actions = {
   register,
+  login,
   loadUserPetitions,
   forgotPassword
 }

@@ -16,11 +16,16 @@ class PetitionCreatorDashboard extends Component {
     return appLocation.push(`/dashboard.html?petition_id=${value}`)
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { dispatch } = this.props
     dispatch(accountActions.loadUserPetitions())
   }
 
+  componentDidUpdate() {
+    if (this.props.hasFetched && !this.props.petition) {
+      appLocation.push('/no_petition.html')
+    }
+  }
 
   render() {
     const { petition, userPetitions } = this.props
@@ -44,6 +49,7 @@ class PetitionCreatorDashboard extends Component {
 }
 PetitionCreatorDashboard.propTypes = {
   userPetitions: PropTypes.array,
+  hasFetched: PropTypes.bool,
   petition: PropTypes.object,
   dispatch: PropTypes.func
 }
@@ -64,6 +70,7 @@ function mapStateToProps(store, ownProps) {
   )
   return {
     userPetitions,
+    hasFetched: store.userStore.hasFetchedPetitions,
     petition: getCurrentPetition(
       userPetitions,
       store.petitionStore.petitions,

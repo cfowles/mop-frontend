@@ -48,6 +48,13 @@ export const splitIntoSpansJsx = str => (
     .map((word, i) => <span key={i}>{word}</span>) // eslint-disable-line react/no-array-index-key
 )
 
+export const capitalizeFirstLetter = string =>
+  string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
+
+export const parseServerErrors = errors => Object.keys(errors).map(key => ({
+  message: `${capitalizeFirstLetter(key)}: ${capitalizeFirstLetter(errors[key][0])}`
+}))
+
 export const moNumber2base62 = num => {
   // This converts a number to base62, and will be used to generate petition redirect urls
   // example: 125962 => 'pju'

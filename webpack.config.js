@@ -87,6 +87,9 @@ var config = {
     hot: true,
     historyApiFallback: {
       disableDotRule: true
+    },
+    proxy: {
+      "/api": "http://localhost:8000"
     }
   },
   output: {

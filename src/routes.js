@@ -1,5 +1,5 @@
 import React from 'react'
-import { IndexRoute, Route, Router, browserHistory, hashHistory, match } from 'react-router'
+import { IndexRoute, Route, Redirect, Router, browserHistory, hashHistory, match } from 'react-router'
 
 
 import { Config } from './config'
@@ -13,11 +13,13 @@ import ThanksShim from './loaders/thanks-shim'
 import { Error404 } from 'Theme/error404'
 import { Error500 } from 'Theme/error500'
 import Sign from './containers/sign-petition'
+import Logout from './containers/logout'
 import {
   LoadableHome,
   LoadablePacHome,
   LoadableSearch,
   LoadableDashboard,
+  LoadableNoPetition,
   LoadableCreate,
   LoadableRegister,
   LoadableLogin,
@@ -89,6 +91,7 @@ export const routes = store => {
   const routeHierarchy = (
     <Route path={baseAppPath} component={Wrapper} onChange={onChange}>
       <IndexRoute prodReady component={LoadableHome} />
+      <Redirect from='/index.html' to='/' />
 
       {/* Sign pages are popular entry pages, so they get included in the main bundle (not Loadable)
           petitionName is a slugified name, matching the slugified "name" returned by the api.
@@ -100,14 +103,18 @@ export const routes = store => {
       <Route path='thanks.html' component={ThanksShim} prodReady minimalNav />
       <Route path=':organization/thanks.html' component={ThanksShim} onEnter={orgLoader} prodReady minimalNav />
       <Route path='find' component={LoadableSearch} />
-      <Route path='dashboard.html' component={LoadableDashboard} />
       <Route path='create_start.html' component={LoadableCreate} minimalNav />
       <Route path='petition_report.html' component={LoadablePetitionReport} />
       <Route path=':organization/create_start.html' component={LoadableCreate} onEnter={orgLoader} minimalNav />
       <Route path='login/' component={LoadableLogin} />
       <Route path='login/index.html' component={LoadableLogin} />
+      <Route path='login/do_logout.html' component={Logout} />
       <Route path='login/register.html' component={LoadableRegister} />
       <Route path='login/forgot_password.html' component={LoadableForgotPassword} />
+
+      {/* Authenticated routes (check happens in Wrapper) */}
+      <Route path='dashboard.html' component={LoadableDashboard} authenticated />
+      <Route path='no_petition.html' component={LoadableNoPetition} authenticated />
 
       {/* Static pages with content from wordpress api */}
       <Route path='about.html' component={LoadableStatic} wordpressId={60931} />

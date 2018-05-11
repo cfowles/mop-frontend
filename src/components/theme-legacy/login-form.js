@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 
-const LoginForm = ({ setRef, errorList, handleSubmit }) => (
+const LoginForm = ({ setRef, errorList, handleSubmit, isSubmitting }) => (
   <div className='container'>
     <div className='row'>
       <div className='span6 offset3'>
@@ -29,8 +29,9 @@ const LoginForm = ({ setRef, errorList, handleSubmit }) => (
             <div>
               <div className='bump-bottom-2'>
                 <input
+                  value={isSubmitting ? 'Please wait...' : 'Login'}
+                  disabled={isSubmitting}
                   type='submit'
-                  value='Login'
                   className='button bump-top-2'
                 />
               </div>
@@ -56,7 +57,8 @@ const LoginForm = ({ setRef, errorList, handleSubmit }) => (
 LoginForm.propTypes = {
   errorList: PropTypes.func,
   handleSubmit: PropTypes.func,
-  setRef: PropTypes.func
+  setRef: PropTypes.func,
+  isSubmitting: PropTypes.bool
 }
 
 export default LoginForm

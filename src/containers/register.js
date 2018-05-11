@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import RegisterForm from 'LegacyTheme/register-form'
-import { actions as accountActions } from '../actions/accountActions'
 
+import { actions as accountActions } from '../actions/accountActions'
+import { appLocation } from '../routes'
 import { isValidEmail } from '../lib'
 
 class Register extends React.Component {
@@ -19,11 +20,11 @@ class Register extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.formErrors) {
+    if (nextProps.formErrors.length) {
       this.setState({ presubmitErrors: null })
+      this.password.value = ''
+      this.passwordConfirm.value = ''
     }
-    this.password.value = ''
-    this.passwordConfirm.value = ''
   }
 
   /**
@@ -33,7 +34,7 @@ class Register extends React.Component {
    * @returns {boolean}
    */
   validateForm() {
-    const { name, email, password, passwordConfirm } = this
+    const { name, email, password, passwordConfirm, zip } = this
     const errors = []
     if (!name.value.trim().length) {
       errors.push({ message: 'Missing required entry for the Name field.' })
@@ -50,6 +51,9 @@ class Register extends React.Component {
     } else if (password.value.trim() !== passwordConfirm.value.trim()) {
       errors.push({ message: 'Password and PasswordConfirm fields do not match.' })
     }
+    if (this.props.includeZipAndPhone && !zip.value.trim().length) {
+      errors.push({ message: 'Missing required entry for the ZIP Code field.' })
+    }
     if (errors.length) {
       this.setState({ presubmitErrors: errors })
     }
@@ -58,7 +62,7 @@ class Register extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    const { name, email, password, passwordConfirm } = this
+    const { name, email, password, passwordConfirm, zip, phone } = this
     if (this.validateForm()) {
       const fields = {
         [name.name]: name.value,
@@ -66,7 +70,13 @@ class Register extends React.Component {
         [password.name]: password.value,
         [passwordConfirm.name]: passwordConfirm.value
       }
-      this.props.dispatch(accountActions.register(fields))
+      if (this.props.includeZipAndPhone) {
+        fields[zip.name] = zip.value
+        fields[phone.name] = phone.value
+      }
+
+      const { successCallback, dispatch } = this.props
+      dispatch(accountActions.register(fields, successCallback))
     }
   }
 
@@ -80,30 +90,36 @@ class Register extends React.Component {
   }
 
   render() {
+    const RegisterComponent = this.props.form || RegisterForm // allow overriding the form
     return (
-      <div className='moveon-petitions'>
-        <RegisterForm
-          errorList={this.errorList}
-          handleSubmit={this.handleSubmit}
-          // eslint-disable-next-line no-return-assign
-          setRef={input => input && (this[input.name] = input)}
-          isSubmitting={this.props.isSubmitting}
-        />
-      </div>
+      <RegisterComponent
+        errorList={this.errorList}
+        handleSubmit={this.handleSubmit}
+        // eslint-disable-next-line no-return-assign
+        setRef={input => input && (this[input.name] = input)}
+        isSubmitting={this.props.isSubmitting}
+      />
     )
   }
+}
+
+Register.defaultProps = {
+  successCallback: () => appLocation.push('/no_petition.html')
 }
 
 Register.propTypes = {
   formErrors: PropTypes.array,
   dispatch: PropTypes.func,
-  isSubmitting: PropTypes.bool
+  isSubmitting: PropTypes.bool,
+  form: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
+  includeZipAndPhone: PropTypes.bool,
+  successCallback: PropTypes.func
 }
 
-function mapStateToProps({ accountRegisterStore = {} }) {
+function mapStateToProps({ userStore = {} }) {
   return {
-    formErrors: accountRegisterStore.formErrors || [],
-    isSubmitting: !!accountRegisterStore.isSubmitting
+    formErrors: userStore.registerErrors || [],
+    isSubmitting: !!userStore.isSubmittingRegister
   }
 }
 

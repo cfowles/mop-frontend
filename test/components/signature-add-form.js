@@ -52,7 +52,6 @@ describe('<SignatureAddForm />', () => {
 
       const store = createMockStore(storeAnonymous)
       const context = mount(<SignatureAddForm {...propsProfileBase} store={store} />)
-
       expect(context.find('input[name="name"]').length).to.equal(1)
       expect(context.find('input[name="email"]').length).to.equal(1)
       expect(context.find('input[name="address1"]').length).to.equal(0)
