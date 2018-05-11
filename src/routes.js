@@ -1,5 +1,5 @@
 import React from 'react'
-import { IndexRoute, Route, Router, browserHistory, hashHistory, match } from 'react-router'
+import { IndexRoute, Route, Redirect, Router, browserHistory, hashHistory, match } from 'react-router'
 
 
 import { Config } from './config'
@@ -91,6 +91,7 @@ export const routes = store => {
   const routeHierarchy = (
     <Route path={baseAppPath} component={Wrapper} onChange={onChange}>
       <IndexRoute prodReady component={LoadableHome} />
+      <Redirect from='/index.html' to='/' />
 
       {/* Sign pages are popular entry pages, so they get included in the main bundle (not Loadable) */}
       <Route path='sign/:petition_slug' component={Sign} prodReady />
