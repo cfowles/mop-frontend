@@ -90,7 +90,9 @@ export const routes = store => {
     <Route path={baseAppPath} component={Wrapper} onChange={onChange}>
       <IndexRoute prodReady component={LoadableHome} />
 
-      {/* Sign pages are popular entry pages, so they get included in the main bundle (not Loadable) */}
+      {/* Sign pages are popular entry pages, so they get included in the main bundle (not Loadable)
+          petitionName is a slugified name, matching the slugified "name" returned by the api.
+      */}
       <Route path='sign/:petitionName' component={Sign} prodReady />
       <Route path=':organization/sign/:petitionName' component={Sign} onEnter={orgLoader} prodReady />
 

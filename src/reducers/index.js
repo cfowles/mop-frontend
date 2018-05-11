@@ -10,8 +10,8 @@ import errorReducer from './error'
 import staticPageReducer from './static-pages'
 
 const initialPetitionState = {
-  petitions: {}, // Keyed by name AND petition_id for petition route
-  petitionSignatures: {}, // Keyed by petition name, then page
+  petitions: {}, // Keyed by name (slug) AND petition_id for petition route
+  petitionSignatures: {}, // Keyed by petition name (slug), then page
   signatureStatus: {}, // Keyed by petition_id (because form doesn't have name)
   signatureMessages: {}, // Keyed by petition_id, MessageId value from SQS post
   topPetitions: {}, // Lists of petition IDs keyed by pac then megapartner
@@ -67,7 +67,7 @@ function petitionReducer(state = initialPetitionState, action) {
         ...state,
         petitions: {
           ...state.petitions,
-          // Key it both by id and by name, for different lookup needs
+          // Key it both by id and by name (slug), for different lookup needs
           ...byIdAndName(petition)
         }
       }
@@ -99,7 +99,7 @@ function petitionReducer(state = initialPetitionState, action) {
         ...state,
         petitionSignatures: {
           ...state.petitionSignatures,
-          [petition.name]: {
+          [petition.name]: { // slug
             ...state.petitionSignatures[petition.name],
             [page]: signatures._embedded.map(signature =>
               Object.assign(signature, { user: signature._embedded.user })

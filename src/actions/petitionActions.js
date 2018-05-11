@@ -27,6 +27,11 @@ export const actionTypes = {
   FEEDBACK_FAILURE: 'FEEDBACK_FAILURE'
 }
 
+/**
+ * Fetches a petition by name (slugified), and dispatches an action to place it in the store
+ * @param {string} petitionName A slugified version of the petition name, as returned by the api
+ * @param {boolean} forceReload Whether we should ignore petitions already in the redux store
+ */
 export function loadPetition(petitionName, forceReload) {
   const urlKey = `petitions/${petitionName}`
   if (global && global.preloadObjects && global.preloadObjects[urlKey]) {
