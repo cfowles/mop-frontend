@@ -13,6 +13,7 @@ import ThanksShim from './loaders/thanks-shim'
 import { Error404 } from 'Theme/error404'
 import { Error500 } from 'Theme/error500'
 import Sign from './containers/sign-petition'
+import Logout from './containers/logout'
 import {
   LoadableHome,
   LoadablePacHome,
@@ -104,6 +105,7 @@ export const routes = store => {
       <Route path=':organization/create_start.html' component={LoadableCreate} onEnter={orgLoader} minimalNav />
       <Route path='login/' component={LoadableLogin} />
       <Route path='login/index.html' component={LoadableLogin} />
+      <Route path='login/do_logout.html' component={Logout} />
       <Route path='login/register.html' component={LoadableRegister} />
       <Route path='login/forgot_password.html' component={LoadableForgotPassword} />
 
