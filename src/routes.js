@@ -93,9 +93,11 @@ export const routes = store => {
       <IndexRoute prodReady component={LoadableHome} />
       <Redirect from='/index.html' to='/' />
 
-      {/* Sign pages are popular entry pages, so they get included in the main bundle (not Loadable) */}
-      <Route path='sign/:petition_slug' component={Sign} prodReady />
-      <Route path=':organization/sign/:petition_slug' component={Sign} onEnter={orgLoader} prodReady />
+      {/* Sign pages are popular entry pages, so they get included in the main bundle (not Loadable)
+          petitionName is a slugified name, matching the slugified "name" returned by the api.
+      */}
+      <Route path='sign/:petitionName' component={Sign} prodReady />
+      <Route path=':organization/sign/:petitionName' component={Sign} onEnter={orgLoader} prodReady />
 
       <Route path='pac/' component={LoadablePacHome} prodReady />
       <Route path='thanks.html' component={ThanksShim} prodReady minimalNav />
