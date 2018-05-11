@@ -331,7 +331,8 @@ export const loadPetitionSignatures = (petition, page = 1) => {
           dispatch({
             type: actionTypes.FETCH_PETITION_SIGNATURES_SUCCESS,
             signatures: json,
-            page
+            page,
+            petition
           })
         }, dispatchError),
         dispatchError
