@@ -16,7 +16,6 @@ const SignatureAddForm = ({
   volunteer,
   onClickVolunteer,
   country,
-  mobile,
   onChangeCountry,
   showOptinWarning,
   showOptinCheckbox,
@@ -68,14 +67,14 @@ const SignatureAddForm = ({
           name='mobile'
           label='Mobile'
           onChange={updateStateFromValue('mobile')}
-          placeholder='1-234-5678'
+          placeholder='1-555-555-5555'
         />
-        { displayMobileOptIn ?
+        {displayMobileOptIn ?
           <MobileSubscribe
             className='mobile_subscribe'
-            updateFn={updateStateFromValue('mobilesubscribe_optin',
+            updateFn={updateStateFromValue('mobile_optin',
                 /* isCheckbox: */ true)}
-          /> : '' }
+          /> : ''}
         <CountrySelect
           className='override-collapse'
           onChange={onChangeCountry}
@@ -204,6 +203,8 @@ SignatureAddForm.propTypes = {
   showOptinWarning: PropTypes.bool,
   showOptinCheckbox: PropTypes.bool,
   thirdPartyOptin: PropTypes.bool,
+  displayMobileOptIn: PropTypes.bool,
+  hiddenOptin: PropTypes.bool,
   volunteer: PropTypes.bool,
   onClickVolunteer: PropTypes.func,
   country: PropTypes.string,
