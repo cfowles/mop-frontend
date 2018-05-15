@@ -68,6 +68,7 @@ const SignatureAddForm = ({
           name='mobile'
           label='Mobile'
           onChange={updateStateFromValue('mobile')}
+          placeholder='1-234-5678'
         />
         { displayMobileOptIn ?
           <MobileSubscribe
