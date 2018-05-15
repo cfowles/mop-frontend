@@ -22,6 +22,7 @@ const SignatureAddForm = ({
   thirdPartyOptin,
   displayMobileOptIn,
   showAddressFields,
+  showMobileSignup,
   requireAddressFields,
   onUnrecognize,
   updateStateFromValue,
@@ -63,18 +64,15 @@ const SignatureAddForm = ({
 
     {(!hideUntilInteract && showAddressFields) ? (
       <div>
-        <InputBlock
-          name='phone'
-          label='Mobile'
-          onChange={updateStateFromValue('phone')}
-          placeholder='5555555555'
-        />
-        {displayMobileOptIn ?
+        {(showMobileSignup) ?
           <MobileSubscribe
             className='mobile_subscribe'
-            updateFn={updateStateFromValue('mobile_optin',
+            showBox={displayMobileOptIn}
+            updatePhoneNo={updateStateFromValue('phone')}
+            updateOptIn={updateStateFromValue('mobile_optin',
                 /* isCheckbox: */ true)}
-          /> : ''}
+          /> : ''
+        }
         <CountrySelect
           className='override-collapse'
           onChange={onChangeCountry}
@@ -197,6 +195,7 @@ SignatureAddForm.propTypes = {
   petition: PropTypes.object.isRequired,
   user: PropTypes.object,
   showAddressFields: PropTypes.bool,
+  showMobileSignup: PropTypes.bool,
   requireAddressFields: PropTypes.bool,
   creator: PropTypes.object,
   onUnrecognize: PropTypes.func,

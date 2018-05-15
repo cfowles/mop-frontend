@@ -86,10 +86,18 @@ export const routes = store => {
       store.dispatch(loadOrganization(nextState.params.organization))
     }
   }
+  // const testFn = ({ params }, callback) => {
+  // attached to onEnter in sign/:petitionName route
+  //   if (Config.AB_TEST_ENABLED) {
+  //     const cohort = (Math.random() > 0.5 ? 1 : 2)
+  //     return window.location = `/sign/${params.petitionName}?&cohort=${cohort}`
+  //   }
+  // }
   const onChange = () => {
     store.dispatch(clearError()) // Stop showing any error page
     scrollToTop()
   }
+
   const routeHierarchy = (
     <Route path={baseAppPath} component={Wrapper} onChange={onChange}>
       <IndexRoute prodReady component={LoadableHome} />
@@ -98,6 +106,7 @@ export const routes = store => {
       {/* Sign pages are popular entry pages, so they get included in the main bundle (not Loadable)
           petitionName is a slugified name, matching the slugified "name" returned by the api.
       */}
+
       <Route path='sign/:petitionName' component={Sign} prodReady />
       <Route path=':organization/sign/:petitionName' component={Sign} onEnter={orgLoader} prodReady />
 
