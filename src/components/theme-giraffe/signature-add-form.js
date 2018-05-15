@@ -64,10 +64,10 @@ const SignatureAddForm = ({
     {(!hideUntilInteract && showAddressFields) ? (
       <div>
         <InputBlock
-          name='mobile'
+          name='phone'
           label='Mobile'
-          onChange={updateStateFromValue('mobile')}
-          placeholder='1-555-555-5555'
+          onChange={updateStateFromValue('phone')}
+          placeholder='5555555555'
         />
         {displayMobileOptIn ?
           <MobileSubscribe
