@@ -16,10 +16,12 @@ const SignatureAddForm = ({
   volunteer,
   onClickVolunteer,
   country,
+  mobile,
   onChangeCountry,
   showOptinWarning,
   showOptinCheckbox,
   thirdPartyOptin,
+  displayMobileOptIn,
   showAddressFields,
   requireAddressFields,
   onUnrecognize,
@@ -62,9 +64,15 @@ const SignatureAddForm = ({
 
     {(!hideUntilInteract && showAddressFields) ? (
       <div>
-        <MobileSubscribe
-          className='mobile_subscribe'
+        <InputBlock
+          name='mobile'
+          label='Mobile'
+          onChange={updateStateFromValue('mobile')}
         />
+        { displayMobileOptIn ?
+          <MobileSubscribe
+            className='mobile_subscribe'
+          /> : '' }
         <CountrySelect
           className='override-collapse'
           onChange={onChangeCountry}

@@ -245,6 +245,7 @@ class SignatureAddForm extends React.Component {
         volunteer={this.state.volunteer}
         onClickVolunteer={this.volunteer}
         thirdPartyOptin={this.state.thirdparty_optin}
+        displayMobileOptIn={this.state.mobile}
         country={this.state.country}
         onChangeCountry={event => this.setState({ country: event.target.value })}
         updateStateFromValue={this.updateStateFromValue}
@@ -269,6 +270,7 @@ SignatureAddForm.propTypes = {
   requireAddressFields: PropTypes.bool,
   showOptinWarning: PropTypes.bool,
   showOptinCheckbox: PropTypes.bool,
+  displayMobileOptIn: PropTypes.bool,
   hiddenOptin: PropTypes.bool,
   setRef: PropTypes.func,
   innerRef: PropTypes.func,
