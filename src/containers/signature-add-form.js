@@ -36,9 +36,9 @@ class SignatureAddForm extends React.Component {
     }
     this.validationFunction = {
       email: isValidEmail,
-      zip: (zip) => /(\d\D*){5}/.test(zip),
-      phone: (phone) => /(\d\D*){10}/.test(phone), // 10-digits
-      mobile: (phone) => /(\d\D*){10}/.test(phone)
+      zip: zip => /(\d\D*){5}/.test(zip),
+      phone: phone => /(\d\D*){10}/.test(phone), // 10-digits
+      mobile: mobile => /(\d\D*){10}/.test(mobile)
     }
 
     this.volunteer = this.volunteer.bind(this)
@@ -59,7 +59,8 @@ class SignatureAddForm extends React.Component {
       person: {
         full_name: this.state.name,
         email_addresses: [],
-        postal_addresses: []
+        postal_addresses: [],
+        phone_numbers: []
       }
     }
     if (this.state.comment) {
@@ -79,10 +80,10 @@ class SignatureAddForm extends React.Component {
       osdiSignature.person.identifiers = [user.token]
     }
     if (this.state.phone) {
-      osdiSignature.person.phone_numbers = [this.state.phone]
+      osdiSignature.person.phone_numbers.push({ phone: this.state.phone })
     }
     if (this.state.mobile) {
-      osdiSignature.person.phone_numbers = [this.state.mobile]
+      osdiSignature.person.phone_numbers.push({ mobile: this.state.mobile })
     }
     if (this.state.city) {
       osdiSignature.person.postal_addresses.push({
@@ -270,7 +271,6 @@ SignatureAddForm.propTypes = {
   requireAddressFields: PropTypes.bool,
   showOptinWarning: PropTypes.bool,
   showOptinCheckbox: PropTypes.bool,
-  displayMobileOptIn: PropTypes.bool,
   hiddenOptin: PropTypes.bool,
   setRef: PropTypes.func,
   innerRef: PropTypes.func,

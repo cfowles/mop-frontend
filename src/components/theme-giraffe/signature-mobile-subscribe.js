@@ -20,8 +20,3 @@ MobileSubscribe.propTypes = {
 }
 
 export default MobileSubscribe
-
-// TODO
-// mobile field - if filled in, show message
-// opt in message
-// opt in checkbox should be passed into OSDI record

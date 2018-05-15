@@ -204,7 +204,6 @@ SignatureAddForm.propTypes = {
   showOptinCheckbox: PropTypes.bool,
   thirdPartyOptin: PropTypes.bool,
   displayMobileOptIn: PropTypes.bool,
-  hiddenOptin: PropTypes.bool,
   volunteer: PropTypes.bool,
   onClickVolunteer: PropTypes.func,
   country: PropTypes.string,
