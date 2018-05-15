@@ -72,6 +72,8 @@ const SignatureAddForm = ({
         { displayMobileOptIn ?
           <MobileSubscribe
             className='mobile_subscribe'
+            updateFn={updateStateFromValue('mobilesubscribe_optin',
+                /* isCheckbox: */ true)}
           /> : '' }
         <CountrySelect
           className='override-collapse'
