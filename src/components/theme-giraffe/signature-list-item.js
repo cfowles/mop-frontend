@@ -36,7 +36,6 @@ const SignatureListItem = ({
 
 SignatureListItem.propTypes = {
   user: PropTypes.object,
-  number: PropTypes.number,
   fromLocation: PropTypes.string,
   date: PropTypes.object,
   isFlagged: PropTypes.bool,

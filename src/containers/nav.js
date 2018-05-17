@@ -3,8 +3,6 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import NavComponent from 'Theme/nav'
 
-import { actions as sessionActions } from '../actions/sessionActions.js'
-
 class Nav extends React.Component {
   constructor() {
     super()
@@ -38,7 +36,7 @@ class Nav extends React.Component {
   }
 
   render() {
-    const { user, minimal, entity, dispatch } = this.props
+    const { user, minimal, entity } = this.props
     return (
       <NavComponent
         user={user}
@@ -49,7 +47,6 @@ class Nav extends React.Component {
         isOpenMobile={this.state.isOpenMobile}
         toggleSection={this.toggleSection}
         openSections={this.state.openSections}
-        onLogout={() => dispatch(sessionActions.unRecognize({ redirect: '/' }))}
       />
     )
   }
@@ -57,11 +54,8 @@ class Nav extends React.Component {
 
 Nav.propTypes = {
   user: PropTypes.object,
-  nav: PropTypes.object,
-  organization: PropTypes.string,
   minimal: PropTypes.bool,
-  entity: PropTypes.string,
-  dispatch: PropTypes.func
+  entity: PropTypes.string
 }
 
 function mapStateToProps(store) {

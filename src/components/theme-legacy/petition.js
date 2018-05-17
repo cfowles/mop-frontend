@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-closing-tag-location, jsx-a11y/alt-text */
 import React from 'react'
 import PropTypes from 'prop-types'
 
@@ -25,11 +26,11 @@ const Petition = ({ petition: p, query, petitionBy, outOfDate, adminLink }) => (
             <h1 id='petition-title' className='moveon-bright-red big-title'>{p.title}</h1>
             <p id='by' className='byline lh-20'>
               Petition by <a href={`/contact_creator.html?petition_id=${p.petition_id}`} className='underline'>
-                  {petitionBy}
+                {petitionBy}
               </a>
             </p>
             <p id='to-target' className='lh-14 bump-top-1 bump-bottom-1 margin-0 disclaimer'>To be delivered to <span className='all-targets'><strong>
-                {p.target.map((t) => t.name).join(', ')}</strong></span></p>
+              {p.target.map(t => t.name).join(', ')}</strong></span></p>
           </div>
           <div id='pet-statement-box' className='lh-36 blockquote'>
             <h3 className='visible-phone moveon-bright-red'>Petition Statement</h3>
@@ -39,7 +40,7 @@ const Petition = ({ petition: p, query, petitionBy, outOfDate, adminLink }) => (
           <SignatureCount current={p.total_signatures} goal={p.signature_goal} />
         </div>
 
-        <div className='clear'></div>
+        <div className='clear' />
 
         <div id='pet-explain' className='background-moveon-white bump-top-1 padding-left-2' style={{ marginLeft: '-20px' }}>
           <div className='widget'>
@@ -49,7 +50,8 @@ const Petition = ({ petition: p, query, petitionBy, outOfDate, adminLink }) => (
             {p.featured_image_url ? (
               <img id='pet-image' src={p.featured_image_url} role='presentation' />
             ) : ''}
-            <div dangerouslySetInnerHTML={{ __html: p.description }}></div>
+            {/* eslint-disable-next-line react/no-danger */}
+            <div dangerouslySetInnerHTML={{ __html: p.description }} />
           </div>
 
           <div className='widget hidden-phone'>
@@ -63,8 +65,7 @@ const Petition = ({ petition: p, query, petitionBy, outOfDate, adminLink }) => (
             />
 
             <div>
-              <div id='pet-signers' className='bump-top-1'>
-              </div>
+              <div id='pet-signers' className='bump-top-1' />
               <form id='flag-comment-form' action='/flag_comment.html' method='POST'>
                 <input id='flag-comment-user-id' type='hidden' name='user_id' value='' />
               </form>

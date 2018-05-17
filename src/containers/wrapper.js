@@ -2,10 +2,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
+import { scrollToTop } from '../lib'
 import { loadSession } from '../actions/sessionActions'
-import { checkServerError } from '../actions/serverErrorActions'
-
 import { appLocation } from '../routes'
+import { checkServerError } from '../actions/serverErrorActions'
 
 import { Error404 } from 'Theme/error404'
 import { Error500 } from 'Theme/error500'
@@ -24,6 +24,11 @@ class Wrapper extends React.Component {
   componentDidUpdate() {
     if (hasRouteBool('authenticated', this.props.routes)) {
       this.checkAuthenticationAndRedirect()
+    }
+    if (this.props.error && this.props.error.response_code) {
+      // Normally we scroll to top on route change, however we can display an
+      // error without a route change
+      scrollToTop()
     }
   }
 
@@ -71,9 +76,9 @@ Wrapper.propTypes = {
 }
 
 function mapStateToProps(store, ownProps) {
-  // Fetch the petition only if the route has a `petition_slug` param
-  const petitionSlug = ownProps.params && ownProps.params.petition_slug
-  const petition = petitionSlug && store.petitionStore.petitions[petitionSlug.split('.')[0]]
+  // Fetch the petition only if the route has a `petitionName` param
+  const name = ownProps.params && ownProps.params.petitionName
+  const petition = name && store.petitionStore.petitions[name.split('.')[0]]
 
   return {
     petitionEntity: petition && petition.entity,

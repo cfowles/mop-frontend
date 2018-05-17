@@ -48,7 +48,6 @@ export const PetitionFlag = ({
 }
 
 PetitionFlag.propTypes = {
-  petition: PropTypes.object,
   reasonsArray: PropTypes.array,
   isOpen: PropTypes.bool,
   setOpen: PropTypes.func,

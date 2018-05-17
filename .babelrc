@@ -1,12 +1,16 @@
 {
-  "presets" : ["es2015", "react"],
+  "presets": [["es2015", { "modules": false }], "react"],
   "plugins": [
     ["transform-object-rest-spread", { "useBuiltIns": false }],
     "syntax-dynamic-import"
   ],
   "env": {
     "test": {
-      "plugins": ["webpack-alias", "dynamic-import-node"]
+      "plugins": [
+        "webpack-alias",
+        "dynamic-import-node",
+        "transform-es2015-modules-commonjs"
+      ]
     }
   }
 }

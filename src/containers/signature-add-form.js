@@ -4,12 +4,12 @@ import { connect } from 'react-redux'
 
 import SignatureAddFormComponent from 'Theme/signature-add-form'
 
-import { actions as petitionActions } from '../actions/petitionActions.js'
-import { actions as sessionActions } from '../actions/sessionActions.js'
+import { signPetition, devLocalSignPetition } from '../actions/petitionActions'
+import { actions as sessionActions } from '../actions/sessionActions'
 import { isValidEmail } from '../lib'
+import Config from '../config'
 
 class SignatureAddForm extends React.Component {
-
   constructor(props) {
     super(props)
     this.state = {
@@ -34,8 +34,8 @@ class SignatureAddForm extends React.Component {
     }
     this.validationFunction = {
       email: isValidEmail,
-      zip: (zip) => /(\d\D*){5}/.test(zip),
-      phone: (phone) => /(\d\D*){10}/.test(phone) // 10-digits
+      zip: zip => /(\d\D*){5}/.test(zip),
+      phone: phone => /(\d\D*){10}/.test(phone) // 10-digits
     }
 
     this.volunteer = this.volunteer.bind(this)
@@ -133,7 +133,7 @@ class SignatureAddForm extends React.Component {
   }
 
   updateStateFromValue(field, isCheckbox = false) {
-    return (event) => {
+    return event => {
       const value = isCheckbox ? event.target.checked : event.target.value
       this.setState({
         [field]: value,
@@ -199,9 +199,12 @@ class SignatureAddForm extends React.Component {
   submit(event) {
     event.preventDefault()
     const { dispatch, petition } = this.props
+    // In dev, by default, don't actually call the api
+    const signAction = Config.API_WRITABLE ? signPetition : devLocalSignPetition
+
     if (this.formIsValid()) {
       const osdiSignature = this.getOsdiSignature()
-      dispatch(petitionActions.signPetition(osdiSignature, petition, { redirectOnSuccess: true }))
+      dispatch(signAction(osdiSignature, petition, { redirectOnSuccess: true }))
     }
     return false
   }
@@ -249,7 +252,6 @@ class SignatureAddForm extends React.Component {
       />
     )
   }
-
 }
 
 SignatureAddForm.propTypes = {
@@ -259,8 +261,6 @@ SignatureAddForm.propTypes = {
   query: PropTypes.object,
   showAddressFields: PropTypes.bool,
   requireAddressFields: PropTypes.bool,
-  fromCreator: PropTypes.bool,
-  fromMailing: PropTypes.bool,
   showOptinWarning: PropTypes.bool,
   showOptinCheckbox: PropTypes.bool,
   hiddenOptin: PropTypes.bool,
@@ -283,7 +283,7 @@ function shouldShowAddressFields(user, petition) {
 function mapStateToProps(store, ownProps) {
   const user = store.userStore
   const { petition, query } = ownProps
-  const creator = (petition._embedded && petition._embedded.creator || {})
+  const creator = ((petition._embedded && petition._embedded.creator) || {})
   const source = query.source || ''
 
   const newProps = {

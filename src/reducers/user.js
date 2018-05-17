@@ -1,6 +1,6 @@
-import { actionTypes as sessionActionTypes } from '../actions/sessionActions.js'
-import { actionTypes as accountActionTypes } from '../actions/accountActions.js'
-import { actionTypes as petitionActionTypes } from '../actions/petitionActions.js'
+import { actionTypes as sessionActionTypes } from '../actions/sessionActions'
+import { actionTypes as accountActionTypes } from '../actions/accountActions'
+import { actionTypes as petitionActionTypes } from '../actions/petitionActions'
 
 const initialUserState = {
   // Possible keys. none of these are guaranteed to be present/available
@@ -48,7 +48,7 @@ export default function userReducer(state = initialUserState, action) {
         const { identifiers } = action.session
         if (identifiers && identifiers.length) {
           newData.signonId = identifiers[0]
-          identifiers.forEach((id) => {
+          identifiers.forEach(id => {
             if (/^(ak|token)?id:/.test(id)) {
               newData.token = id
             }

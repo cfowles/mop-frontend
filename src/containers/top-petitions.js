@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import HotPetitons from 'Theme/hot-petitions'
-import { loadTopPetitions } from '../actions/petitionActions.js'
+import { loadTopPetitions } from '../actions/petitionActions'
 
 class TopPetitions extends React.Component {
   componentDidMount() {

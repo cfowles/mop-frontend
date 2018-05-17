@@ -97,8 +97,10 @@ let STATES = null
  */
 export function getRegions(onlyStates) {
   if (onlyStates) {
+    // eslint-disable-next-line no-return-assign
     return STATES || (STATES = getRegionsUncached(true))
   }
 
+  // eslint-disable-next-line no-return-assign
   return ALL_REGIONS || (ALL_REGIONS = getRegionsUncached(false))
 }

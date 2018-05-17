@@ -56,7 +56,7 @@ class Login extends React.Component {
    */
   errorList() {
     const errors = this.state.presubmitErrors || this.props.formErrors || []
-    return errors.map((error, idx) => <li key={idx}>{error.message}</li>)
+    return errors.map(error => <li key={error.message}>{error.message}</li>)
   }
 
   handleSubmit(event) {
@@ -83,6 +83,7 @@ class Login extends React.Component {
         <LoginForm
           errorList={this.errorList}
           handleSubmit={this.handleSubmit}
+          // eslint-disable-next-line no-return-assign
           setRef={input => input && (this[input.name] = input)}
           isSubmitting={this.props.isSubmitting}
         />

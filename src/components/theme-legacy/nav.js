@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-indent */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router'
@@ -6,7 +7,7 @@ import classNames from 'classnames'
 import NavLink from 'LegacyTheme/nav-link'
 import CobrandLogo from '../../containers/cobrand-logo'
 
-const Nav = ({ user, minimal, toggleOpen, onLogout, isOpenMobile, entity }) => {
+const Nav = ({ user, minimal, toggleOpen, isOpenMobile, entity }) => {
   const ulClassNames = classNames({
     nav: true,
     'collapse nav-collapse': !isOpenMobile
@@ -18,7 +19,7 @@ const Nav = ({ user, minimal, toggleOpen, onLogout, isOpenMobile, entity }) => {
         <NavLink to='/admin'>Admin</NavLink>
         <NavLink to='/campaign_tips.html'>Campaign Tips</NavLink>
         <NavLink to='/edit_account.html'>Edit account</NavLink>
-        <NavLink onClick={onLogout}>Logout</NavLink>
+        <NavLink to='/login/do_logout.html'>Logout</NavLink>
         <NavLink to='https://civic.moveon.org/donatec4/creditcard.html?cpn_id=511'>Donate</NavLink>
       </ul>
     </div>
@@ -73,7 +74,7 @@ const Nav = ({ user, minimal, toggleOpen, onLogout, isOpenMobile, entity }) => {
               </div>
 
               <Link className='btn visible-phone pull-right bump-top-2' onClick={toggleOpen} >
-                <span className='icon-th-list'></span>
+                <span className='icon-th-list' />
               </Link>
 
               {user.signonId ? userLinks : guestLinks}
@@ -102,12 +103,10 @@ const Nav = ({ user, minimal, toggleOpen, onLogout, isOpenMobile, entity }) => {
 
 Nav.propTypes = {
   user: PropTypes.object,
-  cobrand: PropTypes.object,
   minimal: PropTypes.bool,
   toggleOpen: PropTypes.func,
   isOpenMobile: PropTypes.bool,
-  entity: PropTypes.string,
-  onLogout: PropTypes.func
+  entity: PropTypes.string
 }
 
 export default Nav

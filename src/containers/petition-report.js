@@ -2,11 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { PetitionReportComponent } from 'LegacyTheme/petition-report'
+import { PetitionReport as PetitionReportComponent } from 'LegacyTheme/petition-report'
 import { loadPetition } from '../actions/petitionActions'
 
 class PetitionReport extends React.Component {
-
   componentWillMount() {
     const { petition, location, dispatchLoadPetition } = this.props
     const petitionId = location.query.petition_id
@@ -70,8 +69,8 @@ const mapStateToProps = (store, ownProps) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  dispatchLoadPetition: (petitionId) => dispatch(loadPetition(petitionId))
+const mapDispatchToProps = dispatch => ({
+  dispatchLoadPetition: petitionId => dispatch(loadPetition(petitionId))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PetitionReport)

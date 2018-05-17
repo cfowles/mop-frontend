@@ -8,7 +8,7 @@ const smallStateSelectStyle = {
   width: '100px'
 }
 
-const LongSearchBar = ({ submit, queryValue, stateValue, changeQueryValue, changeQueryState }) =>
+const LongSearchBar = ({ submit, queryValue, stateValue, changeQueryValue, changeQueryState }) => (
   <div id='search-bar-large' className='container'>
     <div className='row'>
       <div className='span7 control-group bump-top-1'>
@@ -25,6 +25,7 @@ const LongSearchBar = ({ submit, queryValue, stateValue, changeQueryValue, chang
       </div>
     </div>
   </div>
+)
 
 LongSearchBar.propTypes = {
   submit: PropTypes.func,

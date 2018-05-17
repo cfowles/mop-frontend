@@ -22,8 +22,7 @@ describe('<SignatureListItem />', () => {
     if (process.env.THEME === 'giraffe') return
 
     const context = mount(<SignatureListItem user={user} createdDate={createdDate} number={1000} />)
-    expect(context.find('.signer-number').text())
-			.to.equal('1000')
+    expect(context.find('.signer-number').text()).to.equal('1000')
   })
 
   it('renders name', () => {

@@ -3,7 +3,7 @@ import nock from 'nock'
 import { expect } from 'chai'
 import { mount } from 'enzyme'
 
-import Config from '../../src/config.js'
+import Config from '../../src/config'
 import ForgotPassword from '../../src/containers/forgot-password'
 import ForgotPasswordForm from 'LegacyTheme/forgot-password-form'
 
@@ -27,7 +27,7 @@ describe('<ForgotPassword />', () => {
 
   it('validates email', () => {
     const login = mount(<ForgotPassword />)
-    login.find('input[name="email"]').node.value = 'foo'
+    login.find('input[name="email"]').instance().value = 'foo'
     login.find('form').simulate('submit')
     expect(login.find('.errors').text()).to.equal(
       'Invalid entry for the Email field.'
@@ -40,7 +40,7 @@ describe('<ForgotPassword />', () => {
       .reply(200)
 
     const login = mount(<ForgotPassword />)
-    login.find('input[name="email"]').node.value = 'foo@example.com'
+    login.find('input[name="email"]').instance().value = 'foo@example.com'
     login.find('form').simulate('submit')
     expect(api.pendingMocks().length).to.equal(0)
   })

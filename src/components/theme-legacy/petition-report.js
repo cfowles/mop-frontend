@@ -4,8 +4,7 @@ import PropTypes from 'prop-types'
 
 import Sparkline from './sparkline'
 
-
-const PetitionReport = ({ petition, signatureStats }) => (
+export const PetitionReport = ({ petition, signatureStats }) => (
   <div className='container background-moveon-white bump-top-1'>
     <div className='row'>
       <div className='span8 offset2'>
@@ -32,7 +31,7 @@ const PetitionReport = ({ petition, signatureStats }) => (
           <table className='table'>
             <tbody>
               <tr>
-                <th></th>
+                <th />
                 <th>Signers...</th>
                 <th>/Hour</th>
                 <th>/Day</th>
@@ -78,5 +77,3 @@ PetitionReport.propTypes = {
   petition: PropTypes.object,
   signatureStats: PropTypes.object
 }
-
-export default PetitionReport

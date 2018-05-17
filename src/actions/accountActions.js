@@ -1,4 +1,4 @@
-import Config from '../config.js'
+import Config from '../config'
 import { parseServerErrors } from '../lib'
 import { actions as sessionActions } from './sessionActions'
 
@@ -37,7 +37,7 @@ export function register(fields, successCallback) {
         dispatch({
           type: actionTypes.REGISTER_SUCCESS
         })
-        dispatch(sessionActions.callSessionApi())
+        dispatch(sessionActions.callSessionApi({ forceIdentity: true }))
         successCallback()
       })
       .catch(err => {
@@ -69,7 +69,7 @@ export function login(fields, successCallback) {
         dispatch({
           type: actionTypes.LOGIN_SUCCESS
         })
-        dispatch(sessionActions.callSessionApi())
+        dispatch(sessionActions.callSessionApi({ forceIdentity: true }))
         successCallback()
       })
       .catch(() => {

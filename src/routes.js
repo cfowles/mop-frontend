@@ -1,5 +1,5 @@
 import React from 'react'
-import { IndexRoute, Route, Router, browserHistory, hashHistory, match } from 'react-router'
+import { IndexRoute, Route, Redirect, Router, browserHistory, hashHistory, match } from 'react-router'
 
 
 import { Config } from './config'
@@ -13,6 +13,7 @@ import ThanksShim from './loaders/thanks-shim'
 import { Error404 } from 'Theme/error404'
 import { Error500 } from 'Theme/error500'
 import Sign from './containers/sign-petition'
+import Logout from './containers/logout'
 import {
   LoadableHome,
   LoadablePacHome,
@@ -77,8 +78,8 @@ const updateHistoryObject = (historyObj, routes) => {
   historyObj.listen(trackPage)
 }
 
-export const routes = (store) => {
-  const orgLoader = (nextState) => {
+export const routes = store => {
+  const orgLoader = nextState => {
     if (nextState.params && nextState.params.organization) {
       store.dispatch(loadOrganization(nextState.params.organization))
     }
@@ -90,10 +91,13 @@ export const routes = (store) => {
   const routeHierarchy = (
     <Route path={baseAppPath} component={Wrapper} onChange={onChange}>
       <IndexRoute prodReady component={LoadableHome} />
+      <Redirect from='/index.html' to='/' />
 
-      {/* Sign pages are popular entry pages, so they get included in the main bundle (not Loadable) */}
-      <Route path='sign/:petition_slug' component={Sign} prodReady />
-      <Route path=':organization/sign/:petition_slug' component={Sign} onEnter={orgLoader} prodReady />
+      {/* Sign pages are popular entry pages, so they get included in the main bundle (not Loadable)
+          petitionName is a slugified name, matching the slugified "name" returned by the api.
+      */}
+      <Route path='sign/:petitionName' component={Sign} prodReady />
+      <Route path=':organization/sign/:petitionName' component={Sign} onEnter={orgLoader} prodReady />
 
       <Route path='pac/' component={LoadablePacHome} prodReady />
       <Route path='thanks.html' component={ThanksShim} prodReady minimalNav />
@@ -104,6 +108,7 @@ export const routes = (store) => {
       <Route path=':organization/create_start.html' component={LoadableCreate} onEnter={orgLoader} minimalNav />
       <Route path='login/' component={LoadableLogin} />
       <Route path='login/index.html' component={LoadableLogin} />
+      <Route path='login/do_logout.html' component={Logout} />
       <Route path='login/register.html' component={LoadableRegister} />
       <Route path='login/forgot_password.html' component={LoadableForgotPassword} />
 

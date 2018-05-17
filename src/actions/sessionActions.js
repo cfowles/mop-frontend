@@ -1,4 +1,4 @@
-import Config from '../config.js'
+import Config from '../config'
 import { appLocation } from '../routes'
 
 export const actionTypes = {
@@ -13,7 +13,7 @@ export const actionTypes = {
  * and (optionally) push a new route
  */
 export function unRecognize({ redirect } = {}) {
-  return (dispatch) => {
+  return dispatch => {
     fetch(`${Config.API_URI}/user/session/logout`, {
       method: 'POST',
       credentials: 'include'
@@ -24,24 +24,31 @@ export function unRecognize({ redirect } = {}) {
 }
 
 let hasIdentified = false
-function identify(id) {
-  if (hasIdentified || !id || !window.analytics || !window.analytics.identify) return
+function identify(id, force = false) {
+  if ((!force && hasIdentified) || !window.analytics || !window.analytics.identify) return
 
-  window.analytics.identify(id) // segment tracking
-  hasIdentified = true
+  if (!id) {
+    const anonId = String(Math.random()).substr(2)
+    window.analytics.identify(`anon${anonId}`)
+    // We don't mark it as hasIdentified in this branch because
+    // if we load up session info, it might be non-anonymous
+  } else {
+    window.analytics.identify(id)
+    hasIdentified = true
+  }
 }
 
-function callSessionApi(tokens = {}) {
-  return (dispatch) => {
+function callSessionApi({ tokens = {}, forceIdentify = false } = {}) {
+  return dispatch => {
     const args = Object.keys(tokens)
-      .map((k) => ((tokens[k]) ? `${encodeURIComponent(k)}=${encodeURIComponent(tokens[k])}` : ''))
+      .map(k => ((tokens[k]) ? `${encodeURIComponent(k)}=${encodeURIComponent(tokens[k])}` : ''))
       .join('&')
     const queryString = (args && args !== '&') ? `?${args}` : ''
     fetch(`${Config.API_URI}/user/session.json${queryString}`, {
       credentials: 'include'
     })
     .then(
-      (response) => response.json().then((json) => {
+      response => response.json().then(json => {
         dispatch({
           type: actionTypes.USER_SESSION_START,
           session: json,
@@ -50,19 +57,15 @@ function callSessionApi(tokens = {}) {
         // segment tracking
         if (json && json.identifiers && json.identifiers.length) {
           let trackIdentity = null
-          json.identifiers.forEach((id) => {
+          json.identifiers.forEach(id => {
             if (/^actionkit:/.test(id)) {
               trackIdentity = id.substring('actionkit:'.length)
             }
           })
-          if (!trackIdentity) {
-            const anonId = String(Math.random()).substr(2)
-            trackIdentity = `anon${anonId}`
-          }
-          identify(trackIdentity)
+          identify(trackIdentity, forceIdentify)
         }
       }),
-      (err) => {
+      err => {
         dispatch({
           type: actionTypes.USER_SESSION_FAILURE,
           error: err,
@@ -73,7 +76,7 @@ function callSessionApi(tokens = {}) {
   }
 }
 
-export const loadSession = (location) => {
+export const loadSession = location => {
   // Called from Wrapper container, so it's done only once on first-load
 
   // A cookie doesn't actually indicate authenticated -- we just mark the session differently
@@ -92,10 +95,13 @@ export const loadSession = (location) => {
     if (id) {
       tokens.hashedId = id
     }
-    return callSessionApi(tokens)
+    return callSessionApi({ tokens })
   }
+
+  identify() // anonymous session tracking
+
   // If there was no cookie or tokens, we don't even need to call the api
-  return (dispatch) => {
+  return dispatch => {
     dispatch({
       type: actionTypes.ANONYMOUS_SESSION_START
     })

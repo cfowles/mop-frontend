@@ -13,8 +13,6 @@ const Search = ({ query, selectState, pageNumber }) => (
 )
 
 Search.propTypes = {
-  dispatch: PropTypes.func,
-  params: PropTypes.object,
   query: PropTypes.string,
   pageNumber: PropTypes.string,
   selectState: PropTypes.string

@@ -6,6 +6,7 @@ const reducer = (state = {}, action) => {
   switch (action.type) {
     case staticPageActionTypes.FETCH_PAGE_FAILURE:
     case petitionActionTypes.FETCH_PETITION_FAILURE:
+    case petitionActionTypes.PETITION_SIGNATURE_FAILURE:
     case serverErrorActionTypes.SERVER_ERROR:
       return action.error
     case serverErrorActionTypes.CLEAR_ERROR:

@@ -1,6 +1,6 @@
-import Config from '../config.js'
-import { getPageLoadTime, stringifyParams, rejectNetworkErrorsAs500, parseAPIResponse } from '../lib'
-import { appLocation } from '../routes.js'
+import Config from '../config'
+import { getPageLoadTime, stringifyParams, rejectNetworkErrorsAs500, parseAPIResponse, parseSQSApiResponse } from '../lib'
+import { appLocation } from '../routes'
 
 export const actionTypes = {
   FETCH_PETITION_REQUEST: 'FETCH_PETITION_REQUEST',
@@ -27,58 +27,62 @@ export const actionTypes = {
   FEEDBACK_FAILURE: 'FEEDBACK_FAILURE'
 }
 
-export function loadPetition(petitionSlug, forceReload) {
-  const urlKey = `petitions/${petitionSlug}`
+/**
+ * Fetches a petition by name (slugified), and dispatches an action to place it in the store
+ * @param {string} petitionName A slugified version of the petition name, as returned by the api
+ * @param {boolean} forceReload Whether we should ignore petitions already in the redux store
+ */
+export function loadPetition(petitionName, forceReload) {
+  const urlKey = `petitions/${petitionName}`
   if (global && global.preloadObjects && global.preloadObjects[urlKey]) {
-    return (dispatch) => {
+    return dispatch => {
       dispatch({
         type: actionTypes.FETCH_PETITION_SUCCESS,
-        petition: window.preloadObjects[urlKey],
-        slug: petitionSlug
+        petition: window.preloadObjects[urlKey]
       })
     }
   }
   return (dispatch, getState) => {
     dispatch({
       type: actionTypes.FETCH_PETITION_REQUEST,
-      slug: petitionSlug
+      name: petitionName
     })
     const { petitionStore } = getState()
     if (!forceReload
         && petitionStore
         && petitionStore.petitions
-        && petitionStore.petitions[petitionSlug]) {
+        && petitionStore.petitions[petitionName]) {
       return dispatch({
         type: actionTypes.FETCH_PETITION_SUCCESS,
-        petition: petitionStore.petitions[petitionSlug],
-        slug: petitionSlug
+        petition: petitionStore.petitions[petitionName]
       })
     }
     return fetch(`${Config.API_URI}/${urlKey}.json`)
       .catch(rejectNetworkErrorsAs500)
       .then(parseAPIResponse)
-      .then((json) => {
+      .then(json => {
         dispatch({
           type: actionTypes.FETCH_PETITION_SUCCESS,
-          petition: json,
-          slug: json.name || petitionSlug
+          petition: json
         })
       })
       .catch(err => {
         dispatch({
           type: actionTypes.FETCH_PETITION_FAILURE,
           error: err,
-          slug: petitionSlug
+          name: petitionName
         })
       })
   }
 }
 
 export function searchPetitions(query, pageNumber, selectState) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({
       type: actionTypes.SEARCH_PETITIONS_REQUEST,
-      query, pageNumber, selectState
+      query,
+      pageNumber,
+      selectState
     })
 
     const page = pageNumber ? `&page=${pageNumber}` : ''
@@ -87,7 +91,7 @@ export function searchPetitions(query, pageNumber, selectState) {
 
     return fetch(`${Config.API_URI}/search/petitions.json?q=${query}${selState}${page}`)
       .then(
-        (response) => response.json().then((json) => {
+        response => response.json().then(json => {
           dispatch({
             type: actionTypes.SEARCH_PETITIONS_SUCCESS,
             searchResults: json,
@@ -96,7 +100,7 @@ export function searchPetitions(query, pageNumber, selectState) {
             selectState: selState
           })
         }),
-        (err) => {
+        err => {
           dispatch({
             type: actionTypes.SEARCH_PETITIONS_FAILURE,
             error: err
@@ -140,14 +144,14 @@ export function loadTopPetitions(pac, megapartner, forceReload) {
     const queryString = ((query.length) ? `?${query.join('&')}` : '')
     return fetch(`${Config.API_URI}/top-petitions.json${queryString}`)
       .then(
-        (response) => response.json().then((json) => {
+        response => response.json().then(json => {
           dispatch({
             type: actionTypes.FETCH_TOP_PETITIONS_SUCCESS,
             petitions: json._embedded,
             topPetitionsKey
           })
         }),
-        (err) => {
+        err => {
           dispatch({
             type: actionTypes.FETCH_TOP_PETITIONS_FAILURE,
             error: err,
@@ -183,87 +187,92 @@ export const registerSignatureAndThanks = (petition, signature) => () => {
   }&name=${petition.name}${fromSource}`)
 }
 
+const signatureSuccess = (dispatch, response, petition, signature, options) => {
+  const dispatchData = {
+    type: actionTypes.PETITION_SIGNATURE_SUCCESS,
+    petition,
+    signature
+  }
+  if (response && response.SendMessageResponse) {
+    const sqsResponse = response.SendMessageResponse.SendMessageResult
+    if (sqsResponse) {
+      dispatchData.messageId = sqsResponse.MessageId
+      dispatchData.messageMd5 = sqsResponse.MD5OfMessageBody
+    }
+  }
+  const dispatchResult = dispatch(dispatchData)
+  if (options && options.redirectOnSuccess) {
+    registerSignatureAndThanks(dispatchResult.petition, dispatchResult.signature)(dispatch)
+  }
+}
+
 export function signPetition(petitionSignature, petition, options) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({
       type: actionTypes.PETITION_SIGNATURE_SUBMIT,
       petition,
       signature: petitionSignature
     })
 
-    const completion = (data) => {
-      const finalDispatch = (json) => {
-        const dispatchData = {
-          type: actionTypes.PETITION_SIGNATURE_SUCCESS,
+    const signingEndpoint = ((Config.API_SIGN_PETITION)
+                              ? Config.API_SIGN_PETITION
+                              : `${Config.API_URI}/signatures.json`)
+    const body = petitionSignature
+    const pageLoadTime = getPageLoadTime()
+    if (pageLoadTime) {
+      body.loadTime = pageLoadTime
+    }
+    const fetchArgs = {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      }
+    }
+    if (Config.API_WRITABLE === 'fake') {
+      fetchArgs.method = 'GET'
+      delete fetchArgs.body
+    }
+    fetch(signingEndpoint, fetchArgs)
+      .catch(rejectNetworkErrorsAs500)
+      .then(parseSQSApiResponse)
+      .then(response => {
+        signatureSuccess(dispatch, response, petition, petitionSignature, options)
+      })
+      .catch(err =>
+        dispatch({
+          type: actionTypes.PETITION_SIGNATURE_FAILURE,
           petition,
-          signature: petitionSignature
-        }
-        if (json && json.SendMessageResponse) {
-          const sqsResponse = json.SendMessageResponse.SendMessageResult
-          if (sqsResponse) {
-            dispatchData.messageId = sqsResponse.MessageId
-            dispatchData.messageMd5 = sqsResponse.MD5OfMessageBody
-            // If Error, should we return FAILURE instead?
-            dispatchData.messageError = (sqsResponse.Error
-                                         && sqsResponse.Error.Message)
-          }
-        }
-        const dispatchResult = dispatch(dispatchData)
-        if (options && options.redirectOnSuccess) {
-          registerSignatureAndThanks(dispatchResult.petition, dispatchResult.signature)(dispatch)
-        }
-      }
-      if (data && typeof data.json === 'function') {
-        data.json().then(finalDispatch, finalDispatch)
-      } else {
-        finalDispatch()
-      }
-    }
-    if (Config.API_WRITABLE) {
-      const signingEndpoint = ((Config.API_SIGN_PETITION)
-                               ? Config.API_SIGN_PETITION
-                               : `${Config.API_URI}/signatures.json`)
-      const body = petitionSignature
-      const pageLoadTime = getPageLoadTime()
-      if (pageLoadTime) {
-        body.loadTime = pageLoadTime
-      }
-      const fetchArgs = {
-        method: 'POST',
-        body: JSON.stringify(petitionSignature),
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json'
-        }
-      }
-      if (Config.API_WRITABLE === 'fake') {
-        fetchArgs.method = 'GET'
-        delete fetchArgs.body
-      }
-      fetch(signingEndpoint, fetchArgs)
-        .then(completion, (err) => {
-          dispatch({
-            type: actionTypes.PETITION_SIGNATURE_FAILURE,
-            petition,
-            signature: petitionSignature,
-            error: err
-          })
+          signature: petitionSignature,
+          error: err
         })
-    } else {
-      completion()
-    }
+      )
+  }
+}
+
+// This thunk is for development when no backend server is running
+// It is configured to be used in the component when API_WRITEABLE is false
+export function devLocalSignPetition(signature, petition, options) {
+  return dispatch => {
+    dispatch({
+      type: actionTypes.PETITION_SIGNATURE_SUBMIT,
+      petition,
+      signature
+    })
+    signatureSuccess(dispatch, null, petition, signature, options)
   }
 }
 
 function getPetitionListId(petition) {
   // Every petition has a couple of identifiers
-  // slug, petition_id, and also a list_id
+  // name, petition_id, and also a list_id
   // which is the object in the database that tracks the owner and signers
   // Since petition signatures are indexed against list_id, it's
   // more efficient to load through that value.
   const petitionListIds = petition.identifiers
-    .filter((ident) => /^list_id:/.test(ident))
-    .map((ident) => ident.substr(8))
+    .filter(ident => /^list_id:/.test(ident))
+    .map(ident => ident.substr(8))
   return (petitionListIds.length ? petitionListIds[0] : null)
 }
 
@@ -298,32 +307,32 @@ export const recordShareClick = (petition, tracking, medium, source, user) => {
 
 export const loadPetitionSignatures = (petition, page = 1) => {
   const petitionListId = getPetitionListId(petition)
-  const petitionSlug = petition.slug
+  const petitionName = petition.name
   const urlKey = (petitionListId
                   ? `petitions/list${petitionListId}/signatures`
-                  : `petitions/${petitionSlug}/signatures`)
-  return (dispatch) => {
+                  : `petitions/${petitionName}/signatures`)
+  return dispatch => {
     dispatch({
       type: actionTypes.FETCH_PETITION_SIGNATURES_REQUEST,
-      slug: petitionSlug,
+      name: petitionName,
       page
     })
-    const dispatchError = (err) => {
+    const dispatchError = err => {
       dispatch({
         type: actionTypes.FETCH_PETITION_SIGNATURES_FAILURE,
         error: err,
-        slug: petitionSlug,
+        name: petitionName,
         page
       })
     }
     return fetch(`${Config.API_URI}/${urlKey}.json?per_page=10&page=${page}`)
       .then(
-        (response) => response.json().then((json) => {
+        response => response.json().then(json => {
           dispatch({
             type: actionTypes.FETCH_PETITION_SIGNATURES_SUCCESS,
             signatures: json,
-            slug: petitionSlug,
-            page
+            page,
+            petition
           })
         }, dispatchError),
         dispatchError
@@ -331,7 +340,7 @@ export const loadPetitionSignatures = (petition, page = 1) => {
   }
 }
 
-export const flagPetition = (petitionId, reason) => (dispatch) =>
+export const flagPetition = (petitionId, reason) => dispatch =>
   fetch(`${Config.API_URI}/petitions/${petitionId}/reviews`, {
     method: 'POST',
     headers: {
@@ -340,14 +349,14 @@ export const flagPetition = (petitionId, reason) => (dispatch) =>
     },
     body: stringifyParams({ reason })
   }).then(
-      (response) => {
+      response => {
         dispatch({
           type: actionTypes.FEEDBACK_SUCCESS,
           petitionId,
           reason,
           response })
       },
-      (error) => {
+      error => {
         dispatch({
           type: actionTypes.FEEDBACK_FAILURE,
           petitionId,
@@ -356,7 +365,7 @@ export const flagPetition = (petitionId, reason) => (dispatch) =>
       }
     )
 
-export const flagComment = (commentId) => (dispatch) =>
+export const flagComment = commentId => dispatch =>
   fetch(`${Config.API_URI}/petitions/reviews`, {
     method: 'POST',
     headers: {
@@ -365,13 +374,13 @@ export const flagComment = (commentId) => (dispatch) =>
     },
     body: stringifyParams({ comment_id: commentId })
   }).then(
-      (response) => {
+      response => {
         dispatch({
           type: actionTypes.FEEDBACK_SUCCESS,
           commentId,
           response })
       },
-      (error) => {
+      error => {
         dispatch({
           type: actionTypes.FEEDBACK_FAILURE,
           commentId,
@@ -379,12 +388,12 @@ export const flagComment = (commentId) => (dispatch) =>
       }
     )
 
-export const getSharebanditShareLink = (petitionSharebanditUrl) => {
+export const getSharebanditShareLink = petitionSharebanditUrl => {
   const jsonSampleUrl = petitionSharebanditUrl.replace('/r/0/', '/jsonaction/')
   const fallbackResponse = () => petitionSharebanditUrl
   return fetch(`${jsonSampleUrl}`).then(
-    (success) => success.json().then(
-      (jsonData) => jsonData.shareurl,
+    success => success.json().then(
+      jsonData => jsonData.shareurl,
       fallbackResponse
     ),
     fallbackResponse)

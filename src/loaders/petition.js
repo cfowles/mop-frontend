@@ -1,6 +1,5 @@
 const { Promise } = global
 
-
 // This file should map lazy-loading components in the app.
 
 // A good example is the Thanks page, where we don't want to burden the first
@@ -14,22 +13,22 @@ const { Promise } = global
 // component, and put the rest of the logic inside a src/components
 // (sub) component
 
-
-export const thanksLoader = () => new Promise(resolve => {
-  require.ensure([], () => {
-    resolve({
-      // eslint-disable-next-line global-require
-      Thanks: require('../containers/thanks.js')
+export const thanksLoader = () =>
+  new Promise(resolve => {
+    require.ensure([], () => {
+      resolve({
+        // eslint-disable-next-line global-require
+        Thanks: require('../containers/thanks.js')
+      })
     })
   })
-})
 
-
-export const petitionReportLoader = () => new Promise(resolve => {
-  require.ensure([], () => {
-    resolve({
-      // eslint-disable-next-line global-require
-      petitionReport: require('LegacyTheme/petition-report.js')
+export const petitionReportLoader = () =>
+  new Promise(resolve => {
+    require.ensure([], () => {
+      resolve({
+        // eslint-disable-next-line global-require
+        petitionReport: require('LegacyTheme/petition-report.js')
+      })
     })
   })
-})
