@@ -1,5 +1,5 @@
 import 'whatwg-fetch'
-import Config from '../config.js'
+import Config from '../config'
 
 export const actionTypes = {
   CREATE_PETITION_PREVIEW_SUBMIT: 'CREATE_PETITION_PREVIEW_SUBMIT',
@@ -47,7 +47,7 @@ export function loadTargets(group, geoState) {
 
     return fetch(url)
       .then(
-        (response) => response.json().then((json) => {
+        response => response.json().then(json => {
           dispatch({
             type: actionTypes.FETCH_TARGETS_SUCCESS,
             targets: json,
@@ -56,7 +56,7 @@ export function loadTargets(group, geoState) {
             storeKey
           })
         }),
-        (err) => {
+        err => {
           dispatch({
             type: actionTypes.FETCH_TARGETS_FAILURE,
             error: err,

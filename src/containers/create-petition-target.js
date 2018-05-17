@@ -132,6 +132,8 @@ export class CreatePetitionTarget extends React.Component {
 
   renderGeoState() {
     const { stateOpen, geoState, geoStateSelected } = this.state
+    const { dispatch } = this.props
+    const self = this
     if (!stateOpen) return null
     return (
       <StateTargetSelect
@@ -140,8 +142,8 @@ export class CreatePetitionTarget extends React.Component {
         geoState={geoState}
         onChangeGeoState={event => {
           const { value } = event.target
-          this.props.dispatch(loadTargets('state', value))
-          this.setState({
+          dispatch(loadTargets('state', value))
+          self.setState({
             geoState: value,
             geoStateSelected: STATE.map(obj => ({
               ...obj,
