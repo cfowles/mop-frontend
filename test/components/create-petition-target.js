@@ -11,7 +11,7 @@ describe('<CreatePetitionTarget />', () => {
   it('adds petition targets to the state when selected, and fires onChange', () => {
     const onChange = sinon.spy()
     const component = shallow(
-      <CreatePetitionTargetUnwrapped onChange={onChange} />
+      <CreatePetitionTargetUnwrapped onChange={onChange} dispatch={() => {}} />
     )
     const selectNational = component.instance().onSelect('national')
     const senator = {
@@ -31,7 +31,7 @@ describe('<CreatePetitionTarget />', () => {
   it('modifies existing petition targets to the state when selected, and fires onChange', () => {
     const onChange = sinon.spy()
     const component = shallow(
-      <CreatePetitionTargetUnwrapped onChange={onChange} />
+      <CreatePetitionTargetUnwrapped onChange={onChange} dispatch={() => {}} />
     )
     const selectNational = component.instance().onSelect('national')
     const target = {
