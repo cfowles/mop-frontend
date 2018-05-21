@@ -97,7 +97,7 @@ const Petition = ({
           link={`/contact_creator.html?petition_id=${p.petition_id}`}
         />
         <Share className='petition-details' hasLabels user={user} petition={p} />
-        <Details.Disclaimer />
+        <Details.Disclaimer entity={p.entity} />
       </Details>
     </InfoColumn>
     <SignColumn>
