@@ -52,7 +52,7 @@ describe('<CreatePetition />', () => {
   })
 
   forEach([
-    ['national', 'The entire U.S. House'],
+    ['national', 'Or, enter a specific legislator'],
     ['state', 'Pick your state'],
     ['custom', 'Add another target']
   ]).it('Clicking %s checkbox shows hidden content', (name, text) => {
@@ -61,8 +61,8 @@ describe('<CreatePetition />', () => {
         <CreatePetition />
       </Provider>
     )
-    context.find(`input[name="checkbox_${name}_group"]`).simulate('click')
-    expect(context.find('#target_wrapper').text()).to.contain(text)
+    context.find(`input[name="checkbox_${name}_group"]`).simulate('change', { target: { checked: true } })
+    expect(context.find('#target_wrapper').html()).to.contain(text)
   })
 
   it('typing incomplete fields submit fails and displays validation error messages', () => {
@@ -78,12 +78,7 @@ describe('<CreatePetition />', () => {
   it('has errors when required fields are missing', () => {
     const component = shallow(<CreatePetitionUnwrapped />)
 
-    component.instance().onInputChange({
-      target: {
-        name: 'title',
-        value: 'test'
-      }
-    })
+    component.instance().setState({ title: 'test' })
     component.instance().onPreview({ preventDefault: () => {} })
     expect(component.state('errors').length).to.equal(3)
   })
@@ -97,9 +92,7 @@ describe('<CreatePetition />', () => {
       summary: 'testsummary',
       description: 'testdescription'
     }
-    component.setState({
-      data: petition
-    })
+    component.setState(petition)
     component.instance().onPreview({ preventDefault: () => {} })
     expect(dispatch.calledOnce).to.be.true
   })
