@@ -7,7 +7,10 @@ export const TargetForm = ({
   setRef,
   renderNational,
   renderGeoState,
-  renderCustom
+  renderCustom,
+  nationalOpen,
+  stateOpen,
+  customOpen
 }) => (
   <div id='target_wrapper' className='' title='Choosing a Target'>
     <fieldset id='target' className=''>
@@ -27,8 +30,9 @@ export const TargetForm = ({
             id='national_group'
             type='checkbox'
             className='reveal_more_options'
-            onClick={toggleOpen('nationalOpen')}
+            onChange={toggleOpen('nationalOpen')}
             ref={setRef('nationalInput')}
+            checked={nationalOpen}
           />{' '}
           The White House or Congress
         </label>
@@ -46,8 +50,9 @@ export const TargetForm = ({
             id='state_group'
             type='checkbox'
             className='reveal_more_options'
-            onClick={toggleOpen('stateOpen')}
+            onChange={toggleOpen('stateOpen')}
             ref={setRef('stateInput')}
+            checked={stateOpen}
           />{' '}
           Your governor or state legislature
         </label>
@@ -64,8 +69,9 @@ export const TargetForm = ({
             id='custom_group'
             type='checkbox'
             className='reveal_more_options'
-            onClick={toggleOpen('customOpen')}
+            onChange={toggleOpen('customOpen')}
             ref={setRef('customInput')}
+            checked={customOpen}
           />{' '}
           Someone else (like a local official or corporate CEO)
         </label>
@@ -81,5 +87,8 @@ TargetForm.propTypes = {
   setRef: PropTypes.func,
   renderNational: PropTypes.func,
   renderGeoState: PropTypes.func,
-  renderCustom: PropTypes.func
+  renderCustom: PropTypes.func,
+  nationalOpen: PropTypes.bool,
+  stateOpen: PropTypes.bool,
+  customOpen: PropTypes.bool
 }

@@ -16,57 +16,67 @@ const ERRORS = {
 export class CreatePetition extends React.Component {
   constructor(props) {
     super(props)
+    const { initialPetition } = this.props
     this.state = {
       selected: 'title',
       errors: [],
-      data: {
-        title: '',
-        summary: '',
-        target: [],
-        description: ''
-      }
+      title: initialPetition.title || '',
+      summary: initialPetition.summary || '',
+      target: initialPetition.target || [],
+      description: initialPetition.description || ''
     }
     this.setSelected = this.setSelected.bind(this)
     this.setRef = this.setRef.bind(this)
     this.onPreview = this.onPreview.bind(this)
-    this.onInputChange = this.onInputChange.bind(this)
-    this.getValue = this.getValue.bind(this)
-  }
-
-  onInputChange(event) {
-    const { name, value } = event.target
-    this.setState(state => ({
-      data: { ...state.data, [name]: value }
-    }))
+    this.onTargetAdd = this.onTargetAdd.bind(this)
+    this.onTargetRemove = this.onTargetRemove.bind(this)
   }
 
   onPreview(event) {
     event.preventDefault()
     if (this.formIsValid()) {
-      this.props.dispatch(previewSubmit(this.state.data))
+      this.props.dispatch(
+        previewSubmit({
+          title: this.state.title,
+          summary: this.state.summary,
+          target: this.state.target,
+          description: this.state.description
+        })
+      )
     }
   }
 
-  getValue(name) {
-    return this.state.data[name]
+  onTargetAdd(target, { isCustom } = { isCustom: false }) {
+    if (!isCustom && !target.label) return // target is invalid
+    if (!isCustom && this.state.target.find(old => old.label === target.label)) return // already exists
+
+    this.setState(state => ({ target: [...state.target, target] }))
+  }
+
+  onTargetRemove(target) {
+    this.setState(state => ({
+      target: state.target.filter(e => e.label !== target.label)
+    }))
   }
 
   setSelected(name) {
     return () => this.setState({ selected: name })
   }
 
+  // We need refs because we call getClientRect to get the position
+  // on the page to display the instructions next to it.
   setRef(name) {
     // eslint-disable-next-line no-return-assign
     return input => input && (this[name] = input)
   }
 
   formIsValid() {
-    const data = this.state.data
+    const { title, summary, target, description } = this.state
     const errors = []
-    if (!data.title) errors.push(ERRORS.name)
-    if (!data.summary) errors.push(ERRORS.text_statement)
-    if (!data.target.length) errors.push(ERRORS.target)
-    if (!data.description) errors.push(ERRORS.text_about)
+    if (!title) errors.push(ERRORS.name)
+    if (!summary) errors.push(ERRORS.text_statement)
+    if (!target.length) errors.push(ERRORS.target)
+    if (!description) errors.push(ERRORS.text_about)
     if (errors.length) {
       this.setState({ errors })
       return false
@@ -102,17 +112,27 @@ export class CreatePetition extends React.Component {
           selected={this.state.selected}
           instructionStyle={instructionStyle}
           errors={this.state.errors}
-          getValue={this.getValue}
-          onChange={this.onInputChange}
+          onChange={({ target: { name, value } }) => this.setState({ [name]: value })}
           onPreview={this.onPreview}
+          title={this.state.title}
+          summary={this.state.summary}
+          description={this.state.description}
+          targets={this.state.target}
+          onTargetAdd={this.onTargetAdd}
+          onTargetRemove={this.onTargetRemove}
         />
       </div>
     )
   }
 }
 
+CreatePetition.defaultProps = {
+  initialPetition: {}
+}
+
 CreatePetition.propTypes = {
-  dispatch: PropTypes.func
+  dispatch: PropTypes.func,
+  initialPetition: PropTypes.object
 }
 
 export default connect()(CreatePetition)

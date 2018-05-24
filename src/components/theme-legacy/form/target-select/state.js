@@ -5,8 +5,12 @@ import { connect } from 'react-redux'
 import LegislatorAutocomplete from './legislator-autocomplete'
 import StateSelect from '../state-select'
 
+const isDefault = target =>
+  ['governor', 'statehouse', 'statesenate'].indexOf(target.target_type) !== -1
+
 const StateTargetSelect = ({
   selected,
+  remove,
   onSelect,
   geoState,
   onChangeGeoState,
@@ -25,35 +29,48 @@ const StateTargetSelect = ({
       />
     </div>
     <div id='state_group_checkboxes'>
-      {selected.map(selectedItem => (
+      {autocompleteItems.filter(isDefault).map(defaultItem => {
+        const isChecked = selected.filter(
+          t =>
+            t.target_type === defaultItem.target_type &&
+            t.target_id === defaultItem.target_id
+        ).length
+        return (
+          <div key={defaultItem.label} className='checkbox wrapper'>
+            <label>
+              <input
+                type='checkbox'
+                onChange={() =>
+                  (isChecked ? remove(defaultItem) : onSelect(defaultItem))
+                }
+                checked={isChecked}
+              />{' '}
+              {defaultItem.label}
+            </label>
+          </div>
+        )
+      })}
+      {selected.filter(t => !isDefault(t)).map(selectedItem => (
         <div key={selectedItem.label} className='checkbox wrapper'>
           <label>
             <input
               type='checkbox'
-              onChange={() =>
-                onSelect({
-                  ...selectedItem,
-                  checked: !selectedItem.checked
-                })
-              }
-              checked={selectedItem.checked}
+              onChange={() => remove(selectedItem)}
+              checked
             />{' '}
             {selectedItem.label}
           </label>
         </div>
       ))}
     </div>
-    <div
-      id='state_group_autocomplete_wrapper'
-      className='autocomplete_wrapper text wrapper small'
-    >
-      {geoState && (
+    <div className='autocomplete_wrapper text wrapper small'>
+      {geoState &&
         <LegislatorAutocomplete
           group='national'
           onChange={onSelect}
-          items={autocompleteItems}
+          items={autocompleteItems.filter(t => !isDefault(t))}
         />
-      )}
+      }
     </div>
   </div>
 )
@@ -68,6 +85,7 @@ function mapStateToProps(store, ownProps) {
 
 StateTargetSelect.propTypes = {
   selected: PropTypes.array,
+  remove: PropTypes.func,
   onSelect: PropTypes.func,
   autocompleteItems: PropTypes.array,
   geoState: PropTypes.string,

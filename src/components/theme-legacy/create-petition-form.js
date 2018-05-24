@@ -25,9 +25,14 @@ const CreatePetitionForm = ({
   instructionStyle,
   setRef,
   errors,
-  getValue,
   onChange,
-  onPreview
+  onPreview,
+  title,
+  summary,
+  description,
+  targets,
+  onTargetAdd,
+  onTargetRemove
 }) => {
   const instructions = instructionsByField[selected]
 
@@ -59,7 +64,7 @@ const CreatePetitionForm = ({
                   type='text'
                   title='Your Petition Title'
                   placeholder='Petition title'
-                  value={getValue('title')}
+                  value={title}
                   onChange={onChange}
                   onClick={setSelected('title')}
                   ref={setRef('titleInput')}
@@ -72,7 +77,7 @@ const CreatePetitionForm = ({
                   placeholder='What&rsquo;s the text of your petition? (Try to keep it to 1-2 sentences.)'
                   id='text_statement_field'
                   title='Text of your Petition'
-                  value={getValue('summary')}
+                  value={summary}
                   onChange={onChange}
                   onClick={setSelected('statement')}
                   ref={setRef('statementInput')}
@@ -82,7 +87,9 @@ const CreatePetitionForm = ({
             <CreatePetitionTarget
               setSelected={setSelected}
               setRef={setRef}
-              onChange={onChange}
+              targets={targets}
+              onTargetAdd={onTargetAdd}
+              onTargetRemove={onTargetRemove}
             />
             <fieldset id='statement'>
               <span className='circle-number'>3</span>
@@ -96,7 +103,7 @@ const CreatePetitionForm = ({
                   id='text_about_field'
                   placeholder='What&rsquo;s your petition about? Have you been personally affected by the issue?'
                   title='Petition Background'
-                  value={getValue('description')}
+                  value={description}
                   onChange={onChange}
                   onClick={setSelected('about')}
                   ref={setRef('aboutInput')}
@@ -132,9 +139,14 @@ CreatePetitionForm.propTypes = {
   instructionStyle: PropTypes.object,
   setRef: PropTypes.func,
   errors: PropTypes.array.isRequired,
-  getValue: PropTypes.func,
   onChange: PropTypes.func,
-  onPreview: PropTypes.func
+  onPreview: PropTypes.func,
+  title: PropTypes.string,
+  summary: PropTypes.string,
+  description: PropTypes.string,
+  targets: PropTypes.array,
+  onTargetAdd: PropTypes.func,
+  onTargetRemove: PropTypes.func
 }
 
 export default CreatePetitionForm

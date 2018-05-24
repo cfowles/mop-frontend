@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 const CustomTargetSelect = ({
   selected,
+  remove,
   onSelect,
   customInputs,
   onChangeInputs
@@ -15,13 +16,8 @@ const CustomTargetSelect = ({
           <label className='target_label'>
             <input
               type='checkbox'
-              checked={target.checked}
-              onChange={() =>
-                onSelect({
-                  ...target,
-                  checked: !target.checked
-                })
-              }
+              checked
+              onChange={() => remove(target)}
             />{' '}
             {target.name +
               (target.title && `, ${target.title}`) +
@@ -67,7 +63,6 @@ const CustomTargetSelect = ({
           onClick={() => {
             onSelect({
               target_type: 'custom',
-              checked: true,
               ...customInputs
             })
           }}
@@ -83,6 +78,7 @@ const CustomTargetSelect = ({
 
 CustomTargetSelect.propTypes = {
   selected: PropTypes.array.isRequired,
+  remove: PropTypes.func,
   onSelect: PropTypes.func,
   customInputs: PropTypes.object,
   onChangeInputs: PropTypes.func
