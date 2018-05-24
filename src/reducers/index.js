@@ -8,6 +8,8 @@ import navStore from './nav'
 import errorReducer from './error'
 import staticPageReducer from './static-pages'
 import userReducer from './user'
+import petitionTargetsReducer from './petition-targets'
+import petitionCreateReducer from './petition-create'
 
 const initialPetitionState = {
   petitions: {}, // Keyed by name (slug) AND petition_id for petition route
@@ -150,6 +152,8 @@ const rootReducer = combineReducers({
   petitionSearchStore: petitionSearchReducer,
   userStore: userReducer,
   staticPageStore: staticPageReducer,
+  petitionTargetsStore: petitionTargetsReducer,
+  petitionCreateStore: petitionCreateReducer,
   errorStore: errorReducer
 })
 

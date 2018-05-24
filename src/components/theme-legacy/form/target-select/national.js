@@ -1,29 +1,67 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import LegislatorAutocomplete from './legislator-autocomplete'
 
-const NationalTargetSelect = () => (
+const isDefault = target =>
+  ['president', 'house', 'senate'].indexOf(target.target_type) !== -1
+
+const NationalTargetSelect = ({ selected, onSelect, remove, items }) => (
   <div>
     <div id='national_group_checkboxes'>
-      <div className='checkbox wrapper' id='target_house_wrapper'>
-        <label htmlFor='target_house' id='target_house_label'>
-          <input name='target_house_checkbox' id='target_house' type='checkbox' /> The entire U.S. House
-        </label>
-      </div>
-      <div className='checkbox wrapper' id='target_senate_wrapper'>
-        <label htmlFor='target_senate' id='target_senate_label'>
-          <input name='target_senate_checkbox' id='target_senate' type='checkbox' /> The entire U.S. Senate
-        </label>
-      </div>
-      <div className='checkbox wrapper' id='target_president_wrapper'>
-        <label htmlFor='target_president' id='target_president_label'>
-          <input name='target_president_checkbox' id='target_president' type='checkbox' /> President Donald Trump
-        </label>
-      </div>
+      {items.filter(isDefault).map(defaultItem => {
+        const isChecked = selected.filter(t => t.value === defaultItem.value)
+          .length
+        return (
+          <div key={defaultItem.label} className='checkbox wrapper'>
+            <label>
+              <input
+                type='checkbox'
+                onChange={() =>
+                  (isChecked ? remove(defaultItem) : onSelect(defaultItem))
+                }
+                checked={isChecked}
+              />{' '}
+              {defaultItem.label}
+            </label>
+          </div>
+        )
+      })}
+      {selected.filter(t => !isDefault(t)).map(selectedItem => (
+        <div key={selectedItem.label} className='checkbox wrapper'>
+          <label>
+            <input
+              type='checkbox'
+              onChange={() => remove(selectedItem)}
+              checked
+            />{' '}
+            {selectedItem.label}
+          </label>
+        </div>
+      ))}
     </div>
-    <div className='autocomplete_selected' id='national_group_autocomplete_selected' />
-    <div id='national_group_autocomplete_wrapper' className='autocomplete_wrapper text wrapper small'>
-      <input name='national_group_autocomplete' type='text' className='text autocomplete' id='national_group_autocomplete' placeholder="Or, enter a specific legislator's name" />
+    <div className='autocomplete_wrapper text wrapper small'>
+      <LegislatorAutocomplete
+        group='national'
+        onChange={onSelect}
+        items={items.filter(t => !isDefault(t))}
+      />
     </div>
   </div>
 )
 
-export default NationalTargetSelect
+function mapStateToProps(store) {
+  return {
+    items:
+      (store.petitionTargetsStore && store.petitionTargetsStore.national) || []
+  }
+}
+
+NationalTargetSelect.propTypes = {
+  selected: PropTypes.array,
+  onSelect: PropTypes.func,
+  remove: PropTypes.func,
+  items: PropTypes.array
+}
+
+export default connect(mapStateToProps)(NationalTargetSelect)

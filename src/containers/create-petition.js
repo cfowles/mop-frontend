@@ -1,34 +1,88 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+
+import { previewSubmit } from '../actions/createPetitionActions'
 
 import CreatePetitionForm from 'LegacyTheme/create-petition-form'
 
-class CreatePetition extends React.Component {
+const ERRORS = {
+  name: 'Please provide a title for your petition.',
+  text_statement: 'Please fill in the statement for your petition.',
+  target: 'You must select at least one target for your petition.',
+  text_about: 'Please provide background info for your petition.'
+}
+
+export class CreatePetition extends React.Component {
   constructor(props) {
     super(props)
+    const { initialPetition } = this.props
     this.state = {
       selected: 'title',
-      nationalOpen: false,
-      stateOpen: false,
-      customOpen: false
+      errors: [],
+      title: initialPetition.title || '',
+      summary: initialPetition.summary || '',
+      target: initialPetition.target || [],
+      description: initialPetition.description || ''
     }
     this.setSelected = this.setSelected.bind(this)
     this.setRef = this.setRef.bind(this)
-    this.toggleOpen = this.toggleOpen.bind(this)
+    this.onPreview = this.onPreview.bind(this)
+    this.onTargetAdd = this.onTargetAdd.bind(this)
+    this.onTargetRemove = this.onTargetRemove.bind(this)
+  }
+
+  onPreview(event) {
+    event.preventDefault()
+    if (this.formIsValid()) {
+      this.props.dispatch(
+        previewSubmit({
+          title: this.state.title,
+          summary: this.state.summary,
+          target: this.state.target,
+          description: this.state.description
+        })
+      )
+    }
+  }
+
+  onTargetAdd(target, { isCustom } = { isCustom: false }) {
+    if (!isCustom && !target.label) return // target is invalid
+    if (!isCustom && this.state.target.find(old => old.label === target.label)) return // already exists
+
+    this.setState(state => ({ target: [...state.target, target] }))
+  }
+
+  onTargetRemove(target) {
+    this.setState(state => ({
+      target: state.target.filter(e => e.label !== target.label)
+    }))
   }
 
   setSelected(name) {
     return () => this.setState({ selected: name })
   }
 
+  // We need refs because we call getClientRect to get the position
+  // on the page to display the instructions next to it.
   setRef(name) {
     // eslint-disable-next-line no-return-assign
     return input => input && (this[name] = input)
   }
-  toggleOpen(section) {
-    return () => this.setState(prevState => {
-      const prev = prevState[section]
-      return { [section]: !prev }
-    })
+
+  formIsValid() {
+    const { title, summary, target, description } = this.state
+    const errors = []
+    if (!title) errors.push(ERRORS.name)
+    if (!summary) errors.push(ERRORS.text_statement)
+    if (!target.length) errors.push(ERRORS.target)
+    if (!description) errors.push(ERRORS.text_about)
+    if (errors.length) {
+      this.setState({ errors })
+      return false
+    }
+
+    return true
   }
 
   render() {
@@ -46,7 +100,8 @@ class CreatePetition extends React.Component {
     const bodyTop = document.body.getBoundingClientRect().top + 175
 
     if (typeof selectedElement !== 'undefined') {
-      instructionStyle.top = selectedElement.getBoundingClientRect().top - bodyTop
+      instructionStyle.top =
+        selectedElement.getBoundingClientRect().top - bodyTop
     }
 
     return (
@@ -54,16 +109,30 @@ class CreatePetition extends React.Component {
         <CreatePetitionForm
           setSelected={this.setSelected}
           setRef={this.setRef}
-          toggleOpen={this.toggleOpen}
           selected={this.state.selected}
-          nationalOpen={this.state.nationalOpen}
-          stateOpen={this.state.stateOpen}
-          customOpen={this.state.customOpen}
           instructionStyle={instructionStyle}
+          errors={this.state.errors}
+          onChange={({ target: { name, value } }) => this.setState({ [name]: value })}
+          onPreview={this.onPreview}
+          title={this.state.title}
+          summary={this.state.summary}
+          description={this.state.description}
+          targets={this.state.target}
+          onTargetAdd={this.onTargetAdd}
+          onTargetRemove={this.onTargetRemove}
         />
       </div>
     )
   }
 }
 
-export default CreatePetition
+CreatePetition.defaultProps = {
+  initialPetition: {}
+}
+
+CreatePetition.propTypes = {
+  dispatch: PropTypes.func,
+  initialPetition: PropTypes.object
+}
+
+export default connect()(CreatePetition)

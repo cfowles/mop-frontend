@@ -1,40 +1,95 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
+import LegislatorAutocomplete from './legislator-autocomplete'
 import StateSelect from '../state-select'
 
-const StateTargetSelect = () => (
+const isDefault = target =>
+  ['governor', 'statehouse', 'statesenate'].indexOf(target.target_type) !== -1
+
+const StateTargetSelect = ({
+  selected,
+  remove,
+  onSelect,
+  geoState,
+  onChangeGeoState,
+  autocompleteItems
+}) => (
   <div>
     <div className='select wrapper' id='select_target_state_wrapper'>
-      <label htmlFor='select_target_state' id='select_target_state_label'>Pick your state</label>
+      <label htmlFor='select_target_state' id='select_target_state_label'>
+        Pick your state
+      </label>
       <StateSelect
-        name='select_target_state'
-        id='state'
+        onChange={onChangeGeoState}
+        selectText=''
         className=''
         onlyStates
       />
     </div>
     <div id='state_group_checkboxes'>
-      <div className='checkbox wrapper' id='checkbox_state_house_wrapper'>
-        <label htmlFor='target_statehouse' id='checkbox_state_house_label'>
-          <input name='target_statehouse_field' id='target_statehouse' type='checkbox' /> The entire <span className='state_name'>State</span> House
-        </label>
-      </div>
-      <div className='checkbox wrapper' id='checkbox_state_senate_wrapper'>
-        <label htmlFor='target_statesenate' id='checkbox_state_senate_label'>
-          <input name='target_statesenate_field' id='target_statesenate' type='checkbox' /> The entire <span className='state_name'>State</span> Senate
-        </label>
-      </div>
-      <div className='checkbox wrapper' id='checkbox_state_governor_wrapper'>
-        <label htmlFor='target_governor' id='checkbox_state_governor_label'>
-          <input name='target_governor_field' id='target_governor' type='checkbox' /> Governor of <span className='state_name'>State</span>
-        </label>
-      </div>
+      {autocompleteItems.filter(isDefault).map(defaultItem => {
+        const isChecked = selected.filter(
+          t =>
+            t.target_type === defaultItem.target_type &&
+            t.target_id === defaultItem.target_id
+        ).length
+        return (
+          <div key={defaultItem.label} className='checkbox wrapper'>
+            <label>
+              <input
+                type='checkbox'
+                onChange={() =>
+                  (isChecked ? remove(defaultItem) : onSelect(defaultItem))
+                }
+                checked={isChecked}
+              />{' '}
+              {defaultItem.label}
+            </label>
+          </div>
+        )
+      })}
+      {selected.filter(t => !isDefault(t)).map(selectedItem => (
+        <div key={selectedItem.label} className='checkbox wrapper'>
+          <label>
+            <input
+              type='checkbox'
+              onChange={() => remove(selectedItem)}
+              checked
+            />{' '}
+            {selectedItem.label}
+          </label>
+        </div>
+      ))}
     </div>
-    <div className='autocomplete_selected' id='state_group_autocomplete_selected' />
-    <div id='state_group_autocomplete_wrapper' className='autocomplete_wrapper text wrapper small'>
-      <input name='state_group_autocomplete' type='text' className='text autocomplete' id='state_group_autocomplete' placeholder="Or, enter a specific legislator's name" />
+    <div className='autocomplete_wrapper text wrapper small'>
+      {geoState &&
+        <LegislatorAutocomplete
+          group='national'
+          onChange={onSelect}
+          items={autocompleteItems.filter(t => !isDefault(t))}
+        />
+      }
     </div>
   </div>
 )
 
-export default StateTargetSelect
+function mapStateToProps(store, ownProps) {
+  const key = `state--${ownProps.geoState}`
+  return {
+    autocompleteItems:
+      (store.petitionTargetsStore && store.petitionTargetsStore[key]) || []
+  }
+}
+
+StateTargetSelect.propTypes = {
+  selected: PropTypes.array,
+  remove: PropTypes.func,
+  onSelect: PropTypes.func,
+  autocompleteItems: PropTypes.array,
+  geoState: PropTypes.string,
+  onChangeGeoState: PropTypes.func
+}
+
+export default connect(mapStateToProps)(StateTargetSelect)
