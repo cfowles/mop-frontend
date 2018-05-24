@@ -31,10 +31,7 @@ export class CreatePetitionTarget extends React.Component {
 
     const openCheckboxes = {}
     if (nationalTargets.length) openCheckboxes.nationalOpen = true
-    if (stateTargets.length) {
-      openCheckboxes.stateOpen = true
-      openCheckboxes.geoState = stateTargets[0].target_id
-    }
+    if (stateTargets.length) openCheckboxes.stateOpen = true
     if (customTargets.length) openCheckboxes.customOpen = true
 
     return {
