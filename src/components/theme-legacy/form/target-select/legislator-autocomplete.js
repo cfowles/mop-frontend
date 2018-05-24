@@ -40,7 +40,7 @@ export const LegislatorAutocomplete = ({ onChange, group, state, items }) => (
   <Downshift
     onChange={(item, actions) => {
       actions.clearSelection()
-      onChange(item)
+      if (item) onChange(item)
     }}
     itemToString={item => (item ? item.name : '')}
     render={({
