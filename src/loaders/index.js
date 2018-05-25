@@ -28,6 +28,11 @@ export const LoadablePreview = Loadable({
   loading: Loading
 })
 
+export const LoadableRevise = Loadable({
+  loader: () => import('../containers/create-revise'),
+  loading: Loading
+})
+
 export const LoadableRegister = Loadable({
   loader: () => import('LegacyTheme/register'),
   loading: Loading
