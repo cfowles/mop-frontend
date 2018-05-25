@@ -34,6 +34,20 @@ class CreatePetition extends React.Component {
     })
   }
 
+  /*For conversational scrolling
+  scrollToBottom = () => {
+    this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+  }
+
+  componentDidMount() {
+    this.scrollToBottom();
+  }
+
+  componentDidUpdate() {
+    this.scrollToBottom();
+  }
+  */
+
   render() {
     const elementByField = {
       title: this.titleInput,

@@ -1,0 +1,101 @@
+#conversational .chat-wrap {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 20px;
+  height: 80vh;
+  overflow-y: scroll;
+}
+#conversational .bubble {
+  position: relative;
+  display: inline-block;
+  border-radius: 20px 20px 20px 0;
+  background-color: #e5f5ff;
+  padding: 20px;
+  margin-top: 20px;
+  min-width: 86px;
+}
+#conversational .bubble .loading {
+  position: absolute;
+  z-index: 10;
+  width: 67px;
+  left: 20px;
+  top: 15px;
+}
+#conversational .bubble .loading .dot {
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  background: #c1c1c1;
+  display: block;
+  float: left;
+  margin: 0 0 0 8px;
+}
+#conversational .bubble .loading .dot:first-child {
+  margin: 0;
+}
+#conversational .bubble .loading .dot.one {
+  -webkit-animation: cycleOne 1s ease-in-out infinite;
+  -webkit-animation-direction: normal;
+}
+#conversational .bubble .loading .dot.two {
+  -webkit-animation: cycleTwo 1s ease-in-out infinite;
+  -webkit-animation-direction: normal;
+}
+#conversational .bubble .loading .dot.three {
+  -webkit-animation: cycleThree 1s ease-in-out infinite;
+  -webkit-animation-direction: normal;
+}
+#conversational .bubble::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+#conversational .bubble.user {
+  float: right;
+  border-radius: 20px 20px 0 20px;
+}
+
+@-webkit-keyframes cycleOne {
+  0% {
+    background: rgba(150, 150, 150, 0.4);
+  }
+  33.333% {
+    background: #969696;
+  }
+  66.6667% {
+    background: rgba(150, 150, 150, 0.4);
+  }
+  100% {
+    background: rgba(150, 150, 150, 0.4);
+  }
+}
+@-webkit-keyframes cycleTwo {
+  0% {
+    background: rgba(150, 150, 150, 0.4);
+  }
+  33.333% {
+    background: rgba(150, 150, 150, 0.4);
+  }
+  66.6667% {
+    background: #969696;
+  }
+  100% {
+    background: rgba(150, 150, 150, 0.4);
+  }
+}
+@-webkit-keyframes cycleThree {
+  0% {
+    background: rgba(150, 150, 150, 0.4);
+  }
+  33.333% {
+    background: rgba(150, 150, 150, 0.4);
+  }
+  66.6667% {
+    background: rgba(150, 150, 150, 0.4);
+  }
+  100% {
+    background: #969696;
+  }
+}
+
+/*# sourceMappingURL=convo.css.map */
