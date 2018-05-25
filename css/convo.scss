@@ -4,6 +4,8 @@
     max-width: 700px;
     margin: 40px auto;
     padding: 20px;
+    height: 80vh;
+    overflow-y: scroll;
   }
 
   .bubble {
@@ -46,6 +48,15 @@
             }
           }
       }
+      &::after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+    }
+    .bubble.user {
+      float: right;
+      border-radius: 20px 20px 0 20px;
     }
 }
 

@@ -42,10 +42,23 @@ const CreatePetitionForm = ({
         <div className='bubble'>Hi 👋 Want to start a petition? That’s great! Petitions like yours are one of the most powerful ways to get support for an issue or topic.
         </div>
         <div className='bubble'>
-          <div className="loading">
-            <div className="dot one"></div>
-            <div className="dot two"></div>
-            <div className="dot three"></div>
+          <div className='loading'>
+            <div className='dot one'></div>
+            <div className='dot two'></div>
+            <div className='dot three'></div>
+          </div>
+        </div><br/>
+        <div className='bubble user'>
+          <div className='text wrapper' id='text_statement_wrapper'>
+            <textarea
+              className='span6 '
+              name='text_statement'
+              placeholder='What&rsquo;s the text of your petition? (Try to keep it to 1-2 sentences.)'
+              id='text_statement_field'
+              title='Text of your Petition'
+              onClick={setSelected('statement')}
+              ref={setRef('statementInput')}
+            />
           </div>
         </div>
         <div style={{ float:"left", clear: "both" }}
