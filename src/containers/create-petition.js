@@ -10,7 +10,8 @@ class CreatePetition extends React.Component {
       selected: 'title',
       nationalOpen: false,
       stateOpen: false,
-      customOpen: false
+      customOpen: false,
+      step: 0
     }
     this.setSelected = this.setSelected.bind(this)
     this.setRef = this.setRef.bind(this)
@@ -24,10 +25,12 @@ class CreatePetition extends React.Component {
   setRef(name) {
     return input => input && (this[name] = input)
   }
-  toggleOpen(section) {
+  toggleOpen() {
     return () => this.setState(prevState => {
-      const prev = prevState[section]
-      return { [section]: !prev }
+      const prev = prevState.step;
+      let newStep = prev + 1;
+      console.log(this.state);
+      return { step: newStep }
     })
   }
 
@@ -60,6 +63,7 @@ class CreatePetition extends React.Component {
           stateOpen={this.state.stateOpen}
           customOpen={this.state.customOpen}
           instructionStyle={instructionStyle}
+          step={this.state.step}
         />
       </div>
     )

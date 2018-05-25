@@ -1,174 +1,407 @@
+body {
+  overflow: hidden;
+}
+
+hr {
+  border-top: 5px solid gray;
+  margin: 20px 0;
+}
+
 /**************** 
  * PPP 
  ****************/
-
- /* General */
+/* General */
 #ppp {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    min-height: calc(100vh - 57px);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 57px);
+  /* Checkboxes */
+  /* Heading */
+  /* Steps */
 }
 #ppp .ppp-step {
-    padding-top: 25px;
-    padding-bottom: 25px;
-    margin-bottom: 50px;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  margin-bottom: 50px;
 }
 #ppp input, #ppp textarea {
-    width: 100%;
-    font-size: 16px;
-    padding: 22px 9px;
-    background-color: #e5f5ff;
-    border: 0;
-    border-bottom: 2px solid #99ddff;
-    margin-bottom: 15px;
-    box-shadow: none;
-    height: auto;
+  width: 100%;
+  font-size: 16px;
+  padding: 22px 9px;
+  background-color: #e5f5ff;
+  border: 0;
+  border-bottom: 2px solid #99ddff;
+  margin-bottom: 15px;
+  box-shadow: none;
+  height: auto;
 }
 #ppp .ppp-btn {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    font-size: 16px;
-    width: 100%;
-    background-color: #2ca9ff;
-    color: white;
-    margin: 0;
-    z-index: 100;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  font-size: 16px;
+  width: 100%;
+  background-color: #2ca9ff;
+  color: white;
+  margin: 0;
+  z-index: 100;
 }
-.ppp-btn.disabled {
-    background-color: #b2b2b2;
+#ppp .close {
+  position: absolute;
+  top: 20px;
+  right: 18px;
+  opacity: 1;
+  cursor: pointer;
 }
-
+#ppp .close span {
+  background-color: #00abff;
+  height: 4px;
+  width: 26px;
+  display: block;
+}
+#ppp .close span:first-of-type {
+  transform: rotate(45deg);
+  position: absolute;
+}
+#ppp .close span:last-of-type {
+  transform: rotate(-45deg);
+}
+#ppp .signup-modal {
+  background-color: #00abff;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding-top: 67px;
+  padding-bottom: 22px;
+  position: relative;
+}
+#ppp .signup-modal .close span {
+  background-color: black;
+}
+#ppp .signup-modal h2 {
+  display: inline;
+  background-color: black;
+  line-height: 2.25rem;
+  text-transform: uppercase;
+  color: white;
+}
+#ppp .signup-modal h2 + p {
+  margin-top: 20px;
+}
+#ppp .signup-modal input {
+  background-color: white;
+  border-bottom: 2px solid #005680;
+}
+#ppp .signup-modal button {
+  position: relative;
+  background-color: #f6f6f6;
+  color: #b2b2b2 !important;
+}
+#ppp .signup-modal a {
+  line-height: 15px;
+  font-size: 12px;
+  font-weight: bold;
+  font-stretch: condensed;
+  color: #000000;
+  text-align: center;
+  display: block;
+  margin-top: 20px;
+}
+#ppp .tip-modal {
+  padding-top: 50px;
+  position: relative;
+  padding-bottom: 50px;
+}
+#ppp .tip-modal .heading {
+  padding-top: 40px;
+  background-color: #f6f6f6;
+  margin-bottom: 20px;
+}
+#ppp .tip-modal .heading span {
+  display: inline-block;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  background-color: #00abff;
+}
+#ppp .tip-modal .example {
+  margin-bottom: 10px;
+}
+#ppp .tip-modal .example h3 {
+  display: inline;
+  background-color: #00abff;
+  line-height: 2.25rem;
+  text-transform: uppercase;
+  color: black;
+}
+#ppp .tip-modal .example .example-image {
+  border-radius: 3px;
+  background-color: #f6f6f6;
+  padding: 10px;
+  overflow: hidden;
+}
+#ppp .tip-modal .example .example-image .image-wrap {
+  height: 215px;
+  background-color: lightgray;
+  margin: -10px -10px 8px;
+}
+#ppp .tip-modal .example .example-image p {
+  margin-bottom: 0;
+}
+#ppp .upload-modal {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  background: black;
+}
+#ppp .upload-modal > .container {
+  padding-top: 15px;
+  padding-bottom: 30px;
+  border-radius: 4px;
+  background-color: #ffffff;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.1);
+}
+#ppp .upload-modal > .container .upload-media {
+  height: 200px;
+  background-color: lightgray;
+  width: 100%;
+}
+#ppp .upload-modal button.ppp-btn {
+  position: relative;
+  margin-top: 20px;
+}
+#ppp .ppp-btn.disabled {
+  background-color: #b2b2b2;
+}
 #ppp .container::before,
 #ppp .container::after {
-    content: none;
+  content: none;
 }
-
 #ppp .ppp-item {
-    margin-bottom: 60px;
+  margin-bottom: 60px;
 }
-
-.ppp-item .ppp-heading {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
+#ppp .ppp-item .ppp-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
 }
-.ppp-heading  .ppp-tip {
-    height: 40px;
-    border-radius: 19.5px;
-    background-color: #e5f5ff;
-    padding: 0 6px 0 14px;
-    text-transform: uppercase;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-top-right-radius: 0;
-    cursor: pointer;
+#ppp .ppp-item .ppp-heading .ppp-tip {
+  height: 40px;
+  border-radius: 19.5px;
+  background-color: #e5f5ff;
+  padding: 0 6px 0 14px;
+  text-transform: uppercase;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top-right-radius: 0;
+  cursor: pointer;
 }
-.ppp-heading  .ppp-tip span {
-    width: 30px;
-    height: 30px;
-    background-color: #ffffff;
-    border-radius: 50%;
-    margin-left: 10px;
+#ppp .ppp-item .ppp-heading .ppp-tip span {
+  width: 30px;
+  height: 30px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  margin-left: 10px;
 }
-
-/* Checkboxes */
 #ppp .checkbox-wrap {
-    display: block;
-    position: relative;
-    padding-left: 35px;
-    margin-bottom: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    font-weight: initial;
-    height: 50px;
-    background-color: #e5f5ff;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    padding-left: 65px;
-    padding-right: 10px;
-    margin-left: 15px;
-    margin-right: 15px;
-    max-width: calc(100% - 30px);
-    border-radius: 3px;
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font-weight: initial;
+  height: 50px;
+  background-color: #e5f5ff;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 65px;
+  padding-right: 10px;
+  margin-left: 15px;
+  margin-right: 15px;
+  max-width: calc(100% - 30px);
+  border-radius: 3px;
 }
-.checkbox-wrap input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-  }
-.checkbox-wrap .checkmark {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 10px;
-    height: 35px;
-    width: 35px;
-    background-color: #eee;
-    margin-right: 20px;
-    border-radius: 50%;
+#ppp .checkbox-wrap input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
 }
-.checkbox-wrap .checkmark::before {
-    content: "";
-    position: absolute;
-    height: 35px;
-    top: 0;
-    right: -9.5px;
-    width: 1px;
-    background-color: #99ddff;
+#ppp .checkbox-wrap .checkmark {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 10px;
+  height: 35px;
+  width: 35px;
+  background-color: #eee;
+  margin-right: 20px;
+  border-radius: 50%;
 }
-.checkbox-wrap:hover input ~ .checkmark {
-    background-color: #ccc;
+#ppp .checkbox-wrap .checkmark::before {
+  content: "";
+  position: absolute;
+  height: 35px;
+  top: 0;
+  right: -9.5px;
+  width: 1px;
+  background-color: #99ddff;
 }
-.checkbox-wrap input:checked ~ .checkmark {
-    background-color: #2196F3;
+#ppp .checkbox-wrap .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
 }
-.checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
+#ppp .checkbox-wrap:hover input ~ .checkmark {
+  background-color: #ccc;
 }
-.checkbox-wrap input:checked ~ .checkmark:after {
-    display: block;
+#ppp .checkbox-wrap input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+#ppp .checkbox-wrap input:checked ~ .checkmark:after {
+  display: block;
+}
+#ppp .ppp-page-heading {
+  background-color: #e9e9e9;
+  position: relative;
+}
+#ppp .ppp-page-heading::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 10%;
+  background-color: #2ca9ff;
+}
+#ppp .ppp-page-heading .heading-title-wrap {
+  padding-top: 36px;
+  padding-bottom: 18px;
+}
+#ppp .ppp-page-heading .heading-title-wrap h2 {
+  display: inline;
+  background-color: white;
+  line-height: 2.25rem;
+  text-transform: uppercase;
+}
+#ppp .step1 p {
+  margin-bottom: 25px;
+}
+#ppp .step4 .selection-pills {
+  margin-bottom: 20px;
+}
+#ppp .step4 .selection-pills .pill-inner {
+  height: 50px;
+  border-radius: 3px;
+  background-color: #e5f5ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: bold;
+  font-stretch: condensed;
+  line-height: 1.25;
+  color: #000000;
+  position: relative;
+}
+#ppp .step4 .selection-pills .pill-inner .close {
+  width: 24px;
+  height: 24px;
+  background-color: #00abff;
+  border-radius: 50%;
+  top: -4px;
+  right: -4px;
+}
+#ppp .step4 .selection-pills .pill-inner .close span {
+  background-color: white;
+  height: 2px;
+  width: 15px;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+#ppp .step4 .selection-pills .pill-inner .close span:first-of-type {
+  transform: translate(-50%) rotate(45deg);
+}
+#ppp .step4 .selection-pills .pill-inner .close span:last-of-type {
+  transform: translate(-50%) rotate(-45deg);
+}
+#ppp .step4 .add-target {
+  position: relative;
+  margin-bottom: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  user-select: none;
+  font-weight: initial;
+  height: 50px;
+  background-color: #e5f5ff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 3px;
+  margin-top: 30px;
+  padding: 0 15px;
+}
+#ppp .step4 .add-target .add {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #00abff;
+  border-radius: 50%;
+}
+#ppp .step5 .upload-block {
+  height: 218px;
+  border: dashed 1px #979797;
+  background-color: #f6f6f6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #b2b2b2;
+  flex-direction: column;
+}
+#ppp .step5 .upload-block .icon {
+  width: 62px;
+  height: 57px;
+  background-color: #00abff;
+  margin-bottom: 10px;
+}
+#ppp .step5 .skip-upload a {
+  display: block;
+  text-align: center;
+  margin-top: 17px;
+  color: black;
+  text-decoration: underline;
+}
+#ppp .step6 .ppp-heading {
+  margin-bottom: 30px;
+}
+#ppp .step6 .petition-title {
+  margin-bottom: 15px;
+}
+#ppp .step6 .petition-title h3 {
+  display: inline;
+  background-color: #00abff;
+  line-height: 1.2rem;
+  text-transform: uppercase;
+  color: black;
+}
+#ppp .step6 .petition-targets span {
+  text-decoration: underline;
+}
+#ppp .step6 .petition-image .image-wrap {
+  height: 215px;
+  background-color: lightgray;
+  margin-bottom: 15px;
 }
 
-/* Heading */
-.ppp-page-heading {
-    background-color: #e9e9e9;
-    position: relative;
-}
-.ppp-page-heading::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: 10%;
-    background-color: #2ca9ff;
-}
-.ppp-page-heading .heading-title-wrap {
-    padding-top: 36px;
-    padding-bottom: 18px;
-}
-.ppp-page-heading .heading-title-wrap h2 {
-    display: inline;
-    background-color: white;
-    line-height: 2.25rem;
-    text-transform: uppercase;
-}
-
-/* Steps */
-
-.step1 p {
-    margin-bottom: 25px;
-}
+/*# sourceMappingURL=css/create.css.map */
