@@ -9,6 +9,7 @@
     <% if(htmlWebpackPlugin.options.theme === 'ppp' || htmlWebpackPlugin.options.theme === 'convo') { %>
       <link rel='stylesheet' href="<%= htmlWebpackPlugin.options.cssPath %>" type='text/css' media='all' />
       <link rel='stylesheet' href="<%= htmlWebpackPlugin.options.createStartCssPath %>" type='text/css' media='all' />
+      <link rel='stylesheet' href="<%= htmlWebpackPlugin.options.conversationalCssPath %>" type='text/css' media='all' />
     <% }
     if (htmlWebpackPlugin.options.theme === 'giraffe' || htmlWebpackPlugin.options.theme === 'ppp' || htmlWebpackPlugin.options.theme === 'convo') { %>
       <link rel='stylesheet' href="<%= htmlWebpackPlugin.options.giraffeCssPath %>" type='text/css' media='all' />
