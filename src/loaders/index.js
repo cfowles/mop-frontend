@@ -24,7 +24,7 @@ export const LoadableCreate = Loadable({
 })
 
 export const LoadableRegister = Loadable({
-  loader: () => import('../containers/register'),
+  loader: () => import('LegacyTheme/register'),
   loading: Loading
 })
 
