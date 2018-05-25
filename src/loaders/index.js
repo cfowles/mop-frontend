@@ -23,6 +23,11 @@ export const LoadableCreate = Loadable({
   loading: Loading
 })
 
+export const LoadablePreview = Loadable({
+  loader: () => import('../containers/create-preview'),
+  loading: Loading
+})
+
 export const LoadableRegister = Loadable({
   loader: () => import('LegacyTheme/register'),
   loading: Loading
