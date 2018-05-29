@@ -11,11 +11,16 @@ class CreatePetition extends React.Component {
       nationalOpen: false,
       stateOpen: false,
       customOpen: false,
-      step: 0
+      step: 0,
+      name: false,
+      email: false,
+      country: 'United States',
+      zip: false
     }
     this.setSelected = this.setSelected.bind(this)
     this.setRef = this.setRef.bind(this)
     this.toggleOpen = this.toggleOpen.bind(this)
+    this.updateStateFromValue = this.updateStateFromValue.bind(this)
   }
 
   setSelected(name) {
@@ -25,6 +30,7 @@ class CreatePetition extends React.Component {
   setRef(name) {
     return input => input && (this[name] = input)
   }
+
   toggleOpen() {
     return () => this.setState(prevState => {
       const prev = prevState.step;
@@ -32,6 +38,16 @@ class CreatePetition extends React.Component {
       console.log(this.state);
       return { step: newStep }
     })
+  }
+
+  updateStateFromValue(field, isCheckbox = false) {
+    return (event) => {
+      const value = isCheckbox ? event.target.checked : event.target.value
+      console.log(value)
+      this.setState({
+        [field]: value
+      })
+    }
   }
 
   /*For conversational scrolling
@@ -78,6 +94,7 @@ class CreatePetition extends React.Component {
           customOpen={this.state.customOpen}
           instructionStyle={instructionStyle}
           step={this.state.step}
+          updateStateFromValue={this.updateStateFromValue}
         />
       </div>
     )

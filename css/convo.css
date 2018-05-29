@@ -51,8 +51,31 @@
   clear: both;
 }
 #conversational .bubble.user {
-  float: right;
-  border-radius: 20px 20px 0 20px;
+  position: fixed;
+  display: block;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+  max-width: 700px;
+  border-radius: 10px 10px 0 0;
+  background-color: #00abff;
+  height: 75px;
+  padding: 15px;
+}
+#conversational .bubble.user input {
+  width: 100%;
+  height: 50px;
+  border-radius: 5px;
+  background-color: #ffffff;
+  padding: 0 15px;
+}
+@media (min-width: 768px) {
+  #conversational .bubble.user {
+    position: inherit;
+    float: right;
+    border-radius: 20px 20px 0 20px;
+  }
 }
 
 @-webkit-keyframes cycleOne {
