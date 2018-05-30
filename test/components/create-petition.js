@@ -95,6 +95,8 @@ describe('<CreatePetition />', () => {
     component.setState(petition)
     component.instance().onPreview({ preventDefault: () => {} })
     expect(dispatch.calledOnce).to.be.true
+    expect(dispatch.firstCall.args[0].type).to.equal('CREATE_PETITION_PREVIEW_SUBMIT')
+    expect(dispatch.firstCall.args[0]).to.contain(petition)
     expect(document.location.toString()).to.contain('create_preview.html')
   })
 })
