@@ -27,7 +27,6 @@ const Petition = ({
   user,
   adminLink,
   petitionBy,
-  outOfDate,
   isFloatingSignVisible,
   scrollToSignFormProps,
   hideFloatingSign,
@@ -35,7 +34,7 @@ const Petition = ({
   setRef
 }) => (
   <Container>
-    <PetitionMessage outOfDate={outOfDate} petition={p} isFwd={query.fwd} />
+    <PetitionMessage petition={p} isFwd={query.fwd} />
     <InfoColumn>
       <PetitionCard
         heading={splitIntoSpansJsx(p.title)}
@@ -124,7 +123,6 @@ Petition.propTypes = {
   adminLink: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   query: PropTypes.object,
   petitionBy: PropTypes.string,
-  outOfDate: PropTypes.string,
   setRef: PropTypes.func,
   scrollToSignFormProps: PropTypes.func,
   isFloatingSignVisible: PropTypes.bool,
