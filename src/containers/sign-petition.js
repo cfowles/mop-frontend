@@ -116,8 +116,6 @@ class SignPetition extends React.Component {
       name: p.contact_name
     }
     const petitionBy = creator.name || p.contact_name
-    const outOfDate =
-      p.tags && p.tags.filter(t => t.name === 'possibly_out_of_date').length
 
     return (
       <div className='moveon-petitions sign container'>
@@ -127,7 +125,6 @@ class SignPetition extends React.Component {
           adminLink={this.getAdminLink()}
           query={this.props.location.query}
           petitionBy={petitionBy}
-          outOfDate={outOfDate}
           isFloatingSignVisible={this.state.floatingSignVisible}
           scrollToSignFormProps={this.getScrollToSignFormProps}
           hideFloatingSign={() => this.setState({ floatingSignVisible: false })}

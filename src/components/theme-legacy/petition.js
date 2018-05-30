@@ -9,9 +9,9 @@ import SignatureList from '../../containers/signature-list'
 import PetitionMessage from 'LegacyTheme/petition-message'
 import { Link } from 'react-router'
 
-const Petition = ({ petition: p, query, petitionBy, outOfDate, adminLink }) => (
+const Petition = ({ petition: p, query, petitionBy, adminLink }) => (
   <div className='container'>
-    <PetitionMessage petition={p} outOfDate={outOfDate} isFwd={query.fwd} />
+    <PetitionMessage petition={p} isFwd={query.fwd} />
     <div className='row'>
       <SignatureAddForm petition={p} query={query} />
 
@@ -91,7 +91,6 @@ Petition.propTypes = {
   petition: PropTypes.object.isRequired,
   query: PropTypes.object,
   petitionBy: PropTypes.string,
-  outOfDate: PropTypes.string,
   adminLink: PropTypes.oneOfType([PropTypes.bool, PropTypes.string])
 }
 
