@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router'
 
 import RegisterForm from '../../containers/register-form'
 
@@ -41,9 +42,9 @@ export const CreatePreview = ({ petition, user, onSubmit }) => (
             />
 
             <div className='bump-top-2 align-center percent-100'>
-              <a href='create_revise.html?skin=' className='size-small'>
+              <Link to='/create_revise.html' className='size-small'>
                 <span className='triangle'>◀</span> Go back and fix something
-              </a>
+              </Link>
             </div>
 
             <p className='bump-top-2 disclaimer align-center'>

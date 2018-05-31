@@ -8,6 +8,11 @@ import StateSelect from '../state-select'
 const isDefault = target =>
   ['governor', 'statehouse', 'statesenate'].indexOf(target.target_type) !== -1
 
+const contains = (item, list) =>
+  list.filter(
+    t => t.target_type === item.target_type && t.target_id === item.target_id
+  ).length > 0
+
 const StateTargetSelect = ({
   selected,
   remove,
@@ -30,11 +35,8 @@ const StateTargetSelect = ({
     </div>
     <div id='state_group_checkboxes'>
       {autocompleteItems.filter(isDefault).map(defaultItem => {
-        const isChecked = selected.filter(
-          t =>
-            t.target_type === defaultItem.target_type &&
-            t.target_id === defaultItem.target_id
-        ).length
+        // isChecked means if the autocomplete item is in the selected items
+        const isChecked = contains(defaultItem, selected)
         return (
           <div key={defaultItem.label} className='checkbox wrapper'>
             <label>
@@ -50,27 +52,30 @@ const StateTargetSelect = ({
           </div>
         )
       })}
-      {selected.filter(t => !isDefault(t)).map(selectedItem => (
-        <div key={selectedItem.label} className='checkbox wrapper'>
-          <label>
-            <input
-              type='checkbox'
-              onChange={() => remove(selectedItem)}
-              checked
-            />{' '}
-            {selectedItem.label}
-          </label>
-        </div>
-      ))}
+      {/* Also show if not a default, or it's from another geoState (not preloaded into autocompleteItems) */}
+      {selected
+        .filter(t => !isDefault(t) || !contains(t, autocompleteItems))
+        .map(selectedItem => (
+          <div key={selectedItem.label} className='checkbox wrapper'>
+            <label>
+              <input
+                type='checkbox'
+                onChange={() => remove(selectedItem)}
+                checked
+              />{' '}
+              {selectedItem.label}
+            </label>
+          </div>
+        ))}
     </div>
     <div className='autocomplete_wrapper text wrapper small'>
-      {geoState &&
+      {geoState && (
         <LegislatorAutocomplete
           group='national'
           onChange={onSelect}
           items={autocompleteItems.filter(t => !isDefault(t))}
         />
-      }
+      )}
     </div>
   </div>
 )

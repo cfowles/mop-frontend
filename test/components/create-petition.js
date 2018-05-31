@@ -83,7 +83,7 @@ describe('<CreatePetition />', () => {
     expect(component.state('errors').length).to.equal(3)
   })
 
-  it('submitting petition for preview fires the action', () => {
+  it('submitting petition for preview fires the action and redirects', () => {
     const dispatch = sinon.spy()
     const component = shallow(<CreatePetitionUnwrapped dispatch={dispatch} />)
     const petition = {
@@ -95,5 +95,8 @@ describe('<CreatePetition />', () => {
     component.setState(petition)
     component.instance().onPreview({ preventDefault: () => {} })
     expect(dispatch.calledOnce).to.be.true
+    expect(dispatch.firstCall.args[0].type).to.equal('CREATE_PETITION_PREVIEW_SUBMIT')
+    expect(dispatch.firstCall.args[0]).to.contain(petition)
+    expect(document.location.toString()).to.contain('create_preview.html')
   })
 })
