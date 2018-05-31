@@ -42,8 +42,7 @@ class CreatePetition extends React.Component {
     return () => this.setState(prevState => {
       const prev = prevState.step;
       let newStep = prev + 1;
-      console.log(this.state);
-      return { step: newStep }
+      return { step: newStep, signupModalActive: false }
     })
   }
   toggleSignupModal() {

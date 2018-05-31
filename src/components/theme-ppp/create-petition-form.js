@@ -52,14 +52,14 @@ const CreatePetitionForm = ({
   const state = !stateOpen ? '' : <StateTargetSelect />
   const custom = !customOpen ? '' : <CustomTargetSelect />
 
-  const petitionTitle = step !== 1 ? '' : <PetitionTitle />
-  const petitionStatement = step !== 2 ? '' : <PetitionStatement />
-  const petitionBackground = step !== 3 ? '' : <PetitionBackground />
-  const petitionTargets = step !== 4 ? '' : <PetitionTargets />
-  const petitionMedia = step !== 5 ? '' : <PetitionMedia />
-  const petitionReview = step !== 6 ? '' : <PetitionReview />
-  const petitionTip = tipModalActive ? <PetitionTip /> : ''
-  const petitionSignup = signupModalActive ? <PetitionSignup /> : ''
+  const petitionTitle = step !== 1 ? '' : <PetitionTitle tipModalActive={tipModalActive} toggleTipModal={toggleTipModal} />
+  const petitionStatement = step !== 2 ? '' : <PetitionStatement tipModalActive={tipModalActive} toggleTipModal={toggleTipModal} />
+  const petitionBackground = step !== 3 ? '' : <PetitionBackground tipModalActive={tipModalActive} toggleTipModal={toggleTipModal} />
+  const petitionTargets = step !== 4 ? '' : <PetitionTargets tipModalActive={tipModalActive} toggleTipModal={toggleTipModal} />
+  const petitionMedia = step !== 5 ? '' : <PetitionMedia tipModalActive={tipModalActive} toggleTipModal={toggleTipModal} />
+  const petitionReview = step !== 6 ? '' : <PetitionReview tipModalActive={tipModalActive} toggleTipModal={toggleTipModal} />
+  const petitionTip = tipModalActive ? <PetitionTip tipModalActive={tipModalActive} toggleTipModal={toggleTipModal} step={step} /> : ''
+  const petitionSignup = signupModalActive ? <PetitionSignup nextStep={nextStep} step={step} signupModalActive={signupModalActive} toggleSignupModal={toggleSignupModal}/> : ''
 
   return (
     <div id="ppp">

@@ -70,12 +70,22 @@ hr {
         }
     }
     .signup-modal {
-        background-color: #00abff;
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
-        padding-top: 67px;
-        padding-bottom: 22px;
-        position: relative;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        z-index: 200;
+        padding-top: 75px;
+        background: black;
+
+        .container {
+            background-color: #00abff;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            padding-top: 67px;
+            padding-bottom: 22px;
+            position: relative;
+            height: 100%;
+        }
 
         .close {
             span {
@@ -120,6 +130,12 @@ hr {
         padding-top: 50px;
         position: relative;
         padding-bottom: 50px;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        z-index: 200;
+        background-color: white;
+        overflow: scroll;
 
         .heading {
             padding-top: 40px;

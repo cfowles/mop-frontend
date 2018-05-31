@@ -1,16 +1,19 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-const PetitionTitle = () => (
+const PetitionTitle = ({
+    toggleTipModal,
+    tipModalActive
+}) => (
     <div className="step1 ppp-step container">
 
-        {/* Petition title */}
         <div className="row ppp-item">
             <div className="col-12">
                 <p>Let’s launch your petition! From Local to National, we want to give your voice a platform to help you create progressive change.  </p>
             </div>
             <div className="col-12 ppp-heading">
                 <h3>Petition title</h3>
-                <div className="ppp-tip">
+                <div className="ppp-tip" onClick={toggleTipModal()}>
                     Tips
                     <span></span>
                 </div>
@@ -24,5 +27,9 @@ const PetitionTitle = () => (
         </div>
     </div>
 )
+
+PetitionTitle.propTypes = {
+    toggleTipModal: PropTypes.func
+}
 
 export default PetitionTitle

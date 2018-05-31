@@ -1,11 +1,15 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-const PetitionTargets = () => (
+const PetitionTargets = ({
+    toggleTipModal,
+    tipModalActive
+}) => (
     <div className="step4 ppp-step container">
         <div className = "row ppp-item">
             <div className="col-12 ppp-heading">
                 <h3>Decision Makers</h3>
-                <div className="ppp-tip">
+                <div className="ppp-tip" onClick={toggleTipModal()}>
                     Tips
               <span></span>
                 </div>
@@ -67,5 +71,9 @@ const PetitionTargets = () => (
         </div>
     </div>
 )
+
+PetitionTargets.propTypes = {
+    toggleTipModal: PropTypes.func
+}
 
 export default PetitionTargets
