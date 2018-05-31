@@ -34,7 +34,7 @@ export function loadTargets(group, geoState) {
       url += `&state=${geoState}`
       storeKey += `--${geoState}`
     } else if (group === 'national') {
-      url += '&fed=true'
+      url += '&fed=1'
     }
     if (petitionTargetStore && petitionTargetStore[storeKey]) {
       return dispatch({
