@@ -13,7 +13,11 @@ class CreatePetition extends React.Component {
       customOpen: false,
       step: 1,
       signupModalActive: false,
-      tipModalActive: false
+      tipModalActive: false,
+      name: false,
+      email: false,
+      country: 'United States',
+      zip: false
     }
     this.setSelected = this.setSelected.bind(this)
     this.setRef = this.setRef.bind(this)
@@ -23,6 +27,7 @@ class CreatePetition extends React.Component {
     this.toggleTipModal = this.toggleTipModal.bind(this)
     this.toggleSignupModal = this.toggleSignupModal.bind(this)
     this.toggleTipModal = this.toggleTipModal.bind(this)
+    this.updateStateFromValue = this.updateStateFromValue.bind(this)
   }
 
   setSelected(name) {
@@ -51,6 +56,26 @@ class CreatePetition extends React.Component {
       return { signupModalActive: !prev }
     })
   }
+
+  updateStateFromValue(field, isCheckbox = false) {
+    return (event) => {
+      const value = isCheckbox ? event.target.checked : event.target.value
+      console.log(value)
+      this.setState({
+        [field]: value
+      })
+    }
+  }
+
+  /*For conversational scrolling
+  scrollToBottom = () => {
+    this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+  }
+
+  componentDidMount() {
+    this.scrollToBottom();
+  }*/
+  
   toggleTipModal() {
     return () => this.setState(prevState => {
       const prev = prevState.tipModalActive;
@@ -93,6 +118,7 @@ class CreatePetition extends React.Component {
           tipModalActive={this.state.tipModalActive}
           toggleSignupModal={this.toggleSignupModal}
           toggleTipModal={this.toggleTipModal}
+          updateStateFromValue={this.updateStateFromValue}
         />
       </div>
     )
