@@ -98,6 +98,8 @@ class Register extends React.Component {
         setRef={input => input && (this[input.name] = input)}
         isSubmitting={this.props.isSubmitting}
         includeZipAndPhone={this.props.includeZipAndPhone}
+        useLaunchButton={this.props.useLaunchButton}
+        useAlternateFields={this.props.useAlternateFields}
       />
     )
   }
@@ -112,6 +114,8 @@ Register.propTypes = {
   dispatch: PropTypes.func,
   isSubmitting: PropTypes.bool,
   includeZipAndPhone: PropTypes.bool,
+  useLaunchButton: PropTypes.bool,
+  useAlternateFields: PropTypes.bool,
   successCallback: PropTypes.func
 }
 

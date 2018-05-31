@@ -21,6 +21,7 @@ import {
   LoadableDashboard,
   LoadableNoPetition,
   LoadableCreate,
+  LoadablePreview,
   LoadableRegister,
   LoadableLogin,
   LoadableStatic,
@@ -104,6 +105,7 @@ export const routes = store => {
       <Route path=':organization/thanks.html' component={ThanksShim} onEnter={orgLoader} prodReady minimalNav />
       <Route path='find' component={LoadableSearch} />
       <Route path='create_start.html' component={LoadableCreate} minimalNav />
+      <Route path='create_preview.html' component={LoadablePreview} minimalNav />
       <Route path='petition_report.html' component={LoadablePetitionReport} />
       <Route path=':organization/create_start.html' component={LoadableCreate} onEnter={orgLoader} minimalNav />
       <Route path='login/' component={LoadableLogin} />

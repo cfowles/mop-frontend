@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
+import { appLocation } from '../routes'
 import { previewSubmit } from '../actions/createPetitionActions'
 
 import CreatePetitionForm from 'LegacyTheme/create-petition-form'
@@ -43,6 +44,7 @@ export class CreatePetition extends React.Component {
           description: this.state.description
         })
       )
+      appLocation.push('/create_preview.html')
     }
   }
 
