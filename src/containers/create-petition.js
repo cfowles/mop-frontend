@@ -11,11 +11,18 @@ class CreatePetition extends React.Component {
       nationalOpen: false,
       stateOpen: false,
       customOpen: false,
-      step: 0
+      step: 1,
+      signupModalActive: false,
+      tipModalActive: false
     }
     this.setSelected = this.setSelected.bind(this)
     this.setRef = this.setRef.bind(this)
     this.toggleOpen = this.toggleOpen.bind(this)
+    this.nextStep = this.nextStep.bind(this)
+    this.toggleSignupModal = this.toggleSignupModal.bind(this)
+    this.toggleTipModal = this.toggleTipModal.bind(this)
+    this.toggleSignupModal = this.toggleSignupModal.bind(this)
+    this.toggleTipModal = this.toggleTipModal.bind(this)
   }
 
   setSelected(name) {
@@ -25,7 +32,13 @@ class CreatePetition extends React.Component {
   setRef(name) {
     return input => input && (this[name] = input)
   }
-  toggleOpen() {
+  toggleOpen(section) {
+    return () => this.setState(prevState => {
+      const prev = prevState[section]
+      return { [section]: !prev }
+    })
+  }
+  nextStep() {
     return () => this.setState(prevState => {
       const prev = prevState.step;
       let newStep = prev + 1;
@@ -33,20 +46,18 @@ class CreatePetition extends React.Component {
       return { step: newStep }
     })
   }
-
-  /*For conversational scrolling
-  scrollToBottom = () => {
-    this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+  toggleSignupModal() {
+    return () => this.setState(prevState => {
+      const prev = prevState.signupModalActive;
+      return { signupModalActive: !prev }
+    })
   }
-
-  componentDidMount() {
-    this.scrollToBottom();
+  toggleTipModal() {
+    return () => this.setState(prevState => {
+      const prev = prevState.tipModalActive;
+      return { tipModalActive: !prev }
+    })
   }
-
-  componentDidUpdate() {
-    this.scrollToBottom();
-  }
-  */
 
   render() {
     const elementByField = {
@@ -72,12 +83,17 @@ class CreatePetition extends React.Component {
           setSelected={this.setSelected}
           setRef={this.setRef}
           toggleOpen={this.toggleOpen}
+          nextStep={this.nextStep}
           selected={this.state.selected}
           nationalOpen={this.state.nationalOpen}
           stateOpen={this.state.stateOpen}
           customOpen={this.state.customOpen}
           instructionStyle={instructionStyle}
           step={this.state.step}
+          signupModalActive={this.state.signupModalActive}
+          tipModalActive={this.state.tipModalActive}
+          toggleSignupModal={this.toggleSignupModal}
+          toggleTipModal={this.toggleTipModal}
         />
       </div>
     )
