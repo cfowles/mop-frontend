@@ -6,6 +6,7 @@ export const InputBlock = ({
   name,
   children,
   label,
+  labelBefore,
   onChange,
   type,
   className,
@@ -15,9 +16,11 @@ export const InputBlock = ({
   <div
     className={cx(
       type === 'checkbox' ? 'checkbox-input' : 'input-block',
-      className
+      className,
+      { 'label-before-input': labelBefore }
     )}
   >
+    {labelBefore && <label htmlFor={name}>{label}</label>}
     {children || (
       <input
         type={type}
@@ -29,7 +32,7 @@ export const InputBlock = ({
         {...rest}
       />
     )}
-    <label htmlFor={name}>{label}</label>
+    {!labelBefore && <label htmlFor={name}>{label}</label>}
   </div>
 )
 
@@ -39,6 +42,7 @@ InputBlock.propTypes = {
   name: PropTypes.string,
   children: PropTypes.node,
   label: PropTypes.string.isRequired,
+  labelBefore: PropTypes.bool,
   type: PropTypes.string,
   onChange: PropTypes.func,
   className: PropTypes.string,

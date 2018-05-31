@@ -4,11 +4,11 @@ import { expect } from 'chai'
 
 import { mount, shallow } from 'enzyme'
 
-import LoginForm from 'LegacyTheme/login-form'
+import LoginForm from 'Theme/login-form'
 
 describe('<LoginForm />', () => {
   it('displays fields', () => {
-    const login = shallow(<LoginForm />)
+    const login = mount(<LoginForm />)
     expect(login.find('input[name="email"]').length).to.equal(1)
     expect(login.find('input[name="password"]').length).to.equal(1)
   })

@@ -6,7 +6,7 @@ import { mount } from 'enzyme'
 import { createMockStore } from 'redux-test-utils'
 
 import Login from '../../src/containers/login'
-import LoginForm from 'LegacyTheme/login-form'
+import LoginForm from 'Theme/login-form'
 
 const empty = createMockStore({ userStore: {} })
 
