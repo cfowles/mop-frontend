@@ -286,7 +286,9 @@ function shouldShowAddressFields(user, petition) {
 }
 
 function shouldShowMobileSignUp(queryString) {
-  if (queryString.slice(-1) === 1) return true
+  if (queryString.search("cohort=1") > -1) {
+    return true
+  }
   return false
 }
 

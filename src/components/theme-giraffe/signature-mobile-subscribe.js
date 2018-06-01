@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { InputBlock } from 'GiraffeUI/petition'
+import { InputBlock } from 'GiraffeUI/input-block'
 import { Link } from 'react-router'
 
 const MobileSubscribe = ({ updateOptIn, updatePhoneNo, showBox }) => (
