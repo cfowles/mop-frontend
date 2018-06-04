@@ -35,7 +35,9 @@ const CreatePetitionForm = ({
   instructionStyle,
   setRef,
   toggleOpen,
-  updateStateFromValue
+  updateStateFromValue,
+  section,
+  nextSection
 }) => {
   const instructions = instructionsByField[selected]
 
@@ -43,13 +45,24 @@ const CreatePetitionForm = ({
   const state = !stateOpen ? '' : <StateTargetSelect />
   const custom = !customOpen ? '' : <CustomTargetSelect />
 
+  const email = section !== 'email' ? '' : <Email emailOnChange={updateStateFromValue('email')} section={section} nextSection={nextSection} />
+  const title = section !== 'title' ? '' : <Title titleOnChange={updateStateFromValue('title')} />
+  const statement = section !== 'statement' ? '' : <Statement statementOnChange={updateStateFromValue('statement')} />
+  const background = section !== 'background' ? '' : <Background backgroundOnChange={updateStateFromValue('background')} />
+
   return (
     <div id='conversational'>
       <div className='chat-wrap'>
+        <div className='bubble'>
+          <div className='loader'>
+            <span className='dot'></span><span className='dot'></span><span className='dot'></span>
+          </div>
+        </div>
         <Welcome />
-        <Email emailOnChange={updateStateFromValue('email')} />
-        <Title titleOnChange={updateStateFromValue('title')} />
-        <Statement statementOnChange={updateStateFromValue('statement')} />
+        {email}
+        {title}
+        {statement}
+        {background}
         <div style={{ float:"left", clear: "both" }}
              ref={(el) => { this.messagesEnd = el; }}>
         </div>

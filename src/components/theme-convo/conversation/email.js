@@ -1,12 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import ChatBubble from './chat-bubble'
 
-const Email = ({emailOnChange}) => (
+const Email = ({
+  emailOnChange,
+  section,
+  nextSection
+}) => (
   <div>
-    <div className='bubble'>I’ll ask you a few questions that will help build your petition in minutes.
-    </div>
-    <div className='bubble'>Let’s get started! Can you enter your email so you don’t lose your progress?
-    </div>
+    <ChatBubble section={section} />
     <div className='bubble user'>
       <input
         type='email'
@@ -15,6 +17,12 @@ const Email = ({emailOnChange}) => (
         onChange={emailOnChange}
         onBlur={emailOnChange}
       />
+    <a className='bubble-submit' onClick={nextSection()}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+        <path d="M0 0h24v24H0z" fill="none"/>
+      </svg>
+    </a>
     </div>
   </div>
 )

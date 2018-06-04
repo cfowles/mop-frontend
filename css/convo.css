@@ -14,36 +14,36 @@
   margin-top: 20px;
   min-width: 86px;
 }
-#conversational .bubble .loading {
-  position: absolute;
-  z-index: 10;
-  width: 67px;
-  left: 20px;
-  top: 15px;
+#conversational .bubble .loader {
+  position: relative;
+  text-align: center;
+  width: auto;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
-#conversational .bubble .loading .dot {
-  height: 10px;
-  width: 10px;
+#conversational .bubble .loader .dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background: #c1c1c1;
-  display: block;
-  float: left;
-  margin: 0 0 0 8px;
+  margin-right: 2px;
+  background: #00abff;
+  animation: wave 1.3s linear infinite;
 }
-#conversational .bubble .loading .dot:first-child {
-  margin: 0;
+#conversational .bubble .loader .dot:nth-child(2) {
+  animation-delay: -1.1s;
 }
-#conversational .bubble .loading .dot.one {
-  -webkit-animation: cycleOne 1s ease-in-out infinite;
-  -webkit-animation-direction: normal;
+#conversational .bubble .loader .dot:nth-child(3) {
+  animation-delay: -0.9s;
 }
-#conversational .bubble .loading .dot.two {
-  -webkit-animation: cycleTwo 1s ease-in-out infinite;
-  -webkit-animation-direction: normal;
-}
-#conversational .bubble .loading .dot.three {
-  -webkit-animation: cycleThree 1s ease-in-out infinite;
-  -webkit-animation-direction: normal;
+@keyframes wave {
+  0%, 60%, 100% {
+    transform: initial;
+  }
+  30% {
+    transform: translateY(-15px);
+  }
 }
 #conversational .bubble::after {
   content: "";
@@ -70,9 +70,20 @@
   background-color: #ffffff;
   padding: 0 15px;
 }
+#conversational .bubble.user .bubble-submit {
+  position: absolute;
+  right: 29px;
+  top: 29px;
+  height: 24px;
+  width: 24px;
+  z-index: 5;
+}
+#conversational .bubble.user .bubble-submit svg {
+  fill: #00abff;
+}
 @media (min-width: 768px) {
   #conversational .bubble.user {
-    position: inherit;
+    position: relative;
     float: right;
     border-radius: 20px 20px 0 20px;
   }

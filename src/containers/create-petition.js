@@ -16,6 +16,7 @@ class CreatePetition extends React.Component {
 
       // Steps
       step: 1,
+      section: 'email',
 
       // User Data
       name: false,
@@ -40,6 +41,7 @@ class CreatePetition extends React.Component {
     this.nextStep = this.nextStep.bind(this)
     this.updateStateFromValue = this.updateStateFromValue.bind(this)
     this.getTargets = this.getTargets.bind(this)
+    this.nextSection = this.nextSection.bind(this)
   }
 
   setSelected(name) {
@@ -61,6 +63,13 @@ class CreatePetition extends React.Component {
       const prev = prevState.step;
       let newStep = prev + 1;
       return { step: newStep, signupModalToggled: false }
+    })
+  }
+
+  nextSection() {
+    return () => this.setState(prevState => {
+      let newSection = 'title'
+      return { section: newSection }
     })
   }
 
@@ -127,6 +136,9 @@ class CreatePetition extends React.Component {
           // Steps
           nextStep={this.nextStep}
           step={this.state.step}
+
+          section={this.state.section}
+          nextSection={this.nextSection}
 
           // Toggles
           toggleOpen={this.toggleOpen}

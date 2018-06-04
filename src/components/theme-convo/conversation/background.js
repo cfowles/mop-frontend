@@ -15,7 +15,7 @@ const Background = ({backgroundOnChange}) => (
         name='background'
         placeholder='Your petition background'
         onChange={backgroundOnChange}
-        onBlur={backgroudOnChange}
+        onBlur={backgroundOnChange}
       />
     </div>
   </div>
