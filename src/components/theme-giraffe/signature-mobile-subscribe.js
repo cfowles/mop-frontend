@@ -19,7 +19,7 @@ const MobileSubscribe = ({ updateOptIn, updatePhoneNo, showBox }) => (
           name='mobile_optin'
           label='Receive mobile alerts from MoveOn. Msg & data rates may apply. Text STOP to 668366 to stop receiving messages. Text HELP to 668366 for more information.'
         />
-        <Link className='mobileoptinlink' to='https://front.moveon.org/moveon-sms-terms-conditions/' style={{ marginLeft: '8%' }}> Terms & Conditions. </Link>
+        <Link className='mobileoptinlink' to='https://front.moveon.org/moveon-sms-terms-conditions/' style={{ marginLeft: '30px' }}> Terms & Conditions. </Link>
       </div>
     : '' }
   </div>
