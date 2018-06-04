@@ -109,6 +109,7 @@ class SignPetition extends React.Component {
 
   render() {
     const p = this.props.petition
+    const mobileTest = this.props.route.mobileTest
     if (!p) {
       return <div />
     }
@@ -130,6 +131,7 @@ class SignPetition extends React.Component {
           hideFloatingSign={() => this.setState({ floatingSignVisible: false })}
           showFloatingSign={() => this.setState({ floatingSignVisible: true })}
           setRef={this.setRef}
+          mobileTest={mobileTest}
         />
       </div>
     )
@@ -141,7 +143,8 @@ SignPetition.propTypes = {
   user: PropTypes.object,
   params: PropTypes.object,
   location: PropTypes.object,
-  dispatch: PropTypes.func
+  dispatch: PropTypes.func,
+  route: PropTypes.object
 }
 
 function mapStateToProps(store, ownProps) {
