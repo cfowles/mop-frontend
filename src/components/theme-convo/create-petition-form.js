@@ -19,7 +19,7 @@ import Background from './conversation/background'
 
 const instructionsByField = {
   title: <TitleTip />,
-statement: <StatementTip />,
+  statement: <StatementTip />,
   'target-national': <TargetNational />,
   'target-state': <TargetState />,
   'target-custom': <TargetCustom />,
@@ -50,7 +50,6 @@ const CreatePetitionForm = ({
         <Email emailOnChange={updateStateFromValue('email')} />
         <Title titleOnChange={updateStateFromValue('title')} />
         <Statement statementOnChange={updateStateFromValue('statement')} />
-        <Background backgroundOnChange={updateStateFromValue('background')}  />
         <div style={{ float:"left", clear: "both" }}
              ref={(el) => { this.messagesEnd = el; }}>
         </div>

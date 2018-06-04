@@ -21,7 +21,7 @@ const Statement = ({statementOnChange}) => (
   </div>
 )
 
-Title.propTypes = {
+Statement.propTypes = {
   statementOnChange: PropTypes.func,
   statementValidationError: PropTypes.element
 }
