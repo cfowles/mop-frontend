@@ -7,7 +7,7 @@ const ChatBubble = ({
     section
 }) => {
 
-    const currentSection = conversation[section]
+    const currentSection = conversation[section - 1]
     console.log(currentSection)
 
     //should 'type' at 40 characters per second => (length / 40) * 1000 for ms.
