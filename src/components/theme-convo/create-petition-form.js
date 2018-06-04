@@ -2,21 +2,24 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import About from './form/instructions/about'
-import Statement from './form/instructions/statement'
+import StatementTip from './form/instructions/statement'
 import TargetCustom from './form/instructions/target-custom'
 import TargetNational from './form/instructions/target-national'
 import TargetState from './form/instructions/target-state'
-import Title from './form/instructions/title'
+import TitleTip from './form/instructions/title'
 import CustomTargetSelect from './form/target-select/custom'
 import NationalTargetSelect from './form/target-select/national'
 import StateTargetSelect from './form/target-select/state'
 
 import Welcome from './conversation/welcome'
 import Email from './conversation/email'
+import Title from './conversation/title'
+import Statement from './conversation/statement'
+import Background from './conversation/background'
 
 const instructionsByField = {
-  title: <Title />,
-  statement: <Statement />,
+  title: <TitleTip />,
+statement: <StatementTip />,
   'target-national': <TargetNational />,
   'target-state': <TargetState />,
   'target-custom': <TargetCustom />,
@@ -45,6 +48,9 @@ const CreatePetitionForm = ({
       <div className='chat-wrap'>
         <Welcome />
         <Email emailOnChange={updateStateFromValue('email')} />
+        <Title titleOnChange={updateStateFromValue('title')} />
+        <Statement statementOnChange={updateStateFromValue('statement')} />
+        <Background backgroundOnChange={updateStateFromValue('background')}  />
         <div style={{ float:"left", clear: "both" }}
              ref={(el) => { this.messagesEnd = el; }}>
         </div>
