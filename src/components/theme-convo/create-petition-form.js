@@ -45,10 +45,10 @@ const CreatePetitionForm = ({
   const state = !stateOpen ? '' : <StateTargetSelect />
   const custom = !customOpen ? '' : <CustomTargetSelect />
 
-  const email = section !== 'email' ? '' : <Email emailOnChange={updateStateFromValue('email')} section={section} nextSection={nextSection} />
-  const title = section !== 'title' ? '' : <Title titleOnChange={updateStateFromValue('title')} />
-  const statement = section !== 'statement' ? '' : <Statement statementOnChange={updateStateFromValue('statement')} />
-  const background = section !== 'background' ? '' : <Background backgroundOnChange={updateStateFromValue('background')} />
+  const email = section < 1 ? '' : <Email emailOnChange={updateStateFromValue('email')} section={section} nextSection={nextSection} />
+  const title = section < 2 ? '' : <Title titleOnChange={updateStateFromValue('title')} />
+  const statement = section < 3 ? '' : <Statement statementOnChange={updateStateFromValue('statement')} />
+  const background = section < 4 ? '' : <Background backgroundOnChange={updateStateFromValue('background')} />
 
   return (
     <div id='conversational'>
@@ -64,7 +64,7 @@ const CreatePetitionForm = ({
         {statement}
         {background}
         <div style={{ float:"left", clear: "both" }}
-             ref={(el) => { this.messagesEnd = el; }}>
+             ref={(el) => { this.chatEnd = el; }}>
         </div>
       </div>
     </div>

@@ -10,7 +10,7 @@ const ChatBubble = ({
     const currentSection = conversation[section]
     console.log(currentSection)
 
-    //should 'type' at 40 characters per second => (length / 40) * 1000
+    //should 'type' at 40 characters per second => (length / 40) * 1000 for ms.
 
     const bubbles = currentSection.bubbles.map(function(b, i){
       return (

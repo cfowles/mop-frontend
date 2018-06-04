@@ -16,7 +16,7 @@ class CreatePetition extends React.Component {
 
       // Steps
       step: 1,
-      section: 'email',
+      section: 1,
 
       // User Data
       name: false,
@@ -68,8 +68,9 @@ class CreatePetition extends React.Component {
 
   nextSection() {
     return () => this.setState(prevState => {
-      let newSection = 'title'
-      return { section: newSection }
+      const prev = prevState.step;
+      let newSection = prev + 1;
+      return { section: newSection}
     })
   }
 
@@ -88,14 +89,15 @@ class CreatePetition extends React.Component {
     }
   }
 
-  /*For conversational scrolling
-  scrollToBottom = () => {
-    this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+  /* conversational scrolling
+  scrollToBottom() {
+    this.chatEnd.scrollIntoView({ behavior: "smooth" });
   }
 
-  componentDidMount() {
+  componentDidUpdate() {
     this.scrollToBottom();
-  }*/
+  }
+  */
 
   render() {
     const elementByField = {
