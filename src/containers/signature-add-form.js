@@ -286,7 +286,7 @@ function shouldShowAddressFields(user, petition) {
 }
 
 function shouldShowMobileSignUp(queryString) {
-  if (queryString.search("cohort=1") > -1) {
+  if (queryString.cohort === '1') {
     return true
   }
   return false
@@ -304,7 +304,7 @@ function mapStateToProps(store, ownProps) {
     requireAddressFields: petition.needs_full_addresses && shouldShowAddressFields(user, petition),
     fromCreator: (/^c\./.test(source) || /^s\.icn/.test(source)),
     fromMailing: /\.imn/.test(source),
-    showMobileSignup: shouldShowMobileSignUp(source)
+    showMobileSignup: shouldShowMobileSignUp(query)
   }
   newProps.showOptinWarning = !!(!user.signonId && (creator.source
                                                     || (creator.custom_fields && creator.custom_fields.may_optin)))

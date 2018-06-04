@@ -86,13 +86,25 @@ export const routes = store => {
       store.dispatch(loadOrganization(nextState.params.organization))
     }
   }
-  // const testFn = ({ params }, callback) => {
-  // attached to onEnter in sign/:petitionName route
-  //   if (Config.AB_TEST_ENABLED) {
-  //     const cohort = (Math.random() > 0.5 ? 1 : 2)
-  //     return window.location = `/sign/${params.petitionName}?&cohort=${cohort}`
-  //   }
-  // }
+
+  const testFn = () => {
+    const cohort = (Math.random() > 0.5 ? 1 : 2)
+    const currentLocation = window.location
+    const pathName = currentLocation.pathname
+    const check = Config.AB_TEST_ENABLED / 100
+    if (Config.AB_TEST_ENABLED) {
+      if (Math.random() > parseInt(check, 10)) {
+        // makes sure it only does it on sign pages
+        if (pathName.search('sign') > -1) {
+          browserHistory.push(`${pathName}?cohort=${cohort}`)
+        } else {
+          return cohort
+        }
+      }
+    }
+    return cohort
+  }
+
   const onChange = () => {
     store.dispatch(clearError()) // Stop showing any error page
     scrollToTop()
@@ -107,7 +119,7 @@ export const routes = store => {
           petitionName is a slugified name, matching the slugified "name" returned by the api.
       */}
 
-      <Route path='sign/:petitionName' component={Sign} prodReady />
+      <Route path='sign/:petitionName' component={Sign} mobileTest={testFn()} prodReady />
       <Route path=':organization/sign/:petitionName' component={Sign} onEnter={orgLoader} prodReady />
 
       <Route path='pac/' component={LoadablePacHome} prodReady />
