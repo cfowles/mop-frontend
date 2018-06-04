@@ -2,14 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const PetitionMedia = ({
-    toggleTipModal,
-    tipModalActive
+    toggleOpen
 }) => (
-    <div className="step5 ppp-step container">
+    <div className="media ppp-step container">
         <div className="row ppp-item">
             <div className="col-12 ppp-heading">
                 <h3>Add a photo or video</h3>
-                <div className="ppp-tip" onClick={toggleTipModal()}>Tips
+                <div className="ppp-tip" onClick={toggleOpen('tipModalToggled')}>Tips
                     <span></span>
                 </div>
             </div>
@@ -30,7 +29,7 @@ const PetitionMedia = ({
 )
 
 PetitionMedia.propTypes = {
-    toggleTipModal: PropTypes.func
+    toggleOpen: PropTypes.func
 }
 
 export default PetitionMedia

@@ -1,4 +1,5 @@
 import React from 'react'
+import { loadTargets } from '../actions/createPetitionActions.js'
 
 //import CreatePetitionForm from 'LegacyTheme/create-petition-form'
 import CreatePetitionForm from 'Theme/create-petition-form'
@@ -7,27 +8,38 @@ class CreatePetition extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      // Old
       selected: 'title',
       nationalOpen: false,
       stateOpen: false,
       customOpen: false,
+
+      // Steps
       step: 1,
-      signupModalActive: false,
-      tipModalActive: false,
+
+      // User Data
       name: false,
       email: false,
       country: 'United States',
-      zip: false
+      zip: false,
+
+      // Toggles
+      signupModalToggled: false,
+      tipModalToggled: false,
+      shareButtonsToggled: false,
+      editPetition: false,
+
+      // Petition
+      title: false,
+      statement: false,
+      background: false
     }
     this.setSelected = this.setSelected.bind(this)
     this.setRef = this.setRef.bind(this)
     this.toggleOpen = this.toggleOpen.bind(this)
     this.nextStep = this.nextStep.bind(this)
-    this.toggleSignupModal = this.toggleSignupModal.bind(this)
-    this.toggleTipModal = this.toggleTipModal.bind(this)
-    this.toggleSignupModal = this.toggleSignupModal.bind(this)
-    this.toggleTipModal = this.toggleTipModal.bind(this)
     this.updateStateFromValue = this.updateStateFromValue.bind(this)
+    this.getTargets = this.getTargets.bind(this)
   }
 
   setSelected(name) {
@@ -37,33 +49,33 @@ class CreatePetition extends React.Component {
   setRef(name) {
     return input => input && (this[name] = input)
   }
-  toggleOpen(section) {
+  toggleOpen(element) {
+    console.log(element, this.state);
     return () => this.setState(prevState => {
-      const prev = prevState[section]
-      return { [section]: !prev }
+      const prev = prevState[element]
+      return { [element]: !prev }
     })
   }
   nextStep() {
     return () => this.setState(prevState => {
       const prev = prevState.step;
       let newStep = prev + 1;
-      return { step: newStep, signupModalActive: false }
-    })
-  }
-  toggleSignupModal() {
-    return () => this.setState(prevState => {
-      const prev = prevState.signupModalActive;
-      return { signupModalActive: !prev }
+      return { step: newStep, signupModalToggled: false }
     })
   }
 
   updateStateFromValue(field, isCheckbox = false) {
     return (event) => {
       const value = isCheckbox ? event.target.checked : event.target.value
-      console.log(value)
       this.setState({
         [field]: value
       })
+    }
+  }
+  getTargets(){
+    return()=>{
+      const targets = loadTargets();
+      console.log(targets);
     }
   }
 
@@ -75,13 +87,6 @@ class CreatePetition extends React.Component {
   componentDidMount() {
     this.scrollToBottom();
   }*/
-  
-  toggleTipModal() {
-    return () => this.setState(prevState => {
-      const prev = prevState.tipModalActive;
-      return { tipModalActive: !prev }
-    })
-  }
 
   render() {
     const elementByField = {
@@ -104,21 +109,36 @@ class CreatePetition extends React.Component {
     return (
       <div className='moveon-petitions'>
         <CreatePetitionForm
+          // Old
           setSelected={this.setSelected}
           setRef={this.setRef}
-          toggleOpen={this.toggleOpen}
-          nextStep={this.nextStep}
           selected={this.state.selected}
           nationalOpen={this.state.nationalOpen}
           stateOpen={this.state.stateOpen}
           customOpen={this.state.customOpen}
           instructionStyle={instructionStyle}
-          step={this.state.step}
-          signupModalActive={this.state.signupModalActive}
-          tipModalActive={this.state.tipModalActive}
-          toggleSignupModal={this.toggleSignupModal}
-          toggleTipModal={this.toggleTipModal}
+
           updateStateFromValue={this.updateStateFromValue}
+          getTargets={this.getTargets}
+
+          // User
+          name={this.state.name}
+
+          // Steps
+          nextStep={this.nextStep}
+          step={this.state.step}
+
+          // Toggles
+          toggleOpen={this.toggleOpen}
+          signupModalToggled={this.state.signupModalToggled}
+          tipModalToggled={this.state.tipModalToggled}
+          shareButtonsToggled={this.state.shareButtonsToggled}
+
+          // Petition
+          editPetition={this.state.editPetition}
+          title={this.state.title}
+          statement={this.state.statement}
+          background={this.state.background}
         />
       </div>
     )

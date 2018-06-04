@@ -16,8 +16,9 @@ import PetitionTitle from './petition-form-elements/petition-title'
 import PetitionStatement from './petition-form-elements/petition-statement'
 import PetitionBackground from './petition-form-elements/petition-background'
 import PetitionTargets from './petition-form-elements/petition-targets'
-import PetitionMedia from './petition-form-elements/petition-media'
+// import PetitionMedia from './petition-form-elements/petition-media'
 import PetitionReview from './petition-form-elements/petition-review'
+import PetitionShare from './petition-form-elements/petition-share'
 import PetitionTip from './petition-form-elements/petition-tip'
 import PetitionSignup from './petition-form-elements/petition-signup'
 
@@ -31,6 +32,7 @@ const instructionsByField = {
 }
 
 const CreatePetitionForm = ({
+  // Old
   selected,
   setSelected,
   nationalOpen,
@@ -38,13 +40,25 @@ const CreatePetitionForm = ({
   customOpen,
   instructionStyle,
   setRef,
-  toggleOpen,
+
+  updateStateFromValue,
+  getTargets,
+
+  // Steps
   nextStep,
   step,
-  toggleSignupModal,
-  toggleTipModal,
-  tipModalActive,
-  signupModalActive
+
+  // Toggles
+  toggleOpen,
+  tipModalToggled,
+  signupModalToggled,
+  shareButtonsToggled,
+
+  // Petition
+  editPetition,
+  title,
+  statement,
+  background
 }) => {
   const instructions = instructionsByField[selected]
 
@@ -52,23 +66,25 @@ const CreatePetitionForm = ({
   const state = !stateOpen ? '' : <StateTargetSelect />
   const custom = !customOpen ? '' : <CustomTargetSelect />
 
-  const petitionTitle = step !== 1 ? '' : <PetitionTitle tipModalActive={tipModalActive} toggleTipModal={toggleTipModal} />
-  const petitionStatement = step !== 2 ? '' : <PetitionStatement tipModalActive={tipModalActive} toggleTipModal={toggleTipModal} />
-  const petitionBackground = step !== 3 ? '' : <PetitionBackground tipModalActive={tipModalActive} toggleTipModal={toggleTipModal} />
-  const petitionTargets = step !== 4 ? '' : <PetitionTargets tipModalActive={tipModalActive} toggleTipModal={toggleTipModal} />
-  const petitionMedia = step !== 5 ? '' : <PetitionMedia tipModalActive={tipModalActive} toggleTipModal={toggleTipModal} />
-  const petitionReview = step !== 6 ? '' : <PetitionReview tipModalActive={tipModalActive} toggleTipModal={toggleTipModal} />
-  const petitionTip = tipModalActive ? <PetitionTip tipModalActive={tipModalActive} toggleTipModal={toggleTipModal} step={step} /> : ''
-  const petitionSignup = signupModalActive ? <PetitionSignup nextStep={nextStep} step={step} signupModalActive={signupModalActive} toggleSignupModal={toggleSignupModal}/> : ''
+  const petitionTitle = step !== 1 ? '' : <PetitionTitle tipModalToggled={tipModalToggled} toggleOpen={toggleOpen} updateStateFromValue={updateStateFromValue}/>
+  const petitionStatement = step !== 2 ? '' : <PetitionStatement tipModalToggled={tipModalToggled} toggleOpen={toggleOpen} updateStateFromValue={updateStateFromValue}/>
+  const petitionBackground = step !== 3 ? '' : <PetitionBackground tipModalToggled={tipModalToggled} toggleOpen={toggleOpen} updateStateFromValue={updateStateFromValue}/>
+  const petitionTargets = step !== 4 ? '' : <PetitionTargets tipModalToggled={tipModalToggled} toggleOpen={toggleOpen} updateStateFromValue={updateStateFromValue}/>
+  // const petitionMedia = step !== 5 ? '' : <PetitionMedia tipModalToggled={tipModalToggled} toggleOpen={toggleOpen} />
+  const petitionReview = step !== 5 ? '' : <PetitionReview tipModalToggled={tipModalToggled} toggleOpen={toggleOpen}  editPetition={editPetition} title={title} statement={statement} background={background} updateStateFromValue={updateStateFromValue}/>
+  const petitionShare = step !== 6 ? '' : <PetitionShare shareButtonsToggled={shareButtonsToggled} toggleOpen={toggleOpen} />
+  const petitionTip = tipModalToggled ? <PetitionTip tipModalToggled={tipModalToggled} toggleOpen={toggleOpen} step={step} /> : ''
+  const petitionSignup = signupModalToggled ? <PetitionSignup nextStep={nextStep} step={step} signupModalToggled={signupModalToggled} toggleOpen={toggleOpen} updateStateFromValue={updateStateFromValue}/> : ''
 
   return (
     <div id="ppp">
       <div className="container-fluid ppp-page-heading">
         <div className="row">
           <div className="col-12 heading-title-wrap">
-            <h2>There are millions of MoveOn members waiting for your petition.</h2>
+            <h2>{step === 7 ? 'Congratulations, '+{name}+'! Let’s get your first 10 signatures.' : 'There are millions of MoveOn members waiting for your petition.'}</h2>
           </div>
         </div>
+        <button onClick={getTargets()}>Get Targets</button>
       </div>
 
       <form id='petition_form'>
@@ -76,13 +92,14 @@ const CreatePetitionForm = ({
         {petitionStatement}
         {petitionBackground}
         {petitionTargets}
-        {petitionMedia}
+        {/*petitionMedia*/}
         {petitionReview}
+        {petitionShare}
         {petitionSignup}
         {petitionTip}
 
 
-        <button type="button" className="xl300 center display-block ppp-btn" value="Preview The Petition" name="submit_button" id="submit_button" onClick={step === 1 || step === 6 ? toggleSignupModal() : nextStep()}>
+        <button type="button" className="xl300 center display-block ppp-btn" value="Preview The Petition" name="submit_button" id="submit_button" onClick={step === 1 || step === 6 ? toggleOpen('signupModalToggled') : nextStep()}>
           Next
         </button>
       </form>
@@ -100,8 +117,8 @@ CreatePetitionForm.propTypes = {
   setRef: PropTypes.func,
   toggleOpen: PropTypes.func,
   nextStep: PropTypes.func,
-  toggleSignupModal: PropTypes.func,
-  toggleTipModal: PropTypes.func
+  updateStateFromValue: PropTypes.func,
+  getTargets: PropTypes.func
 }
 
 export default CreatePetitionForm

@@ -127,6 +127,7 @@ hr {
   bottom: 0;
   z-index: 200;
   background-color: white;
+  overflow: scroll;
 }
 #ppp .tip-modal .heading {
   padding-top: 40px;
@@ -307,13 +308,13 @@ hr {
   line-height: 2.25rem;
   text-transform: uppercase;
 }
-#ppp .step1 p {
+#ppp .title p {
   margin-bottom: 25px;
 }
-#ppp .step4 .selection-pills {
+#ppp .targets .selection-pills {
   margin-bottom: 20px;
 }
-#ppp .step4 .selection-pills .pill-inner {
+#ppp .targets .selection-pills .pill-inner {
   height: 50px;
   border-radius: 3px;
   background-color: #e5f5ff;
@@ -327,7 +328,7 @@ hr {
   color: #000000;
   position: relative;
 }
-#ppp .step4 .selection-pills .pill-inner .close {
+#ppp .targets .selection-pills .pill-inner .close {
   width: 24px;
   height: 24px;
   background-color: #00abff;
@@ -335,7 +336,7 @@ hr {
   top: -4px;
   right: -4px;
 }
-#ppp .step4 .selection-pills .pill-inner .close span {
+#ppp .targets .selection-pills .pill-inner .close span {
   background-color: white;
   height: 2px;
   width: 15px;
@@ -344,13 +345,13 @@ hr {
   top: 50%;
   left: 50%;
 }
-#ppp .step4 .selection-pills .pill-inner .close span:first-of-type {
+#ppp .targets .selection-pills .pill-inner .close span:first-of-type {
   transform: translate(-50%) rotate(45deg);
 }
-#ppp .step4 .selection-pills .pill-inner .close span:last-of-type {
+#ppp .targets .selection-pills .pill-inner .close span:last-of-type {
   transform: translate(-50%) rotate(-45deg);
 }
-#ppp .step4 .add-target {
+#ppp .targets .add-target {
   position: relative;
   margin-bottom: 5px;
   cursor: pointer;
@@ -366,13 +367,13 @@ hr {
   margin-top: 30px;
   padding: 0 15px;
 }
-#ppp .step4 .add-target .add {
+#ppp .targets .add-target .add {
   width: 20px;
   height: 20px;
   border: 2px solid #00abff;
   border-radius: 50%;
 }
-#ppp .step5 .upload-block {
+#ppp .media .upload-block {
   height: 218px;
   border: dashed 1px #979797;
   background-color: #f6f6f6;
@@ -384,39 +385,57 @@ hr {
   color: #b2b2b2;
   flex-direction: column;
 }
-#ppp .step5 .upload-block .icon {
+#ppp .media .upload-block .icon {
   width: 62px;
   height: 57px;
   background-color: #00abff;
   margin-bottom: 10px;
 }
-#ppp .step5 .skip-upload a {
+#ppp .media .skip-upload a {
   display: block;
   text-align: center;
   margin-top: 17px;
   color: black;
   text-decoration: underline;
 }
-#ppp .step6 .ppp-heading {
+#ppp .review .ppp-heading {
   margin-bottom: 30px;
 }
-#ppp .step6 .petition-title {
+#ppp .review .petition-title {
   margin-bottom: 15px;
 }
-#ppp .step6 .petition-title h3 {
+#ppp .review .petition-title h3 {
   display: inline;
   background-color: #00abff;
   line-height: 1.2rem;
   text-transform: uppercase;
   color: black;
 }
-#ppp .step6 .petition-targets span {
+#ppp .review .petition-targets span {
   text-decoration: underline;
 }
-#ppp .step6 .petition-image .image-wrap {
+#ppp .review .petition-image .image-wrap {
   height: 215px;
   background-color: lightgray;
   margin-bottom: 15px;
+}
+#ppp .share .share-btns-main button {
+  background-color: #00abff;
+}
+#ppp .share .share-btns-extra-wrap {
+  padding: 13px 0 30px;
+  margin-left: 15px;
+  margin-right: 15px;
+  background-color: #f6f6f6;
+}
+#ppp .share .share-btns-extra-wrap h3 {
+  font-weight: 300;
+  font-family: Roboto;
+}
+#ppp .share .share-btns-extra-wrap .share-btns-extra button {
+  background-color: #e5f5ff;
+  color: black !important;
+  text-transform: none;
 }
 
 /*# sourceMappingURL=css/create.css.map */

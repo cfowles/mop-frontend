@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import { tips } from './tips-data'
 
 const PetitionTip = ({
-    toggleTipModal,
-    tipModalActive,
+    toggleOpen,
+    tipModalToggled,
     step
 }) => {
     const currentTip = tips[step - 1];
@@ -26,7 +26,7 @@ const PetitionTip = ({
 
     return (
         <div className="tip-modal container">
-            <div className="close" onClick={toggleTipModal()}>
+            <div className="close" onClick={toggleOpen('tipModalToggled')}>
                 <span></span>
                 <span></span>
             </div>
@@ -47,7 +47,7 @@ const PetitionTip = ({
 }
 
 PetitionTip.propTypes = {
-    toggleTipModal: PropTypes.func,
+    toggleOpen: PropTypes.func,
     step: PropTypes.number,
 }
 
