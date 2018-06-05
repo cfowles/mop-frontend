@@ -10,6 +10,22 @@ import StateTargetSelect from 'LegacyTheme/form/target-select/state'
 import CustomTargetSelect from '../components/theme-legacy/form/target-select/custom'
 
 export class CreatePetitionTarget extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      nationalOpen: false,
+      geoState: null,
+      stateOpen: false,
+      customOpen: false,
+      customInputs: { name: '', email: '', title: '' }
+    }
+
+    this.toggleOpen = this.toggleOpen.bind(this)
+    this.renderNational = this.renderNational.bind(this)
+    this.renderGeoState = this.renderGeoState.bind(this)
+    this.renderCustom = this.renderCustom.bind(this)
+  }
+
   static getDerivedStateFromProps(props) {
     const customTargets = props.targets.filter(t => t.target_type === 'custom')
     const nationalTargets = props.targets.filter(
@@ -40,22 +56,6 @@ export class CreatePetitionTarget extends React.Component {
       customTargets,
       ...openCheckboxes
     }
-  }
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      nationalOpen: false,
-      geoState: null,
-      stateOpen: false,
-      customOpen: false,
-      customInputs: { name: '', email: '', title: '' }
-    }
-
-    this.toggleOpen = this.toggleOpen.bind(this)
-    this.renderNational = this.renderNational.bind(this)
-    this.renderGeoState = this.renderGeoState.bind(this)
-    this.renderCustom = this.renderCustom.bind(this)
   }
 
   componentDidMount() {
