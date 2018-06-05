@@ -1,33 +1,31 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { conversation } from './conversation'
+import ReactTimeout from 'react-timeout'
 
 const ChatBubble = ({
     toggleOpen,
-    section
+    bubbleShow,
+    currentBubble,
+    bubble
 }) => {
-
-    const currentSection = conversation[section - 1]
-    console.log(currentSection)
 
     //should 'type' at 40 characters per second => (length / 40) * 1000 for ms.
 
-    const bubbles = currentSection.bubbles.map(function(b, i){
-      return (
-        <div className='bubble' key={i}>{b.content}</div>
-      )
-    })
+    const bubbleContent = bubble.content
+    const id = bubble.id
+    const classes = currentBubble >= id ? 'bubble show' : 'bubble';
 
     return (
-        <div>
-          {bubbles}
+        <div className={classes}>
+            <div className="inner">{bubbleContent}</div>
         </div>
     )
 }
 
 ChatBubble.propTypes = {
     toggleOpen: PropTypes.func,
-    step: PropTypes.number,
+    section: PropTypes.number,
 }
 
 export default ChatBubble

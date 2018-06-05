@@ -1,10 +1,28 @@
 import React from 'react'
+import ChatBubble from './chat-bubble'
+import { conversation } from './conversation'
 
-const Welcome = () => (
-  <div>
-    <div className='bubble'>Hi 👋 Want to start a petition? That’s great! Petitions like yours are one of the most powerful ways to get support for an issue or topic.
+const Welcome = ({
+  bubbleShow,
+  section,
+  currentBubble
+}) => {
+
+  // let showBubble = bubbleShow ? 'show' : '';
+  // let bubbleClasses = 'bubble ' + showBubble;
+  // let bubbles = conversation[section].map(function (b, i) {
+  //   return (
+  //     <ChatBubble currentBubble={currentBubble} bubble={b} key={i}/>
+  //   )
+  // })
+
+  return (
+    <div>
+      <ChatBubble currentBubble={currentBubble} bubble={conversation[section][0]} />
+      <ChatBubble currentBubble={currentBubble} bubble={conversation[section][1]} />
+      <ChatBubble currentBubble={currentBubble} bubble={conversation[section][2]} />
     </div>
-  </div>
-)
+  )
+}
 
 export default Welcome

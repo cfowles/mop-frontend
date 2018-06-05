@@ -1,22 +1,28 @@
 export const conversation = [
+  // Section 1: Welcome and Email
+  [
     {
-      bubbles: [
-        {
-          content: "I’ll ask you a few questions that will help build your petition in minutes.",
-          showToLoggedIn: false
-        },
-        {
-          content: "Let’s get started! Can you enter your email so you don’t lose your progress?",
-          showToLoggedIn: false
-        }
-      ]
+      content: "Hi 👋 Want to start a petition? That’s great! Petitions like yours are one of the most powerful ways to get support for an issue or topic.",
+      showToLoggedIn: false,
+      id: 1
     },
     {
-      bubbles: [
-        {
-          content: "Excellent. First, what would you like the title of your petition to be?",
-          showToLoggedIn: true
-        }
-      ]
+      content: "I’ll ask you a few questions that will help build your petition in minutes.",
+      showToLoggedIn: false,
+      id: 2
+    },
+    {
+      content: "Let’s get started! Can you enter your email so you don’t lose your progress?",
+      showToLoggedIn: false,
+      id: 3
     }
+  ],
+  // Section 3: Title
+  [
+    {
+      content: "Excellent. First, what would you like the title of your petition to be?",
+      showToLoggedIn: true,
+      id: 4
+    }
+  ]
 ]

@@ -1,5 +1,7 @@
 import React from 'react'
 import { loadTargets } from '../actions/createPetitionActions.js'
+import ReactTimeout from 'react-timeout'
+import { conversation } from '../components/theme-convo/conversation/conversation'
 
 //import CreatePetitionForm from 'LegacyTheme/create-petition-form'
 import CreatePetitionForm from 'Theme/create-petition-form'
@@ -14,9 +16,8 @@ class CreatePetition extends React.Component {
       stateOpen: false,
       customOpen: false,
 
-      // Steps
+      /*** PPP ***/
       step: 1,
-      section: 1,
 
       // User Data
       name: false,
@@ -30,10 +31,19 @@ class CreatePetition extends React.Component {
       shareButtonsToggled: false,
       editPetition: false,
 
-      // Petition
+      // Petition Data
       title: false,
       statement: false,
-      background: false
+      background: false,
+
+
+      /*** Convo ***/
+      section: 0,
+
+      // Bubbles
+      currentBubble: 0,
+      bubbleShow: false,
+      bubbleLoading: false
     }
     this.setSelected = this.setSelected.bind(this)
     this.setRef = this.setRef.bind(this)
@@ -42,6 +52,51 @@ class CreatePetition extends React.Component {
     this.updateStateFromValue = this.updateStateFromValue.bind(this)
     this.getTargets = this.getTargets.bind(this)
     this.nextSection = this.nextSection.bind(this)
+    this.callSection = this.callSection.bind(this)
+    this.callBubble = this.callBubble.bind(this)
+    this.nextBubble = this.nextBubble.bind(this)
+  }
+
+  componentDidMount() {
+    this.callSection();
+  }
+
+
+  callSection() {
+    let sectionLength = conversation[this.state.section].length;
+
+    // Loader
+    let loaderLength = 0
+
+    conversation[this.state.section].map(function (b, i) {
+      loaderLength += b.content.length;
+    });
+
+    let loaderTime = (loaderLength / 40) * 1000;
+
+    this.setState({ bubbleLoading: true });
+
+    this.loaderTimeout = setTimeout(function () {
+      this.setState({ bubbleLoading: false });
+    }.bind(this), loaderTime);
+
+    // Bubbles
+    this.callBubble(sectionLength);
+
+
+  }
+
+  callBubble(sectionLength) {
+    let bubbleLength = conversation[this.state.section][this.state.currentBubble].content.length
+    let bubbleTime = (bubbleLength / 40) * 1000;
+
+    this.bubbleTimeout = setTimeout(() => {
+      this.nextBubble();
+
+      if (this.state.currentBubble < sectionLength ) {
+        this.callBubble(sectionLength);
+      }
+    }, bubbleTime)
   }
 
   setSelected(name) {
@@ -70,7 +125,14 @@ class CreatePetition extends React.Component {
     return () => this.setState(prevState => {
       const prev = prevState.step;
       let newSection = prev + 1;
-      return { section: newSection}
+      return { section: newSection }
+    })
+  }
+  nextBubble() {
+    this.setState(prevState => {
+      const prev = prevState.currentBubble;
+      let newBubble = prev + 1;
+      return { currentBubble: newBubble }
     })
   }
 
@@ -82,8 +144,8 @@ class CreatePetition extends React.Component {
       })
     }
   }
-  getTargets(){
-    return()=>{
+  getTargets() {
+    return () => {
       const targets = loadTargets();
       console.log(targets);
     }
@@ -153,6 +215,11 @@ class CreatePetition extends React.Component {
           title={this.state.title}
           statement={this.state.statement}
           background={this.state.background}
+
+          // Bubbles
+          bubbleShow={this.state.bubbleShow}
+          bubbleLoading={this.state.bubbleLoading}
+          currentBubble={this.state.currentBubble}
         />
       </div>
     )

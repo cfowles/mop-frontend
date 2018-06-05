@@ -37,7 +37,10 @@ const CreatePetitionForm = ({
   toggleOpen,
   updateStateFromValue,
   section,
-  nextSection
+  nextSection,
+  currentBubble,
+  bubbleShow,
+  bubbleLoading
 }) => {
   const instructions = instructionsByField[selected]
 
@@ -45,26 +48,31 @@ const CreatePetitionForm = ({
   const state = !stateOpen ? '' : <StateTargetSelect />
   const custom = !customOpen ? '' : <CustomTargetSelect />
 
-  const email = section < 1 ? '' : <Email emailOnChange={updateStateFromValue('email')} section={section} nextSection={nextSection} />
+  const welcome = <Welcome section={section} nextSection={nextSection} bubbleShow={bubbleShow} currentBubble={currentBubble} />
+  // const email = section < 1 ? '' : <Email emailOnChange={updateStateFromValue('email')} section={section} nextSection={nextSection} />
   const title = section < 2 ? '' : <Title titleOnChange={updateStateFromValue('title')} />
   const statement = section < 3 ? '' : <Statement statementOnChange={updateStateFromValue('statement')} />
   const background = section < 4 ? '' : <Background backgroundOnChange={updateStateFromValue('background')} />
 
+  let showLoader = bubbleLoading ? 'show' : '';
+  let loaderClasses = 'bubble ' + showLoader;
+
   return (
     <div id='conversational'>
       <div className='chat-wrap'>
-        <div className='bubble'>
-          <div className='loader'>
-            <span className='dot'></span><span className='dot'></span><span className='dot'></span>
-          </div>
-        </div>
-        <Welcome />
-        {email}
+        {welcome}
         {title}
         {statement}
         {background}
-        <div style={{ float:"left", clear: "both" }}
-             ref={(el) => { this.chatEnd = el; }}>
+        <div style={{ float: "left", clear: "both" }}
+          ref={(el) => { this.chatEnd = el; }}>
+        </div>
+        <div className={loaderClasses}>
+          <div className='inner'>
+            <div className='loader'>
+              <span className='dot'></span><span className='dot'></span><span className='dot'></span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
