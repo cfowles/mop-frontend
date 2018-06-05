@@ -249,8 +249,8 @@ class SignatureAddForm extends React.Component {
         setRef={setRef}
         innerRef={innerRef}
         id={id}
-        // Don't hide if we need to show address fields
-        hideUntilInteract={showAddressFields ? false : this.state.hideUntilInteract}
+        // Don't hide if we need to show address fields and user is logged in
+        hideUntilInteract={(user.signonId && showAddressFields) ? false : this.state.hideUntilInteract}
       />
     )
   }
