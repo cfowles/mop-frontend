@@ -204,8 +204,9 @@ class SignatureAddForm extends React.Component {
 
     if (this.formIsValid()) {
       const osdiSignature = this.getOsdiSignature()
-      dispatch(signAction(osdiSignature, petition, { redirectOnSuccess: true }))
+      return dispatch(signAction(osdiSignature, petition, { redirectOnSuccess: true }))
     }
+    this.setState({ hideUntilInteract: false }) // show fields so we can show validation error
     return false
   }
 
@@ -248,7 +249,8 @@ class SignatureAddForm extends React.Component {
         setRef={setRef}
         innerRef={innerRef}
         id={id}
-        hideUntilInteract={this.state.hideUntilInteract}
+        // Don't hide if we need to show address fields
+        hideUntilInteract={showAddressFields ? false : this.state.hideUntilInteract}
       />
     )
   }
