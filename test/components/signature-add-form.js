@@ -21,8 +21,15 @@ describe('<SignatureAddForm />', () => {
   // Below are a set of profiles and user store states that can be re-used
   // for different test conditions
 
+
   const propsProfileBase = { petition: outkastPetition, query: {} }
   const propsProfileOpposite = { petition: outkastPetition2, query: {} }
+  const propsProfileBaseNoAddressRequired = { petition: { ...outkastPetition }, query: {} }
+  propsProfileBase.petition.needs_full_addresses = true
+  propsProfileOpposite.petition.needs_full_addresses = true
+
+  propsProfileBaseNoAddressRequired.petition.needs_full_addresses = false
+
   const outkastPetition2AsMegapartner = JSON.parse(JSON.stringify(outkastPetition2)) // Deepcopy
   outkastPetition2AsMegapartner._embedded.creator.source = 'M.O.P.' // Set as megapartner
   const petitionProfiles = {
@@ -35,6 +42,12 @@ describe('<SignatureAddForm />', () => {
   const storeAkid = { userStore: { signonId: 123456,
     token: 'akid:fake.123456.bad123',
     given_name: 'Three Stacks' } }
+
+  const storeAkidAddress = { userStore: { signonId: 123456,
+      token: 'akid:fake.123456.bad123',
+      given_name: 'Three Stacks',
+      postal_addresses: [{ status: 'Potential' }]
+  } }
 
   describe('<SignatureAddForm /> static tests', () => {
     // THESE ARE TESTS WHERE NO STATE IS CHANGED -- we send in properties, and the rest should be static
@@ -87,10 +100,10 @@ describe('<SignatureAddForm />', () => {
       expect(context.find('input[name="zip"]').length).to.equal(1)
     })
 
-    it('petition with user fields displaying', () => {
+    it('petition with user fields displaying (address not required, no address stored)', () => {
       // Note: needs to test when it *appears* not when it's required
       const store = createMockStore(storeAkid)
-      const context = mount(<SignatureAddForm {...propsProfileOpposite} store={store} />)
+      const context = mount(<SignatureAddForm {...propsProfileBaseNoAddressRequired} store={store} />)
       const component = unwrapReduxComponent(context).instance()
       expect(Boolean(component.props.user.anonymous)).to.be.equal(false)
       // Do not display because logged in and petition doesn't need addresses
@@ -104,15 +117,18 @@ describe('<SignatureAddForm />', () => {
       expect(context.find('textarea[name="comment"]').length).to.equal(1)
     })
 
-    it('local petition with user fields displaying', () => {
+    it('local petition with user fields displaying (address required, user has no address)', () => {
       const store = createMockStore(storeAkid)
       const context = mount(<SignatureAddForm {...propsProfileBase} store={store} />)
       const component = unwrapReduxComponent(context).instance()
       expect(Boolean(component.props.user.anonymous)).to.be.equal(false)
 
       const comment = context.find('textarea[name="comment"]')
-      // In giraffe, address fields are hidden until change
-      comment.simulate('change', { target: { value: 'Hello' } })
+
+      // We do not simulate typing, since address should be visible by default if its
+      // required for logged in users, because everything else is optional.
+
+      // INTENTIONALLY COMMENTED OUT: comment.simulate('change', { target: { value: 'Hello' } })
 
       expect(comment.length).to.equal(1)
       expect(context.find('input[name="name"]').length).to.equal(0)
@@ -123,8 +139,8 @@ describe('<SignatureAddForm />', () => {
       expect(context.find('input[name="zip"]').length).to.equal(1)
     })
 
-    it('local petition without address when user has address', () => {
-      const store = createMockStore(storeAkid)
+    it('local petition with user fields displaying (address required, user has address)', () => {
+      const store = createMockStore(storeAkidAddress)
       const context = mount(<SignatureAddForm {...propsProfileBase} store={store} />)
       const component = unwrapReduxComponent(context).instance()
       expect(Boolean(component.props.user.anonymous)).to.be.equal(false)
@@ -135,12 +151,10 @@ describe('<SignatureAddForm />', () => {
 
       expect(context.find('input[name="name"]').length).to.equal(0)
       expect(context.find('input[name="email"]').length).to.equal(0)
-      expect(context.find('input[name="address1"]').length).to.equal(1)
-      expect(context.find('input[name="address2"]').length).to.equal(1)
-      expect(context.find('input[name="city"]').length).to.equal(1)
-      // not testing state because state is a sub component
-      // expect(context.find('input[name="state"]').length).to.equal(1);
-      expect(context.find('input[name="zip"]').length).to.equal(1)
+      expect(context.find('input[name="address1"]').length).to.equal(0)
+      expect(context.find('input[name="address2"]').length).to.equal(0)
+      expect(context.find('input[name="city"]').length).to.equal(0)
+      expect(context.find('input[name="zip"]').length).to.equal(0)
     })
 
     it('show optin warning', () => {
