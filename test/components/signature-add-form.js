@@ -46,7 +46,7 @@ describe('<SignatureAddForm />', () => {
   const storeAkidAddress = { userStore: { signonId: 123456,
       token: 'akid:fake.123456.bad123',
       given_name: 'Three Stacks',
-      postal_addresses: ['some address']
+      postal_addresses: [{ status: 'Potential' }]
   } }
 
   describe('<SignatureAddForm /> static tests', () => {
