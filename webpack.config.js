@@ -24,7 +24,7 @@ var envVars = {
   'TRACK_SHARE_URL': process.env.TRACK_SHARE_URL || '',
   'USE_HASH_BROWSING': process.env.USE_HASH_BROWSING || false,
   'PROD': process.env.PROD,
-  'AB_TEST_ENABLED': process.env.AB_TEST_ENABLED
+  'AB_TEST_ENABLED': process.env.AB_TEST_ENABLED || false
 }
 
 // Stringify all envVars so strings get quoted (i.e. not included as code)

@@ -16,3 +16,4 @@ THEME                             | Controls whether `import A from "Theme/a"` c
 USE_HASH_BROWSING                 | Whether you want to use react-router HashHistory _Default_: false
 LOCAL_REACT                       | Dev only: a path with react.js and react-dom.js, if you want to develop offline _Default_: Loads react from unpkg.com CDN
 LOCAL_CSS                         | Dev only: a theme-giraffe style.css. E.g. `http://localhost:3000/styles/main.css`, as served by `gulp watch` in the giraffe repo, so you can change css and/or develop offline. _Default_: Loads css from the mop-static-stage s3 bucket
+AB_TEST_ENABLED                   | When set to an integer, enables AB test

@@ -23,6 +23,7 @@ before_deploy:
   - export STATIC_ROOT="https://static.moveon.org/giraffe/"
   - export TRACK_SHARE_URL="/record_share_click.html"
   - export PROD=1
+  - export AB_TEST_ENABLED=10
   - npm run dev-build
 deploy:
   on:
