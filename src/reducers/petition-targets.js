@@ -16,7 +16,7 @@ const addStateInitialValues = geoState => [
     target_id: geoState
   },
   {
-    label: `Govenor of ${getStateFullName(geoState)}`,
+    label: `Governor of ${getStateFullName(geoState)}`,
     target_type: 'governor',
     target_id: geoState
   }
