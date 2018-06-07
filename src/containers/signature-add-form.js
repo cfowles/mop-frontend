@@ -6,7 +6,7 @@ import SignatureAddFormComponent from 'Theme/signature-add-form'
 
 import { signPetition, devLocalSignPetition } from '../actions/petitionActions'
 import { actions as sessionActions } from '../actions/sessionActions'
-import { isValidEmail } from '../lib'
+import { isValidEmail, FormTracker } from '../lib'
 import Config from '../config'
 
 class SignatureAddForm extends React.Component {
@@ -43,6 +43,7 @@ class SignatureAddForm extends React.Component {
     this.submit = this.submit.bind(this)
     this.validationError = this.validationError.bind(this)
     this.updateStateFromValue = this.updateStateFromValue.bind(this)
+    this.formTracker = new FormTracker()
   }
 
   getOsdiSignature() {
@@ -136,10 +137,23 @@ class SignatureAddForm extends React.Component {
   updateStateFromValue(field, isCheckbox = false) {
     return event => {
       const value = isCheckbox ? event.target.checked : event.target.value
-      this.setState({
-        [field]: value,
-        hideUntilInteract: false // show some hidden fields if they are hidden
-      })
+      if(Config.FAKE_ANALYTICS && this.state.hideUntilInteract){
+        this.formTracker.startForm({
+          cohort: this.props.query.cohort,
+          auth: 'authenticated',
+          user_id: 'user_info'
+        })
+
+        this.setState({
+          [field]: value,
+          hideUntilInteract: false // show some hidden fields if they are hidden
+        })
+      } else {
+        this.setState({
+          [field]: value,
+          hideUntilInteract: false // show some hidden fields if they are hidden
+        })
+      }
     }
   }
 
@@ -204,6 +218,13 @@ class SignatureAddForm extends React.Component {
     const signAction = Config.API_WRITABLE ? signPetition : devLocalSignPetition
 
     if (this.formIsValid()) {
+      if(window.analytics){
+        this.formTracker.endForm({
+          cohort: this.props.query.cohort,
+          auth: 'authenticated',
+          user_id: 'user_info'
+        })
+      }
       const osdiSignature = this.getOsdiSignature()
       return dispatch(signAction(osdiSignature, petition, { redirectOnSuccess: true }))
     }
