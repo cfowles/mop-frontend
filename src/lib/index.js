@@ -3,6 +3,7 @@ import Config from '../config'
 
 export { getStateFullName, getRegions, armedForcesRegions } from './state-abbrev'
 export { countries } from './countries'
+export { FormTracker } from './form-tracker'
 
 export const formatDate = date => {
   const monthAbbr = [
@@ -13,37 +14,6 @@ export const formatDate = date => {
   const monthIndex = date.getMonth()
   const year = date.getFullYear()
   return `${monthAbbr[monthIndex]} ${day}, ${year}`
-}
-
-export function FormTracker(){
-  this.state = {}
-
-  this.startForm = function(eventInfo) {
-    console.log('started form');
-    this.state.formStarted = 1
-    this.track('form_started', eventInfo)
-  }
-
-  this.endForm = function(eventInfo) {
-    console.log('finished form');
-    this.state.formFinished = 1
-    this.track('form_finished', eventInfo)
-  }
-
-  this.track = function(eventName, eventInfo) {
-    console.log('sending something to api:', eventInfo);
-    console.log('sending something to api:', eventName);
-    window.analytics.track({
-      event: eventName,
-      properties: {
-        result: eventName,
-        experiment_id: Config.SEGMENT_TEST_ID,
-        variation_name: eventInfo.cohort,
-        guestlogin: eventInfo.auth,
-        user: eventInfo.user_id
-      }
-    })
-  }
 }
 
 export const text2paras = str => str.split(/\n+/)

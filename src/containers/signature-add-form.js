@@ -31,7 +31,10 @@ class SignatureAddForm extends React.Component {
       thirdparty_optin: props.hiddenOptin || props.showOptinCheckbox,
       hidden_optin: props.hiddenOptin,
       required: {},
-      hideUntilInteract: true
+      hideUntilInteract: true,
+      formStarted: false,
+      formFinished: false,
+      formPosition: ''
     }
     this.validationFunction = {
       email: isValidEmail,
@@ -110,6 +113,43 @@ class SignatureAddForm extends React.Component {
     return osdiSignature
   }
 
+  updateFormProgress(fieldName) {
+    const { formStarted, formFinished } = this.state
+    const formKeys = Object.keys(this.state).map(key => key)
+    if (window.analytics || Config.FAKE_ANALYTICS) {
+      if (formKeys.indexOf(fieldName) === 0 && !formStarted) {
+        this.setState({
+          formStarted: true,
+          formPosition: fieldName
+        })
+        this.formTracker.startForm({
+          cohort: this.props.query.cohort || '',
+          guest: this.props.user.anonymous,
+          user_info: this.props.user
+        })
+      }
+
+      if (formStarted && !formFinished && fieldName === 'submission') {
+        this.setState({
+          formFinished: false,
+          formPosition: fieldName
+        })
+
+        this.formTracker.endForm({
+          cohort: this.props.query.cohort || '',
+          guest: this.props.user.anonymous,
+          user_info: this.props.user
+        })
+      }
+
+      if (formStarted && !formFinished && (fieldName !== 'submission' || formKeys.indexOf(fieldName) > 0)) {
+        this.setState({
+          formPosition: fieldName
+        })
+      }
+    }
+  }
+
   validationError(key) {
     if (this.state.validationTried) {
       if (Object.keys(this.state.required).indexOf(key) > -1) {
@@ -137,23 +177,11 @@ class SignatureAddForm extends React.Component {
   updateStateFromValue(field, isCheckbox = false) {
     return event => {
       const value = isCheckbox ? event.target.checked : event.target.value
-      if(Config.FAKE_ANALYTICS && this.state.hideUntilInteract){
-        this.formTracker.startForm({
-          cohort: this.props.query.cohort,
-          auth: 'authenticated',
-          user_id: 'user_info'
-        })
-
-        this.setState({
-          [field]: value,
-          hideUntilInteract: false // show some hidden fields if they are hidden
-        })
-      } else {
-        this.setState({
-          [field]: value,
-          hideUntilInteract: false // show some hidden fields if they are hidden
-        })
-      }
+      this.setState({
+        [field]: value,
+        hideUntilInteract: false // show some hidden fields if they are hidden
+      })
+      this.updateFormProgress(field)
     }
   }
 
@@ -218,12 +246,8 @@ class SignatureAddForm extends React.Component {
     const signAction = Config.API_WRITABLE ? signPetition : devLocalSignPetition
 
     if (this.formIsValid()) {
-      if(window.analytics){
-        this.formTracker.endForm({
-          cohort: this.props.query.cohort,
-          auth: 'authenticated',
-          user_id: 'user_info'
-        })
+      if (window.analytics || Config.FAKE_ANALYTICS) {
+        this.updateFormProgress('submission')
       }
       const osdiSignature = this.getOsdiSignature()
       return dispatch(signAction(osdiSignature, petition, { redirectOnSuccess: true }))
