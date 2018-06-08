@@ -24,35 +24,49 @@ export class CreatePetition extends React.Component {
       title: initialPetition.title || '',
       summary: initialPetition.summary || '',
       target: initialPetition.target || [],
-      description: initialPetition.description || ''
+      description: initialPetition.description || '',
+      customInputs: { name: '', email: '', title: '' }
     }
     this.setSelected = this.setSelected.bind(this)
     this.setRef = this.setRef.bind(this)
     this.onPreview = this.onPreview.bind(this)
     this.onTargetAdd = this.onTargetAdd.bind(this)
     this.onTargetRemove = this.onTargetRemove.bind(this)
+    this.validateAndContinue = this.validateAndContinue.bind(this)
   }
 
   onPreview(event) {
     event.preventDefault()
-    if (this.formIsValid()) {
-      this.props.dispatch(
-        previewSubmit({
-          title: this.state.title,
-          summary: this.state.summary,
-          target: this.state.target,
-          description: this.state.description
-        })
-      )
-      appLocation.push('/create_preview.html')
-    }
+    // No custom target in the editable fields
+    if (!this.state.customInputs.name) return this.validateAndContinue()
+
+    // If there is a custom target, we have to add it first
+    return this.onTargetAdd(
+      {
+        target_type: 'custom',
+        ...this.state.customInputs
+      },
+      {
+        isCustom: true,
+        callback: () => {
+          this.setState({ customInputs: { name: '', email: '', title: '' } })
+          this.validateAndContinue()
+        }
+      }
+    )
   }
 
-  onTargetAdd(target, { isCustom } = { isCustom: false }) {
+  onTargetAdd(
+    target,
+    { isCustom, callback } = { isCustom: false, callback: () => {} }
+  ) {
     if (!isCustom && !target.label) return // target is invalid
     if (!isCustom && this.state.target.find(old => old.label === target.label)) return // already exists
 
-    this.setState(state => ({ target: [...state.target, target] }))
+    this.setState(
+      state => ({ target: [...state.target, target] }),
+      () => callback && callback()
+    )
   }
 
   onTargetRemove(target) {
@@ -70,6 +84,20 @@ export class CreatePetition extends React.Component {
   setRef(name) {
     // eslint-disable-next-line no-return-assign
     return input => input && (this[name] = input)
+  }
+
+  validateAndContinue() {
+    if (this.formIsValid()) {
+      this.props.dispatch(
+        previewSubmit({
+          title: this.state.title,
+          summary: this.state.summary,
+          target: this.state.target,
+          description: this.state.description
+        })
+      )
+      appLocation.push('/create_preview.html')
+    }
   }
 
   formIsValid() {
@@ -122,6 +150,12 @@ export class CreatePetition extends React.Component {
           targets={this.state.target}
           onTargetAdd={this.onTargetAdd}
           onTargetRemove={this.onTargetRemove}
+          customInputs={this.state.customInputs}
+          onChangeCustomInputs={({ target: { name, value } }) => {
+            this.setState(state => ({
+              customInputs: { ...state.customInputs, [name]: value }
+            }))
+          }}
         />
       </div>
     )

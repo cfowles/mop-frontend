@@ -16,8 +16,7 @@ export class CreatePetitionTarget extends React.Component {
       nationalOpen: false,
       geoState: null,
       stateOpen: false,
-      customOpen: false,
-      customInputs: { name: '', email: '', title: '' }
+      customOpen: false
     }
 
     this.toggleOpen = this.toggleOpen.bind(this)
@@ -103,7 +102,7 @@ export class CreatePetitionTarget extends React.Component {
   }
 
   renderCustom() {
-    const { customOpen, customInputs } = this.state
+    const { customOpen } = this.state
     if (!customOpen) return null
     return (
       <CustomTargetSelect
@@ -111,14 +110,9 @@ export class CreatePetitionTarget extends React.Component {
         remove={this.props.onTargetRemove}
         onSelect={target => {
           this.props.onTargetAdd(target, { isCustom: true })
-          this.setState({ customInputs: { name: '', email: '', title: '' } })
         }}
-        customInputs={customInputs}
-        onChangeInputs={({ target: { name, value } }) => {
-          this.setState(state => ({
-            customInputs: { ...state.customInputs, [name]: value }
-          }))
-        }}
+        customInputs={this.props.customInputs}
+        onChangeInputs={this.props.onChangeCustomInputs}
       />
     )
   }
@@ -149,7 +143,9 @@ CreatePetitionTarget.propTypes = {
   onTargetRemove: PropTypes.func,
   dispatch: PropTypes.func,
   // eslint-disable-next-line
-  targets: PropTypes.array
+  targets: PropTypes.array,
+  customInputs: PropTypes.object,
+  onChangeCustomInputs: PropTypes.func
 }
 
 export default connect()(CreatePetitionTarget)
