@@ -32,7 +32,9 @@ const CreatePetitionForm = ({
   description,
   targets,
   onTargetAdd,
-  onTargetRemove
+  onTargetRemove,
+  customInputs,
+  onChangeCustomInputs
 }) => {
   const instructions = instructionsByField[selected]
 
@@ -90,6 +92,8 @@ const CreatePetitionForm = ({
               targets={targets}
               onTargetAdd={onTargetAdd}
               onTargetRemove={onTargetRemove}
+              customInputs={customInputs}
+              onChangeCustomInputs={onChangeCustomInputs}
             />
             <fieldset id='statement'>
               <span className='circle-number'>3</span>
@@ -146,7 +150,9 @@ CreatePetitionForm.propTypes = {
   description: PropTypes.string,
   targets: PropTypes.array,
   onTargetAdd: PropTypes.func,
-  onTargetRemove: PropTypes.func
+  onTargetRemove: PropTypes.func,
+  customInputs: PropTypes.object,
+  onChangeCustomInputs: PropTypes.func
 }
 
 export default CreatePetitionForm
