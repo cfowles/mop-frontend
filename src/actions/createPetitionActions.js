@@ -32,6 +32,11 @@ export function submit() {
     return (
       fetch(`${Config.API_URI}/user/petitions.json`, {
         method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/hal+json',
+          Accept: 'application/hal+json'
+        },
         body: JSON.stringify({
           petition: {
             title: p.title,
