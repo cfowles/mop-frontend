@@ -14,15 +14,14 @@ export function FormTracker() {
   }
 
   this.track = function (eventName, eventInfo) {
-    // console.log('eventInfo: '+ eventInfo + ' and event name:' + eventName);
+    // console.log('eventInfo: '+ JSON.stringify(eventInfo) + ' and eventName: ' + eventName);
     window.analytics.track({
       event: eventName,
       properties: {
         result: eventName,
         experiment_id: Config.SEGMENT_TEST_ID,
         variation_name: eventInfo.cohort,
-        guestlogin: eventInfo.guest,
-        user: eventInfo.user_info
+        guestlogin: eventInfo.guest
       }
     })
   }

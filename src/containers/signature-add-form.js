@@ -34,7 +34,7 @@ class SignatureAddForm extends React.Component {
       hideUntilInteract: true,
       formStarted: false,
       formFinished: false,
-      formPosition: ''
+      currentFormPosition: ''
     }
     this.validationFunction = {
       email: isValidEmail,
@@ -115,36 +115,38 @@ class SignatureAddForm extends React.Component {
 
   updateFormProgress(fieldName) {
     const { formStarted, formFinished } = this.state
-    const formKeys = Object.keys(this.state).map(key => key)
+    // const formKeys = Object.keys(this.state).map(key => key)
+
     if (window.analytics || Config.FAKE_ANALYTICS) {
-      if (formKeys.indexOf(fieldName) === 0 && !formStarted) {
+      // if you fill in any field, itll update formStarted
+      // if its autofilled, currentFormPosition will update to the last fieldName
+      if (!formStarted) {
         this.setState({
           formStarted: true,
-          formPosition: fieldName
+          currentFormPosition: fieldName
         })
         this.formTracker.startForm({
           cohort: this.props.query.cohort || '',
-          guest: this.props.user.anonymous,
-          user_info: this.props.user
+          guest: this.props.user.anonymous
         })
       }
-
+      // this should only trigger when the form is valid and its submitted
       if (formStarted && !formFinished && fieldName === 'submission') {
         this.setState({
-          formFinished: false,
-          formPosition: fieldName
+          formStarted: true,
+          formFinished: true,
+          currentFormPosition: fieldName
         })
 
         this.formTracker.endForm({
           cohort: this.props.query.cohort || '',
-          guest: this.props.user.anonymous,
-          user_info: this.props.user
+          guest: this.props.user.anonymous
         })
       }
 
-      if (formStarted && !formFinished && (fieldName !== 'submission' || formKeys.indexOf(fieldName) > 0)) {
+      if (formStarted && !formFinished && fieldName !== 'submission') {
         this.setState({
-          formPosition: fieldName
+          currentFormPosition: fieldName
         })
       }
     }
