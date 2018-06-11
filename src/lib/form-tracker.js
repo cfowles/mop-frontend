@@ -1,7 +1,11 @@
 import Config from '../config'
 
-export function FormTracker() {
-  this.state = {}
+export function FormTracker({ experimentId }) {
+  this.state = {
+    formStarted: 0,
+    formFinished: 0,
+    experiment_id: experimentId
+  }
 
   this.startForm = function (eventInfo) {
     this.state.formStarted = 1
@@ -14,15 +18,19 @@ export function FormTracker() {
   }
 
   this.track = function (eventName, eventInfo) {
-    // console.log('eventInfo: '+ JSON.stringify(eventInfo) + ' and eventName: ' + eventName);
-    window.analytics.track({
-      event: eventName,
-      properties: {
-        result: eventName,
-        experiment_id: Config.SEGMENT_TEST_ID,
-        variation_name: eventInfo.cohort,
-        guestlogin: eventInfo.guest
-      }
-    })
+    if (window.analytics) {
+      window.analytics.track({
+        event: eventName,
+        properties: {
+          result: eventName,
+          experiment_id: this.state.experiment_id,
+          variation_name: eventInfo.cohort,
+          guestlogin: eventInfo.guest
+        }
+      })
+    }
+    if (Config.FAKE_ANALYTICS) {
+      console.log(`Tracking event: Event name ${eventName} - Experiment_id ${experimentId} - Variation ${eventInfo.cohort} - Guest? ${eventInfo.guest}`)
+    }
   }
 }

@@ -46,7 +46,7 @@ class SignatureAddForm extends React.Component {
     this.submit = this.submit.bind(this)
     this.validationError = this.validationError.bind(this)
     this.updateStateFromValue = this.updateStateFromValue.bind(this)
-    this.formTracker = new FormTracker()
+    this.formTracker = new FormTracker({ experimentId: 'signMobilePhones1' })
   }
 
   getOsdiSignature() {
@@ -116,39 +116,36 @@ class SignatureAddForm extends React.Component {
   updateFormProgress(fieldName) {
     const { formStarted, formFinished } = this.state
     // const formKeys = Object.keys(this.state).map(key => key)
+    // if you fill in any field, itll update formStarted
+    // if its autofilled, currentFormPosition will update to the last fieldName
+    if (!formStarted) {
+      this.setState({
+        formStarted: true,
+        currentFormPosition: fieldName
+      })
+      this.formTracker.startForm({
+        cohort: this.props.query.cohort || '',
+        guest: !!this.props.user.anonymous
+      })
+    }
+    // this should only trigger when the form is valid and its submitted
+    if (formStarted && !formFinished && fieldName === 'submission') {
+      this.setState({
+        formStarted: true,
+        formFinished: true,
+        currentFormPosition: fieldName
+      })
 
-    if (window.analytics || Config.FAKE_ANALYTICS) {
-      // if you fill in any field, itll update formStarted
-      // if its autofilled, currentFormPosition will update to the last fieldName
-      if (!formStarted) {
-        this.setState({
-          formStarted: true,
-          currentFormPosition: fieldName
-        })
-        this.formTracker.startForm({
-          cohort: this.props.query.cohort || '',
-          guest: this.props.user.anonymous
-        })
-      }
-      // this should only trigger when the form is valid and its submitted
-      if (formStarted && !formFinished && fieldName === 'submission') {
-        this.setState({
-          formStarted: true,
-          formFinished: true,
-          currentFormPosition: fieldName
-        })
+      this.formTracker.endForm({
+        cohort: this.props.query.cohort || '',
+        guest: !!this.props.user.anonymous
+      })
+    }
 
-        this.formTracker.endForm({
-          cohort: this.props.query.cohort || '',
-          guest: this.props.user.anonymous
-        })
-      }
-
-      if (formStarted && !formFinished && fieldName !== 'submission') {
-        this.setState({
-          currentFormPosition: fieldName
-        })
-      }
+    if (formStarted && !formFinished && fieldName !== 'submission') {
+      this.setState({
+        currentFormPosition: fieldName
+      })
     }
   }
 
@@ -248,9 +245,7 @@ class SignatureAddForm extends React.Component {
     const signAction = Config.API_WRITABLE ? signPetition : devLocalSignPetition
 
     if (this.formIsValid()) {
-      if (window.analytics || Config.FAKE_ANALYTICS) {
-        this.updateFormProgress('submission')
-      }
+      this.updateFormProgress('submission')
       const osdiSignature = this.getOsdiSignature()
       return dispatch(signAction(osdiSignature, petition, { redirectOnSuccess: true }))
     }
