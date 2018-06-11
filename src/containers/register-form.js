@@ -4,7 +4,8 @@ import { connect } from 'react-redux'
 
 import RegisterForm from 'Theme/register-form'
 
-import { actions as accountActions } from '../actions/accountActions'
+import Config from '../config'
+import { register, devLocalRegister } from '../actions/accountActions'
 import { appLocation } from '../routes'
 import { isValidEmail } from '../lib'
 
@@ -64,6 +65,8 @@ class Register extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault()
+    const registerAction = Config.API_WRITABLE ? register : devLocalRegister
+
     const { name, email, password, passwordConfirm, zip, phone } = this
     if (this.validateForm()) {
       const fields = {
@@ -78,7 +81,7 @@ class Register extends React.Component {
       }
 
       const { successCallback, dispatch } = this.props
-      dispatch(accountActions.register(fields, successCallback))
+      dispatch(registerAction(fields, successCallback))
     }
   }
 

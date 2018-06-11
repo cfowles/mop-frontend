@@ -53,6 +53,18 @@ export function register(fields, successCallback) {
   }
 }
 
+// This action is for development when no backend server is running
+// It is configured to be used in the component when API_WRITABLE is false
+export function devLocalRegister(fields, successCallback) {
+  console.log('Register with', fields) // eslint-disable-line
+  return dispatch => {
+    dispatch({
+      type: actionTypes.REGISTER_SUCCESS
+    })
+    successCallback()
+  }
+}
+
 export function login(fields, successCallback) {
   return dispatch => {
     dispatch({

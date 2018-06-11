@@ -1,9 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+
+import Config from '../config'
 import { appLocation } from '../routes'
 
-import { submit } from '../actions/createPetitionActions'
+import { submit, devLocalSubmit } from '../actions/createPetitionActions'
 
 import { CreatePreview as CreatePreviewComponent } from 'LegacyTheme/create-preview'
 
@@ -17,7 +19,7 @@ class CreatePreview extends React.Component {
   }
 
   submitPetition() {
-    return this.props.dispatch(submit())
+    return this.props.dispatch(Config.API_WRITABLE ? submit() : devLocalSubmit())
   }
 
   render() {

@@ -66,6 +66,27 @@ export function submit() {
   }
 }
 
+// This thunk is for development when no backend server is running
+// It is configured to be used in the component when API_WRITABLE is false
+export function devLocalSubmit() {
+  return (dispatch, getState) => {
+    const { petitionCreateStore: p } = getState()
+
+    const fakePetition = {
+      title: p.title,
+      summary: p.summary,
+      description: p.description,
+      target: p.target,
+      _links: {}
+    }
+    dispatch({
+      type: actionTypes.CREATE_PETITION_SUCCESS,
+      petition: fakePetition
+    })
+    appLocation.push('/create_finished.html')
+  }
+}
+
 export function loadTargets(group, geoState) {
   return (dispatch, getState) => {
     dispatch({
