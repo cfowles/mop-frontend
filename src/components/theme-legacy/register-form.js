@@ -82,8 +82,9 @@ const RegisterForm = ({
               type='submit'
               className='xl percent-100 bump-top-3 background-moveon-bright-red'
               id='sign-here-button'
+              disabled={isSubmitting}
             >
-              Launch petition
+              {isSubmitting ? 'Please wait...' : 'Launch petition'}
             </button>
           ) : (
             <input

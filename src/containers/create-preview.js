@@ -1,9 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+
+import Config from '../config'
 import { appLocation } from '../routes'
 
-// import { submitPetition } from '../actions/createPetitionActions'
+import { submit, devLocalSubmit } from '../actions/createPetitionActions'
 
 import { CreatePreview as CreatePreviewComponent } from 'LegacyTheme/create-preview'
 
@@ -16,10 +18,8 @@ class CreatePreview extends React.Component {
     if (!this.props.hasPetition) appLocation.push('/create_start.html')
   }
 
-  // eslint-disable-next-line
   submitPetition() {
-    return null
-    // this.props.dispatch(submitPetition())
+    return this.props.dispatch(Config.API_WRITABLE ? submit() : devLocalSubmit())
   }
 
   render() {
@@ -37,13 +37,17 @@ class CreatePreview extends React.Component {
 CreatePreview.propTypes = {
   hasPetition: PropTypes.bool,
   petition: PropTypes.object,
-  user: PropTypes.object
-  // dispatch: PropTypes.func
+  user: PropTypes.object,
+  dispatch: PropTypes.func
 }
 
 function mapStateToProps({ petitionCreateStore, userStore }) {
   return {
-    hasPetition: !!(petitionCreateStore && petitionCreateStore.title),
+    hasPetition: !!(
+      petitionCreateStore &&
+      petitionCreateStore.title &&
+      !petitionCreateStore.submitted
+    ),
     petition: petitionCreateStore,
     user: userStore
   }

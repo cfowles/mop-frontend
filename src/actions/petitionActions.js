@@ -252,7 +252,7 @@ export function signPetition(petitionSignature, petition, options) {
 }
 
 // This thunk is for development when no backend server is running
-// It is configured to be used in the component when API_WRITEABLE is false
+// It is configured to be used in the component when API_WRITABLE is false
 export function devLocalSignPetition(signature, petition, options) {
   return dispatch => {
     dispatch({
