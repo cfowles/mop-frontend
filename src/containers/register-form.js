@@ -49,7 +49,9 @@ class Register extends React.Component {
     if (!password.value.trim().length) {
       errors.push({ message: 'Missing required entry for the Password field.' })
     } else if (password.value.trim() !== passwordConfirm.value.trim()) {
-      errors.push({ message: 'Password and PasswordConfirm fields do not match.' })
+      errors.push({
+        message: 'Password and PasswordConfirm fields do not match.'
+      })
     }
     if (this.props.includeZipAndPhone && !zip.value.trim().length) {
       errors.push({ message: 'Missing required entry for the ZIP Code field.' })
@@ -119,10 +121,12 @@ Register.propTypes = {
   successCallback: PropTypes.func
 }
 
-function mapStateToProps({ userStore = {} }) {
+function mapStateToProps({ userStore = {}, petitionCreateStore = {} }) {
   return {
     formErrors: userStore.registerErrors || [],
-    isSubmitting: !!userStore.isSubmittingRegister
+    isSubmitting: Boolean(
+      userStore.isSubmittingRegister || petitionCreateStore.isSubmitting
+    )
   }
 }
 

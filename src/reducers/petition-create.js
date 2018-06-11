@@ -11,10 +11,22 @@ const reducer = (state = {}, action) => {
         description: action.description,
         target: action.target
       }
-    case actionTypes.CREATE_PETITION_SUCCESS:
+    case actionTypes.CREATE_PETITION_REQUEST:
       return {
+        ...state,
+        isSubmitting: true
+      }
+    case actionTypes.CREATE_PETITION_SUCCESS:
+      // Removes the preview values and stores what is returned from the API
+      return {
+        isSubmitting: false,
         submitted: true,
         petition: action.petition
+      }
+    case actionTypes.CREATE_PETITION_FAILURE:
+      return {
+        ...state,
+        isSubmitting: false
       }
     default:
       return state
