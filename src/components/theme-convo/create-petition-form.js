@@ -39,6 +39,7 @@ const CreatePetitionForm = ({
   updateStateFromValue,
   section,
   nextSection,
+  saveInput,
   currentBubble,
   bubbleShow,
   bubbleLoading
@@ -52,7 +53,7 @@ const CreatePetitionForm = ({
   const welcome = <Welcome section={0} nextSection={nextSection} bubbleShow={bubbleShow} currentBubble={currentBubble} />
   // const email = section < 1 ? '' : <Email emailOnChange={updateStateFromValue('email')} section={section} nextSection={nextSection} />
   const title = section < 1 ? '' : <Title section={1} currentBubble={currentBubble} />
-const statement = section < 2 ? '' : <Statement statementOnChange={updateStateFromValue('statement')} />
+  const statement = section < 2 ? '' : <Statement statementOnChange={updateStateFromValue('statement')} />
   const background = section < 3 ? '' : <Background backgroundOnChange={updateStateFromValue('background')} />
 
   let showLoader = bubbleLoading ? 'show' : '';
@@ -65,7 +66,7 @@ const statement = section < 2 ? '' : <Statement statementOnChange={updateStateFr
         {title}
         {statement}
         {background}
-        <ConversationalInput section={section} nextSection={nextSection} />
+        <ConversationalInput section={section} saveInput={saveInput} />
         <div style={{ float: "left", clear: "both" }}
           ref={(el) => { this.chatEnd = el; }}>
         </div>

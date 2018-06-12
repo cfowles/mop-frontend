@@ -55,6 +55,7 @@ class CreatePetition extends React.Component {
     this.callSection = this.callSection.bind(this)
     this.callBubble = this.callBubble.bind(this)
     this.nextBubble = this.nextBubble.bind(this)
+    this.saveInput = this.saveInput.bind(this)
   }
 
   componentDidMount() {
@@ -87,6 +88,8 @@ class CreatePetition extends React.Component {
   }
 
   callBubble(sectionLength) {
+    console.log(this.state.section)
+    console.log(this.state.currentBubble)
     let bubbleLength = conversation[this.state.section][this.state.currentBubble].content.length
     let bubbleTime = (bubbleLength / 60) * 1000;
 
@@ -121,13 +124,20 @@ class CreatePetition extends React.Component {
     })
   }
 
+  saveInput() {
+    return (event) => {
+      console.log(event.target.value)
+      this.nextSection()
+      this.callSection()
+    }
+  }
+
   nextSection() {
     return () => this.setState(prevState => {
       const prev = prevState.section;
       let newSection = prev + 1;
       return { section: newSection }
     })
-    this.callSection()
   }
   nextBubble() {
     this.setState(prevState => {
@@ -221,6 +231,8 @@ class CreatePetition extends React.Component {
           bubbleShow={this.state.bubbleShow}
           bubbleLoading={this.state.bubbleLoading}
           currentBubble={this.state.currentBubble}
+
+          saveInput={this.saveInput}
         />
       </div>
     )
