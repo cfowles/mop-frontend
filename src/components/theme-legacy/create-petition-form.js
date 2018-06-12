@@ -43,12 +43,6 @@ const CreatePetitionForm = ({
       <div className='row'>
         <div className='background-moveon-light-gray span6 start-form'>
           <form id='petition_form' onSubmit={onPreview}>
-            {/* TODO: Do we need to move these to the state to submit? */}
-            <input value='' name='targets' id='targets_json' type='hidden' />
-            <input value='' name='skin' type='hidden' />
-            <input value='' name='source' type='hidden' />
-            <input value='' name='cloned_from_id' type='hidden' />
-            <input value='' name='solicit_id' type='hidden' />
             <ul className='errors'>
               {errors.map(err => <li key={err}>{err}</li>)}
             </ul>
