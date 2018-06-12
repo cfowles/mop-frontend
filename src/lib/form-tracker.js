@@ -8,6 +8,7 @@ export function FormTracker({ experimentId }) {
     cohort: '',
     result: '',
     variation_name: '',
+    eventInfo: {},
     loginstate: 0, // 0 is not logged in, 1 is guest login and 2 is an authenticated user
     validationerror: 0, // count of the number of fields that a validation error occurs before submission
     formexpand: 0, // number of times additional pieces of the form are displayed to the user
@@ -33,6 +34,15 @@ export function FormTracker({ experimentId }) {
     if (!userInfo.anonymous && userInfo.signonId) {
       this.state.loginstate = 2
     }
+  }
+
+  this.validationErrorTracker = function (eventObj) {
+    Object.keys(eventObj).forEach(key => {
+      this.state.eventInfo[key] = eventObj[key]
+      if (!eventObj[key] && Object.prototype.hasOwnProperty.call(eventObj.required, key)) {
+        this.state.validationerror += 1
+      }
+    })
   }
 
   this.endForm = function (eventInfo) {

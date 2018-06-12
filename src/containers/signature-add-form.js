@@ -162,6 +162,7 @@ class SignatureAddForm extends React.Component {
 
   updateRequiredFields(doUpdate) {
     // This is a separate method because it can change when state or props are changed
+
     const { user, requireAddressFields } = this.props
     const required = this.state.required
     let changeRequiredFields = false
@@ -219,6 +220,7 @@ class SignatureAddForm extends React.Component {
       return dispatch(signAction(osdiSignature, petition, { redirectOnSuccess: true }))
     }
     this.setState({ hideUntilInteract: false }) // show fields so we can show validation error
+    this.formTracker.validationErrorTracker(this.state)
     return false
   }
 
