@@ -21,6 +21,20 @@ export function FormTracker({ experimentId }) {
     this.track('form_started')
   }
 
+  this.loginState = function (userInfo) {
+    if (userInfo.anonymous) {
+      this.state.loginstate = 0
+    }
+
+    if (!userInfo.anonymous && !userInfo.signonId) {
+      this.state.loginstate = 1
+    }
+
+    if (!userInfo.anonymous && userInfo.signonId) {
+      this.state.loginstate = 2
+    }
+  }
+
   this.endForm = function (eventInfo) {
     Object.keys(eventInfo).forEach(key => {
       this.state[key] = eventInfo[key]
@@ -35,6 +49,8 @@ export function FormTracker({ experimentId }) {
     if (this.state.formStarted === 0) {
       this.startForm()
     }
+
+    this.loginState(eventInfo.userInfo)
   }
 
   this.track = function (eventName) {
@@ -47,7 +63,7 @@ export function FormTracker({ experimentId }) {
           result: eventName,
           experiment_id: experimentId,
           variation_name: cohort,
-          guestlogin: loginstate || 0,
+          guestlogin: loginstate,
           validationerror: validationerror || 0,
           sectionadvanced: sectionadvanced || 0,
           fieldfocused: fieldfocused || -1,

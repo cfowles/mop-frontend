@@ -142,7 +142,8 @@ class SignatureAddForm extends React.Component {
         hideUntilInteract: false // show some hidden fields if they are hidden
       })
       this.formTracker.updateFormProgress({
-        fieldfocused: field
+        fieldfocused: field,
+        userInfo: this.props.user
       })
     }
   }
@@ -211,9 +212,8 @@ class SignatureAddForm extends React.Component {
       this.formTracker.endForm({
         formStarted: 1,
         formFinished: 1,
-        result: '',
         variation_name: this.props.query.cohort || '',
-        login_state: (this.props.user.anonymous ? 0 : 2)
+        login_state: (this.props.user.anonymous ? 0 : 1)
       })
       const osdiSignature = this.getOsdiSignature()
       return dispatch(signAction(osdiSignature, petition, { redirectOnSuccess: true }))
