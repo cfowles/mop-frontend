@@ -16,6 +16,7 @@ import Email from './conversation/email'
 import Title from './conversation/title'
 import Statement from './conversation/statement'
 import Background from './conversation/background'
+import ConversationalInput from './conversation/input'
 
 const instructionsByField = {
   title: <TitleTip />,
@@ -48,11 +49,11 @@ const CreatePetitionForm = ({
   const state = !stateOpen ? '' : <StateTargetSelect />
   const custom = !customOpen ? '' : <CustomTargetSelect />
 
-  const welcome = <Welcome section={section} nextSection={nextSection} bubbleShow={bubbleShow} currentBubble={currentBubble} />
+  const welcome = <Welcome section={0} nextSection={nextSection} bubbleShow={bubbleShow} currentBubble={currentBubble} />
   // const email = section < 1 ? '' : <Email emailOnChange={updateStateFromValue('email')} section={section} nextSection={nextSection} />
-  const title = section < 2 ? '' : <Title titleOnChange={updateStateFromValue('title')} />
-  const statement = section < 3 ? '' : <Statement statementOnChange={updateStateFromValue('statement')} />
-  const background = section < 4 ? '' : <Background backgroundOnChange={updateStateFromValue('background')} />
+  const title = section < 1 ? '' : <Title section={1} currentBubble={currentBubble} />
+const statement = section < 2 ? '' : <Statement statementOnChange={updateStateFromValue('statement')} />
+  const background = section < 3 ? '' : <Background backgroundOnChange={updateStateFromValue('background')} />
 
   let showLoader = bubbleLoading ? 'show' : '';
   let loaderClasses = 'bubble ' + showLoader;
@@ -64,6 +65,7 @@ const CreatePetitionForm = ({
         {title}
         {statement}
         {background}
+        <ConversationalInput section={section} nextSection={nextSection} />
         <div style={{ float: "left", clear: "both" }}
           ref={(el) => { this.chatEnd = el; }}>
         </div>

@@ -1,5 +1,5 @@
 export const conversation = [
-  // Section 1: Welcome and Email
+  // Section 0: Welcome and Email
   [
     {
       content: "Hi 👋 Want to start a petition? That’s great! Petitions like yours are one of the most powerful ways to get support for an issue or topic.",
@@ -17,12 +17,17 @@ export const conversation = [
       id: 3
     }
   ],
-  // Section 3: Title
+  // Section 1: Title
   [
     {
       content: "Excellent. First, what would you like the title of your petition to be?",
       showToLoggedIn: true,
       id: 4
+    },
+    {
+      content: "Great titles should be brief, like a newspaper headline. 🗞️ For example “Mayor Jones: Save Dewey Elementary School",
+      showToLoggedIn: true,
+      id: 5
     }
   ]
 ]

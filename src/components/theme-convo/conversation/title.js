@@ -1,27 +1,16 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import ChatBubble from './chat-bubble'
+import { conversation } from './conversation'
 
-const Title = ({titleOnChange}) => (
+const Title = ({
+  section,
+  currentBubble
+}) => (
   <div>
-  <div className='bubble'>Excellent. First, what would you like the title of your petition to be?
-    </div>
-    <div className='bubble'>Great titles should be brief, like a newspaper headline. 🗞️ For example “Mayor Jones: Save Dewey Elementary School”
-    </div>
-    <div className='bubble user'>
-      <input
-        type='text'
-        name='title'
-        placeholder='Your petition title'
-        onChange={titleOnChange}
-        onBlur={titleOnChange}
-      />
-    </div>
+    <ChatBubble currentBubble={currentBubble} bubble={conversation[section][0]} />
+    <ChatBubble currentBubble={currentBubble} bubble={conversation[section][1]} />
   </div>
 )
 
-Title.propTypes = {
-  titleOnChange: PropTypes.func,
-  titleValidationError: PropTypes.element
-}
 
 export default Title

@@ -72,7 +72,7 @@ class CreatePetition extends React.Component {
       loaderLength += b.content.length;
     });
 
-    let loaderTime = (loaderLength / 40) * 1000;
+    let loaderTime = (loaderLength / 60) * 1000;
 
     this.setState({ bubbleLoading: true });
 
@@ -88,7 +88,7 @@ class CreatePetition extends React.Component {
 
   callBubble(sectionLength) {
     let bubbleLength = conversation[this.state.section][this.state.currentBubble].content.length
-    let bubbleTime = (bubbleLength / 40) * 1000;
+    let bubbleTime = (bubbleLength / 60) * 1000;
 
     this.bubbleTimeout = setTimeout(() => {
       this.nextBubble();
@@ -123,10 +123,11 @@ class CreatePetition extends React.Component {
 
   nextSection() {
     return () => this.setState(prevState => {
-      const prev = prevState.step;
+      const prev = prevState.section;
       let newSection = prev + 1;
       return { section: newSection }
     })
+    this.callSection()
   }
   nextBubble() {
     this.setState(prevState => {

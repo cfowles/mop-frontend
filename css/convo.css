@@ -72,6 +72,7 @@
 #conversational .bubble.user {
   position: fixed;
   display: block;
+  top: inherit;
   bottom: 0;
   left: 0;
   z-index: 10;
@@ -151,4 +152,4 @@
   }
 }
 
-/*# sourceMappingURL=css/convo.css.map */
+/*# sourceMappingURL=convo.css.map */
