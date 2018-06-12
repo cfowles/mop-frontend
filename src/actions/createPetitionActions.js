@@ -39,6 +39,11 @@ export function submit() {
     dispatch({
       type: actionTypes.CREATE_PETITION_REQUEST
     })
+    if (window.gtag && Config.GTAG_PETITION_CREATE) {
+      // https://developers.google.com/adwords-remarketing-tag/
+      window.gtag('event', 'conversion', { send_to: Config.GTAG_PETITION_CREATE })
+    }
+
     const { petitionCreateStore: p } = getState()
     const petition = {
       title: p.title,
