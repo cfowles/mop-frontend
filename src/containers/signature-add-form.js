@@ -31,10 +31,7 @@ class SignatureAddForm extends React.Component {
       thirdparty_optin: props.hiddenOptin || props.showOptinCheckbox,
       hidden_optin: props.hiddenOptin,
       required: {},
-      hideUntilInteract: true,
-      formStarted: false,
-      formFinished: false,
-      currentFormPosition: ''
+      hideUntilInteract: true
     }
     this.validationFunction = {
       email: isValidEmail,
@@ -113,42 +110,6 @@ class SignatureAddForm extends React.Component {
     return osdiSignature
   }
 
-  updateFormProgress(fieldName) {
-    const { formStarted, formFinished } = this.state
-    // const formKeys = Object.keys(this.state).map(key => key)
-    // if you fill in any field, itll update formStarted
-    // if its autofilled, currentFormPosition will update to the last fieldName
-    if (!formStarted) {
-      this.setState({
-        formStarted: true,
-        currentFormPosition: fieldName
-      })
-      this.formTracker.startForm({
-        cohort: this.props.query.cohort || '',
-        guest: !!this.props.user.anonymous
-      })
-    }
-    // this should only trigger when the form is valid and its submitted
-    if (formStarted && !formFinished && fieldName === 'submission') {
-      this.setState({
-        formStarted: true,
-        formFinished: true,
-        currentFormPosition: fieldName
-      })
-
-      this.formTracker.endForm({
-        cohort: this.props.query.cohort || '',
-        guest: !!this.props.user.anonymous
-      })
-    }
-
-    if (formStarted && !formFinished && fieldName !== 'submission') {
-      this.setState({
-        currentFormPosition: fieldName
-      })
-    }
-  }
-
   validationError(key) {
     if (this.state.validationTried) {
       if (Object.keys(this.state.required).indexOf(key) > -1) {
@@ -180,7 +141,9 @@ class SignatureAddForm extends React.Component {
         [field]: value,
         hideUntilInteract: false // show some hidden fields if they are hidden
       })
-      this.updateFormProgress(field)
+      this.formTracker.updateFormProgress({
+        fieldfocused: field
+      })
     }
   }
 
@@ -245,7 +208,13 @@ class SignatureAddForm extends React.Component {
     const signAction = Config.API_WRITABLE ? signPetition : devLocalSignPetition
 
     if (this.formIsValid()) {
-      this.updateFormProgress('submission')
+      this.formTracker.endForm({
+        formStarted: 1,
+        formFinished: 1,
+        result: '',
+        variation_name: this.props.query.cohort || '',
+        login_state: (this.props.user.anonymous ? 0 : 2)
+      })
       const osdiSignature = this.getOsdiSignature()
       return dispatch(signAction(osdiSignature, petition, { redirectOnSuccess: true }))
     }
