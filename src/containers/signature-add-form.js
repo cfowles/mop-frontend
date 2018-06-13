@@ -46,6 +46,10 @@ class SignatureAddForm extends React.Component {
     this.formTracker = new FormTracker({ experimentId: 'signMobilePhones1' })
   }
 
+  componentDidUpdate() {
+    this.formTracker.getForm(document.getElementsByClassName('sign-form'))
+  }
+
   getOsdiSignature() {
     const { petition, query, showOptinCheckbox, user } = this.props
     const osdiSignature = {

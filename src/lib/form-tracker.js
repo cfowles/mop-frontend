@@ -9,6 +9,8 @@ export function FormTracker({ experimentId }) {
     result: '',
     variation_name: '',
     eventInfo: {},
+    formLength: 0,
+    formElements: {},
     loginstate: 0, // 0 is not logged in, 1 is guest login and 2 is an authenticated user
     validationerror: 0, // count of the number of fields that a validation error occurs before submission
     formexpand: 0, // number of times additional pieces of the form are displayed to the user
@@ -17,9 +19,22 @@ export function FormTracker({ experimentId }) {
     fieldchanged: -1 // maximum field index that has a non default value
   }
 
-  this.startForm = function () {
-    this.state.formStarted = 1
-    this.track('form_started')
+  // TODO: this login stuff will have more logic
+
+  this.endForm = function (eventInfo) {
+    Object.keys(eventInfo).forEach(key => {
+      this.state[key] = eventInfo[key]
+    })
+    this.track('form_finished')
+  }
+
+  this.getForm = function (formHTML) {
+    if (formHTML[0]) {
+      this.state.formLength = formHTML[0].length
+      for (let k = 0; k < formHTML[0].length; k += 1) {
+        this.state.formElements[k] = formHTML[0].elements[k].name
+      }
+    }
   }
 
   this.loginState = function (userInfo) {
@@ -36,6 +51,23 @@ export function FormTracker({ experimentId }) {
     }
   }
 
+  this.startForm = function () {
+    this.state.formStarted = 1
+    this.track('form_started')
+  }
+
+  this.updateFormProgress = function (eventInfo) {
+    Object.keys(eventInfo).forEach(key => {
+      this.state[key] = eventInfo[key]
+    })
+    if (this.state.formStarted === 0) this.startForm()
+
+    if (this.state.formStarted) {
+      this.state.fieldfocused = eventInfo.fieldfocused
+      this.track('fieldfocused')
+    }
+  }
+
   this.validationErrorTracker = function (eventObj) {
     Object.keys(eventObj).forEach(key => {
       this.state.eventInfo[key] = eventObj[key]
@@ -45,23 +77,7 @@ export function FormTracker({ experimentId }) {
     })
   }
 
-  this.endForm = function (eventInfo) {
-    Object.keys(eventInfo).forEach(key => {
-      this.state[key] = eventInfo[key]
-    })
-    this.track('form_finished')
-  }
-
-  this.updateFormProgress = function (eventInfo) {
-    Object.keys(eventInfo).forEach(key => {
-      this.state[key] = eventInfo[key]
-    })
-    if (this.state.formStarted === 0) {
-      this.startForm()
-    }
-
-    this.loginState(eventInfo.userInfo)
-  }
+  // method that actually sends to segment
 
   this.track = function (eventName) {
     const { cohort, loginstate, validationerror, sectionadvanced, fieldfocused, fieldchanged } = this.state
@@ -82,7 +98,7 @@ export function FormTracker({ experimentId }) {
       })
     }
     if (Config.FAKE_ANALYTICS) {
-      console.log(`Tracking event:${JSON.stringify(this.state)}`)
+      console.log(`Tracking event ${eventName} with current state object:${JSON.stringify(this.state)}`)
     }
   }
 }
