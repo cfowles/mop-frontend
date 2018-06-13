@@ -4,17 +4,15 @@ import { conversation } from './conversation'
 import ReactTimeout from 'react-timeout'
 
 const ChatBubble = ({
-    toggleOpen,
-    bubbleShow,
-    currentBubble,
+    currentIndex,
     bubble
 }) => {
 
     //should 'type' at 40 characters per second => (length / 40) * 1000 for ms.
 
-    const bubbleContent = bubble.content
-    const id = bubble.id
-    const classes = currentBubble >= id ? 'bubble show' : 'bubble';
+    const bubbleContent = bubble.content;
+    const id = bubble.id;
+    const classes = currentIndex >= id ? 'bubble show' : 'bubble';
 
     return (
         <div className={classes}>

@@ -1,11 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const PetitionStatement = ({
+const Statement = ({
     nextStep,
     step,
     toggleOpen,
-    updateStateFromValue
+    updateStateFromValue,
+    signupModalToggled
 }) => {
     const signup = (
         <div className="row">
@@ -73,10 +74,11 @@ const PetitionStatement = ({
         </div>
     );
 
-    const output = step === 1 ? signup : complete;
+    const output = step === 2 ? signup : complete;
+    const classes = signupModalToggled ? "signup-modal toggled" : "signup-modal";
 
     return (
-        <div className="signup-modal">
+        <div className={classes}>
             <div className="container">
                 <div className="close" onClick={toggleOpen('signupModalToggled')}>
                     <span></span>
@@ -88,10 +90,10 @@ const PetitionStatement = ({
     )
 }
 
-PetitionStatement.propTypes = {
+Statement.propTypes = {
     nextStep: PropTypes.func,
     toggleOpen: PropTypes.func,
     updateStateFromValue: PropTypes.func
 }
 
-export default PetitionStatement
+export default Statement

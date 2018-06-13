@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const PetitionShare = ({
+const Share = ({
     toggleOpen,
-    shareButtonsToggled
+    shareButtonsToggled,
+    step
 }) => {
     const shareButtons = (
         <div className="col-12 share-btns-extra">
@@ -20,9 +21,10 @@ const PetitionShare = ({
     );
 
     const output = shareButtonsToggled ? shareButtons : '';
+    const classes = step === 6 ? "share ppp-step container active" : "share ppp-step container";
 
     return (
-        <div className="share ppp-step container">
+        <div className={classes}>
             <div className="row ppp-item">
                 <div className="col-12">
                     <p>Getting to 10 signatures makes your petition visible to the MoveOn.org community.</p>
@@ -49,8 +51,8 @@ const PetitionShare = ({
     )
 }
 
-PetitionShare.propTypes = {
+Share.propTypes = {
     toggleOpen: PropTypes.func
 }
 
-export default PetitionShare
+export default Share

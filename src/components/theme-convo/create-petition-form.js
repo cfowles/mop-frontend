@@ -41,6 +41,7 @@ const CreatePetitionForm = ({
   nextSection,
   saveInput,
   currentBubble,
+  currentIndex,
   bubbleShow,
   bubbleLoading
 }) => {
@@ -50,9 +51,9 @@ const CreatePetitionForm = ({
   const state = !stateOpen ? '' : <StateTargetSelect />
   const custom = !customOpen ? '' : <CustomTargetSelect />
 
-  const welcome = <Welcome section={0} nextSection={nextSection} bubbleShow={bubbleShow} currentBubble={currentBubble} />
+  const welcome = <Welcome section={0} nextSection={nextSection} bubbleShow={bubbleShow} currentBubble={currentBubble} currentIndex={currentIndex} />
   // const email = section < 1 ? '' : <Email emailOnChange={updateStateFromValue('email')} section={section} nextSection={nextSection} />
-  const title = section < 1 ? '' : <Title section={1} currentBubble={currentBubble} />
+  const title = section < 1 ? '' : <Title section={1} currentBubble={currentBubble} currentIndex={currentIndex} />
   const statement = section < 2 ? '' : <Statement statementOnChange={updateStateFromValue('statement')} />
   const background = section < 3 ? '' : <Background backgroundOnChange={updateStateFromValue('background')} />
 

@@ -2,13 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { tips } from './tips-data'
 
-const PetitionTip = ({
+const Tip = ({
     toggleOpen,
     tipModalToggled,
     step
 }) => {
     const currentTip = tips[step - 1];
-    console.log(currentTip);
 
     const description = currentTip.description.map(function(paragraph, index){
         return <p key={index}>{paragraph}</p>;
@@ -24,8 +23,10 @@ const PetitionTip = ({
             </div>)
     })
 
+    const classes = tipModalToggled ? "tip-modal container toggled" : "tip-modal container";
+
     return (
-        <div className="tip-modal container">
+        <div className={classes}>
             <div className="close" onClick={toggleOpen('tipModalToggled')}>
                 <span></span>
                 <span></span>
@@ -46,9 +47,9 @@ const PetitionTip = ({
     )
 }
 
-PetitionTip.propTypes = {
+Tip.propTypes = {
     toggleOpen: PropTypes.func,
     step: PropTypes.number,
 }
 
-export default PetitionTip
+export default Tip

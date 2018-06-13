@@ -39,9 +39,11 @@ class CreatePetition extends React.Component {
 
       /*** Convo ***/
       section: 0,
+      sectionLengths: [],
 
       // Bubbles
       currentBubble: 0,
+      currentIndex: 0,
       bubbleShow: false,
       bubbleLoading: false
     }
@@ -56,40 +58,38 @@ class CreatePetition extends React.Component {
     this.callBubble = this.callBubble.bind(this)
     this.nextBubble = this.nextBubble.bind(this)
     this.saveInput = this.saveInput.bind(this)
+    this.getSectionLengths = this.getSectionLengths.bind(this)
   }
 
   componentDidMount() {
     this.callSection();
   }
 
+  getSectionLengths() {
+    // conversation.map(function (b, i) {
+    //   if(b.hasOwnProperty('section')) {
+        
+    //   }
+    // });
+  }
 
   callSection() {
+    this.setState({ bubbleLoading: true });
     let sectionLength = conversation[this.state.section].length;
 
-    // Loader
     let loaderLength = 0
-
     conversation[this.state.section].map(function (b, i) {
       loaderLength += b.content.length;
     });
-
     let loaderTime = (loaderLength / 60) * 1000;
-
-    this.setState({ bubbleLoading: true });
-
     this.loaderTimeout = setTimeout(function () {
       this.setState({ bubbleLoading: false });
     }.bind(this), loaderTime);
 
-    // Bubbles
     this.callBubble(sectionLength);
-
-
   }
 
   callBubble(sectionLength) {
-    console.log(this.state.section)
-    console.log(this.state.currentBubble)
     let bubbleLength = conversation[this.state.section][this.state.currentBubble].content.length
     let bubbleTime = (bubbleLength / 60) * 1000;
 
@@ -98,6 +98,8 @@ class CreatePetition extends React.Component {
 
       if (this.state.currentBubble < sectionLength ) {
         this.callBubble(sectionLength);
+      } else {
+        this.setState({ currentBubble: 0 });
       }
     }, bubbleTime)
   }
@@ -110,7 +112,6 @@ class CreatePetition extends React.Component {
     return input => input && (this[name] = input)
   }
   toggleOpen(element) {
-    console.log(element, this.state);
     return () => this.setState(prevState => {
       const prev = prevState[element]
       return { [element]: !prev }
@@ -125,15 +126,12 @@ class CreatePetition extends React.Component {
   }
 
   saveInput() {
-    return (event) => {
-      console.log(event.target.value)
-      this.nextSection()
-      this.callSection()
-    }
+    this.nextSection();
+    this.callSection();
   }
 
   nextSection() {
-    return () => this.setState(prevState => {
+    this.setState(prevState => {
       const prev = prevState.section;
       let newSection = prev + 1;
       return { section: newSection }
@@ -141,9 +139,11 @@ class CreatePetition extends React.Component {
   }
   nextBubble() {
     this.setState(prevState => {
-      const prev = prevState.currentBubble;
-      let newBubble = prev + 1;
-      return { currentBubble: newBubble }
+      const prevBubble = prevState.currentBubble;
+      let newBubble = prevBubble + 1;
+      const prevIndex = prevState.currentIndex;
+      let newIndex = prevIndex + 1;
+      return { currentBubble: newBubble, currentIndex: newIndex }
     })
   }
 
@@ -156,10 +156,9 @@ class CreatePetition extends React.Component {
     }
   }
   getTargets() {
-    return () => {
-      const targets = loadTargets();
-      console.log(targets);
-    }
+    // return () => {
+    //   const targets = loadTargets();
+    // }
   }
 
   /* conversational scrolling
@@ -231,6 +230,7 @@ class CreatePetition extends React.Component {
           bubbleShow={this.state.bubbleShow}
           bubbleLoading={this.state.bubbleLoading}
           currentBubble={this.state.currentBubble}
+          currentIndex={this.state.currentIndex}
 
           saveInput={this.saveInput}
         />

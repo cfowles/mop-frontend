@@ -16,10 +16,29 @@ hr {
     flex-direction: column;
     min-height: calc(100vh - 57px);
 
+    #petition_form {
+        position: relative;
+    }
+
+    $stepTransition: 1.5s cubic-bezier(0.64, 0.04, 0.35, 1);
     .ppp-step {
         padding-top: 25px;
         padding-bottom: 25px;
         margin-bottom: 50px;
+        opacity: 0;
+        z-index: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        overflow-x: hidden;
+        transition: opacity $stepTransition;
+
+        &.active {
+            opacity: 1;
+            z-index: 1;
+            transition: opacity $stepTransition 1.5s;
+        }
+
     }
 
     input, textarea {
@@ -69,13 +88,22 @@ hr {
             }
         }
     }
+    $modalTransition: .3s ease-in-out;
+
     .signup-modal {
         position: fixed;
-        top: 0;
+        top: 100%;
         bottom: 0;
         z-index: 200;
         padding-top: 75px;
-        background: black;
+        background: rgba(0,0,0,0);
+        transition: top $modalTransition, background $modalTransition .3s;
+
+        &.toggled {
+            top: 0;
+            background: rgba(0,0,0,1);
+            transition: all $modalTransition;
+        }
 
         .container {
             background-color: #00abff;
@@ -131,11 +159,17 @@ hr {
         position: relative;
         padding-bottom: 50px;
         position: fixed;
-        top: 0;
-        bottom: 0;
+        top: 100%;
+        min-height: 100vh;
         z-index: 200;
         background-color: white;
-        overflow: scroll;
+        overflow-y: scroll;
+        transition: all $modalTransition;
+
+        &.toggled {
+            top: 0;
+            transition: all $modalTransition;
+        }
 
         .heading {
             padding-top: 40px;
@@ -322,14 +356,29 @@ hr {
         background-color: #e9e9e9;
         position: relative;
 
-        &::before {
+        .progress-bar {
             content: '';
             position: absolute;
             top: 0;
             bottom: 0;
             left: 0;
-            width: 10%;
             background-color: #2ca9ff;
+            transition: width 3s cubic-bezier(0.64, 0.04, 0.35, 1);
+        }
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+
+            img {
+                height: 100%;
+                width: 100%;
+                object-fit: cover;
+                object-position: 10vw;
+            }
         }
 
         .heading-title-wrap {

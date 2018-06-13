@@ -4,11 +4,12 @@ import { conversation } from './conversation'
 
 const Title = ({
   section,
-  currentBubble
+  currentBubble,
+  currentIndex
 }) => (
   <div>
-    <ChatBubble currentBubble={currentBubble} bubble={conversation[section][0]} />
-    <ChatBubble currentBubble={currentBubble} bubble={conversation[section][1]} />
+    <ChatBubble currentBubble={currentBubble} bubble={conversation[section][0]} currentIndex={currentIndex}/>
+    <ChatBubble currentBubble={currentBubble} bubble={conversation[section][1]} currentIndex={currentIndex}/>
   </div>
 )
 

@@ -1,13 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const PetitionReview = ({
+const Review = ({
     toggleOpen,
     editPetition,
     updateStateFromValue,
     title,
     statement,
-    background
+    background,
+    step
 }) => {
 
     const review = {
@@ -71,8 +72,10 @@ const PetitionReview = ({
         )
     }
 
+    const classes = step === 5 ? "review ppp-step container active" : "review ppp-step container";
+
     return (
-        <div className="review ppp-step container">
+        <div className={classes}>
             <div className="row ppp-item">
                 <div className="col-12 ppp-heading">
                     <h3>Review your petition</h3>
@@ -102,9 +105,9 @@ const PetitionReview = ({
     )
 }
 
-PetitionReview.propTypes = {
+Review.propTypes = {
     toggleOpen: PropTypes.func,
     updateStateFromValue: PropTypes.func
 }
 
-export default PetitionReview
+export default Review

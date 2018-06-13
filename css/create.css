@@ -20,10 +20,25 @@ hr {
   /* Heading */
   /* Steps */
 }
+#ppp #petition_form {
+  position: relative;
+}
 #ppp .ppp-step {
   padding-top: 25px;
   padding-bottom: 25px;
   margin-bottom: 50px;
+  opacity: 0;
+  z-index: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow-x: hidden;
+  transition: opacity 1.5s cubic-bezier(0.64, 0.04, 0.35, 1);
+}
+#ppp .ppp-step.active {
+  opacity: 1;
+  z-index: 1;
+  transition: opacity 1.5s cubic-bezier(0.64, 0.04, 0.35, 1) 1.5s;
 }
 #ppp input, #ppp textarea {
   width: 100%;
@@ -71,11 +86,17 @@ hr {
 }
 #ppp .signup-modal {
   position: fixed;
-  top: 0;
+  top: 100%;
   bottom: 0;
   z-index: 200;
   padding-top: 75px;
+  background: rgba(0, 0, 0, 0);
+  transition: top 0.3s ease-in-out, background 0.3s ease-in-out 0.3s;
+}
+#ppp .signup-modal.toggled {
+  top: 0;
   background: black;
+  transition: all 0.3s ease-in-out;
 }
 #ppp .signup-modal .container {
   background-color: #00abff;
@@ -123,11 +144,16 @@ hr {
   position: relative;
   padding-bottom: 50px;
   position: fixed;
-  top: 0;
-  bottom: 0;
+  top: 100%;
+  min-height: 100vh;
   z-index: 200;
   background-color: white;
-  overflow: scroll;
+  overflow-y: scroll;
+  transition: all 0.3s ease-in-out;
+}
+#ppp .tip-modal.toggled {
+  top: 0;
+  transition: all 0.3s ease-in-out;
 }
 #ppp .tip-modal .heading {
   padding-top: 40px;
@@ -289,14 +315,28 @@ hr {
   background-color: #e9e9e9;
   position: relative;
 }
-#ppp .ppp-page-heading::before {
+#ppp .ppp-page-heading .progress-bar {
   content: "";
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
-  width: 10%;
   background-color: #2ca9ff;
+  transition: width 3s cubic-bezier(0.64, 0.04, 0.35, 1);
+}
+#ppp .ppp-page-heading .background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+#ppp .ppp-page-heading .background img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: 10vw;
 }
 #ppp .ppp-page-heading .heading-title-wrap {
   padding-top: 36px;
