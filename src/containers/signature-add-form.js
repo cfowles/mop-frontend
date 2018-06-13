@@ -47,7 +47,7 @@ class SignatureAddForm extends React.Component {
   }
 
   componentDidUpdate() {
-    this.formTracker.getForm(document.getElementsByClassName('sign-form'))
+    this.formTracker.getForm(document)
   }
 
   getOsdiSignature() {
@@ -162,6 +162,7 @@ class SignatureAddForm extends React.Component {
     }
     this.setState({ volunteer: vol,
       required: req })
+    this.formTracker.formExpandTracker()
   }
 
   updateRequiredFields(doUpdate) {
