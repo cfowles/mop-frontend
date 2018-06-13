@@ -146,7 +146,7 @@ class SignatureAddForm extends React.Component {
         hideUntilInteract: false // show some hidden fields if they are hidden
       })
       this.formTracker.updateFormProgress({
-        fieldfocused: field,
+        currentfield: field,
         userInfo: this.props.user
       })
     }

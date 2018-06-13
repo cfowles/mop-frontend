@@ -37,6 +37,15 @@ export function FormTracker({ experimentId }) {
     }
   }
 
+  this.getMaxFieldFocus = function (key) {
+    if (this.state.fieldfocused === -1) {
+      this.state.fieldfocused = key
+    }
+    if (this.state.fieldfocused !== -1 && (parseInt(key, 10) > parseInt(this.state.fieldfocused, 10))) {
+      this.state.fieldfocused = key
+    }
+  }
+
   this.loginState = function (userInfo) {
     if (userInfo.anonymous) {
       this.state.loginstate = 0
@@ -57,14 +66,19 @@ export function FormTracker({ experimentId }) {
   }
 
   this.updateFormProgress = function (eventInfo) {
+    const fieldName = eventInfo.currentfield
+    const formElements = this.state.formElements
     Object.keys(eventInfo).forEach(key => {
       this.state[key] = eventInfo[key]
     })
     if (this.state.formStarted === 0) this.startForm()
 
     if (this.state.formStarted) {
-      this.state.fieldfocused = eventInfo.fieldfocused
-      this.track('fieldfocused')
+      Object.keys(this.state.formElements).forEach(key => {
+        if (formElements[key] === fieldName) {
+          this.getMaxFieldFocus(key)
+        }
+      })
     }
   }
 
