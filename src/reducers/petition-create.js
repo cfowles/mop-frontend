@@ -9,7 +9,10 @@ const reducer = (state = {}, action) => {
         title: action.title,
         summary: action.summary,
         description: action.description,
-        target: action.target
+        target: action.target,
+        source: action.source,
+        cloned_from_id: action.clonedFromId,
+        solicit_id: action.solicitId
       }
     case actionTypes.CREATE_PETITION_REQUEST:
       return {

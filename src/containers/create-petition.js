@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
 
 import { appLocation } from '../routes'
 import { previewSubmit } from '../actions/createPetitionActions'
@@ -17,15 +18,21 @@ const ERRORS = {
 export class CreatePetition extends React.Component {
   constructor(props) {
     super(props)
-    const { initialPetition } = this.props
+    const { initialPetition, location } = this.props
+    const query = (location && location.query) || {}
     this.state = {
       selected: 'title',
       errors: [],
+      customInputs: { name: '', email: '', title: '' },
+
       title: initialPetition.title || '',
       summary: initialPetition.summary || '',
       target: initialPetition.target || [],
       description: initialPetition.description || '',
-      customInputs: { name: '', email: '', title: '' }
+
+      source: initialPetition.source || query.source,
+      clonedFromId: initialPetition.cloned_from_id || query.cloned_from_id,
+      solicitId: initialPetition.solicit_id || query.solicit_id
     }
     this.setSelected = this.setSelected.bind(this)
     this.setRef = this.setRef.bind(this)
@@ -94,7 +101,10 @@ export class CreatePetition extends React.Component {
           title: this.state.title,
           summary: this.state.summary,
           target: this.state.target,
-          description: this.state.description
+          description: this.state.description,
+          source: this.state.source,
+          clonedFromId: this.state.clonedFromId,
+          solicitId: this.state.solicitId
         })
       )
       appLocation.push('/create_preview.html')
@@ -171,7 +181,8 @@ CreatePetition.defaultProps = {
 
 CreatePetition.propTypes = {
   dispatch: PropTypes.func,
-  initialPetition: PropTypes.object
+  initialPetition: PropTypes.object,
+  location: PropTypes.object
 }
 
-export default connect()(CreatePetition)
+export default withRouter(connect()(CreatePetition))

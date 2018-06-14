@@ -13,13 +13,24 @@ export const actionTypes = {
   FETCH_TARGETS_FAILURE: 'FETCH_TARGETS_FAILURE'
 }
 
-export function previewSubmit({ title, summary, description, target }) {
+export function previewSubmit({
+  title,
+  summary,
+  description,
+  target,
+  source,
+  clonedFromId,
+  solicitId
+}) {
   return {
     type: actionTypes.CREATE_PETITION_PREVIEW_SUBMIT,
     title,
     summary,
     description,
-    target
+    target,
+    source,
+    clonedFromId,
+    solicitId
   }
 }
 
@@ -28,41 +39,46 @@ export function submit() {
     dispatch({
       type: actionTypes.CREATE_PETITION_REQUEST
     })
+    if (window.gtag && Config.GTAG_PETITION_CREATE) {
+      // https://developers.google.com/adwords-remarketing-tag/
+      window.gtag('event', 'conversion', { send_to: Config.GTAG_PETITION_CREATE })
+    }
+
     const { petitionCreateStore: p } = getState()
-    return (
-      fetch(`${Config.API_URI}/user/petitions.json`, {
-        method: 'POST',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/hal+json',
-          Accept: 'application/hal+json'
-        },
-        body: JSON.stringify({
-          petition: {
-            title: p.title,
-            summary: p.summary,
-            description: p.description,
-            targets: p.target
-          }
+    const petition = {
+      title: p.title,
+      summary: p.summary,
+      description: p.description,
+      targets: p.target
+    }
+    if (p.source) petition.source = p.source
+    if (p.cloned_from_id) petition.cloned_from_id = p.cloned_from_id
+    if (p.solicit_id) petition.solicit_id = p.solicit_id
+    return fetch(`${Config.API_URI}/user/petitions.json`, {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/hal+json',
+        Accept: 'application/hal+json'
+      },
+      body: JSON.stringify({ petition })
+    })
+      .catch(rejectNetworkErrorsAs500)
+      .then(parseAPIResponse)
+      .then(res => {
+        dispatch({
+          type: actionTypes.CREATE_PETITION_SUCCESS,
+          petition: res
+        })
+        appLocation.push('/create_finished.html')
+      })
+      .catch(err => {
+        // For now, treat every error as a 500 to just show the error page
+        dispatch({
+          type: actionTypes.CREATE_PETITION_FAILURE,
+          error: { ...err, response_code: 500 }
         })
       })
-        .catch(rejectNetworkErrorsAs500)
-        .then(parseAPIResponse)
-        .then(res => {
-          dispatch({
-            type: actionTypes.CREATE_PETITION_SUCCESS,
-            petition: res
-          })
-          appLocation.push('/create_finished.html')
-        })
-        .catch(err => {
-          // For now, treat every error as a 500 to just show the error page
-          dispatch({
-            type: actionTypes.CREATE_PETITION_FAILURE,
-            error: { ...err, response_code: 500 }
-          })
-        })
-    )
   }
 }
 

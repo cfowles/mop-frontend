@@ -18,6 +18,7 @@ var envVars = {
   'API_SIGN_PETITION': process.env.API_SIGN_PETITION || '',
   'BASE_APP_PATH': process.env.BASE_APP_PATH || '/',
   'BASE_URL': process.env.BASE_URL || (process.env.PROD ? 'https://petitions.moveon.org' : ''),
+  'GTAG_PETITION_CREATE': process.env.GTAG_PETITION_CREATE,
   'ONLY_PROD_ROUTES': process.env.ONLY_PROD_ROUTES || '',
   'SESSION_COOKIE_NAME': process.env.SESSION_COOKIE_NAME || 'SO_SESSION',
   'STATIC_ROOT': process.env.STATIC_ROOT || '/local/',
