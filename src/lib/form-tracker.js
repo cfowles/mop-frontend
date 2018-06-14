@@ -8,6 +8,7 @@ export function FormTracker({ experimentId }) {
     result: '',
     variationName: '',
     eventInfo: {},
+    fieldLength: 0,
     mobileFormLength: 0,
     desktopFormLength: 0,
     formElements: {},
@@ -98,14 +99,18 @@ export function FormTracker({ experimentId }) {
 
   this.updateFormProgress = function updateFormProgress(eventInfo) {
     const fieldName = eventInfo.currentfield
+    const fieldLength = eventInfo.fieldLength
     const formElements = this.state.formElements
 
     Object.keys(eventInfo).forEach(key => {
       this.state[key] = eventInfo[key]
-      if (this.state.formStarted === 0) {
+      if (!this.state.formStarted) {
         Object.keys(formElements).forEach(i => {
-          if (formElements[i] === fieldName) {
+          if (formElements[i] === fieldName && fieldLength) {
             this.getMaxField(i, 'fieldchanged')
+            this.getMaxField(i, 'fieldfocused')
+          }
+          if (formElements[i] === fieldName && !fieldLength) {
             this.getMaxField(i, 'fieldfocused')
           }
         })
@@ -113,8 +118,11 @@ export function FormTracker({ experimentId }) {
       }
       if (this.state.formStarted) {
         Object.keys(formElements).forEach(k => {
-          if (formElements[k] === fieldName) {
+          if (formElements[k] === fieldName && fieldLength) {
             this.getMaxField(k, 'fieldchanged')
+            this.getMaxField(k, 'fieldfocused')
+          }
+          if (formElements[k] === fieldName && !fieldLength) {
             this.getMaxField(k, 'fieldfocused')
           }
         })

@@ -147,6 +147,7 @@ class SignatureAddForm extends React.Component {
       })
       this.formTracker.updateFormProgress({
         currentfield: field,
+        fieldLength: value.length,
         userInfo: this.props.user,
         formStarted: 1
       })
