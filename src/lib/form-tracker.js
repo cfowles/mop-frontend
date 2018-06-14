@@ -6,11 +6,13 @@ export function FormTracker({ experimentId }) {
     formFinished: 0,
     experiment_id: experimentId,
     result: '',
-    variation_name: '',
+    variationName: '',
     eventInfo: {},
-    formLength: 0,
+    mobileFormLength: 0,
+    desktopFormLength: 0,
     formElements: {},
     currentfield: '',
+    mobile: false,
     loginstate: 0, // 0 is not logged in, 1 is guest login and 2 is an authenticated user
     validationerror: 0, // count of the number of fields that a validation error occurs before submission
     formexpand: 0, // number of times additional pieces of the form are displayed to the user
@@ -32,12 +34,25 @@ export function FormTracker({ experimentId }) {
     this.state.formexpand += 1
   }
 
-  this.getForm = function getForm(formHTML) {
-    const form = formHTML.getElementsByClassName('sign-form')[0]
-    if (form) {
-      this.state.formLength = form.length
-      for (let k = 0; k < form.length; k += 1) {
-        this.state.formElements[k] = form.elements[k].name
+  this.getForm = function getForm(formHTML, formPropsId) {
+    const mobileForm = formHTML.getElementsByClassName('sign-form')[0]
+    const desktopForm = formHTML.getElementsByClassName('sign-form')[1]
+    if (mobileForm || desktopForm) {
+      this.state.mobileFormLength = mobileForm.length
+      this.state.desktopFormLength = desktopForm.length
+
+      if (formPropsId === 'desktop-sign') {
+        this.state.mobile = false
+        for (let k = 0; k < desktopForm.length; k += 1) {
+          this.state.formElements[k] = desktopForm.elements[k].name
+        }
+      }
+
+      if (formPropsId === 'mobile-sign') {
+        this.state.mobile = true
+        for (let k = 0; k < mobileForm.length; k += 1) {
+          this.state.formElements[k] = mobileForm.elements[k].name
+        }
       }
     }
   }
@@ -54,11 +69,9 @@ export function FormTracker({ experimentId }) {
   this.getMaxFieldFocused = function getMaxFieldFocused(key) {
     if (this.state.fieldfocused === -1) {
       this.state.fieldfocused = key
-      console.log('this.statefield focuse', this.state.fieldfocused);
     }
     if (this.state.fieldfocused > -1 && (parseInt(key, 10) > parseInt(this.state.fieldfocused, 10))) {
       this.state.fieldfocused = key
-      console.log('growing', this.state.fieldfocused);
     }
   }
 
@@ -106,9 +119,9 @@ export function FormTracker({ experimentId }) {
       Object.keys(formElements).forEach(key => {
         if (formElements[key] === fieldName) {
           this.getMaxFieldChanged(key)
+          this.focusEvent(fieldName)
         }
       })
-      this.focusEvent(fieldName)
     }
   }
 
@@ -124,7 +137,7 @@ export function FormTracker({ experimentId }) {
   // method that actually sends to segment
 
   this.track = function track(eventName) {
-    const { variation_name, loginstate, validationerror, sectionadvanced, fieldfocused, fieldchanged } = this.state
+    const { variationName, loginstate, validationerror, sectionadvanced, fieldfocused, fieldchanged } = this.state
 
     if (window.analytics) {
       window.analytics.track({
@@ -132,7 +145,7 @@ export function FormTracker({ experimentId }) {
         properties: {
           result: eventName,
           experiment_id: experimentId,
-          variation_name: variation_name,
+          variation_name: variationName,
           guestlogin: loginstate,
           validationerror: validationerror || 0,
           sectionadvanced: sectionadvanced || 0,

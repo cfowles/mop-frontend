@@ -47,7 +47,7 @@ class SignatureAddForm extends React.Component {
   }
 
   componentDidUpdate() {
-    this.formTracker.getForm(document)
+    this.formTracker.getForm(document, this.props.id)
   }
 
   getOsdiSignature() {
@@ -218,7 +218,7 @@ class SignatureAddForm extends React.Component {
       this.formTracker.endForm({
         formStarted: 1,
         formFinished: 1,
-        variation_name: this.props.query.cohort || '',
+        variationName: this.props.query.cohort || '',
         login_state: (this.props.user.anonymous ? 0 : 1)
       })
       const osdiSignature = this.getOsdiSignature()
