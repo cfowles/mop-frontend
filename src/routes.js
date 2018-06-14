@@ -100,6 +100,7 @@ export const routes = (store) => {
       <Route path='find' component={LoadableSearch} />
       <Route path='dashboard.html' component={LoadableDashboard} />
       <Route path='create_start.html' component={LoadableCreate} minimalNav />
+      <Route path='create_start.html/:type' component={LoadableCreate} minimalNav />
       <Route path='petition_report.html' component={LoadablePetitionReport} />
       <Route path=':organization/create_start.html' component={LoadableCreate} onEnter={orgLoader} minimalNav />
       <Route path='login/' component={LoadableLogin} />

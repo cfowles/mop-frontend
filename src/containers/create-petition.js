@@ -1,10 +1,12 @@
 import React from 'react'
+//import PropTypes from 'prop-types'
 import { loadTargets } from '../actions/createPetitionActions.js'
 import ReactTimeout from 'react-timeout'
 import { conversation } from '../components/theme-convo/conversation/conversation'
 
 //import CreatePetitionForm from 'LegacyTheme/create-petition-form'
 import CreatePetitionForm from 'Theme/create-petition-form'
+import CreatePetitionFormConversation from 'Theme/create-petition-form-conversation'
 
 class CreatePetition extends React.Component {
   constructor(props) {
@@ -191,6 +193,9 @@ class CreatePetition extends React.Component {
 
 
   render() {
+
+    const createType = this.props.params.type ? this.props.params.type : 'p';
+
     const elementByField = {
       title: this.titleInput,
       statement: this.statementInput,
@@ -208,55 +213,107 @@ class CreatePetition extends React.Component {
       instructionStyle.top = selectedElement.getBoundingClientRect().top - bodyTop
     }
 
-    return (
-      <div className='moveon-petitions'>
-        <CreatePetitionForm
-          // Old
-          setSelected={this.setSelected}
-          setRef={this.setRef}
-          selected={this.state.selected}
-          nationalOpen={this.state.nationalOpen}
-          stateOpen={this.state.stateOpen}
-          customOpen={this.state.customOpen}
-          instructionStyle={instructionStyle}
+    if(createType === 'p'){
+      return (
+        <div className='moveon-petitions'>
+          <CreatePetitionForm
+            // Old
+            setSelected={this.setSelected}
+            setRef={this.setRef}
+            selected={this.state.selected}
+            nationalOpen={this.state.nationalOpen}
+            stateOpen={this.state.stateOpen}
+            customOpen={this.state.customOpen}
+            instructionStyle={instructionStyle}
 
-          updateStateFromValue={this.updateStateFromValue}
-          getTargets={this.getTargets}
+            updateStateFromValue={this.updateStateFromValue}
+            getTargets={this.getTargets}
 
-          // User
-          name={this.state.name}
-          email={this.state.email}
+            // User
+            name={this.state.name}
+            email={this.state.email}
 
-          // Steps
-          nextStep={this.nextStep}
-          step={this.state.step}
+            // Steps
+            nextStep={this.nextStep}
+            step={this.state.step}
 
-          section={this.state.section}
-          nextSection={this.nextSection}
+            section={this.state.section}
+            nextSection={this.nextSection}
 
-          // Toggles
-          toggleOpen={this.toggleOpen}
-          signupModalToggled={this.state.signupModalToggled}
-          tipModalToggled={this.state.tipModalToggled}
-          shareButtonsToggled={this.state.shareButtonsToggled}
+            // Toggles
+            toggleOpen={this.toggleOpen}
+            signupModalToggled={this.state.signupModalToggled}
+            tipModalToggled={this.state.tipModalToggled}
+            shareButtonsToggled={this.state.shareButtonsToggled}
 
-          // Petition
-          editPetition={this.state.editPetition}
-          title={this.state.title}
-          statement={this.state.statement}
-          background={this.state.background}
+            // Petition
+            editPetition={this.state.editPetition}
+            title={this.state.title}
+            statement={this.state.statement}
+            background={this.state.background}
 
-          // Bubbles
-          bubbleShow={this.state.bubbleShow}
-          bubbleLoading={this.state.bubbleLoading}
-          currentBubble={this.state.currentBubble}
-          currentIndex={this.state.currentIndex}
+            // Bubbles
+            bubbleShow={this.state.bubbleShow}
+            bubbleLoading={this.state.bubbleLoading}
+            currentBubble={this.state.currentBubble}
+            currentIndex={this.state.currentIndex}
 
-          saveInput={this.saveInput}
-          chatEnd={this.state.chatEnd}
-        />
-      </div>
-    )
+            saveInput={this.saveInput}
+            chatEnd={this.state.chatEnd}
+          />
+        </div>
+      )
+    } else {
+      return (
+        <div className='moveon-petitions'>
+          <CreatePetitionFormConversation
+            // Old
+            setSelected={this.setSelected}
+            setRef={this.setRef}
+            selected={this.state.selected}
+            nationalOpen={this.state.nationalOpen}
+            stateOpen={this.state.stateOpen}
+            customOpen={this.state.customOpen}
+            instructionStyle={instructionStyle}
+
+            updateStateFromValue={this.updateStateFromValue}
+            getTargets={this.getTargets}
+
+            // User
+            name={this.state.name}
+            email={this.state.email}
+
+            // Steps
+            nextStep={this.nextStep}
+            step={this.state.step}
+
+            section={this.state.section}
+            nextSection={this.nextSection}
+
+            // Toggles
+            toggleOpen={this.toggleOpen}
+            signupModalToggled={this.state.signupModalToggled}
+            tipModalToggled={this.state.tipModalToggled}
+            shareButtonsToggled={this.state.shareButtonsToggled}
+
+            // Petition
+            editPetition={this.state.editPetition}
+            title={this.state.title}
+            statement={this.state.statement}
+            background={this.state.background}
+
+            // Bubbles
+            bubbleShow={this.state.bubbleShow}
+            bubbleLoading={this.state.bubbleLoading}
+            currentBubble={this.state.currentBubble}
+            currentIndex={this.state.currentIndex}
+
+            saveInput={this.saveInput}
+            chatEnd={this.state.chatEnd}
+          />
+        </div>
+      )
+    }
   }
 }
 

@@ -31,7 +31,7 @@ const instructionsByField = {
   about: <About />
 }
 
-const CreatePetitionForm = ({
+const CreatePetitionFormConversation = ({
   selected,
   setSelected,
   nationalOpen,
@@ -97,12 +97,12 @@ const CreatePetitionForm = ({
         break;
     }
     return (
-      <ChatBubble 
-        currentIndex={currentIndex} 
-        bubble={b} 
-        key={i} 
-        bubbleId={i} 
-        innerClasses={innerClasses} 
+      <ChatBubble
+        currentIndex={currentIndex}
+        bubble={b}
+        key={i}
+        bubbleId={i}
+        innerClasses={innerClasses}
         userInput={userInput}
         />
     )
@@ -144,7 +144,7 @@ const CreatePetitionForm = ({
   // </div>
 }
 
-CreatePetitionForm.propTypes = {
+CreatePetitionFormConversation.propTypes = {
   selected: PropTypes.string,
   setSelected: PropTypes.func,
   nationalOpen: PropTypes.bool,
@@ -156,4 +156,4 @@ CreatePetitionForm.propTypes = {
   updateStateFromValue: PropTypes.func,
 }
 
-export default CreatePetitionForm
+export default CreatePetitionFormConversation
