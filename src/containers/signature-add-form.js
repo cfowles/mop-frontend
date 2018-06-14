@@ -147,7 +147,8 @@ class SignatureAddForm extends React.Component {
       })
       this.formTracker.updateFormProgress({
         currentfield: field,
-        userInfo: this.props.user
+        userInfo: this.props.user,
+        formStarted: 1
       })
     }
   }
@@ -215,9 +216,9 @@ class SignatureAddForm extends React.Component {
     const signAction = Config.API_WRITABLE ? signPetition : devLocalSignPetition
 
     if (this.formIsValid()) {
-      this.formTracker.endForm({
+      this.formTracker.submitForm({
         formStarted: 1,
-        formFinished: 1,
+        formSubmitted: 1,
         variationName: this.props.query.cohort || '',
         login_state: (this.props.user.anonymous ? 0 : 1)
       })

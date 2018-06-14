@@ -3,7 +3,7 @@ import Config from '../config'
 export function FormTracker({ experimentId }) {
   this.state = {
     formStarted: 0,
-    formFinished: 0,
+    formSubmitted: 0,
     experiment_id: experimentId,
     result: '',
     variationName: '',
@@ -21,9 +21,7 @@ export function FormTracker({ experimentId }) {
     fieldchanged: -1 // maximum field index that has a non default value
   }
 
-  // TODO: this login stuff will have more logic
-
-  this.endForm = function endForm(eventInfo) {
+  this.submitForm = function submitForm(eventInfo) {
     Object.keys(eventInfo).forEach(key => {
       this.state[key] = eventInfo[key]
     })
@@ -31,7 +29,7 @@ export function FormTracker({ experimentId }) {
   }
 
   this.formExpandTracker = function formExpandTracker() {
-    this.state.formexpand += 1
+    this.state.formexpand = 1
   }
 
   this.getForm = function getForm(formHTML, formPropsId) {
@@ -57,21 +55,23 @@ export function FormTracker({ experimentId }) {
     }
   }
 
-  this.getMaxFieldChanged = function getMaxFieldChanged(key) {
-    if (this.state.fieldchanged === -1) {
-      this.state.fieldchanged = key
+  this.getMaxField = function getMaxField(key, stateField) {
+    if (stateField === 'fieldchanged') {
+      if (this.state.fieldchanged === -1) {
+        this.state.fieldchanged = key
+      }
+      if (this.state.fieldchanged !== -1 && (parseInt(key, 10) > parseInt(this.state.fieldchanged, 10))) {
+        this.state.fieldchanged = key
+      }
     }
-    if (this.state.fieldchanged !== -1 && (parseInt(key, 10) > parseInt(this.state.fieldchanged, 10))) {
-      this.state.fieldchanged = key
-    }
-  }
 
-  this.getMaxFieldFocused = function getMaxFieldFocused(key) {
-    if (this.state.fieldfocused === -1) {
-      this.state.fieldfocused = key
-    }
-    if (this.state.fieldfocused > -1 && (parseInt(key, 10) > parseInt(this.state.fieldfocused, 10))) {
-      this.state.fieldfocused = key
+    if (stateField === 'fieldfocused') {
+      if (this.state.fieldfocused === -1) {
+        this.state.fieldfocused = key
+      }
+      if (this.state.fieldfocused > -1 && (parseInt(key, 10) > parseInt(this.state.fieldfocused, 10))) {
+        this.state.fieldfocused = key
+      }
     }
   }
 
@@ -89,18 +89,11 @@ export function FormTracker({ experimentId }) {
     }
   }
 
-  this.startForm = function startForm(fieldName) {
-    this.state.formStarted = 1
-    this.state.currentfield = fieldName
-    this.track('form_started')
-  }
-
-  this.focusEvent = function focusEvent(fieldName) {
-    Object.keys(this.state.formElements).forEach(key => {
-      if (this.state.formElements[key] === fieldName) {
-        this.getMaxFieldFocused(key)
-      }
+  this.startForm = function startForm(fieldName, eventInfo) {
+    Object.keys(eventInfo).forEach(key => {
+      this.state[key] = eventInfo[key]
     })
+    this.track('form_started')
   }
 
   this.updateFormProgress = function updateFormProgress(eventInfo) {
@@ -109,20 +102,24 @@ export function FormTracker({ experimentId }) {
 
     Object.keys(eventInfo).forEach(key => {
       this.state[key] = eventInfo[key]
+      if (this.state.formStarted === 0) {
+        Object.keys(formElements).forEach(i => {
+          if (formElements[i] === fieldName) {
+            this.getMaxField(i, 'fieldchanged')
+            this.getMaxField(i, 'fieldfocused')
+          }
+        })
+        this.startForm(fieldName, eventInfo)
+      }
+      if (this.state.formStarted) {
+        Object.keys(formElements).forEach(k => {
+          if (formElements[k] === fieldName) {
+            this.getMaxField(k, 'fieldchanged')
+            this.getMaxField(k, 'fieldfocused')
+          }
+        })
+      }
     })
-
-    if (this.state.formStarted === 0) {
-      this.startForm(fieldName)
-    }
-
-    if (this.state.formStarted) {
-      Object.keys(formElements).forEach(key => {
-        if (formElements[key] === fieldName) {
-          this.getMaxFieldChanged(key)
-          this.focusEvent(fieldName)
-        }
-      })
-    }
   }
 
   this.validationErrorTracker = function validationErrorTracker(eventObj) {
@@ -135,10 +132,8 @@ export function FormTracker({ experimentId }) {
   }
 
   // method that actually sends to segment
-
   this.track = function track(eventName) {
     const { variationName, loginstate, validationerror, sectionadvanced, fieldfocused, fieldchanged } = this.state
-
     if (window.analytics) {
       window.analytics.track({
         event: eventName,
@@ -147,10 +142,10 @@ export function FormTracker({ experimentId }) {
           experiment_id: experimentId,
           variation_name: variationName,
           guestlogin: loginstate,
-          validationerror: validationerror || 0,
-          sectionadvanced: sectionadvanced || 0,
-          fieldfocused: fieldfocused || -1,
-          fieldchanged: fieldchanged || -1
+          validationerror,
+          sectionadvanced,
+          fieldfocused,
+          fieldchanged
         }
       })
     }
