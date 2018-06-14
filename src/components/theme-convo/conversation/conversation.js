@@ -18,12 +18,11 @@ export const conversation = [
     section: 0
   },
   {
-    content: null,
+    content: 'enter your email',
     showToLoggedIn: false,
     type: 'input',
     input: {
       type: 'email',
-      placeholder: 'enter your email',
       editing: false
     }
   },
@@ -47,12 +46,11 @@ export const conversation = [
     section: 1
   },
   {
-    content: null,
+    content: 'enter your petition title',
     showToLoggedIn: false,
     type: 'input',
     input: {
       type: 'title',
-      placeholder: 'enter your petition title',
       editing: false
     }
   },
@@ -82,12 +80,11 @@ export const conversation = [
     section: 2
   },
   {
-    content: null,
+    content: 'enter your petition statement',
     showToLoggedIn: false,
     type: 'input',
     input: {
       type: 'statement',
-      placeholder: 'enter your petition statement',
       editing: false
     }
   },
@@ -111,12 +108,11 @@ export const conversation = [
     section: 3
   },
   {
-    content: null,
+    content: 'enter your petition background',
     showToLoggedIn: false,
     type: 'input',
     input: {
       type: 'background',
-      placeholder: 'enter your petition background',
       editing: false
     }
   },

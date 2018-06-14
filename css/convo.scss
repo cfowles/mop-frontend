@@ -1,3 +1,6 @@
+#footer {
+  display: none !important;
+}
 #conversational {
 
   .chat-wrap {
@@ -18,12 +21,47 @@
     max-height: 0;
 
       .inner {
-        display: inline-block;
+        display: inline-flex;
         border-radius: 20px 20px 20px 0;
         background-color: #e5f5ff;
         padding: 0;
         margin-top: 0;
         min-width: 86px;
+        justify-content: flex-start;
+        align-items: center;
+        position: relative;
+
+        &.user-response {
+          border-radius: 20px 20px 0px 20px;
+          background-color: #f6f6f6;
+          float: right;
+          padding-right: 50px !important;
+
+          span {
+            height: 35px;
+            width: 35px;
+            position: absolute;
+            background: #00abff;
+            border-radius: 50%;
+            right: -3px;
+            top: -3px;
+            transform: scale(0);
+          }
+        }
+        &.bubble-tip {
+          color: white;
+          background-color: #00abff;
+          height: 45px;
+          border-radius: 20px;
+
+          span {
+            width: 25px;
+            height: 25px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            margin-left: 15px;
+          }
+        }
       }
 
       &.show {
@@ -35,9 +73,19 @@
 
 
         .inner {
-          padding: 20px;
+          padding: 10px 20px;
           margin-top: 20px;
+
+          &.user-response span {
+            transform: scale(1);
+            transition: transform .3s cubic-bezier(0.61, 0.26, 0.49, 1.25) .7s;
+          }
         }
+      }
+
+      &.loader-wrap {
+        max-height: 500px;
+        min-height: 50px;
       }
 
       .loader {

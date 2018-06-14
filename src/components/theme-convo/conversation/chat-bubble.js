@@ -5,18 +5,32 @@ import ReactTimeout from 'react-timeout'
 
 const ChatBubble = ({
     currentIndex,
-    bubble
+    bubble,
+    bubbleId,
+    innerClasses,
+    userInput
 }) => {
-
-    //should 'type' at 40 characters per second => (length / 40) * 1000 for ms.
-
-    const bubbleContent = bubble.content;
-    const id = bubble.id;
-    const classes = currentIndex >= id ? 'bubble show' : 'bubble';
+    // const inputButton = (
+    //     <svg>
+    //         {React.createElement('use', {href:"#edit", "xlinkHref": "#edit"})}
+    //     </svg>
+    // )
+    // {bubble.type === 'input' ? inputButton : 'i' }
+    const staticBubble = (
+        <div className={innerClasses}>{bubble.content}</div>
+    )
+    const interactBubble = (
+        <div className={innerClasses}>
+            {bubble.type === 'input' ? userInput : bubble.content}
+            <span></span>
+        </div>
+    )
+    const bubbleOutput = bubble.type === 'input' || bubble.type === 'tip' ? interactBubble : staticBubble;
+    const classes = currentIndex >= (bubbleId + 1) ? 'bubble show' : 'bubble';
 
     return (
         <div className={classes}>
-            <div className="inner">{bubbleContent}</div>
+            {bubbleOutput}
         </div>
     )
 }

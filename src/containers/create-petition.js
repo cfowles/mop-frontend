@@ -62,35 +62,49 @@ class CreatePetition extends React.Component {
   }
 
   componentDidMount() {
-    this.callSection();
+    document.querySelector('.user-input').focus();
+
+    this.getSectionLengths();
+    this.initSection = setTimeout(function() {
+      this.callSection();
+    }.bind(this), 500)
   }
 
   getSectionLengths() {
-    // conversation.map(function (b, i) {
-    //   if(b.hasOwnProperty('section')) {
-        
-    //   }
-    // });
+    let sections = [];
+    let sectionLengths = [];
+    let count = 0;
+    conversation.map(function (el) {
+      if(el.hasOwnProperty('section')) {
+        sections.push(el.section);
+      }
+    });
+    for(let i = 0; i < sections[sections.length - 1]; i++){
+      sections.map(function(el,ind) {
+        if (el === i) {
+          count++
+        }
+      })
+      sectionLengths.push(count);
+      count = 0;
+    }
+
+    this.setState(prevState => {
+      const prev = prevState.sectionLengths;
+      const newState = prev.concat(sectionLengths);
+      return { sectionLengths: newState }
+    })
   }
 
   callSection() {
+    let sectionLength = this.state.sectionLengths[this.state.section];
+
     this.setState({ bubbleLoading: true });
-    let sectionLength = conversation[this.state.section].length;
-
-    let loaderLength = 0
-    conversation[this.state.section].map(function (b, i) {
-      loaderLength += b.content.length;
-    });
-    let loaderTime = (loaderLength / 60) * 1000;
-    this.loaderTimeout = setTimeout(function () {
-      this.setState({ bubbleLoading: false });
-    }.bind(this), loaderTime);
-
     this.callBubble(sectionLength);
   }
 
   callBubble(sectionLength) {
-    let bubbleLength = conversation[this.state.section][this.state.currentBubble].content.length
+    let bubbleLength = conversation[this.state.currentIndex].content.length
     let bubbleTime = (bubbleLength / 60) * 1000;
 
     this.bubbleTimeout = setTimeout(() => {
@@ -99,6 +113,7 @@ class CreatePetition extends React.Component {
       if (this.state.currentBubble < sectionLength ) {
         this.callBubble(sectionLength);
       } else {
+        this.setState({ bubbleLoading: false });
         this.setState({ currentBubble: 0 });
       }
     }, bubbleTime)
@@ -119,30 +134,33 @@ class CreatePetition extends React.Component {
   }
   nextStep() {
     return () => this.setState(prevState => {
-      const prev = prevState.step;
-      let newStep = prev + 1;
+      let newStep = prevState.step + 1;
       return { step: newStep, signupModalToggled: false }
     })
   }
 
   saveInput() {
-    this.nextSection();
-    this.callSection();
+    this.nextBubble();
+    this.setState({ currentBubble: 0 });
+    document.getElementById(".user-input").value = "";
+    document.getElementById(".user-input").focus();
+
+    this.inputTimeout = setTimeout(function(){
+      this.nextSection();
+      this.callSection();
+    }.bind(this), 500)
   }
 
   nextSection() {
     this.setState(prevState => {
-      const prev = prevState.section;
-      let newSection = prev + 1;
+      let newSection = prevState.section + 1;
       return { section: newSection }
     })
   }
   nextBubble() {
     this.setState(prevState => {
-      const prevBubble = prevState.currentBubble;
-      let newBubble = prevBubble + 1;
-      const prevIndex = prevState.currentIndex;
-      let newIndex = prevIndex + 1;
+      const newBubble = prevState.currentBubble + 1;
+      const newIndex = prevState.currentIndex + 1;
       return { currentBubble: newBubble, currentIndex: newIndex }
     })
   }
@@ -155,21 +173,22 @@ class CreatePetition extends React.Component {
       })
     }
   }
+
   getTargets() {
     // return () => {
     //   const targets = loadTargets();
     // }
   }
 
-  /* conversational scrolling
+  // conversational scrolling
   scrollToBottom() {
-    this.chatEnd.scrollIntoView({ behavior: "smooth" });
+    document.querySelector('.chat-end').scrollIntoView({ behavior: "smooth" });
   }
 
   componentDidUpdate() {
     this.scrollToBottom();
   }
-  */
+
 
   render() {
     const elementByField = {
@@ -206,6 +225,7 @@ class CreatePetition extends React.Component {
 
           // User
           name={this.state.name}
+          email={this.state.email}
 
           // Steps
           nextStep={this.nextStep}
@@ -233,6 +253,7 @@ class CreatePetition extends React.Component {
           currentIndex={this.state.currentIndex}
 
           saveInput={this.saveInput}
+          chatEnd={this.state.chatEnd}
         />
       </div>
     )
