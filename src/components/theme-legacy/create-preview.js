@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 
 import RegisterForm from '../../containers/register-form'
-import EditUserForm from '../theme-giraffe/edit-user-form'
+import EditUserForm from 'LegacyTheme/edit-user-form'
 
 const getTargets = target => target.map(t => t.label || t.name).join(', ')
 
