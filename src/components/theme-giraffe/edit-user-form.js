@@ -10,7 +10,7 @@ const inputStyle = {
 
 const EditUserForm = ({ user, handleSubmit, zip, onChangeZip, isSubmitting }) => (
   <form onSubmit={handleSubmit}>
-    { user.no_zip && (
+    {user.no_zip && (
       <input
         value={zip}
         onChange={onChangeZip}
