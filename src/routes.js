@@ -89,15 +89,17 @@ export const routes = store => {
 
   const testFn = () => {
     const cohort = (Math.random() > 0.5 ? 1 : 2)
-    const currentLocation = window.location
-    const pathName = currentLocation.pathname
-    const check = parseInt(Config.AB_TEST_ENABLED / 100, 10)
     if (Config.AB_TEST_ENABLED) {
+      const currentLocation = window.location
+      const pathName = currentLocation.pathname
+      const check = parseInt(Config.AB_TEST_ENABLED, 10) / 100
+
       if (Math.random() > check) {
         // makes sure it only does it on sign pages and
         // only triggers if you land directly on sign page vs through
-        if (pathName.search('sign') > -1 && pathName.search('cohort') < 0) {
-          browserHistory.push(`${pathName}?cohort=${cohort}`)
+        if (pathName.search('sign') > -1 && /cohort=/.test(currentLocation.search)) {
+          const preChar = /\?/.test(currentLocation.search) ? '&' : '?'
+          browserHistory.push(`${pathName}${currentLocation.search}${preChar}cohort=${cohort}`)
         } else {
           return cohort
         }

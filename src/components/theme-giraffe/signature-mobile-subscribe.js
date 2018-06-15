@@ -9,7 +9,7 @@ const MobileSubscribe = ({ updateOptIn, updatePhoneNo, showBox }) => (
       name='phone'
       label='Mobile'
       onChange={updatePhoneNo}
-      placeholder='5555555555'
+      placeholder='555-555-5555'
     />
     { showBox ?
       <div className='mobileoptincheckbox'>
