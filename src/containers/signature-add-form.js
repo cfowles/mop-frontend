@@ -27,6 +27,7 @@ class SignatureAddForm extends React.Component {
       volunteer: false,
       phone: false,
       validationTried: false,
+      mobile_optin: false,
       thirdparty_optin: props.hiddenOptin || props.showOptinCheckbox,
       hidden_optin: props.hiddenOptin,
       required: {},
@@ -99,7 +100,7 @@ class SignatureAddForm extends React.Component {
     if (referrerData.length) {
       osdiSignature.referrer_data = Object.assign({}, ...referrerData)
     }
-    const customFields = ['thirdparty_optin', 'hidden_optin', 'volunteer']
+    const customFields = ['thirdparty_optin', 'hidden_optin', 'volunteer', 'mobile_optin']
     const customData = customFields.filter(k => this.state[k]).map(k => ({ [k]: this.state[k] }))
     if (customData.length) {
       osdiSignature.person.custom_fields = Object.assign({}, ...customData)
@@ -220,6 +221,7 @@ class SignatureAddForm extends React.Component {
       requireAddressFields,
       showOptinCheckbox,
       showOptinWarning,
+      showMobileSignup,
       setRef,
       innerRef,
       id
@@ -235,11 +237,13 @@ class SignatureAddForm extends React.Component {
         user={user}
         query={query}
         showAddressFields={showAddressFields}
+        showMobileSignup={showMobileSignup}
         requireAddressFields={requireAddressFields}
         onUnrecognize={() => { dispatch(sessionActions.unRecognize()) }}
         volunteer={this.state.volunteer}
         onClickVolunteer={this.volunteer}
         thirdPartyOptin={this.state.thirdparty_optin}
+        displayMobileOptIn={this.state.phone}
         country={this.state.country}
         onChangeCountry={event => this.setState({ country: event.target.value })}
         updateStateFromValue={this.updateStateFromValue}
@@ -272,6 +276,7 @@ SignatureAddForm.propTypes = {
   showOptinWarning: PropTypes.bool,
   showOptinCheckbox: PropTypes.bool,
   hiddenOptin: PropTypes.bool,
+  showMobileSignup: PropTypes.bool,
   setRef: PropTypes.func,
   innerRef: PropTypes.func,
   id: PropTypes.string
@@ -288,6 +293,13 @@ function shouldShowAddressFields(user, petition) {
   return false
 }
 
+function shouldShowMobileSignUp(queryString) {
+  if (queryString.cohort === '1') {
+    return true
+  }
+  return false
+}
+
 function mapStateToProps(store, ownProps) {
   const user = store.userStore
   const { petition, query } = ownProps
@@ -299,7 +311,8 @@ function mapStateToProps(store, ownProps) {
     showAddressFields: shouldShowAddressFields(user, petition),
     requireAddressFields: petition.needs_full_addresses && shouldShowAddressFields(user, petition),
     fromCreator: (/^c\./.test(source) || /^s\.icn/.test(source)),
-    fromMailing: /\.imn/.test(source)
+    fromMailing: /\.imn/.test(source),
+    showMobileSignup: shouldShowMobileSignUp(query)
   }
   newProps.showOptinWarning = !!(!user.signonId && (creator.source
                                                     || (creator.custom_fields && creator.custom_fields.may_optin)))

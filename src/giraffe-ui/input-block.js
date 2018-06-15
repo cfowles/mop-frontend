@@ -11,6 +11,7 @@ export const InputBlock = ({
   type,
   className,
   setRef,
+  placeholder,
   ...rest
 }) => (
   <div
@@ -26,6 +27,7 @@ export const InputBlock = ({
         type={type}
         id={name}
         name={name}
+        placeholder={placeholder}
         onChange={onChange}
         onBlur={onChange}
         ref={setRef}
@@ -44,6 +46,7 @@ InputBlock.propTypes = {
   label: PropTypes.string.isRequired,
   labelBefore: PropTypes.bool,
   type: PropTypes.string,
+  placeholder: PropTypes.string,
   onChange: PropTypes.func,
   className: PropTypes.string,
   setRef: PropTypes.func

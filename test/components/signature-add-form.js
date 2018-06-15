@@ -335,6 +335,80 @@ describe('<SignatureAddForm />', () => {
       component.volunteer({ target: { checked: true } })
       expect(component.state.volunteer).to.be.equal(true)
     })
+
+    it('does not show mobile field when cohort query is not 1', () => {
+      if (process.env.THEME !== 'giraffe' && process.env.AB_TEST_ENABLED !== 10) return
+
+      const store = createMockStore(storeAnonymous)
+      const mobileTestBaseProf = { petition: outkastPetition, query: { cohort: '2' }, mobileTest: '2' }
+      const context = mount(<SignatureAddForm {...mobileTestBaseProf} store={store} />)
+      const component = unwrapReduxComponent(context).instance()
+
+      context.find('input[name="name"]').simulate('change', { target: { value: 'Jane Doe' } })
+
+      expect(Boolean(component.props.showMobileSignup)).to.be.false
+      expect(context.find('input[name="name"]').length).to.equal(1)
+      expect(context.find('input[name="email"]').length).to.equal(1)
+      expect(context.find('input[name="phone"]').length).to.equal(0)
+    })
+
+    it('shows mobile field when cohort query is 1', () => {
+      if (process.env.THEME !== 'giraffe' && process.env.AB_TEST_ENABLED !== 10) return
+
+      const store = createMockStore(storeAnonymous)
+      const mobileTestBaseProf = { petition: outkastPetition, query: { cohort: '1' }, mobileTest: '1' }
+      const context = mount(<SignatureAddForm {...mobileTestBaseProf} store={store} />)
+      const component = unwrapReduxComponent(context).instance()
+
+      context.find('input[name="name"]').simulate('change', { target: { value: 'Jane Doe' } })
+      expect(Boolean(component.props.showMobileSignup)).to.be.true
+      expect(context.find('input[name="name"]').length).to.equal(1)
+      expect(context.find('input[name="email"]').length).to.equal(1)
+      expect(context.find('input[name="phone"]').length).to.equal(1)
+      expect(context.find('input[name="address1"]').length).to.equal(1)
+      expect(context.find('input[name="address2"]').length).to.equal(1)
+      expect(context.find('input[name="city"]').length).to.equal(1)
+    })
+
+    it('does not show a optin check box when mobile field isnt filled', () => {
+      if (process.env.THEME !== 'giraffe' && process.env.AB_TEST_ENABLED !== 10) return
+
+      const store = createMockStore(storeAnonymous)
+      const mobileTestBaseProf = { petition: outkastPetition, query: { cohort: '1' }, mobileTest: '1' }
+      const context = mount(<SignatureAddForm {...mobileTestBaseProf} store={store} />)
+
+      context.find('input[name="name"]').simulate('change', { target: { value: 'Jane Doe' } })
+      expect(context.find('input[name="phone"]').length).to.equal(1)
+      expect(context.find('input[name="mobile_optin"]').length).to.equal(0)
+    })
+
+    it('shows an optin check box when mobile field has a value', () => {
+      if (process.env.THEME !== 'giraffe' && process.env.AB_TEST_ENABLED !== 10) return
+
+      const store = createMockStore(storeAnonymous)
+      const mobileTestBaseProf = { petition: outkastPetition, query: { cohort: '1' }, mobileTest: '1' }
+      const context = mount(<SignatureAddForm {...mobileTestBaseProf} store={store} />)
+
+      context.find('input[name="name"]').simulate('change', { target: { value: 'Jane Doe' } })
+      context.find('input[name="phone"]').simulate('change', { target: { value: '216' } })
+      expect(context.find('input[name="mobile_optin"]').length).to.equal(1)
+    })
+
+    it('sends opt in to api when mobile_optin is true and phone number is filled', () => {
+      if (process.env.THEME !== 'giraffe' && process.env.AB_TEST_ENABLED !== 10) return
+
+      const store = createMockStore(storeAnonymous)
+      const mobileTestBaseProf = { petition: outkastPetition, query: { cohort: '1' }, mobileTest: '1' }
+      const context = mount(<SignatureAddForm {...mobileTestBaseProf} store={store} />)
+      const component = unwrapReduxComponent(context).instance()
+
+      component.setState({ address1: '123 main', city: 'Pittsburgh', state: 'PA', name: 'John Smith', email: 'hi@example.com', zip: '60024', phone: '2165555555', mobile_optin: true })
+
+      const osdiSignature = component.getOsdiSignature()
+
+      expect(osdiSignature.person.phone_numbers[0]).to.be.equal('2165555555')
+      expect(osdiSignature.person.custom_fields.mobile_optin).to.be.true
+    })
   })
   describe('Email validation tests', () => {
     forEach([ // Valid emails

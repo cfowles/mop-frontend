@@ -4,6 +4,8 @@ import { Link } from 'react-router'
 
 import { CountrySelect, StateSelect } from 'GiraffeUI/petition'
 import { InputBlock } from 'GiraffeUI/input-block'
+import MobileSubscribe from './signature-mobile-subscribe'
+
 import { Submit as Button } from 'GiraffeUI/button'
 
 const SignatureAddForm = ({
@@ -18,7 +20,9 @@ const SignatureAddForm = ({
   showOptinWarning,
   showOptinCheckbox,
   thirdPartyOptin,
+  displayMobileOptIn,
   showAddressFields,
+  showMobileSignup,
   requireAddressFields,
   onUnrecognize,
   updateStateFromValue,
@@ -60,6 +64,15 @@ const SignatureAddForm = ({
 
     {(!hideUntilInteract && showAddressFields) ? (
       <div>
+        {(showMobileSignup) ?
+          <MobileSubscribe
+            className='mobile_subscribe'
+            showBox={displayMobileOptIn}
+            updatePhoneNo={updateStateFromValue('phone')}
+            updateOptIn={updateStateFromValue('mobile_optin',
+                /* isCheckbox: */ true)}
+          /> : ''
+        }
         <CountrySelect
           className='override-collapse'
           onChange={onChangeCountry}
@@ -182,12 +195,14 @@ SignatureAddForm.propTypes = {
   petition: PropTypes.object.isRequired,
   user: PropTypes.object,
   showAddressFields: PropTypes.bool,
+  showMobileSignup: PropTypes.bool,
   requireAddressFields: PropTypes.bool,
   creator: PropTypes.object,
   onUnrecognize: PropTypes.func,
   showOptinWarning: PropTypes.bool,
   showOptinCheckbox: PropTypes.bool,
   thirdPartyOptin: PropTypes.bool,
+  displayMobileOptIn: PropTypes.bool,
   volunteer: PropTypes.bool,
   onClickVolunteer: PropTypes.func,
   country: PropTypes.string,

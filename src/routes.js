@@ -87,10 +87,33 @@ export const routes = store => {
       store.dispatch(loadOrganization(nextState.params.organization))
     }
   }
+
+  const testFn = () => {
+    const cohort = (Math.random() > 0.5 ? 1 : 2)
+    if (Config.AB_TEST_ENABLED) {
+      const currentLocation = window.location
+      const pathName = currentLocation.pathname
+      const check = parseInt(Config.AB_TEST_ENABLED, 10) / 100
+
+      if (Math.random() > check) {
+        // makes sure it only does it on sign pages and
+        // only triggers if you land directly on sign page vs through
+        if (pathName.search('sign') > -1 && /cohort=/.test(currentLocation.search)) {
+          const preChar = /\?/.test(currentLocation.search) ? '&' : '?'
+          browserHistory.push(`${pathName}${currentLocation.search}${preChar}cohort=${cohort}`)
+        } else {
+          return cohort
+        }
+      }
+    }
+    return cohort
+  }
+
   const onChange = () => {
     store.dispatch(clearError()) // Stop showing any error page
     scrollToTop()
   }
+
   const routeHierarchy = (
     <Route path={baseAppPath} component={Wrapper} onChange={onChange}>
       <IndexRoute prodReady component={LoadableHome} />
@@ -99,7 +122,8 @@ export const routes = store => {
       {/* Sign pages are popular entry pages, so they get included in the main bundle (not Loadable)
           petitionName is a slugified name, matching the slugified "name" returned by the api.
       */}
-      <Route path='sign/:petitionName' component={Sign} prodReady />
+
+      <Route path='sign/:petitionName' component={Sign} mobileTest={testFn()} prodReady />
       <Route path=':organization/sign/:petitionName' component={Sign} onEnter={orgLoader} prodReady />
 
       <Route path='pac/' component={LoadablePacHome} prodReady />
