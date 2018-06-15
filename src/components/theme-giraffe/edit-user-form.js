@@ -8,12 +8,9 @@ const inputStyle = {
   width: '95%'
 }
 
-const hasZip = (user = {}) => Array.isArray(user.postal_addresses) &&
-  user.postal_addresses.filter(e => e.no_zip).length === 0
-
 const EditUserForm = ({ user, handleSubmit, zip, onChangeZip, isSubmitting }) => (
   <form onSubmit={handleSubmit}>
-    {!hasZip(user) && (
+    { user.no_zip && (
       <input
         value={zip}
         onChange={onChangeZip}
