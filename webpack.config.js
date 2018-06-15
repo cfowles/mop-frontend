@@ -26,7 +26,7 @@ var envVars = {
   'TRACK_SHARE_URL': process.env.TRACK_SHARE_URL || '',
   'USE_HASH_BROWSING': process.env.USE_HASH_BROWSING || false,
   'PROD': process.env.PROD,
-  'AB_TEST_ENABLED': process.env.AB_TEST_ENABLED || false
+  'AB_TEST_ENABLED': process.env.AB_TEST_ENABLED || false,
   'SEGMENT_TEST_ID': process.env.SEGMENT_TEST_ID,
   'FAKE_ANALYTICS': (process.env.PROD ? '' : true)
 }

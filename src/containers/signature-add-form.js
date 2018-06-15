@@ -43,11 +43,14 @@ class SignatureAddForm extends React.Component {
     this.submit = this.submit.bind(this)
     this.validationError = this.validationError.bind(this)
     this.updateStateFromValue = this.updateStateFromValue.bind(this)
-    this.formTracker = new FormTracker({ experimentId: 'signMobilePhones1' })
+    this.formTracker = new FormTracker({ experiment: 'signMobilePhones1', formvariant: props.id, variationname: (props.query.cohort === '1' ? 'smsSubScribeOption1' : 'current') })
   }
 
-  componentDidUpdate() {
-    this.formTracker.getForm(document, this.props.id)
+  componentDidMount() {
+    if (this.form) {
+      this.formTracker.setForm(this.form)
+      this.formTracker.startForm()
+    }
   }
 
   getOsdiSignature() {
@@ -141,15 +144,15 @@ class SignatureAddForm extends React.Component {
   updateStateFromValue(field, isCheckbox = false) {
     return event => {
       const value = isCheckbox ? event.target.checked : event.target.value
+      if (this.state[field] !== value) {
+        this.formTracker.updateFormProgress({
+          fieldchanged: field,
+          userInfo: this.props.user
+        })
+      }
       this.setState({
         [field]: value,
         hideUntilInteract: false // show some hidden fields if they are hidden
-      })
-      this.formTracker.updateFormProgress({
-        currentfield: field,
-        fieldLength: value.length,
-        userInfo: this.props.user,
-        formStarted: 1
       })
     }
   }
@@ -164,12 +167,10 @@ class SignatureAddForm extends React.Component {
     }
     this.setState({ volunteer: vol,
       required: req })
-    this.formTracker.formExpandTracker()
   }
 
   updateRequiredFields(doUpdate) {
     // This is a separate method because it can change when state or props are changed
-
     const { user, requireAddressFields } = this.props
     const required = this.state.required
     let changeRequiredFields = false
@@ -217,17 +218,16 @@ class SignatureAddForm extends React.Component {
     const signAction = Config.API_WRITABLE ? signPetition : devLocalSignPetition
 
     if (this.formIsValid()) {
-      this.formTracker.submitForm({
+      this.formTracker.endForm({
         formStarted: 1,
-        formSubmitted: 1,
-        variationName: this.props.query.cohort || '',
+        formFinished: 1,
+        variation_name: this.props.query.cohort || '',
         login_state: (this.props.user.anonymous ? 0 : 1)
       })
       const osdiSignature = this.getOsdiSignature()
       return dispatch(signAction(osdiSignature, petition, { redirectOnSuccess: true }))
     }
     this.setState({ hideUntilInteract: false }) // show fields so we can show validation error
-    this.formTracker.validationErrorTracker(this.state)
     return false
   }
 
@@ -271,7 +271,7 @@ class SignatureAddForm extends React.Component {
         showOptinWarning={showOptinWarning}
         showOptinCheckbox={showOptinCheckbox}
         setRef={setRef}
-        innerRef={innerRef}
+        innerRef={ref => { this.form = ref; innerRef(ref) }}
         id={id}
         // Don't hide at first if the user doesn't have an address and the petition needs one
         hideUntilInteract={
