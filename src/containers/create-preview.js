@@ -12,6 +12,7 @@ import { CreatePreview as CreatePreviewComponent } from 'LegacyTheme/create-prev
 class CreatePreview extends React.Component {
   constructor(props) {
     super(props)
+    this.state = { zip: '' }
     this.submitPetition = this.submitPetition.bind(this)
   }
   componentDidMount() {
@@ -19,7 +20,7 @@ class CreatePreview extends React.Component {
   }
 
   submitPetition() {
-    return this.props.dispatch(Config.API_WRITABLE ? submit() : devLocalSubmit())
+    return this.props.dispatch(Config.API_WRITABLE ? submit(this.state.zip) : devLocalSubmit())
   }
 
   render() {
@@ -29,6 +30,8 @@ class CreatePreview extends React.Component {
         petition={this.props.petition}
         user={this.props.user}
         onSubmit={this.submitPetition}
+        zip={this.state.zip}
+        onChangeZip={e => this.setState({ zip: e.target.value })}
       />
     )
   }

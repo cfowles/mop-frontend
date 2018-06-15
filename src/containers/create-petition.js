@@ -67,6 +67,8 @@ export class CreatePetition extends React.Component {
     if (!isCustom && !target.label) return // target is invalid
     if (!isCustom && this.state.target.find(old => old.label === target.label)) return // already exists
 
+    if (isCustom && !this.state.customInputs.name) return // Trying to add a blank custom target
+
     if (isCustom) {
       this.setState({ customInputs: { name: '', email: '', title: '' } })
     }

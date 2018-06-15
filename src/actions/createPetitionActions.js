@@ -34,7 +34,7 @@ export function previewSubmit({
   }
 }
 
-export function submit() {
+export function submit(newZip) {
   return (dispatch, getState) => {
     dispatch({
       type: actionTypes.CREATE_PETITION_REQUEST
@@ -54,6 +54,14 @@ export function submit() {
     if (p.source) petition.source = p.source
     if (p.cloned_from_id) petition.cloned_from_id = p.cloned_from_id
     if (p.solicit_id) petition.solicit_id = p.solicit_id
+
+    const body = { petition }
+
+    if (newZip) {
+      body.person = {
+        postal_addresses: [{ postal_code: newZip }]
+      }
+    }
     return fetch(`${Config.API_URI}/user/petitions.json`, {
       method: 'POST',
       credentials: 'same-origin',
@@ -61,7 +69,7 @@ export function submit() {
         'Content-Type': 'application/hal+json',
         Accept: 'application/hal+json'
       },
-      body: JSON.stringify({ petition })
+      body: JSON.stringify(body)
     })
       .catch(rejectNetworkErrorsAs500)
       .then(parseAPIResponse)
