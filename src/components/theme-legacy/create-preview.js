@@ -47,6 +47,7 @@ export const CreatePreview = ({ petition, user, onSubmit, zip, onChangeZip }) =>
               <RegisterForm
                 successCallback={onSubmit}
                 user={user}
+                isCreatingPetition
                 includeZipAndPhone
                 useLaunchButton
                 useAlternateFields
