@@ -62,7 +62,7 @@ class Thanks extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.props.nextPetitionsLoaded) {
+    if (!this.props.nextPetitionsLoaded && !this.props.isCreator) {
       this.props.dispatch(petitionActions.loadTopPetitions(this.props.petition.entity === 'pac' ? 1 : 0, '', false))
     }
   }
