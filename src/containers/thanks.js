@@ -173,7 +173,7 @@ function mapStateToProps(store) {
   if (nextPetitions && nextPetitions.length && nextPetitions[0]) {
     nextPetition = petitions[nextPetitions[0]]
   }
-  return { nextPetition, nextPetitionsLoaded }
+  return { nextPetition, nextPetitionsLoaded, user: store.userStore }
 }
 
 export default connect(mapStateToProps)(Thanks)
