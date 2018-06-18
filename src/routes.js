@@ -1,5 +1,5 @@
 import React from 'react'
-import { IndexRoute, Route, Router, browserHistory, hashHistory, match } from 'react-router'
+import { IndexRoute, Route, Redirect, Router, browserHistory, hashHistory, match } from 'react-router'
 
 
 import { Config } from './config'
@@ -13,12 +13,17 @@ import ThanksShim from './loaders/thanks-shim'
 import { Error404 } from 'Theme/error404'
 import { Error500 } from 'Theme/error500'
 import Sign from './containers/sign-petition'
+import Logout from './containers/logout'
 import {
   LoadableHome,
   LoadablePacHome,
   LoadableSearch,
   LoadableDashboard,
+  LoadableNoPetition,
   LoadableCreate,
+  LoadablePreview,
+  LoadableRevise,
+  LoadableFinished,
   LoadableRegister,
   LoadableLogin,
   LoadableStatic,
@@ -76,37 +81,70 @@ const updateHistoryObject = (historyObj, routes) => {
   historyObj.listen(trackPage)
 }
 
-export const routes = (store) => {
-  const orgLoader = (nextState) => {
+export const routes = store => {
+  const orgLoader = nextState => {
     if (nextState.params && nextState.params.organization) {
       store.dispatch(loadOrganization(nextState.params.organization))
     }
   }
+
+  const testFn = () => {
+    const cohort = (Math.random() > 0.5 ? 1 : 2)
+    if (Config.AB_TEST_ENABLED) {
+      const currentLocation = window.location
+      const pathName = currentLocation.pathname
+      const check = parseInt(Config.AB_TEST_ENABLED, 10) / 100
+
+      if (Math.random() > check) {
+        // makes sure it only does it on sign pages and
+        // only triggers if you land directly on sign page vs through
+        if (pathName.search('sign') > -1 && /cohort=/.test(currentLocation.search)) {
+          const preChar = /\?/.test(currentLocation.search) ? '&' : '?'
+          browserHistory.push(`${pathName}${currentLocation.search}${preChar}cohort=${cohort}`)
+        } else {
+          return cohort
+        }
+      }
+    }
+    return cohort
+  }
+
   const onChange = () => {
     store.dispatch(clearError()) // Stop showing any error page
     scrollToTop()
   }
+
   const routeHierarchy = (
     <Route path={baseAppPath} component={Wrapper} onChange={onChange}>
       <IndexRoute prodReady component={LoadableHome} />
+      <Redirect from='/index.html' to='/' />
 
-      {/* Sign pages are popular entry pages, so they get included in the main bundle (not Loadable) */}
-      <Route path='sign/:petition_slug' component={Sign} prodReady />
-      <Route path=':organization/sign/:petition_slug' component={Sign} onEnter={orgLoader} prodReady />
+      {/* Sign pages are popular entry pages, so they get included in the main bundle (not Loadable)
+          petitionName is a slugified name, matching the slugified "name" returned by the api.
+      */}
+
+      <Route path='sign/:petitionName' component={Sign} mobileTest={testFn()} prodReady />
+      <Route path=':organization/sign/:petitionName' component={Sign} onEnter={orgLoader} prodReady />
 
       <Route path='pac/' component={LoadablePacHome} prodReady />
       <Route path='thanks.html' component={ThanksShim} prodReady minimalNav />
       <Route path=':organization/thanks.html' component={ThanksShim} onEnter={orgLoader} prodReady minimalNav />
       <Route path='find' component={LoadableSearch} />
-      <Route path='dashboard.html' component={LoadableDashboard} />
       <Route path='create_start.html' component={LoadableCreate} minimalNav />
-      <Route path='create_start.html/:type' component={LoadableCreate} minimalNav />
+      <Route path='create_preview.html' component={LoadablePreview} minimalNav />
+      <Route path='create_revise.html' component={LoadableRevise} minimalNav />
+      <Route path='create_finished.html' component={LoadableFinished} minimalNav />
       <Route path='petition_report.html' component={LoadablePetitionReport} />
       <Route path=':organization/create_start.html' component={LoadableCreate} onEnter={orgLoader} minimalNav />
       <Route path='login/' component={LoadableLogin} />
       <Route path='login/index.html' component={LoadableLogin} />
+      <Route path='login/do_logout.html' component={Logout} />
       <Route path='login/register.html' component={LoadableRegister} />
       <Route path='login/forgot_password.html' component={LoadableForgotPassword} />
+
+      {/* Authenticated routes (check happens in Wrapper) */}
+      <Route path='dashboard.html' component={LoadableDashboard} authenticated />
+      <Route path='no_petition.html' component={LoadableNoPetition} authenticated />
 
       {/* Static pages with content from wordpress api */}
       <Route path='about.html' component={LoadableStatic} wordpressId={60931} />

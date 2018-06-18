@@ -23,8 +23,23 @@ export const LoadableCreate = Loadable({
   loading: Loading
 })
 
+export const LoadablePreview = Loadable({
+  loader: () => import('../containers/create-preview'),
+  loading: Loading
+})
+
+export const LoadableRevise = Loadable({
+  loader: () => import('../containers/create-revise'),
+  loading: Loading
+})
+
+export const LoadableFinished = Loadable({
+  loader: () => import('../containers/create-finished'),
+  loading: Loading
+})
+
 export const LoadableRegister = Loadable({
-  loader: () => import('../containers/register'),
+  loader: () => import('Theme/register'),
   loading: Loading
 })
 
@@ -50,6 +65,11 @@ export const LoadablePetitionReport = Loadable({
 
 export const LoadableDashboard = Loadable({
   loader: () => import('../containers/petition-creator-dashboard'),
+  loading: Loading
+})
+
+export const LoadableNoPetition = Loadable({
+  loader: () => import('LegacyTheme/no-petition'),
   loading: Loading
 })
 
