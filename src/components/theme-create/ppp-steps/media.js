@@ -8,8 +8,8 @@ const PetitionMedia = ({
         <div className="row ppp-item">
             <div className="col-12 ppp-heading">
                 <h3>Add a photo or video</h3>
-                <div className="ppp-tip" onClick={toggleOpen('tipModalToggled')}>Tips
-                    <span></span>
+                <div className="ppp-tip bg-ice-blue" onClick={toggleOpen('tipModalToggled')}>Tips
+                    <span className="bg-white"></span>
                 </div>
             </div>
             <div className="col-12">

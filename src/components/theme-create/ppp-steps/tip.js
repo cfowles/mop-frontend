@@ -18,22 +18,22 @@ const Tip = ({
         })
         return (
             <div className="example col-12" key={index}>
-                <h3>Example #{index + 1}</h3>
+                <h3 className="bg-azure">Example #{index + 1}</h3>
                 {paragraphs}
             </div>)
     })
 
-    const classes = tipModalToggled ? "tip-modal container toggled" : "tip-modal container";
+    const classes = tipModalToggled ? "tip-modal container bg-white toggled" : "tip-modal container bg-white";
 
     return (
         <div className={classes}>
             <div className="close" onClick={toggleOpen('tipModalToggled')}>
-                <span></span>
-                <span></span>
+                <span className="bg-azure"></span>
+                <span className="bg-azure"></span>
             </div>
-            <div className="row heading">
+            <div className="row heading bg-off-white">
                 <div className="col-12">
-                    <span></span>
+                    <span className="bg-azure"></span>
                     <h2>{currentTip.title}</h2>
                 </div>
             </div>

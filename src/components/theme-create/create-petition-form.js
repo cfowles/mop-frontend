@@ -43,6 +43,11 @@ const CreatePetitionForm = ({
   updateStateFromValue,
   getTargets,
 
+  // User
+  name,
+  email,
+  zip,
+
   // Steps
   nextStep,
   step,
@@ -57,7 +62,10 @@ const CreatePetitionForm = ({
   editPetition,
   title,
   statement,
-  background
+  background,
+  selectTarget,
+  targets,
+  selectedTargets,
 }) => {
   const instructions = instructionsByField[selected]
 
@@ -70,22 +78,32 @@ const CreatePetitionForm = ({
                             tipModalToggled={tipModalToggled} 
                             toggleOpen={toggleOpen} 
                             updateStateFromValue={updateStateFromValue}
-                            step={step} />
+                            step={step} 
+                            title={title} 
+                            nextStep={nextStep} />
   const statementStep =   <Statement 
                             tipModalToggled={tipModalToggled} 
                             toggleOpen={toggleOpen} 
                             updateStateFromValue={updateStateFromValue}
-                            step={step} />
+                            step={step} 
+                            statement={statement} 
+                            nextStep={nextStep} />
   const backgroundStep =  <Background 
                             tipModalToggled={tipModalToggled} 
                             toggleOpen={toggleOpen} 
                             updateStateFromValue={updateStateFromValue}
-                            step={step} />
+                            step={step}
+                            background={background} 
+                            nextStep={nextStep} />
   const targetsStep =     <Targets 
                             tipModalToggled={tipModalToggled} 
                             toggleOpen={toggleOpen} 
                             updateStateFromValue={updateStateFromValue}
-                            step={step} />
+                            step={step} 
+                            nextStep={nextStep} 
+                            selectTarget={selectTarget} 
+                            targets={targets}
+                            selectedTargets={selectedTargets}/>
   const reviewStep =      <Review 
                             tipModalToggled={tipModalToggled} 
                             toggleOpen={toggleOpen}  
@@ -93,7 +111,8 @@ const CreatePetitionForm = ({
                             title={title} statement={statement} 
                             background={background} 
                             updateStateFromValue={updateStateFromValue}
-                            step={step} />
+                            step={step} 
+                            nextStep={nextStep} />
   const shareStep =       <Share 
                             shareButtonsToggled={shareButtonsToggled} 
                             toggleOpen={toggleOpen} 
@@ -109,7 +128,11 @@ const CreatePetitionForm = ({
                             step={step} 
                             signupModalToggled={signupModalToggled} 
                             toggleOpen={toggleOpen} 
-                            updateStateFromValue={updateStateFromValue}/>
+                            updateStateFromValue={updateStateFromValue}
+                            name={name}
+                            email={email}
+                            zip={zip}
+                            />
 
   const progressWidth = (step / 6) * 100 +'%';
   const progressStyles = {
@@ -118,14 +141,14 @@ const CreatePetitionForm = ({
 
   return (
     <div id="ppp">
-      <div className="container-fluid ppp-page-heading">
-        <div className="progress-bar" style={progressStyles}></div>
+      <div className="container-fluid ppp-page-heading bg-off-white">
+        <div className="progress-bar bg-azure" style={progressStyles}></div>
         <div className="background">
           <img src="../../../local/images/ppp-heading-background.svg" />
         </div>
         <div className="row">
           <div className="col-12 heading-title-wrap">
-            <h2>{step === 7 ? 'Congratulations, '+{name}+'! Let’s get your first 10 signatures.' : 'There are millions of MoveOn members waiting for your petition.'}</h2>
+            <h2 className="bg-white">{step === 7 ? 'Congratulations, '+{name}+'! Let’s get your first 10 signatures.' : 'There are millions of MoveOn members waiting for your petition.'}</h2>
           </div>
         </div>
       </div>
@@ -138,12 +161,7 @@ const CreatePetitionForm = ({
         {step < 4 || step > 6 ? '' : reviewStep}
         {step < 5 ? '' : shareStep}
         {signup}
-        {tip}
-
-
-        <button type="button" className="xl300 center display-block ppp-btn" value="Preview The Petition" name="submit_button" id="submit_button" onClick={step === 1 || step === 6 ? toggleOpen('signupModalToggled') : nextStep()}>
-          Next
-        </button>
+        {step < 5 ? tip : ''}
       </form>
     </div>
   )

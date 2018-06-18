@@ -1,5 +1,5 @@
 body {
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 hr {
@@ -32,24 +32,76 @@ hr {
   position: absolute;
   top: 0;
   left: 0;
-  overflow-x: hidden;
-  transition: opacity 1.5s cubic-bezier(0.64, 0.04, 0.35, 1);
+  transition: opacity 1.5s cubic-bezier(0.64, 0.04, 0.35, 1), visibility 0s linear 1.5s;
+  visibility: hidden;
 }
 #ppp .ppp-step.active {
   opacity: 1;
   z-index: 1;
   transition: opacity 1.5s cubic-bezier(0.64, 0.04, 0.35, 1) 1.5s;
+  visibility: visible;
 }
-#ppp input, #ppp textarea {
+#ppp .group {
+  position: relative;
+  margin-bottom: 45px;
+}
+#ppp .group input, #ppp .group textarea {
   width: 100%;
   font-size: 16px;
-  padding: 22px 9px;
-  background-color: #e5f5ff;
+  padding: 32px 9px 10px;
   border: 0;
   border-bottom: 2px solid #99ddff;
-  margin-bottom: 15px;
   box-shadow: none;
   height: auto;
+  margin: 0;
+}
+#ppp .group input[type=text]:hover, #ppp .group input[type=text]:active, #ppp .group input[type=password]:hover, #ppp .group input[type=password]:active, #ppp .group textarea[type=text]:hover, #ppp .group textarea[type=text]:active, #ppp .group textarea[type=password]:hover, #ppp .group textarea[type=password]:active {
+  background-color: #e5f5ff;
+}
+#ppp .group label {
+  color: #999;
+  font-size: 18px;
+  font-weight: normal;
+  position: absolute;
+  pointer-events: none;
+  left: 23px;
+  top: 22px;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+}
+#ppp .group input:focus ~ label,
+#ppp .group input.has-input ~ label,
+#ppp .group textarea:focus ~ label,
+#ppp .group textarea.has-input ~ label {
+  top: 2px;
+  font-size: 14px;
+  color: #00abff;
+}
+#ppp .group .bar {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+#ppp .group .bar:before, #ppp .group .bar:after {
+  content: "";
+  height: 2px;
+  width: 0;
+  bottom: 1px;
+  position: absolute;
+  background: #00abff;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+}
+#ppp .group .bar:before {
+  left: 50%;
+}
+#ppp .group .bar:after {
+  right: 50%;
+}
+#ppp .group input:focus ~ .bar:before, #ppp .group input:focus ~ .bar:after {
+  width: 50%;
 }
 #ppp .ppp-btn {
   position: fixed;
@@ -59,8 +111,6 @@ hr {
   top: initial;
   font-size: 16px;
   width: 100%;
-  background-color: #2ca9ff;
-  color: white;
   margin: 0;
   z-index: 100;
 }
@@ -72,7 +122,6 @@ hr {
   cursor: pointer;
 }
 #ppp .close span {
-  background-color: #00abff;
   height: 4px;
   width: 26px;
   display: block;
@@ -99,7 +148,6 @@ hr {
   transition: all 0.3s ease-in-out;
 }
 #ppp .signup-modal .container {
-  background-color: #00abff;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   padding-top: 67px;
@@ -107,21 +155,16 @@ hr {
   position: relative;
   height: 100%;
 }
-#ppp .signup-modal .close span {
-  background-color: black;
-}
 #ppp .signup-modal h2 {
   display: inline;
-  background-color: black;
   line-height: 2.25rem;
   text-transform: uppercase;
-  color: white;
+  color: #ffffff;
 }
 #ppp .signup-modal h2 + p {
   margin-top: 20px;
 }
 #ppp .signup-modal input {
-  background-color: white;
   border-bottom: 2px solid #005680;
 }
 #ppp .signup-modal button {
@@ -147,7 +190,6 @@ hr {
   top: 100%;
   min-height: 100vh;
   z-index: 200;
-  background-color: white;
   overflow-y: scroll;
   transition: all 0.3s ease-in-out;
 }
@@ -157,7 +199,6 @@ hr {
 }
 #ppp .tip-modal .heading {
   padding-top: 40px;
-  background-color: #f6f6f6;
   margin-bottom: 20px;
 }
 #ppp .tip-modal .heading span {
@@ -165,14 +206,12 @@ hr {
   height: 30px;
   width: 30px;
   border-radius: 50%;
-  background-color: #00abff;
 }
 #ppp .tip-modal .example {
   margin-bottom: 10px;
 }
 #ppp .tip-modal .example h3 {
   display: inline;
-  background-color: #00abff;
   line-height: 2.25rem;
   text-transform: uppercase;
   color: black;
@@ -194,7 +233,7 @@ hr {
 #ppp .upload-modal {
   padding-top: 30px;
   padding-bottom: 30px;
-  background: black;
+  background-color: black;
 }
 #ppp .upload-modal > .container {
   padding-top: 15px;
@@ -219,6 +258,14 @@ hr {
 #ppp .container::after {
   content: none;
 }
+#ppp .helper-text {
+  font-size: 12px;
+  letter-spacing: 0;
+  color: #000000;
+}
+#ppp .helper-text.invalid {
+  color: #ea1c24;
+}
 #ppp .ppp-item {
   margin-bottom: 60px;
 }
@@ -231,7 +278,6 @@ hr {
 #ppp .ppp-item .ppp-heading .ppp-tip {
   height: 40px;
   border-radius: 19.5px;
-  background-color: #e5f5ff;
   padding: 0 6px 0 14px;
   text-transform: uppercase;
   font-weight: bold;
@@ -244,7 +290,6 @@ hr {
 #ppp .ppp-item .ppp-heading .ppp-tip span {
   width: 30px;
   height: 30px;
-  background-color: #ffffff;
   border-radius: 50%;
   margin-left: 10px;
 }
@@ -306,13 +351,12 @@ hr {
   background-color: #ccc;
 }
 #ppp .checkbox-wrap input:checked ~ .checkmark {
-  background-color: #2196F3;
+  background-color: #00abff;
 }
 #ppp .checkbox-wrap input:checked ~ .checkmark:after {
   display: block;
 }
 #ppp .ppp-page-heading {
-  background-color: #e9e9e9;
   position: relative;
 }
 #ppp .ppp-page-heading .progress-bar {
@@ -321,7 +365,6 @@ hr {
   top: 0;
   bottom: 0;
   left: 0;
-  background-color: #2ca9ff;
   transition: width 3s cubic-bezier(0.64, 0.04, 0.35, 1);
 }
 #ppp .ppp-page-heading .background {
@@ -344,7 +387,6 @@ hr {
 }
 #ppp .ppp-page-heading .heading-title-wrap h2 {
   display: inline;
-  background-color: white;
   line-height: 2.25rem;
   text-transform: uppercase;
 }
@@ -357,7 +399,6 @@ hr {
 #ppp .targets .selection-pills .pill-inner {
   height: 50px;
   border-radius: 3px;
-  background-color: #e5f5ff;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -365,19 +406,16 @@ hr {
   font-weight: bold;
   font-stretch: condensed;
   line-height: 1.25;
-  color: #000000;
   position: relative;
 }
 #ppp .targets .selection-pills .pill-inner .close {
   width: 24px;
   height: 24px;
-  background-color: #00abff;
   border-radius: 50%;
   top: -4px;
   right: -4px;
 }
 #ppp .targets .selection-pills .pill-inner .close span {
-  background-color: white;
   height: 2px;
   width: 15px;
   display: block;
@@ -399,7 +437,6 @@ hr {
   user-select: none;
   font-weight: initial;
   height: 50px;
-  background-color: #e5f5ff;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -446,10 +483,8 @@ hr {
 }
 #ppp .review .petition-title h3 {
   display: inline;
-  background-color: #00abff;
   line-height: 1.2rem;
   text-transform: uppercase;
-  color: black;
 }
 #ppp .review .petition-targets span {
   text-decoration: underline;
@@ -459,23 +494,51 @@ hr {
   background-color: lightgray;
   margin-bottom: 15px;
 }
-#ppp .share .share-btns-main button {
-  background-color: #00abff;
+#ppp .share .share-btns-extra-wrap > div > a {
+  color: #000000;
 }
-#ppp .share .share-btns-extra-wrap {
-  padding: 13px 0 30px;
-  margin-left: 15px;
-  margin-right: 15px;
-  background-color: #f6f6f6;
+#ppp .share .share-btns-extra-wrap .share-btns-extra {
+  max-height: 0;
+  overflow-y: hidden;
+  transition: max-height 0.3s ease-in-out;
 }
-#ppp .share .share-btns-extra-wrap h3 {
-  font-weight: 300;
-  font-family: Roboto;
+#ppp .share .share-btns-extra-wrap .share-btns-extra.toggled {
+  max-height: 700px;
+  transition: max-height 0.3s ease-in-out;
 }
 #ppp .share .share-btns-extra-wrap .share-btns-extra button {
   background-color: #e5f5ff;
   color: black !important;
   text-transform: none;
+}
+
+/* ANIMATIONS ================ */
+@-webkit-keyframes inputHighlighter {
+  from {
+    background: #5264AE;
+  }
+  to {
+    width: 0;
+    background: transparent;
+  }
+}
+@-moz-keyframes inputHighlighter {
+  from {
+    background: #5264AE;
+  }
+  to {
+    width: 0;
+    background: transparent;
+  }
+}
+@keyframes inputHighlighter {
+  from {
+    background: #5264AE;
+  }
+  to {
+    width: 0;
+    background: transparent;
+  }
 }
 
 /*# sourceMappingURL=css/create.css.map */

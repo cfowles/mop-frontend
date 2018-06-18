@@ -8,12 +8,13 @@ const Review = ({
     title,
     statement,
     background,
-    step
+    step,
+    nextStep
 }) => {
 
     const review = {
         title: (
-            <h3>{title}</h3>
+            <h3 className="bg-azure black">{title}</h3>
         ),
         statement: (
             <p>{statement}</p>
@@ -22,8 +23,8 @@ const Review = ({
             <p>{background}</p>
         ),
         edit: (
-            <div className="ppp-tip" onClick={toggleOpen('editPetition')}>Edit
-                <span></span>
+            <div className="ppp-tip bg-ice-blue" onClick={toggleOpen('editPetition')}>Edit
+                <span className="bg-white"></span>
             </div>
         )
     }
@@ -32,7 +33,7 @@ const Review = ({
             <input
                 name="title"
                 id="title_field"
-                className=""
+                className="bg-ice-blue"
                 type="text"
                 title="Title"
                 value={title}
@@ -45,7 +46,7 @@ const Review = ({
                 rows="1"
                 name="statement"
                 id="statement_field"
-                className=""
+                className="bg-ice-blue"
                 title="Petition statement"
                 value={statement}
                 onChange={updateStateFromValue('statement')}
@@ -57,7 +58,7 @@ const Review = ({
                 rows="1"
                 name="background"
                 id="background_field"
-                className=""
+                className="bg-ice-blue"
                 type="text"
                 title="Petition background"
                 value={background}
@@ -66,8 +67,8 @@ const Review = ({
             />
         ),
         edit: (
-            <div className="ppp-tip" onClick={toggleOpen('editPetition')}>Save
-                <span></span>
+            <div className="ppp-tip bg-ice-blue" onClick={toggleOpen('editPetition')}>Save
+                <span className="bg-white"></span>
             </div>
         )
     }
@@ -78,7 +79,7 @@ const Review = ({
         <div className={classes}>
             <div className="row ppp-item">
                 <div className="col-12 ppp-heading">
-                    <h3>Review your petition</h3>
+                    <h3 className="bg-azure black">Review your petition</h3>
                     {editPetition ? edit.edit : review.edit}
                 </div>
                 <div className="petition-title col-12">
@@ -101,13 +102,23 @@ const Review = ({
                     {editPetition ? edit.background : review.background}
                 </div>
             </div>
+            <button 
+                type="button" 
+                className="xl300 center display-block ppp-btn btn azure" 
+                value="Preview The Petition" 
+                name="review_next" 
+                id="review_next" 
+                onClick={nextStep()}>
+                Next
+            </button>
         </div>
     )
 }
 
 Review.propTypes = {
     toggleOpen: PropTypes.func,
-    updateStateFromValue: PropTypes.func
+    updateStateFromValue: PropTypes.func,
+    nextStep: PropTypes.func
 }
 
 export default Review

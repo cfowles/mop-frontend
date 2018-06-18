@@ -6,38 +6,54 @@ const Statement = ({
     step,
     toggleOpen,
     updateStateFromValue,
-    signupModalToggled
+    signupModalToggled,
+    email,
+    zip
 }) => {
+    const emailClasses = email ? 'bg-white has-input' : 'bg-white'
+    const zipClasses = zip ? 'bg-white has-input' : 'bg-white'
+
     const signup = (
         <div className="row">
             <div className="col-12">
-                <h2>Your petition is important. Let’s make sure you don’t lose progress.</h2>
+                <h2 className="bg-black white">Your petition is important. Let’s make sure you don’t lose progress.</h2>
                 <p>Provide your email and Zip code to recover an incomplete petition draft and receive location specific suggestions to help you throughout your petition creation process.</p>
             </div>
-            <div className="col-12">
+            <div className="col-12 group">
                 <input 
                     name="email" 
                     id="email_field" 
-                    className="" 
+                    className={emailClasses}
                     type="email" 
                     title="Email" 
-                    placeholder="Email"
                     onChange={updateStateFromValue('email')}
-                    onBlur={updateStateFromValue('email')} />
+                    onBlur={updateStateFromValue('email')} 
+                    required />
+                <span className="bar"></span>
+                <label>Email</label>
             </div>
-            <div className="col-12">
+            <div className="col-12 group">
                 <input 
                     name="zip" 
                     id="zip_field" 
-                    className="" 
+                    className={zipClasses}
                     type="number" 
                     title="Zip" 
-                    placeholder="Zip" 
                     onChange={updateStateFromValue('zip')}
-                    onBlur={updateStateFromValue('zip')} />
+                    onBlur={updateStateFromValue('zip')} 
+                    required />
+                <span className="bar"></span>
+                <label>Zip</label>
             </div>
             <div className="col-12">
-                <button type="button" className="xl300 center display-block ppp-btn" value="Preview The Petition" name="submit_button_signup" id="submit_button_signup" onClick={nextStep()}>Next</button>
+                <button type="button" 
+                className="xl300 center display-block ppp-btn btn" 
+                value="Preview The Petition" 
+                name="signup_next" 
+                id="signup_next" 
+                onClick={nextStep()}
+                disabled={!email || !zip || zip.length !== 5} >
+                Next</button>
             </div>
             <div className="col-12">
                 <a>Already have an account? Click to Log In</a>
@@ -48,41 +64,56 @@ const Statement = ({
     const complete = (
         <div className="row">
             <div className="col-12">
-                <h2>Complete your account to publish this petition.</h2>
+                <h2 className="bg-black white">Complete your account to publish this petition.</h2>
                 <p>You can edit, manage, and share your petition from your account dashboard.</p>
             </div>
             <div className="col-12">
                 <input 
                     name="name" 
                     id="name_field" 
-                    className="" 
+                    className="bg-white" 
                     type="text" 
                     title="name" 
-                    placeholder="Name" 
                     onChange={updateStateFromValue('name')}
                     onBlur={updateStateFromValue('name')} />
+                <span className="bar"></span>
+                <label>Name</label>
             </div>
             <div className="col-12">
-                <input name="password" id="password_field" className="" type="password" title="password" placeholder="Password" />
+                <input 
+                    name="password" 
+                    id="password_field" 
+                    className="bg-white" 
+                    type="password" 
+                    title="password" />
+                <span className="bar"></span>
+                <label>Password</label>
             </div>
             <div className="col-12">
-                <input name="confirm" id="confirm_field" className="" type="password" title="confirm" placeholder="Confirm Password" />
+                <input 
+                    name="confirm" 
+                    id="confirm_field" 
+                    className="bg-white" 
+                    type="password" 
+                    title="confirm" />
+                <span className="bar"></span>
+                <label>Confirm Password</label>
             </div>
             <div className="col-12">
-                <button type="button" className="xl300 center display-block ppp-btn" value="Preview The Petition" name="submit_button_complete" id="submit_button_complete" onClick={nextStep()}>Publish</button>
+                <button type="button" className="xl300 center display-block ppp-btn btn" value="Preview The Petition" name="submit_button_complete" id="submit_button_complete" onClick={nextStep()}>Publish</button>
             </div>
         </div>
     );
 
-    const output = step === 2 ? signup : complete;
+    const output = step === 1 ? signup : complete;
     const classes = signupModalToggled ? "signup-modal toggled" : "signup-modal";
-
+    
     return (
         <div className={classes}>
-            <div className="container">
+            <div className="container bg-azure">
                 <div className="close" onClick={toggleOpen('signupModalToggled')}>
-                    <span></span>
-                    <span></span>
+                    <span className="bg-black"></span>
+                    <span className="bg-black"></span>
                 </div>
                 {output}
             </div>

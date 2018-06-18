@@ -2,7 +2,7 @@ import React from 'react'
 //import PropTypes from 'prop-types'
 import { loadTargets } from '../actions/createPetitionActions.js'
 import ReactTimeout from 'react-timeout'
-import { conversation } from '../components/theme-convo/conversation/conversation'
+import { conversation } from '../components/theme-create/conversation/conversation'
 
 //import CreatePetitionForm from 'LegacyTheme/create-petition-form'
 import CreatePetitionForm from 'Theme/create-petition-form'
@@ -37,7 +37,13 @@ class CreatePetition extends React.Component {
       title: false,
       statement: false,
       background: false,
-
+      targets: [
+        {title: "The White House", subtitle: "The President", name: "president"},
+        {title: "The U.S.", subtitle: "Senate", name: "us-senate"},
+        {title: "The U.S.", subtitle: "House of Representatives", name: "us-representatives"},
+        {title: "Senate", subtitle: "of Utah", name: "ut-senate"},
+      ],
+      selectedTargets: [],
 
       /*** Convo ***/
       section: 0,
@@ -61,6 +67,7 @@ class CreatePetition extends React.Component {
     this.nextBubble = this.nextBubble.bind(this)
     this.saveInput = this.saveInput.bind(this)
     this.getSectionLengths = this.getSectionLengths.bind(this)
+    this.selectTarget = this.selectTarget.bind(this)
   }
 
   componentDidMount() {
@@ -182,14 +189,23 @@ class CreatePetition extends React.Component {
     // }
   }
 
-  // conversational scrolling
-  scrollToBottom() {
-    document.querySelector('.chat-end').scrollIntoView({ behavior: "smooth" });
+  selectTarget(ind) {
+    let selected = this.state.targets[ind];
+    this.setState(prevState => {
+      let selectedTargets = prevState.selectedTargets;
+      selectedTargets.push(selected);
+      return { selectedTargets: selectedTargets }
+    })
   }
 
-  componentDidUpdate() {
-    this.scrollToBottom();
-  }
+  // conversational scrolling
+  // scrollToBottom() {
+  //   document.querySelector('.chat-end').scrollIntoView({ behavior: "smooth" });
+  // }
+
+  // componentDidUpdate() {
+  //   this.scrollToBottom();
+  // }
 
 
   render() {
@@ -232,6 +248,7 @@ class CreatePetition extends React.Component {
             // User
             name={this.state.name}
             email={this.state.email}
+            zip={this.state.zip}
 
             // Steps
             nextStep={this.nextStep}
@@ -251,6 +268,7 @@ class CreatePetition extends React.Component {
             title={this.state.title}
             statement={this.state.statement}
             background={this.state.background}
+            selectTarget={this.selectTarget}
 
             // Bubbles
             bubbleShow={this.state.bubbleShow}
