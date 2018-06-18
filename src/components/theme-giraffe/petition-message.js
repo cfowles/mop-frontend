@@ -5,10 +5,13 @@ import { Message } from 'GiraffeUI/message'
 
 import PetitionFlagForm from '../../containers/petition-flag-form'
 
-export const PetitionMessage = ({ outOfDate, petition: p, isFwd }) => (
+const hasTag = (tag, petition) =>
+  Boolean(petition.tags && petition.tags.filter(t => t.name === tag).length)
+
+export const PetitionMessage = ({ petition: p, isFwd }) => (
   <div className='col-12'>
     <div className='row'>
-      {outOfDate && (
+      {hasTag('possibly_out_of_date', p) && (
         <Message color='orange'>
           This petition has not been edited in a while. As a new legislative
           session has begun, it’s possible some of the targets of this petition
@@ -28,14 +31,14 @@ export const PetitionMessage = ({ outOfDate, petition: p, isFwd }) => (
           <a
             href='https://act.moveon.org/cms/thanks/thanks-your-input'
             target='_blank'
+            rel='noopener noreferrer'
           >
             Click here if you think MoveOn should support this petition.
           </a>
         </Message>
       )}
 
-      {p.tags &&
-        p.tags.filter(t => t.name === 'outcome:victory').length && (
+      {hasTag('outcome:victory', p) && (
         <Message color='azure'>
           Victory! The creator of this petition declared the campaign a
           success. You can still sign the petition to show support.
@@ -53,7 +56,6 @@ export const PetitionMessage = ({ outOfDate, petition: p, isFwd }) => (
 )
 
 PetitionMessage.propTypes = {
-  outOfDate: PropTypes.bool,
   petition: PropTypes.object,
   isFwd: PropTypes.bool
 }

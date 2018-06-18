@@ -9,6 +9,6 @@ import { routes } from './nav-only-routes'
 const store = configureStore()
 
 ReactDOM.render(
-  <Provider store={store} children={routes(store)} />,
+  <Provider store={store}>{routes(store)}</Provider>,
   document.getElementById('header')
 )

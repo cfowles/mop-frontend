@@ -52,8 +52,8 @@ class ForgotPassword extends React.Component {
    * @returns {Array} an jsx array of errors
    */
   errorList() {
-    return this.state.presubmitErrors.map((error, idx) => (
-      <li key={idx}>{error.message}</li>
+    return this.state.presubmitErrors.map(error => (
+      <li key={error.message}>{error.message}</li>
     ))
   }
 

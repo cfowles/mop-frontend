@@ -4,13 +4,12 @@ import { connect } from 'react-redux'
 
 import SignatureAddFormComponent from 'Theme/signature-add-form'
 
-import { signPetition, devLocalSignPetition } from '../actions/petitionActions.js'
-import { actions as sessionActions } from '../actions/sessionActions.js'
+import { signPetition, devLocalSignPetition } from '../actions/petitionActions'
+import { actions as sessionActions } from '../actions/sessionActions'
 import { isValidEmail } from '../lib'
 import Config from '../config'
 
 class SignatureAddForm extends React.Component {
-
   constructor(props) {
     super(props)
     this.state = {
@@ -28,6 +27,7 @@ class SignatureAddForm extends React.Component {
       volunteer: false,
       phone: false,
       validationTried: false,
+      mobile_optin: false,
       thirdparty_optin: props.hiddenOptin || props.showOptinCheckbox,
       hidden_optin: props.hiddenOptin,
       required: {},
@@ -35,8 +35,8 @@ class SignatureAddForm extends React.Component {
     }
     this.validationFunction = {
       email: isValidEmail,
-      zip: (zip) => /(\d\D*){5}/.test(zip),
-      phone: (phone) => /(\d\D*){10}/.test(phone) // 10-digits
+      zip: zip => /(\d\D*){5}/.test(zip),
+      phone: phone => /(\d\D*){10}/.test(phone) // 10-digits
     }
 
     this.volunteer = this.volunteer.bind(this)
@@ -100,7 +100,7 @@ class SignatureAddForm extends React.Component {
     if (referrerData.length) {
       osdiSignature.referrer_data = Object.assign({}, ...referrerData)
     }
-    const customFields = ['thirdparty_optin', 'hidden_optin', 'volunteer']
+    const customFields = ['thirdparty_optin', 'hidden_optin', 'volunteer', 'mobile_optin']
     const customData = customFields.filter(k => this.state[k]).map(k => ({ [k]: this.state[k] }))
     if (customData.length) {
       osdiSignature.person.custom_fields = Object.assign({}, ...customData)
@@ -134,7 +134,7 @@ class SignatureAddForm extends React.Component {
   }
 
   updateStateFromValue(field, isCheckbox = false) {
-    return (event) => {
+    return event => {
       const value = isCheckbox ? event.target.checked : event.target.value
       this.setState({
         [field]: value,
@@ -205,8 +205,9 @@ class SignatureAddForm extends React.Component {
 
     if (this.formIsValid()) {
       const osdiSignature = this.getOsdiSignature()
-      dispatch(signAction(osdiSignature, petition, { redirectOnSuccess: true }))
+      return dispatch(signAction(osdiSignature, petition, { redirectOnSuccess: true }))
     }
+    this.setState({ hideUntilInteract: false }) // show fields so we can show validation error
     return false
   }
 
@@ -220,6 +221,7 @@ class SignatureAddForm extends React.Component {
       requireAddressFields,
       showOptinCheckbox,
       showOptinWarning,
+      showMobileSignup,
       setRef,
       innerRef,
       id
@@ -235,11 +237,13 @@ class SignatureAddForm extends React.Component {
         user={user}
         query={query}
         showAddressFields={showAddressFields}
+        showMobileSignup={showMobileSignup}
         requireAddressFields={requireAddressFields}
         onUnrecognize={() => { dispatch(sessionActions.unRecognize()) }}
         volunteer={this.state.volunteer}
         onClickVolunteer={this.volunteer}
         thirdPartyOptin={this.state.thirdparty_optin}
+        displayMobileOptIn={this.state.phone}
         country={this.state.country}
         onChangeCountry={event => this.setState({ country: event.target.value })}
         updateStateFromValue={this.updateStateFromValue}
@@ -249,11 +253,17 @@ class SignatureAddForm extends React.Component {
         setRef={setRef}
         innerRef={innerRef}
         id={id}
-        hideUntilInteract={this.state.hideUntilInteract}
+        // Don't hide at first if the user doesn't have an address and the petition needs one
+        hideUntilInteract={
+          user.signonId &&
+          !(user.postal_addresses && user.postal_addresses.length) &&
+          petition.needs_full_addresses
+            ? false
+            : this.state.hideUntilInteract
+        }
       />
     )
   }
-
 }
 
 SignatureAddForm.propTypes = {
@@ -263,11 +273,10 @@ SignatureAddForm.propTypes = {
   query: PropTypes.object,
   showAddressFields: PropTypes.bool,
   requireAddressFields: PropTypes.bool,
-  fromCreator: PropTypes.bool,
-  fromMailing: PropTypes.bool,
   showOptinWarning: PropTypes.bool,
   showOptinCheckbox: PropTypes.bool,
   hiddenOptin: PropTypes.bool,
+  showMobileSignup: PropTypes.bool,
   setRef: PropTypes.func,
   innerRef: PropTypes.func,
   id: PropTypes.string
@@ -284,10 +293,17 @@ function shouldShowAddressFields(user, petition) {
   return false
 }
 
+function shouldShowMobileSignUp(queryString) {
+  if (queryString.cohort === '1') {
+    return true
+  }
+  return false
+}
+
 function mapStateToProps(store, ownProps) {
   const user = store.userStore
   const { petition, query } = ownProps
-  const creator = (petition._embedded && petition._embedded.creator || {})
+  const creator = ((petition._embedded && petition._embedded.creator) || {})
   const source = query.source || ''
 
   const newProps = {
@@ -295,7 +311,8 @@ function mapStateToProps(store, ownProps) {
     showAddressFields: shouldShowAddressFields(user, petition),
     requireAddressFields: petition.needs_full_addresses && shouldShowAddressFields(user, petition),
     fromCreator: (/^c\./.test(source) || /^s\.icn/.test(source)),
-    fromMailing: /\.imn/.test(source)
+    fromMailing: /\.imn/.test(source),
+    showMobileSignup: shouldShowMobileSignUp(query)
   }
   newProps.showOptinWarning = !!(!user.signonId && (creator.source
                                                     || (creator.custom_fields && creator.custom_fields.may_optin)))

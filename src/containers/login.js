@@ -2,8 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import LoginForm from 'LegacyTheme/login-form'
+import LoginForm from 'Theme/login-form'
 
+import { actions as accountActions } from '../actions/accountActions'
+import { appLocation } from '../routes'
 import { isValidEmail } from '../lib'
 
 class Login extends React.Component {
@@ -17,10 +19,10 @@ class Login extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
+    if (nextProps.formErrors.length) {
       this.setState({ presubmitErrors: null })
+      this.password.value = ''
     }
-    this.password.value = ''
   }
 
   /**
@@ -53,20 +55,26 @@ class Login extends React.Component {
    * @returns {Array} an jsx array of errors
    */
   errorList() {
-    const errors = this.state.presubmitErrors || this.props.loginErrors || []
-    return errors.map((error, idx) => <li key={idx}>{error.message}</li>)
+    const errors = this.state.presubmitErrors || this.props.formErrors || []
+    return errors.map(error => <li key={error.message}>{error.message}</li>)
   }
 
   handleSubmit(event) {
     event.preventDefault()
     if (!this.validateForm()) return
-    // Not implemented yet
+
     const fields = {
       email: this.email.value,
       password: this.password.value
     }
-    console.log(fields)
-    // this.props.dispatch(sessionActions.login(fields))
+    const { dispatch, location } = this.props
+
+    let successCallback = this.props.successCallback
+    if (location.query.redirect) {
+      successCallback = () => appLocation.push(location.query.redirect)
+    }
+
+    dispatch(accountActions.login(fields, successCallback))
   }
 
   render() {
@@ -75,23 +83,31 @@ class Login extends React.Component {
         <LoginForm
           errorList={this.errorList}
           handleSubmit={this.handleSubmit}
+          // eslint-disable-next-line no-return-assign
           setRef={input => input && (this[input.name] = input)}
+          isSubmitting={this.props.isSubmitting}
         />
       </div>
     )
   }
 }
 
+Login.defaultProps = {
+  successCallback: () => appLocation.push('/dashboard.html')
+}
+
 Login.propTypes = {
-  loginErrors: PropTypes.array,
+  formErrors: PropTypes.array,
   dispatch: PropTypes.func,
-  isSubmitting: PropTypes.bool
+  location: PropTypes.object,
+  isSubmitting: PropTypes.bool,
+  successCallback: PropTypes.func
 }
 
 function mapStateToProps({ userStore = {} }) {
   return {
-    loginErrors: userStore.loginErrors || [],
-    isSubmitting: !!userStore.isSubmitting
+    formErrors: userStore.loginErrors || [],
+    isSubmitting: !!userStore.isSubmittingLogin
   }
 }
 

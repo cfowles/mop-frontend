@@ -4,10 +4,25 @@ import { connect } from 'react-redux'
 
 import Petition from 'Theme/petition'
 import { LoadableThanks } from '../loaders/'
-import { actions as petitionActions } from '../actions/petitionActions.js'
-import { appLocation } from '../routes.js'
+import { actions as petitionActions } from '../actions/petitionActions'
+import { appLocation } from '../routes'
 
 class SignPetition extends React.Component {
+  static checkOrgPathMatches(petition, orgPath) {
+    const { creator } = petition._embedded
+    // Petition has org that doesn't match URL
+    if (creator.source && creator.source !== orgPath) {
+      appLocation.push(`/${creator.source}/sign/${petition.name}`)
+      return false
+    }
+    // URL has org that doesn't match petition
+    if (orgPath && orgPath !== creator.source) {
+      appLocation.push(`/sign/${petition.name}`)
+      return false
+    }
+    return true
+  }
+
   constructor(props) {
     super(props)
     this.state = {
@@ -23,9 +38,9 @@ class SignPetition extends React.Component {
 
   componentWillMount() {
     const { dispatch, params, petition } = this.props
-    dispatch(petitionActions.loadPetition(params.petition_slug.split('.')[0]))
+    dispatch(petitionActions.loadPetition(params.petitionName.split('.')[0]))
     if (petition) {
-      this.checkOrgPathMatches(petition, params.organization)
+      SignPetition.checkOrgPathMatches(petition, params.organization)
     }
   }
 
@@ -39,7 +54,7 @@ class SignPetition extends React.Component {
   componentWillReceiveProps(nextProps) {
     const { params, petition } = nextProps
     if (petition) {
-      this.checkOrgPathMatches(petition, params.organization)
+      SignPetition.checkOrgPathMatches(petition, params.organization)
     }
   }
 
@@ -68,6 +83,7 @@ class SignPetition extends React.Component {
 
   setRef({ isMobile }) {
     const formName = isMobile ? 'mobile' : 'desktop'
+    // eslint-disable-next-line no-return-assign
     return input => input && (this[`${formName}-${input.name}Input`] = input)
   }
 
@@ -91,23 +107,9 @@ class SignPetition extends React.Component {
     this.setState({ deviceSize: window.innerWidth < 768 ? 'mobile' : 'desktop' })
   }
 
-  checkOrgPathMatches(petition, orgPath) {
-    const { creator } = petition._embedded
-    // Petition has org that doesn't match URL
-    if (creator.source && creator.source !== orgPath) {
-      appLocation.push(`/${creator.source}/sign/${petition.name}`)
-      return false
-    }
-    // URL has org that doesn't match petition
-    if (orgPath && orgPath !== creator.source) {
-      appLocation.push(`/sign/${petition.name}`)
-      return false
-    }
-    return true
-  }
-
   render() {
     const p = this.props.petition
+    const mobileTest = this.props.route.mobileTest
     if (!p) {
       return <div />
     }
@@ -115,8 +117,6 @@ class SignPetition extends React.Component {
       name: p.contact_name
     }
     const petitionBy = creator.name || p.contact_name
-    const outOfDate =
-      p.tags && p.tags.filter(t => t.name === 'possibly_out_of_date').length
 
     return (
       <div className='moveon-petitions sign container'>
@@ -126,12 +126,12 @@ class SignPetition extends React.Component {
           adminLink={this.getAdminLink()}
           query={this.props.location.query}
           petitionBy={petitionBy}
-          outOfDate={outOfDate}
           isFloatingSignVisible={this.state.floatingSignVisible}
           scrollToSignFormProps={this.getScrollToSignFormProps}
           hideFloatingSign={() => this.setState({ floatingSignVisible: false })}
           showFloatingSign={() => this.setState({ floatingSignVisible: true })}
           setRef={this.setRef}
+          mobileTest={mobileTest}
         />
       </div>
     )
@@ -143,11 +143,12 @@ SignPetition.propTypes = {
   user: PropTypes.object,
   params: PropTypes.object,
   location: PropTypes.object,
-  dispatch: PropTypes.func
+  dispatch: PropTypes.func,
+  route: PropTypes.object
 }
 
 function mapStateToProps(store, ownProps) {
-  const petition = store.petitionStore.petitions[ownProps.params.petition_slug.split('.')[0]]
+  const petition = store.petitionStore.petitions[ownProps.params.petitionName.split('.')[0]]
   return {
     petition,
     sign_success:

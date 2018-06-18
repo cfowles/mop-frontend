@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { actions as petitionActions } from '../actions/petitionActions.js'
-import { appLocation } from '../routes.js'
+import { actions as petitionActions } from '../actions/petitionActions'
+import { appLocation } from '../routes'
 
 import ShortSearchBar from 'LegacyTheme/short-search-bar'
 import LongSearchBar from 'Theme/long-search-bar'

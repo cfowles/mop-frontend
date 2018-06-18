@@ -4,10 +4,13 @@ import { Portal } from 'react-portal'
 
 import PetitionFlagForm from '../../containers/petition-flag-form'
 
-export const PetitionMessage = ({ outOfDate, petition: p, isFwd }) => (
+const hasTag = (tag, petition) =>
+  Boolean(petition.tags && petition.tags.filter(t => t.name === tag).length)
+
+export const PetitionMessage = ({ petition: p, isFwd }) => (
   <Portal node={document && document.getElementById('message-portal')}>
     <div>
-      {outOfDate ? (
+      {hasTag('possibly_out_of_date', p) ? (
         <div className='message-header'>
           <span className='bell'>
             This petition has not been edited in a while. As a new legislative
@@ -37,6 +40,7 @@ export const PetitionMessage = ({ outOfDate, petition: p, isFwd }) => (
             <a
               href='https://act.moveon.org/cms/thanks/thanks-your-input'
               target='_blank'
+              rel='noopener noreferrer'
             >
               Click here
             </a>{' '}
@@ -47,7 +51,7 @@ export const PetitionMessage = ({ outOfDate, petition: p, isFwd }) => (
         ''
       )}
 
-      {p.tags && p.tags.filter(t => t.name === 'outcome:victory').length ? (
+      {hasTag('outcome:victory', p) ? (
         <div className='message-header'>
           <img alt='star icon' src='/images/star.png' height='30' width='30' />
           <span>
@@ -74,7 +78,6 @@ export const PetitionMessage = ({ outOfDate, petition: p, isFwd }) => (
 )
 
 PetitionMessage.propTypes = {
-  outOfDate: PropTypes.bool,
   petition: PropTypes.object,
   isFwd: PropTypes.bool
 }

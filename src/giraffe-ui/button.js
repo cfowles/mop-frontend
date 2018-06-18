@@ -3,15 +3,16 @@ import cx from 'classnames'
 import { Link } from 'react-router'
 import PropTypes from 'prop-types'
 
-export const Submit = ({ children, onClick }) => (
-  <button className='btn' onClick={onClick} type='submit'>
+export const Submit = ({ children, onClick, disabled }) => (
+  <button className='btn' onClick={onClick} type='submit' disabled={disabled}>
     {children}
   </button>
 )
 
 Submit.propTypes = {
   children: PropTypes.node,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  disabled: PropTypes.bool
 }
 
 export const Button = ({ children, linkTo, large }) => (

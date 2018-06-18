@@ -39,6 +39,7 @@ const Nav = ({
                 Campaign Tips
               </NavLink>
               <NavLink href='https://moveon.org/our-impact'>Our Impact</NavLink>
+              <NavLink href='https://candidates.moveon.org/'>Candidates</NavLink>
             </Primary.Section>
 
             {/* More Top level */}
@@ -67,9 +68,6 @@ const Nav = ({
 }
 
 Nav.propTypes = {
-  user: PropTypes.object,
-  nav: PropTypes.object,
-  organization: PropTypes.string,
   minimal: PropTypes.bool,
   toggleOpen: PropTypes.func,
   close: PropTypes.func,

@@ -12,19 +12,20 @@ var THEME_DIR = path.resolve(__dirname, 'src/components/theme-' + THEME);
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 var envVars = {
-  'NODE_ENV': (process.env.PROD) ? 'production' : 'development',
   'API_URI': process.env.API_URI ||(process.env.PROD ? '/api/v1' : '/local/api/v1'),
   'WORDPRESS_API_URI': process.env.WORDPRESS_API_URI || (process.env.PROD ? '' : '/local/api'),
   'API_WRITABLE': process.env.API_WRITABLE || process.env.PROD,
   'API_SIGN_PETITION': process.env.API_SIGN_PETITION || '',
   'BASE_APP_PATH': process.env.BASE_APP_PATH || '/',
   'BASE_URL': process.env.BASE_URL || (process.env.PROD ? 'https://petitions.moveon.org' : ''),
+  'GTAG_PETITION_CREATE': process.env.GTAG_PETITION_CREATE,
   'ONLY_PROD_ROUTES': process.env.ONLY_PROD_ROUTES || '',
   'SESSION_COOKIE_NAME': process.env.SESSION_COOKIE_NAME || 'SO_SESSION',
   'STATIC_ROOT': process.env.STATIC_ROOT || '/local/',
   'TRACK_SHARE_URL': process.env.TRACK_SHARE_URL || '',
   'USE_HASH_BROWSING': process.env.USE_HASH_BROWSING || false,
-  'PROD': process.env.PROD
+  'PROD': process.env.PROD,
+  'AB_TEST_ENABLED': process.env.AB_TEST_ENABLED || false
 }
 
 // Stringify all envVars so strings get quoted (i.e. not included as code)
@@ -43,7 +44,8 @@ var webpackPlugins = [
 // Plugins for production
 if (process.env.PROD) {
   webpackPlugins = webpackPlugins.concat([
-    new webpack.optimize.UglifyJsPlugin({sourceMap: true})
+    // None yet
+    // Minification by default in webpack 4
   ])
 }
 
@@ -66,10 +68,10 @@ if (!process.env.PROD) {
       conversationalCssPath: '/css/convo.css',
       reactJs: (process.env.LOCAL_REACT
                 ? process.env.LOCAL_REACT + 'react.js'
-                : 'https://unpkg.com/react@15.4.1/dist/react.js'),
+                : 'https://unpkg.com/react@16.3.2/umd/react.development.js'),
       reactDomJs: (process.env.LOCAL_REACT
                   ? process.env.LOCAL_REACT + 'react-dom.js'
-                  : 'https://unpkg.com/react-dom@15.4.1/dist/react-dom.js')
+                  : 'https://unpkg.com/react-dom@16.3.2/umd/react-dom.development.js')
     }),
     new webpack.HotModuleReplacementPlugin(),
   ])
@@ -84,17 +86,19 @@ var config = {
     [APP_ENTRY]: APP_DIR + '/apps/' + APP_ENTRY + '.js'
   },
   devServer: {
-    host: "0.0.0.0",
+    host: '0.0.0.0',
+    port: 8080,
+    hot: true,
     historyApiFallback: {
       disableDotRule: true
+    },
+    proxy: {
+      "/api": "http://localhost:8000"
     }
   },
-  devtool: 'sourcemap',
   output: {
     path: BUILD_DIR,
     publicPath: process.env.PUBLIC_ROOT || "/",
-    //NOTE: when process.env.PROD is true this will be the minified file
-    //TODO: maybe we should hash this and figure out a way to pass the hashed version to it
     filename: '[name].' + THEME + '.js',
     chunkFilename: 'chunk-[id]' + '.' + THEME + '.js?v=[chunkhash]'
   },
@@ -103,19 +107,19 @@ var config = {
     'react-dom': 'ReactDOM',
   },
   module : {
-    loaders : [
+    rules : [
       {
-        test : /\.jsx?$/,
-        include : APP_DIR,
-        loader : 'babel-loader'
+        test: /\.jsx?$/,
+        include: APP_DIR,
+        use: 'babel-loader'
       },
       {
         test: /\.json$/,
-        loader: "file-loader?name=[name].[ext]"
+        use: 'file-loader?name=[name].[ext]'
       },
       {
         test: /\.svg$/,
-        loader: "svg-react-loader"
+        use: 'svg-react-loader'
       }
     ]
   },

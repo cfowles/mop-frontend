@@ -48,8 +48,10 @@ export const Author = ({ name, link, logo }) => (
 Author.propTypes = { name: PropTypes.string, link: PropTypes.string, logo: PropTypes.node }
 Details.Author = Author
 
-export const Disclaimer = ({ children }) => (
-  <div className='petition-details__disclaimer'>{children}</div>
+export const Disclaimer = ({ entity }) => (
+  <div className='petition-details__disclaimer'>
+    MoveOn {entity === 'c4' ? 'Civic' : 'Political'} Action does not necessarily endorse the contents of petitions posted on this site. MoveOn Petitions is an open tool that anyone can use to post a petition advocating any point of view, so long as the petition does not violate our <Link to='/terms.html'>terms of service</Link>.
+  </div>
 )
-Disclaimer.propTypes = { children: PropTypes.node }
+Disclaimer.propTypes = { entity: PropTypes.string }
 Details.Disclaimer = Disclaimer

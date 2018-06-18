@@ -1,11 +1,11 @@
 import { expect } from 'chai'
 import reducer from '../../src/reducers'
 
-import { actionTypes as accountActionTypes } from '../../src/actions/accountActions.js'
+import { actionTypes as accountActionTypes } from '../../src/actions/accountActions'
 import sampleUserPetions from '../../local/api/v1/user/petitions.json'
 import sampleTopPetitions from '../../local/api/v1/top-petitions.json'
 import samplePetition from '../../local/api/v1/petitions/outkast.json'
-import { actionTypes as petitionActionTypes } from '../../src/actions/petitionActions.js'
+import { actionTypes as petitionActionTypes } from '../../src/actions/petitionActions'
 
 const defaultState = reducer(undefined, {})
 

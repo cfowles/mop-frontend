@@ -15,6 +15,7 @@ class SignatureListItem extends React.Component {
   }
 
   flagComment(commentId) {
+    // eslint-disable-next-line no-restricted-globals
     if (confirm('Flag this comment as inappropriate?')) {
       this.props.dispatch(flagComment(commentId))
       this.setState({ flagged: true })
@@ -25,7 +26,7 @@ class SignatureListItem extends React.Component {
     const { user, createdDate, commentId, comments, number } = this.props
     const { city, state } = this.props.user
     const location = ((!city) ? state : `${city}, ${state}`)
-    const fromLocation = ((location === '') ? '' : `from ${location}`)
+    const fromLocation = location && `from ${location}`
 
     return (
       <SignatureListItemComponent

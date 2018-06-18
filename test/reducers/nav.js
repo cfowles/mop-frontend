@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import reducer from '../../src/reducers/nav'
 
-import { actionTypes as navActionTypes } from '../../src/actions/navActions.js'
+import { actionTypes as navActionTypes } from '../../src/actions/navActions'
 
 const { FETCH_ORG_SUCCESS } = navActionTypes
 

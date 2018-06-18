@@ -8,6 +8,7 @@ import { withFacebook } from '../../containers/hoc-facebook'
 import { withCopyLink } from '../../containers/hoc-copy-link'
 
 const Mail = withShareMessage(({ mailtoMessage, ...rest }) => (
+  // eslint-disable-next-line no-return-assign
   <MoShare.Mail {...rest} onClick={() => (document.location = mailtoMessage)} />
 ))
 

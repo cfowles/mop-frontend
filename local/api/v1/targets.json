@@ -1,0 +1,72 @@
+[
+  {
+    "label": "Donald Trump",
+    "name": "Donald Trump",
+    "value": "president::Donald Trump",
+    "target_type": "president",
+    "target_id": ""
+    },
+    {
+      "label": "The United States House of Representatives",
+      "name": "The United States House of Representatives",
+      "value": "house::The United States House of Representatives",
+      "target_type": "house",
+      "target_id": ""
+    },
+    {
+      "label": "The United States Senate",
+      "name": "The United States Senate",
+      "value": "senate::The United States Senate",
+      "target_type": "senate",
+      "target_id": ""
+    },
+    {
+      "label": "Sen. Brian Schatz (HI-1)",
+      "name": "Sen. Brian Schatz (HI-1)",
+      "value": "senatemem:HI_1:Sen. Brian Schatz (HI-1)",
+      "target_type": "senatemem",
+      "target_id": "HI_1"
+    },
+    {
+      "label": "Sen. Mazie Hirono (HI-2)",
+      "name": "Sen. Mazie Hirono (HI-2)",
+      "value": "senatemem:HI_2:Sen. Mazie Hirono (HI-2)",
+      "target_type": "senatemem",
+      "target_id": "HI_2"
+    },
+    {
+      "label": "Sen. Charles Grassley (IA-1)",
+      "name": "Sen. Charles Grassley (IA-1)",
+      "value": "senatemem:IA_1:Sen. Charles Grassley (IA-1)",
+      "target_type": "senatemem",
+      "target_id": "IA_1"
+    },
+    {
+      "label": "Sen. Joni Ernst (IA-2)",
+      "name": "Sen. Joni Ernst (IA-2)",
+      "value": "senatemem:IA_2:Sen. Joni Ernst (IA-2)",
+      "target_type": "senatemem",
+      "target_id": "IA_2"
+    },
+    {
+      "label": "Sen. Michael Crapo (ID-1)",
+      "name": "Sen. Michael Crapo (ID-1)",
+      "value": "senatemem:ID_1:Sen. Michael Crapo (ID-1)",
+      "target_type": "senatemem",
+      "target_id": "ID_1"
+    },
+    {
+      "label": "Sen. James Risch (ID-2)",
+      "name": "Sen. James Risch (ID-2)",
+      "value": "senatemem:ID_2:Sen. James Risch (ID-2)",
+      "target_type": "senatemem",
+      "target_id": "ID_2"
+    },
+    {
+      "label": "Sen. Richard Durbin (IL-1)",
+      "name": "Sen. Richard Durbin (IL-1)",
+      "value": "senatemem:IL_1:Sen. Richard Durbin (IL-1)",
+      "target_type": "senatemem",
+      "target_id": "IL_1"
+    }
+]

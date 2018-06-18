@@ -3,17 +3,23 @@ import PropTypes from 'prop-types'
 
 import { connect } from 'react-redux'
 
-import { appLocation } from '../routes.js'
+import { appLocation } from '../routes'
 import PetitionOverview from 'LegacyTheme/petition-overview'
-import { actions as accountActions } from '../actions/accountActions.js'
+import { actions as accountActions } from '../actions/accountActions'
 
 class PetitionCreatorDashboard extends Component {
-  componentWillMount() {
+  componentDidMount() {
     const { dispatch } = this.props
     dispatch(accountActions.loadUserPetitions())
   }
 
-  onSelectPetition(e) {
+  componentDidUpdate() {
+    if (this.props.hasFetched && !this.props.petition) {
+      appLocation.push('/no_petition.html')
+    }
+  }
+
+  static onSelectPetition(e) {
     const value = e.target.value
     if (value === 'more' || !value) {
       return appLocation.push('/your_petitions.html')
@@ -33,7 +39,7 @@ class PetitionCreatorDashboard extends Component {
               otherPetitions={userPetitions.filter(
                 p => petition.petition_id !== p.petition_id
               )}
-              onSelectPetition={this.onSelectPetition}
+              onSelectPetition={PetitionCreatorDashboard.onSelectPetition}
             />
           )}
         </div>
@@ -43,7 +49,7 @@ class PetitionCreatorDashboard extends Component {
 }
 PetitionCreatorDashboard.propTypes = {
   userPetitions: PropTypes.array,
-  location: PropTypes.object,
+  hasFetched: PropTypes.bool,
   petition: PropTypes.object,
   dispatch: PropTypes.func
 }
@@ -64,6 +70,7 @@ function mapStateToProps(store, ownProps) {
   )
   return {
     userPetitions,
+    hasFetched: store.userStore.hasFetchedPetitions,
     petition: getCurrentPetition(
       userPetitions,
       store.petitionStore.petitions,

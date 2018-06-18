@@ -1,6 +1,9 @@
 language: node_js
 node_js:
 - '6.1'
+cache:
+  directories:
+    - node_modules
 script:
   - npm run lint
   - THEME=legacy npm run test
@@ -23,7 +26,7 @@ before_deploy:
   - export STATIC_ROOT="https://static.moveon.org/giraffe/"
   - export TRACK_SHARE_URL="/record_share_click.html"
   - export PROD=1
-  - export ONLY_PROD_ROUTES=1
+  - export AB_TEST_ENABLED=10
   - npm run dev-build
 deploy:
   on:

@@ -11,7 +11,7 @@ describe('<SignatureListItem />', () => {
     state: 'England',
     name: 'Ada Lovelace'
   }
-  const createdDate = String(new Date(1836, 11, 10))
+  const createdDate = '1836-12-10T05:53:16.410531Z'
 
   it('is a div.signer', () => {
     const context = mount(<SignatureListItem user={user} createdDate={createdDate} number={1000} />)
@@ -22,8 +22,7 @@ describe('<SignatureListItem />', () => {
     if (process.env.THEME === 'giraffe') return
 
     const context = mount(<SignatureListItem user={user} createdDate={createdDate} number={1000} />)
-    expect(context.find('.signer-number').text())
-			.to.equal('1000')
+    expect(context.find('.signer-number').text()).to.equal('1000')
   })
 
   it('renders name', () => {
@@ -48,5 +47,16 @@ describe('<SignatureListItem />', () => {
     }
     const context = mount(<SignatureListItem user={noCity} createdDate={createdDate} number={1000} />)
     expect(context.text()).to.contain('Ada Lovelace from England')
+  })
+
+  it('renders readable text with no location', () => {
+    const noLocation = {
+      state: null,
+      city: null,
+      name: 'Ada Lovelace'
+    }
+    const context = mount(<SignatureListItem user={noLocation} createdDate={createdDate} number={1000} />)
+    expect(context.text()).to.match(/Ada Lovelace ( ?signed this petition on )?Dec 10, 1836/)
+    // matches giraffe and legacy theme (with extra space on legacy)
   })
 })

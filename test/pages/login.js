@@ -6,7 +6,7 @@ import { mount } from 'enzyme'
 import { createMockStore } from 'redux-test-utils'
 
 import Login from '../../src/containers/login'
-import LoginForm from 'LegacyTheme/login-form'
+import LoginForm from 'Theme/login-form'
 
 const empty = createMockStore({ userStore: {} })
 
@@ -26,8 +26,8 @@ describe('<Login />', () => {
 
   it('validates email', () => {
     const login = mount(<Provider store={empty} children={<Login />} />)
-    login.find('input[name="email"]').node.value = 'foo'
-    login.find('input[name="password"]').node.value = 'bar'
+    login.find('input[name="email"]').instance().value = 'foo'
+    login.find('input[name="password"]').instance().value = 'bar'
     login.find('form').simulate('submit')
     expect(login.find('.errors').text()).to.equal(
       'Invalid entry for the Email field.'

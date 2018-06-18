@@ -1,102 +1,113 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const RegisterForm = ({ errorList, handleSubmit, setRef }) => (
-  <div className='container'>
-    <div className='row'>
-      <div className='span6 offset3'>
-        <div className='well login clearfix'>
-          <h1 className='lanky-header size-xl'>Quick sign up</h1>
+const inputStyle = {
+  height: '17px',
+  marginBottom: '5px',
+  width: '95%'
+}
 
-          <ul className='errors'>{errorList && errorList()}</ul>
-
-          <form
-            method='POST'
-            onSubmit={handleSubmit}
-            className='form-horizontal'
-          >
+const RegisterForm = ({
+  errorList,
+  handleSubmit,
+  setRef,
+  isSubmitting,
+  includeZipAndPhone,
+  useLaunchButton,
+  useAlternateFields
+}) => (
+  <React.Fragment>
+    <ul className='errors'>{errorList && errorList()}</ul>
+    <form method='POST' onSubmit={handleSubmit} className='form-horizontal'>
+      <input
+        ref={setRef}
+        name='name'
+        className='percent-80 validation_error'
+        type='text'
+        id='inputName'
+        placeholder='Name'
+        style={useAlternateFields ? inputStyle : {}}
+      />
+      <input
+        ref={setRef}
+        name='email'
+        className='percent-80 validation_error'
+        type='text'
+        id='inputEmail'
+        placeholder='Email'
+        style={useAlternateFields ? inputStyle : {}}
+      />
+      {includeZipAndPhone && (
+        <input
+          ref={setRef}
+          autoComplete='off'
+          name='phone'
+          type='text'
+          placeholder='Phone (optional)'
+          style={useAlternateFields ? inputStyle : {}}
+        />
+      )}
+      {includeZipAndPhone && (
+        <input
+          ref={setRef}
+          required='required'
+          name='zip'
+          type='text'
+          placeholder='ZIP Code'
+          style={useAlternateFields ? inputStyle : {}}
+        />
+      )}
+      <input
+        name='password'
+        ref={setRef}
+        className='percent-80 validation_error'
+        type='password'
+        id='inputPassword'
+        placeholder='Password'
+        style={useAlternateFields ? inputStyle : {}}
+      />
+      <input
+        name='passwordConfirm'
+        ref={setRef}
+        className='percent-80 validation_error'
+        type='password'
+        id='inputConfirm'
+        placeholder='Confirm Password'
+        style={useAlternateFields ? inputStyle : {}}
+      />
+      <div>
+        <div className='bump-bottom-2'>
+          {useLaunchButton ? (
+            <button
+              type='submit'
+              className='xl percent-100 bump-top-3 background-moveon-bright-red'
+              id='sign-here-button'
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Please wait...' : 'Launch petition'}
+            </button>
+          ) : (
             <input
-              ref={setRef}
-              name='name'
-              className='percent-80 validation_error'
-              type='text'
-              id='inputName'
-              placeholder='Name'
+              value={isSubmitting ? 'Please wait...' : 'Register'}
+              disabled={isSubmitting}
+              className='button bump-top-2'
+              type='submit'
             />
-            <input
-              ref={setRef}
-              name='email'
-              className='percent-80 validation_error'
-              type='text'
-              id='inputEmail'
-              placeholder='Email'
-            />
-            <input
-              name='password'
-              ref={setRef}
-              className='percent-80 validation_error'
-              type='password'
-              id='inputPassword'
-              placeholder='Password'
-            />
-            <input
-              name='passwordConfirm'
-              ref={setRef}
-              className='percent-80 validation_error'
-              type='password'
-              id='inputConfirm'
-              placeholder='Confirm Password'
-            />
-            <div>
-              <div className='bump-bottom-2'>
-                <input
-                  value='Register'
-                  className='button bump-top-2'
-                  type='submit'
-                />
-              </div>
-              <ul className='unstyled inline'>
-                <li className='disclaimer'>
-                  By creating an account you agree to receive email messages
-                  from MoveOn.org Civic Action and MoveOn.org Political Action.
-                  You may unsubscribe at any time.
-                </li>
-              </ul>
-            </div>
-          </form>
-        </div>
-
-        <div className='disclaimer' id='privacy'>
-          <p>
-            <strong>Privacy Policy (the basics)</strong>:<br />
-            <br />{' '}
-            <strong>
-              MoveOn will never sell your personal information to anyone ever.
-            </strong>{' '}
-            For petitions, letters to the editor, and surveys you’ve signed or
-            completed, we treat your name, city, state, and comments as public
-            information, which means anyone can access and view it. We will not
-            make your street address publicly available, but we may transmit it
-            to your state legislators, governor, members of Congress, or the
-            President as part of a petition. MoveOn will send you updates on
-            this and other important campaigns by email. If at any time you
-            would like to unsubscribe from our email list, you may do so. For
-            our complete privacy policy,{' '}
-            <a href='http://petitions.moveon.org/privacy.html' target='_blank'>
-              click here
-            </a>.
-          </p>
+          )}
         </div>
       </div>
-    </div>
-  </div>
+    </form>
+  </React.Fragment>
 )
 
 RegisterForm.propTypes = {
   errorList: PropTypes.func,
   handleSubmit: PropTypes.func,
   setRef: PropTypes.func,
-  isSubmitting: PropTypes.bool // Not used yet
+  isSubmitting: PropTypes.bool,
+  includeZipAndPhone: PropTypes.bool,
+  useLaunchButton: PropTypes.bool,
+  useAlternateFields: PropTypes.bool
 }
 
 export default RegisterForm

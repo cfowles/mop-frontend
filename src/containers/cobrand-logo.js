@@ -46,8 +46,8 @@ const mapStateToProps = ({ navStore, petitionStore }, { params }) => {
   const orgName = params && params.organization
 
   // Will be present if we are viewing a petition
-  const petitionSlug = params && params.petition_slug
-  const petition = petitionSlug && petitionStore.petitions[petitionSlug.split('.')[0]]
+  const name = params && params.petitionName
+  const petition = name && petitionStore.petitions[name.split('.')[0]]
 
   if (orgName) {
     // check the url for an organization
@@ -60,8 +60,7 @@ const mapStateToProps = ({ navStore, petitionStore }, { params }) => {
 }
 
 CobrandLogo.propTypes = {
-  cobrand: PropTypes.object,
-  link: PropTypes.bool
+  cobrand: PropTypes.object
 }
 
 export default withRouter(connect(mapStateToProps)(CobrandLogo))

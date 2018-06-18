@@ -1,4 +1,4 @@
-import Config from '../config.js'
+import Config from '../config'
 import { parseAPIResponse, rejectNetworkErrorsAs500 } from '../lib'
 
 export const actionTypes = {

@@ -32,8 +32,7 @@ Share.propTypes = {
 const childPropTypes = {
   onClick: PropTypes.func,
   hasLabels: PropTypes.bool,
-  elementCn: PropTypes.string,
-  className: PropTypes.string
+  elementCn: PropTypes.string
 }
 
 const Mail = ({ onClick, hasLabels, elementCn }) => (
@@ -69,5 +68,8 @@ const CopyLink = ({ onClick, hasLabels, elementCn, className, ...rest }) => (
     {hasLabels && 'Copy Link'}
   </Link>
 )
-CopyLink.propTypes = childPropTypes
+CopyLink.propTypes = {
+  ...childPropTypes,
+  className: PropTypes.string
+}
 Share.CopyLink = CopyLink

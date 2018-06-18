@@ -2,7 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 
-import { InputBlock, CountrySelect, StateSelect } from 'GiraffeUI/petition'
+import { CountrySelect, StateSelect } from 'GiraffeUI/petition'
+import { InputBlock } from 'GiraffeUI/input-block'
+import MobileSubscribe from './signature-mobile-subscribe'
+
 import { Submit as Button } from 'GiraffeUI/button'
 
 const SignatureAddForm = ({
@@ -17,7 +20,9 @@ const SignatureAddForm = ({
   showOptinWarning,
   showOptinCheckbox,
   thirdPartyOptin,
+  displayMobileOptIn,
   showAddressFields,
+  showMobileSignup,
   requireAddressFields,
   onUnrecognize,
   updateStateFromValue,
@@ -59,6 +64,15 @@ const SignatureAddForm = ({
 
     {(!hideUntilInteract && showAddressFields) ? (
       <div>
+        {(showMobileSignup) ?
+          <MobileSubscribe
+            className='mobile_subscribe'
+            showBox={displayMobileOptIn}
+            updatePhoneNo={updateStateFromValue('phone')}
+            updateOptIn={updateStateFromValue('mobile_optin',
+                /* isCheckbox: */ true)}
+          /> : ''
+        }
         <CountrySelect
           className='override-collapse'
           onChange={onChangeCountry}
@@ -88,8 +102,8 @@ const SignatureAddForm = ({
           />
         ) : (
           <InputBlock
-            name={'region'}
-            label={'Region'}
+            name='region'
+            label='Region'
             onChange={updateStateFromValue('region')}
           />
         )}
@@ -171,7 +185,7 @@ const SignatureAddForm = ({
       </div>
     )}
     <Link to='/privacy.html' className='sign-form__link'>
-      See Privacy Policy >
+      See Privacy Policy &gt;
     </Link>
   </form>
 )
@@ -180,16 +194,15 @@ SignatureAddForm.propTypes = {
   submit: PropTypes.func,
   petition: PropTypes.object.isRequired,
   user: PropTypes.object,
-  query: PropTypes.object,
   showAddressFields: PropTypes.bool,
+  showMobileSignup: PropTypes.bool,
   requireAddressFields: PropTypes.bool,
-  petitionBy: PropTypes.string,
   creator: PropTypes.object,
   onUnrecognize: PropTypes.func,
   showOptinWarning: PropTypes.bool,
   showOptinCheckbox: PropTypes.bool,
   thirdPartyOptin: PropTypes.bool,
-  hiddenOptin: PropTypes.bool,
+  displayMobileOptIn: PropTypes.bool,
   volunteer: PropTypes.bool,
   onClickVolunteer: PropTypes.func,
   country: PropTypes.string,
