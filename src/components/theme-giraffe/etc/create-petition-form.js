@@ -7,9 +7,6 @@ import TargetCustom from './form/instructions/target-custom'
 import TargetNational from './form/instructions/target-national'
 import TargetState from './form/instructions/target-state'
 // import Title from './form/instructions/title'
-import CustomTargetSelect from './form/target-select/custom'
-import NationalTargetSelect from './form/target-select/national'
-import StateTargetSelect from './form/target-select/state'
 
 // Steps
 import Title from './ppp-steps/title'
@@ -24,9 +21,6 @@ import Signup from './ppp-steps/signup'
 const instructionsByField = {
   title: <Title />,
   statement: <Statement />,
-  'target-national': <TargetNational />,
-  'target-state': <TargetState />,
-  'target-custom': <TargetCustom />,
   about: <About />
 }
 
@@ -74,60 +68,60 @@ const CreatePetitionForm = ({
   const custom = !customOpen ? '' : <CustomTargetSelect />
 
   // Steps
-  const titleStep =       <Title 
-                            tipModalToggled={tipModalToggled} 
-                            toggleOpen={toggleOpen} 
-                            updateStateFromValue={updateStateFromValue}
-                            step={step} 
-                            title={title} 
-                            nextStep={nextStep} />
-  const statementStep =   <Statement 
-                            tipModalToggled={tipModalToggled} 
-                            toggleOpen={toggleOpen} 
-                            updateStateFromValue={updateStateFromValue}
-                            step={step} 
-                            statement={statement} 
-                            nextStep={nextStep} />
-  const backgroundStep =  <Background 
-                            tipModalToggled={tipModalToggled} 
-                            toggleOpen={toggleOpen} 
+  const titleStep =       <Title
+                            tipModalToggled={tipModalToggled}
+                            toggleOpen={toggleOpen}
                             updateStateFromValue={updateStateFromValue}
                             step={step}
-                            background={background} 
+                            title={title}
                             nextStep={nextStep} />
-  const targetsStep =     <Targets 
-                            tipModalToggled={tipModalToggled} 
-                            toggleOpen={toggleOpen} 
+  const statementStep =   <Statement
+                            tipModalToggled={tipModalToggled}
+                            toggleOpen={toggleOpen}
                             updateStateFromValue={updateStateFromValue}
-                            step={step} 
-                            nextStep={nextStep} 
-                            selectTarget={selectTarget} 
+                            step={step}
+                            statement={statement}
+                            nextStep={nextStep} />
+  const backgroundStep =  <Background
+                            tipModalToggled={tipModalToggled}
+                            toggleOpen={toggleOpen}
+                            updateStateFromValue={updateStateFromValue}
+                            step={step}
+                            background={background}
+                            nextStep={nextStep} />
+  const targetsStep =     <Targets
+                            tipModalToggled={tipModalToggled}
+                            toggleOpen={toggleOpen}
+                            updateStateFromValue={updateStateFromValue}
+                            step={step}
+                            nextStep={nextStep}
+                            selectTarget={selectTarget}
                             targets={targets}
                             selectedTargets={selectedTargets}/>
-  const reviewStep =      <Review 
-                            tipModalToggled={tipModalToggled} 
-                            toggleOpen={toggleOpen}  
-                            editPetition={editPetition} 
-                            title={title} statement={statement} 
-                            background={background} 
+  const reviewStep =      <Review
+                            tipModalToggled={tipModalToggled}
+                            toggleOpen={toggleOpen}
+                            editPetition={editPetition}
+                            title={title} statement={statement}
+                            background={background}
                             updateStateFromValue={updateStateFromValue}
-                            step={step} 
+                            step={step}
                             nextStep={nextStep} />
-  const shareStep =       <Share 
-                            shareButtonsToggled={shareButtonsToggled} 
-                            toggleOpen={toggleOpen} 
+  const shareStep =       <Share
+                            shareButtonsToggled={shareButtonsToggled}
+                            toggleOpen={toggleOpen}
                             step={step} />
 
   // Modals
-  const tip =             <Tip 
-                            tipModalToggled={tipModalToggled} 
-                            toggleOpen={toggleOpen} 
+  const tip =             <Tip
+                            tipModalToggled={tipModalToggled}
+                            toggleOpen={toggleOpen}
                             step={step} />
-  const signup =          <Signup 
-                            nextStep={nextStep} 
-                            step={step} 
-                            signupModalToggled={signupModalToggled} 
-                            toggleOpen={toggleOpen} 
+  const signup =          <Signup
+                            nextStep={nextStep}
+                            step={step}
+                            signupModalToggled={signupModalToggled}
+                            toggleOpen={toggleOpen}
                             updateStateFromValue={updateStateFromValue}
                             name={name}
                             email={email}

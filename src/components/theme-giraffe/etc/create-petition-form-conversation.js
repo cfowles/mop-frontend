@@ -7,9 +7,6 @@ import TargetCustom from './form/instructions/target-custom'
 import TargetNational from './form/instructions/target-national'
 import TargetState from './form/instructions/target-state'
 import TitleTip from './form/instructions/title'
-import CustomTargetSelect from './form/target-select/custom'
-import NationalTargetSelect from './form/target-select/national'
-import StateTargetSelect from './form/target-select/state'
 
 // import Welcome from './conversation/welcome'
 // import Email from './conversation/email'
@@ -25,9 +22,6 @@ import ConversationalInput from './conversation/input'
 const instructionsByField = {
   title: <TitleTip />,
   statement: <StatementTip />,
-  'target-national': <TargetNational />,
-  'target-state': <TargetState />,
-  'target-custom': <TargetCustom />,
   about: <About />
 }
 
@@ -56,9 +50,6 @@ const CreatePetitionFormConversation = ({
 }) => {
   const instructions = instructionsByField[selected]
 
-  const national = !nationalOpen ? '' : <NationalTargetSelect />
-  const state = !stateOpen ? '' : <StateTargetSelect />
-  const custom = !customOpen ? '' : <CustomTargetSelect />
 
   // const welcome = <Welcome section={0} nextSection={nextSection} bubbleShow={bubbleShow} currentBubble={currentBubble} currentIndex={currentIndex} />
   // // const email = section < 1 ? '' : <Email emailOnChange={updateStateFromValue('email')} section={section} nextSection={nextSection} />

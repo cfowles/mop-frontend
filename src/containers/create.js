@@ -71,7 +71,7 @@ class CreatePetition extends React.Component {
   }
 
   componentDidMount() {
-    document.querySelector('.user-input').focus();
+    //document.querySelector('.user-input').focus();
 
     this.getSectionLengths();
     this.initSection = setTimeout(function() {
