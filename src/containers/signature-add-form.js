@@ -271,7 +271,7 @@ class SignatureAddForm extends React.Component {
         showOptinWarning={showOptinWarning}
         showOptinCheckbox={showOptinCheckbox}
         setRef={setRef}
-        innerRef={ref => { this.form = ref; innerRef(ref) }}
+        innerRef={ref => { this.form = ref; if (innerRef) { innerRef(ref) } }}
         id={id}
         // Don't hide at first if the user doesn't have an address and the petition needs one
         hideUntilInteract={
