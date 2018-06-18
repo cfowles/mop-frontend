@@ -15,14 +15,15 @@ $red: #ea1c24;
 $muted-red: #c3645c;
 
 body {
+    background-color: #f6f6f6;
     overflow-x: hidden;
 }
 hr {
     border-top: 5px solid gray;
     margin: 20px 0;
 }
-/**************** 
- * PPP 
+/****************
+ * PPP
  ****************/
 
  /* General */
@@ -31,6 +32,9 @@ hr {
     display: flex;
     flex-direction: column;
     min-height: calc(100vh - 57px);
+    max-width: 560px;
+    margin: 0 auto;
+    background-color: #fff;
 
     #petition_form {
         position: relative;
@@ -58,9 +62,9 @@ hr {
 
     }
 
-    .group { 
-        position:relative; 
-        margin-bottom:45px; 
+    .group {
+        position:relative;
+        margin-bottom:45px;
 
         input, textarea {
             width: 100%;
@@ -72,58 +76,58 @@ hr {
             height: auto;
             margin: 0;
 
-            &[type="text"]:hover, 
-            &[type="text"]:active, 
-            &[type="password"]:hover, 
+            &[type="text"]:hover,
+            &[type="text"]:active,
+            &[type="password"]:hover,
             &[type="password"]:active {
                 background-color: $ice-blue;
             }
         }
         label {
-            color:#999; 
+            color:#999;
             font-size:18px;
             font-weight:normal;
             position:absolute;
             pointer-events:none;
             left: 23px;
             top: 22px;
-            transition:0.2s ease all; 
-            -moz-transition:0.2s ease all; 
+            transition:0.2s ease all;
+            -moz-transition:0.2s ease all;
             -webkit-transition:0.2s ease all;
         }
-    
-        input:focus ~ label, 
-        input.has-input ~ label, 
+
+        input:focus ~ label,
+        input.has-input ~ label,
         textarea:focus ~ label,
         textarea.has-input ~ label {
             top: 2px;
             font-size:14px;
             color:$azure;
         }
-        
-        .bar { 
-            position:relative; 
-            display:block; 
-            width:100%; 
+
+        .bar {
+            position:relative;
+            display:block;
+            width:100%;
         }
         .bar:before, .bar:after {
             content:'';
-            height:2px; 
+            height:2px;
             width:0;
-            bottom:1px; 
+            bottom:1px;
             position:absolute;
-            background:$azure; 
-            transition:0.2s ease all; 
-            -moz-transition:0.2s ease all; 
+            background:$azure;
+            transition:0.2s ease all;
+            -moz-transition:0.2s ease all;
             -webkit-transition:0.2s ease all;
         }
         .bar:before {
             left:50%;
         }
         .bar:after {
-            right:50%; 
+            right:50%;
         }
-        
+
         input:focus ~ .bar:before, input:focus ~ .bar:after {
             width:50%;
         }
@@ -179,6 +183,7 @@ hr {
         }
 
         .container {
+            max-width: 560px;
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
             padding-top: 67px;
@@ -224,6 +229,7 @@ hr {
         padding-bottom: 50px;
         position: fixed;
         top: 100%;
+        max-width: 560px;
         min-height: 100vh;
         z-index: 200;
         overflow-y: scroll;
@@ -278,7 +284,7 @@ hr {
         padding-top: 30px;
         padding-bottom: 30px;
         background-color: black;
-        
+
         & > .container {
             padding-top: 15px;
             padding-bottom: 30px;
@@ -292,7 +298,7 @@ hr {
                 width: 100%;
             }
         }
-        
+
         button.ppp-btn {
             position: relative;
             margin-top: 20px;
@@ -542,7 +548,7 @@ hr {
             font-size: 16px;
             line-height: 1.5;
             color: #b2b2b2;
-            flex-direction: column; 
+            flex-direction: column;
 
             .icon {
                 width: 62px;
@@ -600,7 +606,7 @@ hr {
 
                 &.toggled {
                     max-height: 700px;
-                    transition: max-height .3s ease-in-out;                    
+                    transition: max-height .3s ease-in-out;
                 }
                 button {
                     background-color: $ice-blue;

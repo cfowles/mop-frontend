@@ -1,12 +1,21 @@
 import React from 'react'
 //import PropTypes from 'prop-types'
+//import { withRouter } from 'react-router'
+//import { appLocation } from '../routes'
+
 import { loadTargets } from '../actions/createPetitionActions.js'
 import ReactTimeout from 'react-timeout'
-import { conversation } from '../components/theme-create/conversation/conversation'
+import { conversation } from 'Theme/etc/conversation/conversation'
 
-//import CreatePetitionForm from 'LegacyTheme/create-petition-form'
 import CreatePetitionForm from 'Theme/etc/create-petition-form'
 import CreatePetitionFormConversation from 'Theme/etc/create-petition-form-conversation'
+
+const ERRORS = {
+  name: 'Please provide a title for your petition.',
+  text_statement: 'Please fill in the statement for your petition.',
+  target: 'You must select at least one target for your petition.',
+  text_about: 'Please provide background info for your petition.'
+}
 
 class CreatePetition extends React.Component {
   constructor(props) {

@@ -8,6 +8,8 @@ import TargetNational from './form/instructions/target-national'
 import TargetState from './form/instructions/target-state'
 // import Title from './form/instructions/title'
 
+import CreatePetitionTarget from './create-petition-target'
+
 // Steps
 import Title from './ppp-steps/title'
 import Statement from './ppp-steps/statement'

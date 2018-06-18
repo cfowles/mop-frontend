@@ -1,4 +1,5 @@
 body {
+  background-color: #f6f6f6;
   overflow-x: hidden;
 }
 
@@ -7,8 +8,8 @@ hr {
   margin: 20px 0;
 }
 
-/**************** 
- * PPP 
+/****************
+ * PPP
  ****************/
 /* General */
 #ppp {
@@ -16,6 +17,9 @@ hr {
   display: flex;
   flex-direction: column;
   min-height: calc(100vh - 57px);
+  max-width: 560px;
+  margin: 0 auto;
+  background-color: #fff;
   /* Checkboxes */
   /* Heading */
   /* Steps */
@@ -148,6 +152,7 @@ hr {
   transition: all 0.3s ease-in-out;
 }
 #ppp .signup-modal .container {
+  max-width: 560px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   padding-top: 67px;
@@ -188,6 +193,7 @@ hr {
   padding-bottom: 50px;
   position: fixed;
   top: 100%;
+  max-width: 560px;
   min-height: 100vh;
   z-index: 200;
   overflow-y: scroll;
@@ -541,4 +547,4 @@ hr {
   }
 }
 
-/*# sourceMappingURL=css/create.css.map */
+/*# sourceMappingURL=create.css.map */
