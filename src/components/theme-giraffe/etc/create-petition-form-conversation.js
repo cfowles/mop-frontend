@@ -110,7 +110,12 @@ const CreatePetitionFormConversation = ({
             </div>
           </div>
         </div>
-        <ConversationalInput section={section} saveInput={saveInput} updateStateFromValue={updateStateFromValue} currentIndex={currentIndex} />
+        <ConversationalInput
+          section={section}
+          saveInput={saveInput}
+          updateStateFromValue={updateStateFromValue}
+          currentIndex={currentIndex} 
+          />
         <div style={{ float: "left", clear: "both" }}
           className="chat-end" >
         </div>

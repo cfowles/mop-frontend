@@ -40,6 +40,7 @@ const CreatePetitionForm = ({
   getTargets,
 
   // User
+  user,
   name,
   email,
   zip,
@@ -106,7 +107,7 @@ const CreatePetitionForm = ({
                             tipModalToggled={tipModalToggled}
                             toggleOpen={toggleOpen}
                             editPetition={editPetition}
-                            title={title} 
+                            title={title}
                             summary={summary}
                             description={description}
                             updateStateFromValue={updateStateFromValue}
@@ -123,6 +124,7 @@ const CreatePetitionForm = ({
                             toggleOpen={toggleOpen}
                             step={step} />
   const signup =          <Signup
+                            user={user}
                             nextStep={nextStep}
                             step={step}
                             signupModalToggled={signupModalToggled}

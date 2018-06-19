@@ -2,14 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import RegisterForm from 'Theme/register-form'
+import RegisterForm from 'Theme/etc/register-form'
 
 import Config from '../config'
 import { register, devLocalRegister } from '../actions/accountActions'
 import { appLocation } from '../routes'
 import { isValidEmail } from '../lib'
 
-class Register extends React.Component {
+class CreateRegister extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -110,11 +110,11 @@ class Register extends React.Component {
   }
 }
 
-Register.defaultProps = {
+CreateRegister.defaultProps = {
   successCallback: () => appLocation.push('/no_petition.html')
 }
 
-Register.propTypes = {
+CreateRegister.propTypes = {
   formErrors: PropTypes.array,
   dispatch: PropTypes.func,
   isSubmitting: PropTypes.bool,
@@ -133,4 +133,4 @@ function mapStateToProps({ userStore = {}, petitionCreateStore = {} }) {
   }
 }
 
-export default connect(mapStateToProps)(Register)
+export default connect(mapStateToProps)(CreateRegister)

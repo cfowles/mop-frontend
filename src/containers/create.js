@@ -33,6 +33,7 @@ class CreatePetition extends React.Component {
       step: 1,
 
       // User Data
+      user: {},
       name: false,
       email: false,
       country: 'United States',
@@ -78,7 +79,10 @@ class CreatePetition extends React.Component {
   }
 
   componentDidMount() {
-    //document.querySelector('.user-input').focus();
+    var uinput = document.getElementById('user-input');
+    if(uinput){
+      uinput.focus();
+    }
 
     this.getSectionLengths();
     this.initSection = setTimeout(function() {
@@ -148,8 +152,8 @@ class CreatePetition extends React.Component {
   saveInput() {
     this.nextBubble();
     this.setState({ currentBubble: 0 });
-    document.getElementById(".user-input").value = "";
-    document.getElementById(".user-input").focus();
+    document.getElementById("user-input").value = "";
+    document.getElementById("user-input").focus();
 
     this.inputTimeout = setTimeout(function(){
       this.nextSection();
@@ -171,15 +175,17 @@ class CreatePetition extends React.Component {
       return { currentBubble: newBubble, currentIndex: newIndex }
     })
   }
-  
-  // conversational scrolling
-  // scrollToBottom() {
-  //   document.querySelector('.chat-end').scrollIntoView({ behavior: "smooth" });
-  // }
 
-  // componentDidUpdate() {
-  //   this.scrollToBottom();
-  // }
+  // conversational scrolling
+   scrollToBottom() {
+     document.querySelector('.chat-end').scrollIntoView({ behavior: "smooth" });
+  }
+
+  componentDidUpdate() {
+    if(document.querySelector('.chat-end')){
+      this.scrollToBottom();  
+    }
+  }
 
 
 
@@ -271,6 +277,7 @@ class CreatePetition extends React.Component {
             getTargets={this.getTargets}
 
             // User
+            user={this.state.user}
             name={this.state.name}
             email={this.state.email}
             zip={this.state.zip}

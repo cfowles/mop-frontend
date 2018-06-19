@@ -10,13 +10,15 @@ const ConversationalInput = ({
 }) => {
 
     const inputType = conversation[currentIndex].hasOwnProperty('input') ? conversation[currentIndex].input.type : '' ;
+    const inputPlaceholder = conversation[currentIndex].hasOwnProperty('input') ? conversation[currentIndex].content : '' ;
     return (
       <div className='bubble user show'>
         <input
+          id='user-input'
           className='user-input'
-          type='text'
+          type='type'
           name={inputType}
-          placeholder=''
+          placeholder={inputPlaceholder}
           onChange={updateStateFromValue(inputType)}
           onBlur={updateStateFromValue(inputType)} />
         <a className='bubble-submit' onClick={saveInput}>

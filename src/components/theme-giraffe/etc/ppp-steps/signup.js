@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { devLocalRegister } from '../../../../actions/accountActions';
-import Register from '../../../../containers/register-form';
+import CreateRegister from '../../../../containers/create-register-form';
 
 const Statement = ({
     nextStep,
@@ -9,6 +9,7 @@ const Statement = ({
     toggleOpen,
     updateStateFromValue,
     signupModalToggled,
+    user,
     email,
     zip,
     name,
@@ -34,6 +35,15 @@ const Statement = ({
                     <div className="col-12">
                         <h2 className="bg-black white">Your petition is important. Let’s make sure you don’t lose progress.</h2>
                         <p>Provide your email and Zip code to recover an incomplete petition draft and receive location specific suggestions to help you throughout your petition creation process.</p>
+                    </div>
+                    <div className="col-12">
+                      <CreateRegister
+                        successCallback={nextStep}
+                        user={user}
+                        includeZipAndPhone
+                        useLaunchButton
+                        useAlternateFields
+                        />
                     </div>
                     <div className="col-12 group">
                         <input
@@ -97,7 +107,7 @@ const Statement = ({
                         <a>Already have an account? Click to Log In</a>
                     </div>
                     <div className="col-12">
-                        <button 
+                        <button
                             type="submit"
                             className="center display-block ppp-btn btn"
                             value="Preview The Petition"
@@ -117,7 +127,9 @@ const Statement = ({
 Statement.propTypes = {
     nextStep: PropTypes.func,
     toggleOpen: PropTypes.func,
-    updateStateFromValue: PropTypes.func
+    updateStateFromValue: PropTypes.func,
+    user: PropTypes.object,
+    onSubmit: PropTypes.func
 }
 
 export default Statement
