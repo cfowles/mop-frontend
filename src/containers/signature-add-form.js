@@ -262,13 +262,13 @@ class SignatureAddForm extends React.Component {
         user={user}
         query={query}
         showAddressFields={showAddressFields}
-        showMobileSignup={showMobileSignup}
+        showMobileSignup={!!showMobileSignup}
         requireAddressFields={requireAddressFields}
         onUnrecognize={() => { dispatch(sessionActions.unRecognize()) }}
         volunteer={this.state.volunteer}
         onClickVolunteer={this.volunteer}
         thirdPartyOptin={this.state.thirdparty_optin}
-        displayMobileOptIn={this.state.phone}
+        displayMobileOptIn={!!this.state.phone}
         country={this.state.country}
         onChangeCountry={event => this.setState({ country: event.target.value })}
         updateStateFromValue={this.updateStateFromValue}

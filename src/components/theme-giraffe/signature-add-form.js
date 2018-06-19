@@ -67,7 +67,7 @@ const SignatureAddForm = ({
         {(showMobileSignup) ?
           <MobileSubscribe
             className='mobile_subscribe'
-            showBox={displayMobileOptIn}
+            showBox={!!displayMobileOptIn}
             updatePhoneNo={updateStateFromValue('phone')}
             updateOptIn={updateStateFromValue('mobile_optin',
                 /* isCheckbox: */ true)}
