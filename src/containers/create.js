@@ -3,7 +3,9 @@ import React from 'react'
 //import { withRouter } from 'react-router'
 //import { appLocation } from '../routes'
 
-import { loadTargets } from '../actions/createPetitionActions.js'
+import Config from '../config'
+
+import { submit, devLocalSubmit, loadTargets } from '../actions/createPetitionActions'
 import ReactTimeout from 'react-timeout'
 import { conversation } from 'Theme/etc/conversation/conversation'
 
@@ -35,6 +37,8 @@ class CreatePetition extends React.Component {
       email: false,
       country: 'United States',
       zip: false,
+      password: false,
+      confirmPassword: false,
 
       // Toggles
       signupModalToggled: false,
@@ -44,14 +48,8 @@ class CreatePetition extends React.Component {
 
       // Petition Data
       title: false,
-      statement: false,
-      background: false,
-      targets: [
-        {title: "The White House", subtitle: "The President", name: "president"},
-        {title: "The U.S.", subtitle: "Senate", name: "us-senate"},
-        {title: "The U.S.", subtitle: "House of Representatives", name: "us-representatives"},
-        {title: "Senate", subtitle: "of Utah", name: "ut-senate"},
-      ],
+      summary: false,
+      description: false,
       selectedTargets: [],
 
       /*** Convo ***/
@@ -88,6 +86,18 @@ class CreatePetition extends React.Component {
     }.bind(this), 500)
   }
 
+  // Old
+  setSelected(name) {
+    return () => this.setState({ selected: name })
+  }
+
+  setRef(name) {
+    return input => input && (this[name] = input)
+  }
+
+
+
+  // Conversation
   getSectionLengths() {
     let sections = [];
     let sectionLengths = [];
@@ -106,7 +116,6 @@ class CreatePetition extends React.Component {
       sectionLengths.push(count);
       count = 0;
     }
-
     this.setState(prevState => {
       const prev = prevState.sectionLengths;
       const newState = prev.concat(sectionLengths);
@@ -116,7 +125,6 @@ class CreatePetition extends React.Component {
 
   callSection() {
     let sectionLength = this.state.sectionLengths[this.state.section];
-
     this.setState({ bubbleLoading: true });
     this.callBubble(sectionLength);
   }
@@ -137,26 +145,6 @@ class CreatePetition extends React.Component {
     }, bubbleTime)
   }
 
-  setSelected(name) {
-    return () => this.setState({ selected: name })
-  }
-
-  setRef(name) {
-    return input => input && (this[name] = input)
-  }
-  toggleOpen(element) {
-    return () => this.setState(prevState => {
-      const prev = prevState[element]
-      return { [element]: !prev }
-    })
-  }
-  nextStep() {
-    return () => this.setState(prevState => {
-      let newStep = prevState.step + 1;
-      return { step: newStep, signupModalToggled: false }
-    })
-  }
-
   saveInput() {
     this.nextBubble();
     this.setState({ currentBubble: 0 });
@@ -175,6 +163,7 @@ class CreatePetition extends React.Component {
       return { section: newSection }
     })
   }
+
   nextBubble() {
     this.setState(prevState => {
       const newBubble = prevState.currentBubble + 1;
@@ -182,7 +171,36 @@ class CreatePetition extends React.Component {
       return { currentBubble: newBubble, currentIndex: newIndex }
     })
   }
+  
+  // conversational scrolling
+  // scrollToBottom() {
+  //   document.querySelector('.chat-end').scrollIntoView({ behavior: "smooth" });
+  // }
 
+  // componentDidUpdate() {
+  //   this.scrollToBottom();
+  // }
+
+
+
+  // PPP
+  toggleOpen(element) {
+    return () => this.setState(prevState => {
+      const prev = prevState[element]
+      return { [element]: !prev }
+    })
+  }
+
+  nextStep() {
+    return () => this.setState(prevState => {
+      let newStep = prevState.step + 1;
+      return { step: newStep, signupModalToggled: false }
+    })
+  }
+
+
+
+  // Shared
   updateStateFromValue(field, isCheckbox = false) {
     return (event) => {
       const value = isCheckbox ? event.target.checked : event.target.value
@@ -207,14 +225,12 @@ class CreatePetition extends React.Component {
     })
   }
 
-  // conversational scrolling
-  // scrollToBottom() {
-  //   document.querySelector('.chat-end').scrollIntoView({ behavior: "smooth" });
+  // submitPetition() {
+  //   return this.props.dispatch(Config.API_WRITABLE ? submit(this.state.zip) : devLocalSubmit())
   // }
 
-  // componentDidUpdate() {
-  //   this.scrollToBottom();
-  // }
+
+
 
 
   render() {
@@ -258,6 +274,8 @@ class CreatePetition extends React.Component {
             name={this.state.name}
             email={this.state.email}
             zip={this.state.zip}
+            password={this.state.password}
+            confirmPassword={this.state.confirmPassword}
 
             // Steps
             nextStep={this.nextStep}
@@ -275,8 +293,8 @@ class CreatePetition extends React.Component {
             // Petition
             editPetition={this.state.editPetition}
             title={this.state.title}
-            statement={this.state.statement}
-            background={this.state.background}
+            summary={this.state.summary}
+            description={this.state.description}
             selectTarget={this.selectTarget}
 
             // Bubbles
@@ -326,8 +344,8 @@ class CreatePetition extends React.Component {
             // Petition
             editPetition={this.state.editPetition}
             title={this.state.title}
-            statement={this.state.statement}
-            background={this.state.background}
+            summary={this.state.summary}
+            description={this.state.description}
 
             // Bubbles
             bubbleShow={this.state.bubbleShow}

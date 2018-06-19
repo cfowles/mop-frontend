@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+
+
 const Share = ({
     toggleOpen,
     shareButtonsToggled,
@@ -33,7 +35,7 @@ const Share = ({
                         Email a friend
                     </button>
                 </div>
-                <div className="container share-btns-extra-wrap">
+                <div className="container share-btns-extra-wrap mt-3">
                     <div className="col-12 bg-off-white py-2" onClick={toggleOpen('shareButtonsToggled')}>
                         <a href="#" className="mo-btn home-illustration__cta btn mt-0">
                             More Share Options
@@ -42,14 +44,14 @@ const Share = ({
                             </svg>
                         </a>
                         <div className={shareButtonsClasses}>
-                            <button href="https://twitter.com/intent/tweet/?via=MoveOnOrg" target="_blank" aria-label="Share on Twitter" className="share_item flex xl300 btn">
+                            <button href="https://twitter.com/intent/tweet/?via=MoveOnOrg" target="_blank" aria-label="Share on Twitter" className="share_item flex xl300 btn mb-2">
                                 <svg>
                                     <svg>
                                         <use xlinkHref="#twitter"></use>
                                     </svg>
                                 </svg>Tweet this
                             </button>
-                            <button href="" target="_blank" aria-label="Copy link" className="share_item flex xl300 btn">
+                            <button href="" target="_blank" aria-label="Copy link" className="share_item flex xl300 btn mb-2">
                                 <svg>
                                     <use xlinkHref="#link"></use>
                                 </svg>
@@ -65,6 +67,9 @@ const Share = ({
                             </button>
                         </div>
                     </div>
+                </div>
+                <div className="col-12 mt-4 skip-share">
+                    <a className="d-block light-gray">Skip sharing - take me to my dashboard</a>
                 </div>
             </div>
         </div>

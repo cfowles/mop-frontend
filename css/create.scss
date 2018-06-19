@@ -143,6 +143,7 @@ hr {
         width: 100%;
         margin: 0;
         z-index: 100;
+        height: 50px;
     }
     .close {
         position: absolute;
@@ -175,6 +176,7 @@ hr {
         padding-top: 75px;
         background: rgba(0,0,0,0);
         transition: top $modalTransition, background $modalTransition .3s;
+        overflow-y: scroll;
 
         &.toggled {
             top: 0;
@@ -595,7 +597,14 @@ hr {
     }
 
     .share {
+        .share-btns-main button {
+            height: 50px;
+            width: 100%;
+        }
         .share-btns-extra-wrap {
+            & > div {
+                height: 50px;
+            }
             & > div > a {
                 color: $black;
             }
@@ -612,8 +621,14 @@ hr {
                     background-color: $ice-blue;
                     color: black !important;
                     text-transform: none;
+                    height: 50px;
+                    width: 100%;
                 }
             }
+        }
+
+        .skip-share {
+            text-align: center;
         }
     }
 }

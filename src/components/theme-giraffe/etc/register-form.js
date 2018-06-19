@@ -12,8 +12,8 @@ import CreatePetitionTarget from './create-petition-target'
 
 // Steps
 import Title from './ppp-steps/title'
-import Summary from './ppp-steps/summary'
-import Description from './ppp-steps/description'
+import Statement from './ppp-steps/statement'
+import Background from './ppp-steps/background'
 import Targets from './ppp-steps/targets'
 import Review from './ppp-steps/review'
 import Share from './ppp-steps/share'
@@ -22,7 +22,7 @@ import Signup from './ppp-steps/signup'
 
 const instructionsByField = {
   title: <Title />,
-  // statement: <Statement />,
+  statement: <Statement />,
   about: <About />
 }
 
@@ -59,8 +59,8 @@ const CreatePetitionForm = ({
   // Petition
   editPetition,
   title,
-  summary,
-  description,
+  statement,
+  background,
   selectTarget,
   targets,
   selectedTargets,
@@ -79,19 +79,19 @@ const CreatePetitionForm = ({
                             step={step}
                             title={title}
                             nextStep={nextStep} />
-  const summaryStep =     <Summary
+  const statementStep =   <Statement
                             tipModalToggled={tipModalToggled}
                             toggleOpen={toggleOpen}
                             updateStateFromValue={updateStateFromValue}
                             step={step}
-                            summary={summary}
+                            statement={statement}
                             nextStep={nextStep} />
-  const descriptionStep = <Description
+  const backgroundStep =  <Background
                             tipModalToggled={tipModalToggled}
                             toggleOpen={toggleOpen}
                             updateStateFromValue={updateStateFromValue}
                             step={step}
-                            description={description}
+                            background={background}
                             nextStep={nextStep} />
   const targetsStep =     <Targets
                             tipModalToggled={tipModalToggled}
@@ -106,9 +106,8 @@ const CreatePetitionForm = ({
                             tipModalToggled={tipModalToggled}
                             toggleOpen={toggleOpen}
                             editPetition={editPetition}
-                            title={title} 
-                            summary={summary}
-                            description={description}
+                            title={title} statement={statement}
+                            background={background}
                             updateStateFromValue={updateStateFromValue}
                             step={step}
                             nextStep={nextStep} />
@@ -156,8 +155,8 @@ const CreatePetitionForm = ({
 
       <form id='petition_form'>
         {step > 2 ? '' : titleStep}
-        {step > 3 ? '' : summaryStep}
-        {step < 2 || step > 4 ? '' : descriptionStep}
+        {step > 3 ? '' : statementStep}
+        {step < 2 || step > 4 ? '' : backgroundStep}
         {step < 3 || step > 5 ? '' : targetsStep}
         {step < 4 || step > 6 ? '' : reviewStep}
         {step < 5 ? '' : shareStep}
