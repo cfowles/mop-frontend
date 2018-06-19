@@ -50,19 +50,12 @@ class SignatureAddForm extends React.Component {
     if (this.form) {
       this.formTracker.setForm(this.form)
     }
-    window.onbeforeunload = function leavingForm(e) {
-      this.formTracker.leftForm(e)
-    }
   }
 
   componentDidUpdate() {
-    const mobileOptIn = this.state.mobile_optin
-    const { phone } = this.state
-    if (mobileOptIn) this.formTracker.mobileFieldTracker(1, 0)
-
-    if (phone) this.formTracker.mobileFieldTracker(0, 1)
-
-    if (phone && mobileOptIn) this.formTracker.mobileFieldTracker(1, 1)
+    if (!this.state.hideUntilInteract) {
+      this.formTracker.setForm(this.form)
+    }
   }
 
   getOsdiSignature() {
@@ -159,6 +152,7 @@ class SignatureAddForm extends React.Component {
       if (this.state[field] !== value) {
         this.formTracker.updateFormProgress({
           fieldchanged: field,
+          fieldfocused: field,
           userInfo: this.props.user
         })
       }
@@ -177,6 +171,7 @@ class SignatureAddForm extends React.Component {
     } else {
       delete req.phone
     }
+    if (!this.state.volunteer) this.formTracker.formExpandTracker()
     this.setState({ volunteer: vol,
       required: req })
   }
@@ -237,6 +232,7 @@ class SignatureAddForm extends React.Component {
       return dispatch(signAction(osdiSignature, petition, { redirectOnSuccess: true }))
     }
     this.setState({ hideUntilInteract: false }) // show fields so we can show validation error
+    this.formTracker.validationErrorTracker(this.state)
     return false
   }
 

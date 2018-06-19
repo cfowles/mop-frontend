@@ -4,9 +4,7 @@ export function FormTracker({ experiment = '', formvariant = '', variationname =
   this.options = {
     formStarted: 0,
     formSubmitted: 0,
-    formValid: 0,
-    providedPhone: 0,
-    mobileOptIn: 0
+    eventInfo: {}
   }
 
   this.state = {
@@ -24,29 +22,12 @@ export function FormTracker({ experiment = '', formvariant = '', variationname =
     lastfieldfocused: ''
   }
 
-  this.leftForm = function leftForm() {
-    this.track('form_abandoned', 'dropoff')
-  }
-
-  this.mobileFieldTracker = function mobileFieldTracker(optedIn, phoneFieldInteraction) {
-    const { providedPhone, mobileOptIn } = this.options
-
-    if (!providedPhone) {
-      this.options.providedPhone = 1
-      if (phoneFieldInteraction) console.log('interacted with phone field')
-    }
-
-    if (!mobileOptIn) {
-      this.options.mobileOptIn = 1
-      if (optedIn) console.log('opted in')
-    }
-  }
-
   this.submitForm = function submitForm(eventInfo) {
+    this.state.result = 'completed'
     Object.keys(eventInfo).forEach(key => {
       this.state[key] = eventInfo[key]
     })
-    this.track('form_finished', 'completed')
+    this.track('form_finished')
   }
 
   this.formExpandTracker = function formExpandTracker() {
@@ -89,38 +70,41 @@ export function FormTracker({ experiment = '', formvariant = '', variationname =
   }
 
   this.startForm = function startForm() {
+    this.state.result = 'started'
     this.options.formStarted = 1
-    this.track('form_started', 'started')
+    this.track('form_started')
   }
 
   this.fieldIndex = function fieldIndex(fieldName) {
-    for (let i = 0; i < this.form.elements.length; i += 1) {
-      if (this.form.elements[i].name === fieldName) {
-        return i
+    if (this.form) {
+      for (let i = 0; i < this.form.elements.length; i += 1) {
+        if (this.form.elements[i].name === fieldName) {
+          return i
+        }
       }
+      return -1
     }
     return -1
   }
 
   this.updateFormProgress = function updateFormProgress(eventInfo) {
-    const fieldName = eventInfo.currentfield
+    const fieldName = eventInfo.fieldchanged
     this.state.lastfieldchanged = fieldName
     this.state.lastfieldfocused = fieldName
 
     if (eventInfo.fieldchanged) {
-      if (fieldName === this.state.lastfieldchanged) return
       this.state.fieldchanged = Math.max(this.state.fieldchanged, this.fieldIndex(eventInfo.fieldchanged))
     }
 
+// track field focused
     if (eventInfo.fieldfocused) {
-      if (fieldName === this.state.lastfieldcfocused) return
       this.state.fieldfocused = Math.max(this.state.fieldfocused, this.fieldIndex(eventInfo.fieldfocused))
     }
   }
 
   this.validationErrorTracker = function validationErrorTracker(eventObj) {
     Object.keys(eventObj).forEach(key => {
-      this.state.eventInfo[key] = eventObj[key]
+      this.options.eventInfo[key] = eventObj[key]
       if (!eventObj[key] && Object.prototype.hasOwnProperty.call(eventObj.required, key)) {
         this.state.validationerror += 1
       }
@@ -128,12 +112,12 @@ export function FormTracker({ experiment = '', formvariant = '', variationname =
   }
 
   // method that actually sends to segment
-  this.track = function track(eventName, result) {
+  this.track = function track(eventName) {
     this.options.formStarted = 1
     if (window.analytics) {
       window.analytics.track({
         event: eventName,
-        properties: Object.assign(this.state, { result })
+        properties: { ...this.state }
       })
     }
     if (Config.FAKE_ANALYTICS) {
