@@ -49,7 +49,6 @@ class SignatureAddForm extends React.Component {
   componentDidMount() {
     if (this.form) {
       this.formTracker.setForm(this.form)
-      this.formTracker.startForm()
     }
   }
 

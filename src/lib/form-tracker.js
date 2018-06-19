@@ -53,18 +53,23 @@ export function FormTracker({ experiment = '', formvariant = '', variationname =
 
       if (ref.id === 'mobile-sign' && !!(ref.offsetWidth || ref.offsetHeight || ref.getClientRects().length)) {
         this.state.formvariant = 'mobile'
+        if (this.options.formStarted === 0) {
+          this.startForm()
+        }
       }
 
       if (ref.id === 'desktop-sign' && !!(ref.offsetWidth || ref.offsetHeight || ref.getClientRects().length)) {
         this.state.formvariant = 'desktop'
+        if (this.options.formStarted === 0) {
+          this.startForm()
+        }
       }
     }
   }
 
   this.startForm = function startForm() {
-    if (this.options.formStarted === 0) {
-      this.track('form_started', 'started')
-    }
+    this.options.formStarted = 1
+    this.track('form_started', 'started')
   }
 
   this.fieldIndex = function fieldIndex(fieldName) {
