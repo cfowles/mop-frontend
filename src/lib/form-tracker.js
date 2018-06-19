@@ -3,7 +3,10 @@ import Config from '../config'
 export function FormTracker({ experiment = '', formvariant = '', variationname = '' }) {
   this.options = {
     formStarted: 0,
-    formSubmitted: 0
+    formSubmitted: 0,
+    formValid: 0,
+    providedPhone: 0,
+    mobileOptIn: 0
   }
 
   this.state = {
@@ -19,6 +22,24 @@ export function FormTracker({ experiment = '', formvariant = '', variationname =
     fieldchanged: -1, // maximum field index that has a non default value,
     lastfieldchanged: '',
     lastfieldfocused: ''
+  }
+
+  this.leftForm = function leftForm() {
+    this.track('form_abandoned', 'dropoff')
+  }
+
+  this.mobileFieldTracker = function mobileFieldTracker(optedIn, phoneFieldInteraction) {
+    const { providedPhone, mobileOptIn } = this.options
+
+    if (!providedPhone) {
+      this.options.providedPhone = 1
+      if (phoneFieldInteraction) console.log('interacted with phone field')
+    }
+
+    if (!mobileOptIn) {
+      this.options.mobileOptIn = 1
+      if (optedIn) console.log('opted in')
+    }
   }
 
   this.submitForm = function submitForm(eventInfo) {

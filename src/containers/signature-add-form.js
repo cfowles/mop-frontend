@@ -50,6 +50,19 @@ class SignatureAddForm extends React.Component {
     if (this.form) {
       this.formTracker.setForm(this.form)
     }
+    window.onbeforeunload = function leavingForm(e) {
+      this.formTracker.leftForm(e)
+    }
+  }
+
+  componentDidUpdate() {
+    const mobileOptIn = this.state.mobile_optin
+    const { phone } = this.state
+    if (mobileOptIn) this.formTracker.mobileFieldTracker(1, 0)
+
+    if (phone) this.formTracker.mobileFieldTracker(0, 1)
+
+    if (phone && mobileOptIn) this.formTracker.mobileFieldTracker(1, 1)
   }
 
   getOsdiSignature() {
@@ -217,10 +230,7 @@ class SignatureAddForm extends React.Component {
     const signAction = Config.API_WRITABLE ? signPetition : devLocalSignPetition
 
     if (this.formIsValid()) {
-      this.formTracker.endForm({
-        formStarted: 1,
-        formFinished: 1,
-        variation_name: this.props.query.cohort || '',
+      this.formTracker.submitForm({
         login_state: (this.props.user.anonymous ? 0 : 1)
       })
       const osdiSignature = this.getOsdiSignature()
