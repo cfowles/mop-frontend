@@ -3,10 +3,11 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 
 import RegisterForm from '../../containers/register-form'
+import EditUserForm from 'LegacyTheme/edit-user-form'
 
 const getTargets = target => target.map(t => t.label || t.name).join(', ')
 
-export const CreatePreview = ({ petition, user, onSubmit }) => (
+export const CreatePreview = ({ petition, user, onSubmit, zip, onChangeZip }) => (
   <div className='container background-moveon-white bump-top-1'>
     <div className='container background-moveon-white bump-top-1'>
       <div className='row'>
@@ -32,14 +33,25 @@ export const CreatePreview = ({ petition, user, onSubmit }) => (
               </h1>
             </div>
 
-            {/* TODO: check user.authenticated and include a user update form (or just the launch button) */}
-            <RegisterForm
-              successCallback={onSubmit}
-              user={user}
-              includeZipAndPhone
-              useLaunchButton
-              useAlternateFields
-            />
+            {user && user.authenticated ? (
+              <EditUserForm
+                user={user}
+                handleSubmit={e => {
+                  e.preventDefault()
+                  onSubmit()
+                }}
+                zip={zip}
+                onChangeZip={onChangeZip}
+              />
+            ) : (
+              <RegisterForm
+                successCallback={onSubmit}
+                user={user}
+                includeZipAndPhone
+                useLaunchButton
+                useAlternateFields
+              />
+            )}
 
             <div className='bump-top-2 align-center percent-100'>
               <Link to='/create_revise.html' className='size-small'>
@@ -104,5 +116,7 @@ export const CreatePreview = ({ petition, user, onSubmit }) => (
 CreatePreview.propTypes = {
   petition: PropTypes.object,
   user: PropTypes.object,
-  onSubmit: PropTypes.func
+  onSubmit: PropTypes.func,
+  zip: PropTypes.string,
+  onChangeZip: PropTypes.func
 }
