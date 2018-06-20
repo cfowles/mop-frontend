@@ -53,8 +53,9 @@ class SignatureAddForm extends React.Component {
   }
 
   componentDidUpdate() {
-    if (!this.state.hideUntilInteract) {
-      this.formTracker.setForm(this.form)
+    if (!this.state.hideUntilInteract) this.formTracker.setForm(this.form)
+    if (this.state.phone.length === 1 && this.props.query.cohort === '1') {
+      this.formTracker.formExpandTracker()
     }
   }
 
@@ -226,7 +227,7 @@ class SignatureAddForm extends React.Component {
 
     if (this.formIsValid()) {
       this.formTracker.submitForm({
-        login_state: (this.props.user.anonymous ? 0 : 1)
+        loginstate: (this.props.user.anonymous ? 0 : 1)
       })
       const osdiSignature = this.getOsdiSignature()
       return dispatch(signAction(osdiSignature, petition, { redirectOnSuccess: true }))
