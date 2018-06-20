@@ -1,11 +1,13 @@
 import React from 'react'
-//import PropTypes from 'prop-types'
-//import { withRouter } from 'react-router'
-//import { appLocation } from '../routes'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
+
+import { appLocation } from '../routes'
 
 import Config from '../config'
 
-import { submit, devLocalSubmit, loadTargets } from '../actions/createPetitionActions'
+import { previewSubmit, submit, devLocalSubmit, loadTargets } from '../actions/createPetitionActions'
 import ReactTimeout from 'react-timeout'
 import { conversation } from 'Theme/etc/conversation/conversation'
 
@@ -22,7 +24,10 @@ const ERRORS = {
 class CreatePetition extends React.Component {
   constructor(props) {
     super(props)
+    const { initialPetition, location } = this.props
+    const query = (location && location.query) || {}
     this.state = {
+      errors: [],
       // Old
       selected: 'title',
       nationalOpen: false,
@@ -48,9 +53,13 @@ class CreatePetition extends React.Component {
       editPetition: false,
 
       // Petition Data
-      title: false,
-      summary: false,
-      description: false,
+      title: initialPetition.title || '',
+      summary: initialPetition.summary || '',
+      target: initialPetition.target || [],
+      description: initialPetition.description || '',
+      //title: false,
+      //summary: false,
+      //description: false,
       selectedTargets: [],
 
       /*** Convo ***/
@@ -76,6 +85,8 @@ class CreatePetition extends React.Component {
     this.saveInput = this.saveInput.bind(this)
     this.getSectionLengths = this.getSectionLengths.bind(this)
     this.selectTarget = this.selectTarget.bind(this)
+    this.validateAndContinue = this.validateAndContinue.bind(this)
+    this.submitPetition = this.submitPetition.bind(this)
   }
 
   componentDidMount() {
@@ -232,12 +243,43 @@ class CreatePetition extends React.Component {
     })
   }
 
-  // submitPetition() {
-  //   return this.props.dispatch(Config.API_WRITABLE ? submit(this.state.zip) : devLocalSubmit())
-  // }
+  submitPetition() {
+     return this.props.dispatch(Config.API_WRITABLE ? submit(this.state.zip) : devLocalSubmit())
+  }
 
 
+  validateAndContinue() {
+    if (this.formIsValid()) {
+      this.props.dispatch(
+        previewSubmit({
+          title: this.state.title,
+          summary: this.state.summary,
+          target: this.state.target,
+          description: this.state.description,
+          source: this.state.source,
+          clonedFromId: this.state.clonedFromId,
+          solicitId: this.state.solicitId
+        })
+      )
+      this.submitPetition()
+    }
+  }
 
+  formIsValid() {
+    const { title, summary, target, description } = this.state
+    const errors = []
+    if (!title) errors.push(ERRORS.name)
+    if (!summary) errors.push(ERRORS.text_statement)
+    //if (!target.length) errors.push(ERRORS.target)
+    if (!description) errors.push(ERRORS.text_about)
+    if (errors.length) {
+      console.error(errors);
+      this.setState({ errors })
+      return false
+    }
+
+    return true
+  }
 
 
   render() {
@@ -313,6 +355,8 @@ class CreatePetition extends React.Component {
 
             saveInput={this.saveInput}
             chatEnd={this.state.chatEnd}
+
+            publish={this.validateAndContinue}
           />
         </div>
       )
@@ -370,4 +414,14 @@ class CreatePetition extends React.Component {
   }
 }
 
-export default CreatePetition
+CreatePetition.defaultProps = {
+  initialPetition: {}
+}
+
+CreatePetition.propTypes = {
+  dispatch: PropTypes.func,
+  initialPetition: PropTypes.object,
+  location: PropTypes.object
+}
+
+export default withRouter(connect()(CreatePetition))

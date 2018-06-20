@@ -88,10 +88,10 @@ const Review = ({
                 <div className="petition-targets col-12">
                     <p>To be delivered to <span>The United States House of Representatives</span> and <span>Utah Senate</span>.</p>
                 </div>
-                {/* 
+                {/*
                 <div className="petition-image col-12">
                     <div className="image-wrap"></div>
-                </div> 
+                </div>
                 */}
                 <div className="petition-statement col-12">
                     <h4>Statement</h4>
@@ -102,14 +102,14 @@ const Review = ({
                     {editPetition ? edit.background : review.background}
                 </div>
             </div>
-            <button 
-                type="button" 
-                className="xl300 center display-block ppp-btn btn azure" 
-                value="Preview The Petition" 
-                name="review_next" 
-                id="review_next" 
+            <button
+                type="button"
+                className="xl300 center display-block ppp-btn btn azure"
+                value="Preview The Petition"
+                name="review_next"
+                id="review_next"
                 onClick={nextStep}>
-                Next
+                Publish
             </button>
         </div>
     )
