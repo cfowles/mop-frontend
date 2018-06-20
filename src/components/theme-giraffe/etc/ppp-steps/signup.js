@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { devLocalRegister } from '../../../../actions/accountActions';
 import CreateRegister from '../../../../containers/create-register-form';
+import cx from "classnames";
+import RegisterForm from '../../../../containers/register-form'
 
 const Statement = ({
     nextStep,
@@ -14,18 +16,13 @@ const Statement = ({
     zip,
     name,
     password,
-    confirmPassword,
+    passwordConfirm,
     registerSubmit
 }) => {
-    const emailClasses = email ? 'bg-white has-input' : 'bg-white'
-    const zipClasses = zip ? 'bg-white has-input' : 'bg-white'
-    const nameClasses = name ? 'bg-white has-input' : 'bg-white'
-    const passwordClasses = password ? 'bg-white has-input' : 'bg-white'
-    const confirmPasswordClasses = confirmPassword ? 'bg-white has-input' : 'bg-white'
-    const classes = signupModalToggled ? "signup-modal toggled" : "signup-modal";
-
     return (
-        <div className={classes}>
+        <div className={cx(
+            signupModalToggled ? "signup-modal toggled" : "signup-modal"
+        )}>
             <div className="container bg-azure">
                 <div className="close" onClick={toggleOpen('signupModalToggled')}>
                     <span className="bg-black"></span>
@@ -43,83 +40,22 @@ const Statement = ({
                         includeZipAndPhone
                         useLaunchButton
                         useAlternateFields
+                        email={email}
+                        zip={zip}
+                        name={name}
+                        password={password}
+                        passwordConfirm={passwordConfirm}
+                        registerSubmit
+                        updateStateFromValue={updateStateFromValue}
+                        nextStep={nextStep}
                         />
-                    </div>
-                    <div className="col-12 group">
-                        <input
-                            name="email"
-                            id="email_field"
-                            className={emailClasses}
-                            type="email"
-                            title="Email"
-                            onChange={updateStateFromValue('email')}
-                            onBlur={updateStateFromValue('email')}
-                            required />
-                        <span className="bar"></span>
-                        <label>Email</label>
-                    </div>
-                    <div className="col-12 group">
-                        <input
-                            name="zip"
-                            id="zip_field"
-                            className={zipClasses}
-                            type="number"
-                            title="Zip"
-                            onChange={updateStateFromValue('zip')}
-                            onBlur={updateStateFromValue('zip')}
-                            required />
-                        <span className="bar"></span>
-                        <label>Zip</label>
-                    </div>
-                    <div className="col-12 group">
-                        <input
-                            name="name"
-                            id="name_field"
-                            className={nameClasses}
-                            type="text"
-                            title="name"
-                            onChange={updateStateFromValue('name')}
-                            onBlur={updateStateFromValue('name')} />
-                        <span className="bar"></span>
-                        <label>Name</label>
-                    </div>
-                    <div className="col-12 group">
-                        <input
-                            name="password"
-                            id="password_field"
-                            className={passwordClasses}
-                            type="password"
-                            title="password" />
-                        <span className="bar"></span>
-                        <label>Password</label>
-                    </div>
-                    <div className="col-12 group">
-                        <input
-                            name="confirm"
-                            id="confirm_field"
-                            className={confirmPasswordClasses}
-                            type="password"
-                            title="confirm" />
-                        <span className="bar"></span>
-                        <label>Confirm Password</label>
                     </div>
                     <div className="col-12">
                         <a>Already have an account? Click to Log In</a>
                     </div>
-                    <div className="col-12">
-                        <button
-                            type="submit"
-                            className="center display-block ppp-btn btn"
-                            value="Preview The Petition"
-                            name="signup_next"
-                            id="signup_next"
-                            onClick={nextStep()}
-                            >
-                            Next
-                        </button>
-                    </div>
                 </div>
             </div>
+
         </div>
     )
 }
@@ -134,4 +70,4 @@ Statement.propTypes = {
 
 export default Statement
 
-// disabled={!email || !zip || zip.length !== 5 || !name || !password || !confirmPassword || confirmPassword !== password} >
+// disabled={!email || !zip || zip.length !== 5 || !name || !password || !passwordConfirm || passwordConfirm !== password} >

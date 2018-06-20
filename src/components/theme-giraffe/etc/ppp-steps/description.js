@@ -24,7 +24,7 @@ const Description = ({
                 <div className="col-12">
                     <p>Briefly describe why this issue is important, and how it’s affected you.</p>
                 </div>
-                <InputMaterial name="description" type="text" className="bg-ice-blue" placeholder="Your Petition Description" charLimit={500} stateRef={description} onChange={updateStateFromValue("description")} />
+                <InputMaterial name="description" type="textarea" className="bg-ice-blue" placeholder="Your Petition Description" charLimit={500} stateRef={description} onChange={updateStateFromValue("description")} />
             </div>
             <button
                 type="button"

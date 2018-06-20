@@ -45,7 +45,7 @@ const CreatePetitionForm = ({
   email,
   zip,
   password,
-  confirmPassword,
+  passwordConfirm,
 
   // Steps
   nextStep,
@@ -134,7 +134,7 @@ const CreatePetitionForm = ({
                             email={email}
                             zip={zip}
                             password={password}
-                            confirmPassword={confirmPassword}
+                            passwordConfirm={passwordConfirm}
                             />
 
   const progressWidth = (step / 6) * 100 +'%';

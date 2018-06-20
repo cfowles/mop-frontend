@@ -39,7 +39,7 @@ class CreatePetition extends React.Component {
       country: 'United States',
       zip: false,
       password: false,
-      confirmPassword: false,
+      passwordConfirm: false,
 
       // Toggles
       signupModalToggled: false,
@@ -96,6 +96,7 @@ class CreatePetition extends React.Component {
   }
 
   setRef(name) {
+      console.log(this, input, name);
     return input => input && (this[name] = input)
   }
 
@@ -282,7 +283,7 @@ class CreatePetition extends React.Component {
             email={this.state.email}
             zip={this.state.zip}
             password={this.state.password}
-            confirmPassword={this.state.confirmPassword}
+            passwordConfirm={this.state.passwordConfirm}
 
             // Steps
             nextStep={this.nextStep}

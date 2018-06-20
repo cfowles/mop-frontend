@@ -106,9 +106,10 @@ hr {
         }
 
         .bar {
-            position:relative;
-            display:block;
-            width:100%;
+            display: block;
+            width: 100%;
+            bottom: -2px;
+            position: relative;
         }
         .bar:before, .bar:after {
             content:'';
@@ -128,8 +129,13 @@ hr {
             right:50%;
         }
 
-        input:focus ~ .bar:before, input:focus ~ .bar:after {
+        input:focus ~ .bar:before, input:focus ~ .bar:after, 
+        textarea:focus ~ .bar:before, textarea:focus ~ .bar:after, {
             width:50%;
+        }
+        textarea ~ .bar, textarea ~ .bar 
+        textarea:focus ~ .bar, textarea:focus ~ .bar {
+            top: -6px;
         }
       }
 
@@ -191,7 +197,12 @@ hr {
             padding-top: 67px;
             padding-bottom: 22px;
             position: relative;
-            height: 100%;
+            min-height: 100%;
+            height: auto;
+        }
+
+        .group {
+            margin-bottom: 10px;
         }
 
         h2 {
@@ -202,10 +213,6 @@ hr {
         }
         h2 + p {
             margin-top: 20px;
-        }
-
-        input {
-            border-bottom: 2px solid $deep-sea-blue;
         }
 
         button {

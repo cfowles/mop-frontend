@@ -35,26 +35,26 @@ class CreateRegister extends React.Component {
    * @returns {boolean}
    */
   validateForm() {
-    const { name, email, password, passwordConfirm, zip } = this
+    const { name, email, password, passwordConfirm, zip } = this.props;
     const errors = []
-    if (!name.value.trim().length) {
+    if (!name.length) {
       errors.push({ message: 'Missing required entry for the Name field.' })
     }
-    if (!isValidEmail(email.value)) {
-      if (!this.email.value.trim().length) {
+    if (!isValidEmail(email)) {
+      if (!this.email.length) {
         errors.push({ message: 'Missing required entry for the Email field.' })
       } else {
         errors.push({ message: 'Invalid entry for the Email field.' })
       }
     }
-    if (!password.value.trim().length) {
+    if (!password.length) {
       errors.push({ message: 'Missing required entry for the Password field.' })
-    } else if (password.value.trim() !== passwordConfirm.value.trim()) {
+    } else if (password !== passwordConfirm) {
       errors.push({
         message: 'Password and PasswordConfirm fields do not match.'
       })
     }
-    if (this.props.includeZipAndPhone && !zip.value.trim().length) {
+    if (!zip.length) {
       errors.push({ message: 'Missing required entry for the ZIP Code field.' })
     }
     if (errors.length) {
@@ -66,22 +66,21 @@ class CreateRegister extends React.Component {
   handleSubmit(event) {
     event.preventDefault()
     const registerAction = Config.API_WRITABLE ? register : devLocalRegister
+    console.log(event,this);
 
-    const { name, email, password, passwordConfirm, zip, phone } = this
+    const { name, email, password, passwordConfirm, zip, phone } = this.props;
     if (this.validateForm()) {
       const fields = {
-        [name.name]: name.value,
-        [email.name]: email.value,
-        [password.name]: password.value,
-        [passwordConfirm.name]: passwordConfirm.value
-      }
-      if (this.props.includeZipAndPhone) {
-        fields[zip.name] = zip.value
-        fields[phone.name] = phone.value
+        name: name,
+        email: email,
+        zip: zip,
+        password: password,
+        passwordConfirm: passwordConfirm
       }
 
-      const { successCallback, dispatch } = this.props
-      dispatch(registerAction(fields, successCallback))
+      const { successCallback, dispatch, nextStep } = this.props;
+      //nextStep();
+      dispatch(registerAction(fields, nextStep))
     }
   }
 
@@ -105,6 +104,12 @@ class CreateRegister extends React.Component {
         includeZipAndPhone={this.props.includeZipAndPhone}
         useLaunchButton={this.props.useLaunchButton}
         useAlternateFields={this.props.useAlternateFields}
+        email={this.props.email}
+        zip={this.props.zip}
+        name={this.props.name}
+        password={this.props.password}
+        passwordConfirm={this.props.passwordConfirm}
+        updateStateFromValue={this.props.updateStateFromValue}
       />
     )
   }
@@ -121,7 +126,8 @@ CreateRegister.propTypes = {
   includeZipAndPhone: PropTypes.bool,
   useLaunchButton: PropTypes.bool,
   useAlternateFields: PropTypes.bool,
-  successCallback: PropTypes.func
+  successCallback: PropTypes.func,
+  nextStep: PropTypes.func
 }
 
 function mapStateToProps({ userStore = {}, petitionCreateStore = {} }) {

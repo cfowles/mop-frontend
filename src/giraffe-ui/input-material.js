@@ -11,11 +11,10 @@ export const InputMaterial = ({
   helperText,
   charLimit,
   stateRef,
-  onChange,
-  ...rest
-}) => (
-    <div className="col-12 group">
-      <Textarea
+  onChange
+}) => {
+  const input = (
+    <input
         type={type}
         name={name}
         id={name}
@@ -25,8 +24,26 @@ export const InputMaterial = ({
         )}
         onChange={onChange}
         onBlur={onChange}
-        {...rest}
       />
+  )
+  const textarea = (
+    <Textarea
+        type={type}
+        name={name}
+        id={name}
+        className={cx(
+          className,
+          stateRef ? 'has-input' : ''
+        )}
+        onChange={onChange}
+        onBlur={onChange}
+      />
+  )
+  const inputElement = type === 'textarea' ? textarea : input;
+
+  return (
+    <div className="col-12 group">
+      {inputElement}
       <span className="bar"></span>
       <label>{placeholder}</label>
       {
@@ -36,6 +53,7 @@ export const InputMaterial = ({
       }
     </div>
   )
+}
 // const helperClasses = titleLength > 50 ? 'helper-text invalid' : 'helper-text';
 
 InputMaterial.defaultProps = { type: 'text' }
