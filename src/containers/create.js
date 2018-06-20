@@ -184,7 +184,7 @@ class CreatePetition extends React.Component {
 
   componentDidUpdate() {
     if(document.querySelector('.chat-end')){
-      this.scrollToBottom();  
+      this.scrollToBottom();
     }
   }
 

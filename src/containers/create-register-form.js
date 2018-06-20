@@ -78,9 +78,8 @@ class CreateRegister extends React.Component {
         passwordConfirm: passwordConfirm
       }
 
-      const { successCallback, dispatch, nextStep } = this.props;
-      //nextStep();
-      dispatch(registerAction(fields, nextStep))
+      const { successCallback, dispatch } = this.props;
+      dispatch(registerAction(fields, successCallback()))
     }
   }
 
@@ -126,8 +125,7 @@ CreateRegister.propTypes = {
   includeZipAndPhone: PropTypes.bool,
   useLaunchButton: PropTypes.bool,
   useAlternateFields: PropTypes.bool,
-  successCallback: PropTypes.func,
-  nextStep: PropTypes.func
+  successCallback: PropTypes.func
 }
 
 function mapStateToProps({ userStore = {}, petitionCreateStore = {} }) {

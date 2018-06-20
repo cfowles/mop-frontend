@@ -5,8 +5,8 @@ import CreateRegister from '../../../../containers/create-register-form';
 import cx from "classnames";
 import RegisterForm from '../../../../containers/register-form'
 
-const Statement = ({
-    nextStep,
+const Signup = ({
+    afterSignup,
     step,
     toggleOpen,
     updateStateFromValue,
@@ -35,7 +35,7 @@ const Statement = ({
                     </div>
                     <div className="col-12">
                       <CreateRegister
-                        successCallback={nextStep}
+                        successCallback={afterSignup}
                         user={user}
                         includeZipAndPhone
                         useLaunchButton
@@ -47,7 +47,6 @@ const Statement = ({
                         passwordConfirm={passwordConfirm}
                         registerSubmit
                         updateStateFromValue={updateStateFromValue}
-                        nextStep={nextStep}
                         />
                     </div>
                     <div className="col-12">
@@ -60,14 +59,14 @@ const Statement = ({
     )
 }
 
-Statement.propTypes = {
-    nextStep: PropTypes.func,
+Signup.propTypes = {
+    afterSignup: PropTypes.func,
     toggleOpen: PropTypes.func,
     updateStateFromValue: PropTypes.func,
     user: PropTypes.object,
     onSubmit: PropTypes.func
 }
 
-export default Statement
+export default Signup
 
 // disabled={!email || !zip || zip.length !== 5 || !name || !password || !passwordConfirm || passwordConfirm !== password} >
