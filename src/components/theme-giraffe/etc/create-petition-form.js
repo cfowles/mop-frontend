@@ -65,7 +65,6 @@ const CreatePetitionForm = ({
   selectTarget,
   targets,
   selectedTargets,
-  publish
 }) => {
   const instructions = instructionsByField[selected]
 
@@ -113,7 +112,7 @@ const CreatePetitionForm = ({
                             description={description}
                             updateStateFromValue={updateStateFromValue}
                             step={step}
-                            nextStep={publish} />
+                            nextStep={nextStep} />
   const shareStep =       <Share
                             shareButtonsToggled={shareButtonsToggled}
                             toggleOpen={toggleOpen}
@@ -182,8 +181,7 @@ CreatePetitionForm.propTypes = {
   toggleOpen: PropTypes.func,
   nextStep: PropTypes.func,
   updateStateFromValue: PropTypes.func,
-  getTargets: PropTypes.func,
-  publish: PropTypes.func
+  getTargets: PropTypes.func
 }
 
 export default CreatePetitionForm
