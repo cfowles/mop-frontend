@@ -199,7 +199,7 @@ class CreatePetition extends React.Component {
   }
 
   nextStep() {
-    return () => this.setState(prevState => {
+    this.setState(prevState => {
       let newStep = prevState.step + 1;
       return { step: newStep, signupModalToggled: false }
     })

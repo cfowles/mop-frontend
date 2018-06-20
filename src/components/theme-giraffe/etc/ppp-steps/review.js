@@ -108,7 +108,7 @@ const Review = ({
                 value="Preview The Petition" 
                 name="review_next" 
                 id="review_next" 
-                onClick={nextStep()}>
+                onClick={nextStep}>
                 Next
             </button>
         </div>

@@ -79,7 +79,7 @@ class CreateRegister extends React.Component {
       }
 
       const { successCallback, dispatch } = this.props;
-      dispatch(registerAction(fields, successCallback()))
+      dispatch(registerAction(fields, successCallback))
     }
   }
 

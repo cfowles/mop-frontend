@@ -18,7 +18,7 @@ const Summary = ({toggleOpen, updateStateFromValue, step, summary, nextStep}) =>
 			</div>
 			<InputMaterial name="summary" type="textarea" className="bg-ice-blue" placeholder="Your Petition Statement" charLimit={100} stateRef={summary} onChange={updateStateFromValue("summary")} />
 		</div>
-		<button type="button" className="center display-block ppp-btn btn azure" name="summary_next" id="summary_next" onClick={nextStep()} disabled={!summary || summary.length > 100}>
+		<button type="button" className="center display-block ppp-btn btn azure" name="summary_next" id="summary_next" onClick={nextStep} disabled={!summary || summary.length > 100}>
 			Next
 		</button>
 	</div>

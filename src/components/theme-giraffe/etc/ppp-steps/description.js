@@ -31,7 +31,7 @@ const Description = ({
                 className="center display-block ppp-btn btn azure"
                 name="description_next"
                 id="description_next"
-                onClick={nextStep()}
+                onClick={nextStep}
                 disabled={!description || description.length > 500} >
                 Next
             </button>

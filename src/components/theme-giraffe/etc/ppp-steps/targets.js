@@ -86,7 +86,7 @@ const Targets = ({
                 value="Preview The Petition" 
                 name="targets_next" 
                 id="targets_next" 
-                onClick={nextStep()}>
+                onClick={nextStep}>
                 Next
             </button>
         </div>
