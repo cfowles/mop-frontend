@@ -44,11 +44,11 @@ const Targets = ({
                     </div>
                 </div>
                 <div className="col-12 group">
-                    <input 
-                        name="search" 
-                        id="search_field" 
-                        className="bg-ice-blue" 
-                        type="text" 
+                    <input
+                        name="search"
+                        id="search_field"
+                        className="bg-ice-blue"
+                        type="text"
                         title="Decision Maker Search" />
                     <span className="bar"></span>
                     <label>Search a specific target</label>
@@ -80,12 +80,12 @@ const Targets = ({
                     </div>
                 </div>
             </div>
-            <button 
-                type="button" 
-                className="xl300 center display-block ppp-btn btn azure" 
-                value="Preview The Petition" 
-                name="targets_next" 
-                id="targets_next" 
+            <button
+                type="button"
+                className="xl300 center display-block ppp-btn btn azure"
+                value="Preview The Petition"
+                name="targets_next"
+                id="targets_next"
                 onClick={nextStep}>
                 Next
             </button>
