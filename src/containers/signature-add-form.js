@@ -43,19 +43,26 @@ class SignatureAddForm extends React.Component {
     this.submit = this.submit.bind(this)
     this.validationError = this.validationError.bind(this)
     this.updateStateFromValue = this.updateStateFromValue.bind(this)
-    this.formTracker = new FormTracker({ experiment: 'signMobilePhones1', formvariant: props.id, variationname: (props.query.cohort === '1' ? 'smsSubScribeOption1' : 'current') })
+    this.formTracker = new FormTracker({
+      experiment: 'signMobilePhones1',
+      formvariant: props.id,
+      variationname: (props.query.cohort === '1' ? 'smsSubScribeOption1' : 'current')
+    })
   }
 
   componentDidMount() {
-    if (this.form) {
-      this.formTracker.setForm(this.form)
-    }
+    const ref = this.form
+    if (ref && this.formTracker.isVisible(ref)) this.formTracker.setForm(ref, ref.id)
   }
 
-  componentDidUpdate() {
-    if (!this.state.hideUntilInteract) this.formTracker.setForm(this.form)
-    if (this.state.phone.length === 1 && this.props.query.cohort === '1') {
-      this.formTracker.formExpandTracker()
+  componentDidUpdate(prevProps, prevState) {
+    const ref = this.form
+
+    if (ref && this.formTracker.isVisible(ref)) {
+      if (!this.state.hideUntilInteract) this.formTracker.setForm(ref, ref.id)
+      if ((!prevState.phone && this.state.phone) || (!prevState.name && this.state.name) || (!prevState.volunteer && this.state.volunteer)) {
+        this.formTracker.formExpandTracker()
+      }
     }
   }
 
@@ -233,7 +240,7 @@ class SignatureAddForm extends React.Component {
       return dispatch(signAction(osdiSignature, petition, { redirectOnSuccess: true }))
     }
     this.setState({ hideUntilInteract: false }) // show fields so we can show validation error
-    this.formTracker.validationErrorTracker(this.state)
+    this.formTracker.validationErrorTracker()
     return false
   }
 

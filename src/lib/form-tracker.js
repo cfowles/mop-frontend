@@ -48,31 +48,22 @@ export function FormTracker({ experiment = '', formvariant = '', variationname =
     }
   }
 
-  this.setForm = function setForm(ref) {
+  this.isVisible = ref => (!!(ref.offsetWidth || ref.offsetHeight || ref.getClientRects().length))
+
+  this.setForm = function setForm(ref, variantname) {
     if (ref) {
       this.form = ref
       this.state.formLength = ref.elements.length
-
-      if (ref.id === 'mobile-sign' && !!(ref.offsetWidth || ref.offsetHeight || ref.getClientRects().length)) {
-        this.state.formvariant = 'mobile'
-        if (this.options.formStarted === 0) {
-          this.startForm()
-        }
-      }
-
-      if (ref.id === 'desktop-sign' && !!(ref.offsetWidth || ref.offsetHeight || ref.getClientRects().length)) {
-        this.state.formvariant = 'desktop'
-        if (this.options.formStarted === 0) {
-          this.startForm()
-        }
-      }
+      this.state.formvariant = variantname || ref.id
+      this.startForm()
     }
   }
 
   this.startForm = function startForm() {
-    this.state.result = 'started'
-    this.options.formStarted = 1
-    this.track('form_started')
+    if (this.options.formStarted === 0) {
+      this.state.result = 'started'
+      this.track('form_started')
+    }
   }
 
   this.fieldIndex = function fieldIndex(fieldName) {
@@ -82,7 +73,6 @@ export function FormTracker({ experiment = '', formvariant = '', variationname =
           return i
         }
       }
-      return -1
     }
     return -1
   }
@@ -100,15 +90,14 @@ export function FormTracker({ experiment = '', formvariant = '', variationname =
     if (eventInfo.fieldfocused) {
       this.state.fieldfocused = Math.max(this.state.fieldfocused, this.fieldIndex(eventInfo.fieldfocused))
     }
+
+    if (!this.options.formStarted && this.state.formvariant) {
+      this.startForm()
+    }
   }
 
-  this.validationErrorTracker = function validationErrorTracker(eventObj) {
-    Object.keys(eventObj).forEach(key => {
-      this.options.eventInfo[key] = eventObj[key]
-      if (!eventObj[key] && Object.prototype.hasOwnProperty.call(eventObj.required, key)) {
-        this.state.validationerror += 1
-      }
-    })
+  this.validationErrorTracker = function validationErrorTracker() {
+    this.state.validationerror += 1
   }
 
   // method that actually sends to segment
