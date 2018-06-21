@@ -62,7 +62,7 @@ class Thanks extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.props.nextPetitionsLoaded) {
+    if (!this.props.nextPetitionsLoaded && !this.props.isCreator) {
       this.props.dispatch(petitionActions.loadTopPetitions(this.props.petition.entity === 'pac' ? 1 : 0, '', false))
     }
   }
@@ -173,7 +173,7 @@ function mapStateToProps(store) {
   if (nextPetitions && nextPetitions.length && nextPetitions[0]) {
     nextPetition = petitions[nextPetitions[0]]
   }
-  return { nextPetition, nextPetitionsLoaded }
+  return { nextPetition, nextPetitionsLoaded, user: store.userStore }
 }
 
 export default connect(mapStateToProps)(Thanks)

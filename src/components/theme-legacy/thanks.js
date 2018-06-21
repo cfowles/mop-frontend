@@ -13,7 +13,7 @@ const Thanks = ({
   nextPetition
 }) => (
   <div className='row'>
-    {sharedSocially ? (
+    {(sharedSocially && !isCreator) ? (
       <ThanksNextPetition nextPetition={nextPetition} />
     ) : null}
     <div className='span4'>
