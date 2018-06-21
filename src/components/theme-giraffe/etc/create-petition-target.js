@@ -25,41 +25,46 @@ export class CreatePetitionTarget extends React.Component {
     this.renderCustom = this.renderCustom.bind(this)
   }
 
-  static getDerivedStateFromProps(props) {
-    const customTargets = props.targets.filter(t => t.target_type === 'custom')
-    const nationalTargets = props.targets.filter(
-      target =>
-        ['senatemem', 'housemem', 'president', 'house', 'senate'].indexOf(
-          target.target_type
-        ) !== -1
-    )
-    const stateTargets = props.targets.filter(
-      target =>
-        [
-          'statesenatemem',
-          'statehousemem',
-          'governor',
-          'statehouse',
-          'statesenate'
-        ].indexOf(target.target_type) !== -1
-    )
+  // static getDerivedStateFromProps(props) {
+  //   console.log(props);
+  //   const customTargets = props.targets.filter(t => t.target_type === 'custom')
+  //   const nationalTargets = props.targets.filter(
+  //     target =>
+  //       ['senatemem', 'housemem', 'president', 'house', 'senate'].indexOf(
+  //         target.target_type
+  //       ) !== -1
+  //   )
+  //   const stateTargets = props.targets.filter(
+  //     target =>
+  //       [
+  //         'statesenatemem',
+  //         'statehousemem',
+  //         'governor',
+  //         'statehouse',
+  //         'statesenate'
+  //       ].indexOf(target.target_type) !== -1
+  //   )
 
-    const openCheckboxes = {}
-    if (nationalTargets.length) openCheckboxes.nationalOpen = true
-    if (stateTargets.length) openCheckboxes.stateOpen = true
-    if (customTargets.length) openCheckboxes.customOpen = true
+  //   const openCheckboxes = {}
+  //   if (nationalTargets.length) openCheckboxes.nationalOpen = true
+  //   if (stateTargets.length) openCheckboxes.stateOpen = true
+  //   if (customTargets.length) openCheckboxes.customOpen = true
 
-    return {
-      nationalTargets,
-      stateTargets,
-      customTargets,
-      ...openCheckboxes
-    }
-  }
+  //   return {
+  //     nationalTargets,
+  //     stateTargets,
+  //     customTargets,
+  //     ...openCheckboxes
+  //   }
+  // }
 
   componentDidMount() {
     // Preload congress for autocomplete
-    this.props.dispatch(loadTargets('national'))
+    this.props.dispatch(loadTargets('national')).then(
+      (result) => {
+        console.log(this.props);
+      }
+    )
 
     // Handle if we need to preload a geoState
     if (this.state.stateTargets && this.state.stateTargets.length) {
@@ -147,5 +152,10 @@ CreatePetitionTarget.propTypes = {
   customInputs: PropTypes.object,
   onChangeCustomInputs: PropTypes.func
 }
+function mapStateToProps({ petitionTargetStore }) {
+  return {
+    targets: petitionTargetStore
+  }
+}
 
-export default connect()(CreatePetitionTarget)
+export default connect(mapStateToProps)(CreatePetitionTarget)

@@ -11,6 +11,7 @@ import CustomTargetSelect from '../components/theme-legacy/form/target-select/cu
 
 export class CreatePetitionTarget extends React.Component {
   constructor(props) {
+    
     super(props)
     this.state = {
       nationalOpen: false,
@@ -26,6 +27,7 @@ export class CreatePetitionTarget extends React.Component {
   }
 
   static getDerivedStateFromProps(props) {
+    console.log(props)
     const customTargets = props.targets.filter(t => t.target_type === 'custom')
     const nationalTargets = props.targets.filter(
       target =>

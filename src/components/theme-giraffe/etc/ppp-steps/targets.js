@@ -1,15 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import CreatePetitionTarget from '../create-petition-target'
 
 const Targets = ({
     toggleOpen,
     step,
-    nextStep
+    nextStep,
+    setRef,
+    setSelected
 }) => {
     const classes = step === 4 ? "targets ppp-step container active" : "targets ppp-step container";
 
     return (
         <div className={classes}>
+            <CreatePetitionTarget setSelected={setSelected}
+            setRef={setRef}/>
             <div className="row ppp-item">
                 <div className="col-12 ppp-heading">
                     <h3>Decision Makers</h3>

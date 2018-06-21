@@ -122,7 +122,7 @@ export function loadTargets(group, geoState) {
 
     let url = `${Config.API_URI}/targets.json?group=${group}`
     let storeKey = group
-
+    
     if (group === 'state') {
       url += `&state=${geoState}`
       storeKey += `--${geoState}`

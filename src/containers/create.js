@@ -107,8 +107,8 @@ class CreatePetition extends React.Component {
   }
 
   setRef(name) {
-      console.log(this, input, name);
-    return input => input && (this[name] = input)
+    //   console.log(this, input, name);
+    // return input => input && (this[name] = input)
   }
 
 
@@ -229,10 +229,9 @@ class CreatePetition extends React.Component {
   }
 
   getTargets() {
-    // return () => {
-    //   const targets = loadTargets();
-    // }
+
   }
+  // API https://broom.moveon.org/api/v1/targets.json
 
   selectTarget(ind) {
     let selected = this.state.targets[ind];
