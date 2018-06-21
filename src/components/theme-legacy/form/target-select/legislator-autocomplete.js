@@ -63,6 +63,8 @@ export const LegislatorAutocomplete = ({ onChange, group, state, items }) => (
         />
         {isOpen ? (
           <div style={container}>
+            {!items.length && <div style={itemStyle}>Loading...</div>}
+
             {filter(items, inputValue).map((item, index) => (
               <div
                 {...getItemProps({ item })}
