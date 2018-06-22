@@ -7,6 +7,7 @@ import TargetCustom from './form/instructions/target-custom'
 import TargetNational from './form/instructions/target-national'
 import TargetState from './form/instructions/target-state'
 // import Title from './form/instructions/title'
+import Logo from 'GiraffeUI/logo'
 
 import CreatePetitionTarget from './create-petition-target'
 
@@ -14,7 +15,8 @@ import CreatePetitionTarget from './create-petition-target'
 import Title from './ppp-steps/title'
 import Summary from './ppp-steps/summary'
 import Description from './ppp-steps/description'
-import Targets from './ppp-steps/targets'
+// import Targets from './ppp-steps/targets'
+import CreateTargets from '../../../containers/create-targets'
 import Review from './ppp-steps/review'
 import Share from './ppp-steps/share'
 import Tip from './ppp-steps/tip'
@@ -27,17 +29,7 @@ const instructionsByField = {
 }
 
 const CreatePetitionForm = ({
-  // Old
-  selected,
-  setSelected,
-  nationalOpen,
-  stateOpen,
-  customOpen,
-  instructionStyle,
-  setRef,
-
   updateStateFromValue,
-  getTargets,
 
   // User
   user,
@@ -62,16 +54,24 @@ const CreatePetitionForm = ({
   title,
   summary,
   description,
-  selectTarget,
+
+  // Targets
+  selected,
+  setSelected,
+  setRef,
   targets,
-  selectedTargets,
+  onTargetAdd,
+  onTargetRemove,
+  customInputs,
+  onChangeCustomInputs,
+
   publish
 }) => {
-  const instructions = instructionsByField[selected]
+  // const instructions = instructionsByField[selected]
 
-  const national = !nationalOpen ? '' : <NationalTargetSelect />
-  const state = !stateOpen ? '' : <StateTargetSelect />
-  const custom = !customOpen ? '' : <CustomTargetSelect />
+  // const national = !nationalOpen ? '' : <NationalTargetSelect />
+  // const state = !stateOpen ? '' : <StateTargetSelect />
+  // const custom = !customOpen ? '' : <CustomTargetSelect />
 
   // Steps
   const titleStep =       <Title
@@ -95,14 +95,20 @@ const CreatePetitionForm = ({
                             step={step}
                             description={description}
                             nextStep={nextStep} />
-  const targetsStep =     <Targets
+  const targetsStep =     <CreateTargets 
                             tipModalToggled={tipModalToggled}
                             toggleOpen={toggleOpen}
                             updateStateFromValue={updateStateFromValue}
                             step={step}
                             nextStep={nextStep}
+
                             setSelected={setSelected}
-                            setRef={setRef}/>
+                            setRef={setRef}
+                            targets={targets}
+                            onTargetAdd={onTargetAdd}
+                            onTargetRemove={onTargetRemove}
+                            customInputs={customInputs}
+                            onChangeCustomInputs={onChangeCustomInputs} />
   const reviewStep =      <Review
                             tipModalToggled={tipModalToggled}
                             toggleOpen={toggleOpen}
@@ -151,6 +157,7 @@ const CreatePetitionForm = ({
         </div>
         <div className="row">
           <div className="col-12 heading-title-wrap">
+            <Logo />
             <h2 className="bg-white">{step === 7 ? 'Congratulations, '+{name}+'! Let’s get your first 10 signatures.' : 'There are millions of MoveOn members waiting for your petition.'}</h2>
           </div>
         </div>

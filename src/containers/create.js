@@ -28,23 +28,24 @@ class CreatePetition extends React.Component {
     const query = (location && location.query) || {}
     this.state = {
       errors: [],
-      // Old
       selected: 'title',
-      nationalOpen: false,
-      stateOpen: false,
-      customOpen: false,
+      customInputs: { name: '', email: '', title: '' },
+
+      // nationalOpen: false,
+      // stateOpen: false,
+      // customOpen: false,
 
       /*** PPP ***/
-      step: 1,
+      step: 4,
 
       // User Data
       user: {},
-      name: false,
-      email: false,
+      name: 'test',
+      email: 'test@email.com',
       country: 'United States',
-      zip: false,
-      password: false,
-      passwordConfirm: false,
+      zip: '28105',
+      password: 'test',
+      passwordConfirm: 'test',
 
       // Toggles
       signupModalToggled: false,
@@ -53,10 +54,10 @@ class CreatePetition extends React.Component {
       editPetition: false,
 
       // Petition Data
-      title: initialPetition.title || '',
-      summary: initialPetition.summary || '',
+      title: 'asdf',
+      summary: 'asdf',
       target: initialPetition.target || [],
-      description: initialPetition.description || '',
+      description: 'asdf',
       //title: false,
       //summary: false,
       //description: false,
@@ -77,40 +78,29 @@ class CreatePetition extends React.Component {
     this.toggleOpen = this.toggleOpen.bind(this)
     this.nextStep = this.nextStep.bind(this)
     this.updateStateFromValue = this.updateStateFromValue.bind(this)
-    this.getTargets = this.getTargets.bind(this)
     this.nextSection = this.nextSection.bind(this)
     this.callSection = this.callSection.bind(this)
     this.callBubble = this.callBubble.bind(this)
     this.nextBubble = this.nextBubble.bind(this)
     this.saveInput = this.saveInput.bind(this)
     this.getSectionLengths = this.getSectionLengths.bind(this)
-    this.selectTarget = this.selectTarget.bind(this)
     this.validateAndContinue = this.validateAndContinue.bind(this)
     this.submitPetition = this.submitPetition.bind(this)
+    this.onTargetAdd = this.onTargetAdd.bind(this)
+    this.onTargetRemove = this.onTargetRemove.bind(this)
   }
 
   componentDidMount() {
     var uinput = document.getElementById('user-input');
-    if(uinput){
+    if (uinput) {
       uinput.focus();
     }
 
     this.getSectionLengths();
-    this.initSection = setTimeout(function() {
+    this.initSection = setTimeout(function () {
       this.callSection();
     }.bind(this), 500)
   }
-
-  // Old
-  setSelected(name) {
-    return () => this.setState({ selected: name })
-  }
-
-  setRef(name) {
-    //   console.log(this, input, name);
-    // return input => input && (this[name] = input)
-  }
-
 
 
   // Conversation
@@ -119,12 +109,12 @@ class CreatePetition extends React.Component {
     let sectionLengths = [];
     let count = 0;
     conversation.map(function (el) {
-      if(el.hasOwnProperty('section')) {
+      if (el.hasOwnProperty('section')) {
         sections.push(el.section);
       }
     });
-    for(let i = 0; i < sections[sections.length - 1]; i++){
-      sections.map(function(el,ind) {
+    for (let i = 0; i < sections[sections.length - 1]; i++) {
+      sections.map(function (el, ind) {
         if (el === i) {
           count++
         }
@@ -152,7 +142,7 @@ class CreatePetition extends React.Component {
     this.bubbleTimeout = setTimeout(() => {
       this.nextBubble();
 
-      if (this.state.currentBubble < sectionLength ) {
+      if (this.state.currentBubble < sectionLength) {
         this.callBubble(sectionLength);
       } else {
         this.setState({ bubbleLoading: false });
@@ -167,7 +157,7 @@ class CreatePetition extends React.Component {
     document.getElementById("user-input").value = "";
     document.getElementById("user-input").focus();
 
-    this.inputTimeout = setTimeout(function(){
+    this.inputTimeout = setTimeout(function () {
       this.nextSection();
       this.callSection();
     }.bind(this), 500)
@@ -189,12 +179,12 @@ class CreatePetition extends React.Component {
   }
 
   // conversational scrolling
-   scrollToBottom() {
-     document.querySelector('.chat-end').scrollIntoView({ behavior: "smooth" });
+  scrollToBottom() {
+    document.querySelector('.chat-end').scrollIntoView({ behavior: "smooth" });
   }
 
   componentDidUpdate() {
-    if(document.querySelector('.chat-end')){
+    if (document.querySelector('.chat-end')) {
       this.scrollToBottom();
     }
   }
@@ -228,22 +218,50 @@ class CreatePetition extends React.Component {
     }
   }
 
-  getTargets() {
+  // Targets
+  onTargetAdd(
+    target,
+    { isCustom, callback } = { isCustom: false, callback: () => { } }
+  ) {
+    return () => {    
+      if (!isCustom && !target.label) return // target is invalid
+      if (!isCustom && this.state.target.find(old => old.label === target.label)) return // already exists
 
-  }
-  // API https://broom.moveon.org/api/v1/targets.json
+      if (isCustom && !this.state.customInputs.name) return // Trying to add a blank custom target
 
-  selectTarget(ind) {
-    let selected = this.state.targets[ind];
-    this.setState(prevState => {
-      let selectedTargets = prevState.selectedTargets;
-      selectedTargets.push(selected);
-      return { selectedTargets: selectedTargets }
-    })
+      if (isCustom) {
+        this.setState({ customInputs: { name: '', email: '', title: '' } })
+      }
+
+      this.setState(
+        state => ({ target: [...state.target, target] }),
+        () => callback && callback()
+      )
+    }
   }
+
+  onTargetRemove(target) {
+    return () => {
+      this.setState(state => ({
+        target: state.target.filter(e => e.label !== target.label)
+      }))
+    }
+  }
+
+  setSelected(name) {
+    return () => this.setState({ selected: name })
+  }
+
+  setRef(name) {
+    // eslint-disable-next-line no-return-assign
+    return input => input && (this[name] = input)
+  }
+
+
+  // Submit
 
   submitPetition() {
-     return this.props.dispatch(Config.API_WRITABLE ? submit(this.state.zip) : devLocalSubmit())
+    return this.props.dispatch(Config.API_WRITABLE ? submit(this.state.zip) : devLocalSubmit())
   }
 
 
@@ -302,21 +320,17 @@ class CreatePetition extends React.Component {
       instructionStyle.top = selectedElement.getBoundingClientRect().top - bodyTop
     }
 
-    if(createType === 'p'){
+    if (createType === 'p') {
       return (
         <div className='moveon-petitions'>
           <CreatePetitionForm
             // Old
-            setSelected={this.setSelected}
-            setRef={this.setRef}
-            selected={this.state.selected}
-            nationalOpen={this.state.nationalOpen}
-            stateOpen={this.state.stateOpen}
-            customOpen={this.state.customOpen}
-            instructionStyle={instructionStyle}
+            // nationalOpen={this.state.nationalOpen}
+            // stateOpen={this.state.stateOpen}
+            // customOpen={this.state.customOpen}
+            // instructionStyle={instructionStyle}
 
             updateStateFromValue={this.updateStateFromValue}
-            getTargets={this.getTargets}
 
             // User
             user={this.state.user}
@@ -329,9 +343,6 @@ class CreatePetition extends React.Component {
             // Steps
             nextStep={this.nextStep}
             step={this.state.step}
-
-            section={this.state.section}
-            nextSection={this.nextSection}
 
             // Toggles
             toggleOpen={this.toggleOpen}
@@ -346,14 +357,19 @@ class CreatePetition extends React.Component {
             description={this.state.description}
             selectTarget={this.selectTarget}
 
-            // Bubbles
-            bubbleShow={this.state.bubbleShow}
-            bubbleLoading={this.state.bubbleLoading}
-            currentBubble={this.state.currentBubble}
-            currentIndex={this.state.currentIndex}
-
-            saveInput={this.saveInput}
-            chatEnd={this.state.chatEnd}
+            // Targets
+            setSelected={this.setSelected}
+            setRef={this.setRef}
+            selected={this.state.selected}
+            targets={this.state.target}
+            onTargetAdd={this.onTargetAdd}
+            onTargetRemove={this.onTargetRemove}
+            customInputs={this.state.customInputs}
+            onChangeCustomInputs={({ target: { name, value } }) => {
+              this.setState(state => ({
+                customInputs: { ...state.customInputs, [name]: value }
+              }))
+            }}
 
             publish={this.validateAndContinue}
           />
