@@ -93,16 +93,16 @@ export const routes = store => {
     if (Config.AB_TEST_ENABLED) {
       const currentLocation = window.location
       const pathName = currentLocation.pathname
+      const queryString = currentLocation.search
       const check = parseInt(Config.AB_TEST_ENABLED, 10) / 100
 
       if (Math.random() > check) {
         // makes sure it only does it on sign pages and
-        // only triggers if you land directly on sign page vs through
-        if (pathName.search('sign') > -1 && /cohort=/.test(currentLocation.search)) {
+        // only triggers if you land directly on sign page vs through source
+        // checks if there is a cohort already in the querystring so it doesnt add another cohort
+        if (pathName.search('sign') > -1 && queryString.search('cohort') === -1) {
           const preChar = /\?/.test(currentLocation.search) ? '&' : '?'
           browserHistory.push(`${pathName}${currentLocation.search}${preChar}cohort=${cohort}`)
-        } else {
-          return cohort
         }
       }
     }
