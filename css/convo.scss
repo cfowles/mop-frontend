@@ -53,6 +53,94 @@ $bp-xl:	1440px;
             }
         }
     }
+
+    .progress-wrap {
+      display: none;
+      position: fixed;
+      top: 60px;
+      left: 50%;
+      margin-left: 296px;
+      border-left: 3px solid #e9e9e9;
+      padding: 8px;
+
+      .step {
+        width: 185px;
+        height: 35px;
+        border-radius: 4px;
+        background-color: #ffffff;
+        margin-top: 5px;
+        color: #b2b2b2;
+        line-height: 35px;
+        padding-left: 14px;
+        font-size: .875rem;
+        transition: .6s all ease;
+
+        .checkmark {
+          display: none;
+          float: right;
+          margin-right: 12px;
+          border-radius: 50%;
+        }
+
+        &.step-active {
+          height: 45px;
+          line-height: 45px;
+          width: 210px;
+          color: #000000;
+          font-size: 1rem;
+          margin: 10px 0;
+
+          .checkmark {
+            display: block;
+            float: right;
+            margin-right: 12px;
+            margin-top: 10px;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background-color: #f6f6f6;
+            text-align: center;
+            line-height: 35px;
+
+            svg {
+              fill: #e9e9e9;
+              height: 20px;
+              width: 20px;
+            }
+          }
+        }
+
+        &.step-complete {
+          color: #000000;
+
+          .checkmark {
+            display: block;
+            background-color: #e5f5ff;
+            width: 20px;
+            height: 20px;
+            margin-top: 7px;
+            line-height: 26px;
+            text-align: center;
+
+            svg {
+              fill: #000000;
+              width: 16px;
+              height: 16px;
+            }
+          }
+        }
+
+        &:first-of-type {
+          margin-top: 15px;
+        }
+      }
+
+
+      @media (min-width: 1034px) {
+        display: block;
+      }
+    }
+
     $modalTransition: .3s ease-in-out;
     $modalTransitionDesktop: .6s ease-in-out;
     .tip-modal {
@@ -154,6 +242,12 @@ $bp-xl:	1440px;
                     right: -3px;
                     top: -3px;
                     transform: scale(0);
+                    text-align: center;
+                    line-height: 45px;
+
+                    svg {
+                      fill: #fff;
+                    }
                 }
             }
             &.bubble-tip {
@@ -167,6 +261,8 @@ $bp-xl:	1440px;
                     background-color: #ffffff;
                     border-radius: 50%;
                     margin-left: 15px;
+                    text-align: center;
+                    line-height: 32px;
                 }
             }
         }

@@ -27,12 +27,14 @@ hr {
     border-top: 5px solid gray;
     margin: 20px 0;
 }
+
 .giraffe body, .giraffe#giraffe-wrapper {
     padding-top: 0;
 }
 .giraffe .header {
     display: none !important;
 }
+
 /****************
  * PPP
  ****************/
@@ -144,11 +146,11 @@ hr {
             right:50%;
         }
 
-        input:focus ~ .bar:before, input:focus ~ .bar:after, 
+        input:focus ~ .bar:before, input:focus ~ .bar:after,
         textarea:focus ~ .bar:before, textarea:focus ~ .bar:after, {
             width:50%;
         }
-        textarea ~ .bar, textarea ~ .bar 
+        textarea ~ .bar, textarea ~ .bar
         textarea:focus ~ .bar, textarea:focus ~ .bar {
             top: -6px;
         }
@@ -581,7 +583,7 @@ hr {
             a {
                 display: block;
                 margin-bottom: 45px;
-                
+
                 img {
                     display: block;
                     max-height: 40px;
@@ -600,7 +602,7 @@ hr {
                 @media screen and(min-width: $bp-md){
                     line-height: 3rem;
                     font-size: 3rem;
-                }                
+                }
             }
         }
     }

@@ -18,7 +18,7 @@ import ChatBubble from './conversation/chat-bubble'
 import { conversation } from './conversation/conversation'
 import ConversationalInput from './conversation/input'
 import Tip from './ppp-steps/tip'
-
+import DesktopProgress from './conversation/desktop-progress'
 
 const instructionsByField = {
   title: <TitleTip />,
@@ -121,13 +121,16 @@ const CreatePetitionFormConversation = ({
           currentIndex={currentIndex}
         />
         <div style={{ float: "left", clear: "both" }}
-          className="chat-end" >
+          className="chat-end">
         </div>
       </div>
       <Tip
         tipModalToggled={tipModalToggled}
         toggleOpen={toggleOpen}
         step={step} />
+      <DesktopProgress
+        section={section}
+        />
     </div>
   )
 
