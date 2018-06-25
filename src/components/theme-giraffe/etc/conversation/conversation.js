@@ -43,6 +43,7 @@ export const conversation = [
     content: "More tips on titles",
     showToLoggedIn: true,
     type: 'tip',
+    tipID: 1,
     section: 1
   },
   {
@@ -77,6 +78,7 @@ export const conversation = [
     content: "More tips petition statements",
     showToLoggedIn: true,
     type: 'tip',
+    tipID: 2,
     section: 2
   },
   {
@@ -84,7 +86,7 @@ export const conversation = [
     showToLoggedIn: false,
     type: 'input',
     input: {
-      type: 'statement',
+      type: 'summary',
       editing: false
     }
   },
@@ -105,6 +107,7 @@ export const conversation = [
     content: "More tips petition backgrounds",
     showToLoggedIn: true,
     type: 'tip',
+    tipID: 3,
     section: 3
   },
   {
@@ -112,7 +115,7 @@ export const conversation = [
     showToLoggedIn: false,
     type: 'input',
     input: {
-      type: 'background',
+      type: 'description',
       editing: false
     }
   },

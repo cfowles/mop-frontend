@@ -118,7 +118,15 @@ const CreatePetitionForm = ({
                             description={description}
                             updateStateFromValue={updateStateFromValue}
                             step={step}
-                            nextStep={publish} />
+                            nextStep={publish} 
+
+                            setSelected={setSelected}
+                            setRef={setRef}
+                            targets={targets}
+                            onTargetAdd={onTargetAdd}
+                            onTargetRemove={onTargetRemove}
+                            customInputs={customInputs}
+                            onChangeCustomInputs={onChangeCustomInputs} />
   const shareStep =       <Share
                             shareButtonsToggled={shareButtonsToggled}
                             toggleOpen={toggleOpen}

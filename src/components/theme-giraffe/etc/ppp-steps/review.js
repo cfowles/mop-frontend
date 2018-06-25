@@ -1,74 +1,88 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { InputMaterial } from "GiraffeUI/input-material";
+import CreateTargetsReview from '../../../../containers/create-targets-review'
 
 const Review = ({
     toggleOpen,
     editPetition,
     updateStateFromValue,
     title,
-    statement,
-    background,
+    summary,
+    description,
     step,
-    nextStep
+    nextStep,
+    tipModalToggled,
+
+    // Targets
+    selected,
+    setSelected,
+    setRef,
+    targets,
+    onTargetAdd,
+    onTargetRemove,
+    customInputs,
+    onChangeCustomInputs,
 }) => {
+
+    const targetsArray = [
+        <span key="0">To be delivered to </span>
+    ];
+    targets.map(function(target, i){
+        if(targets.length === 1) {
+            targetsArray.push(<span className="target" key={i + 1}>{target.label}<span className="no-underline">.</span></span>);
+        } else if (targets.length < 4) {
+            if (i < targets.length - 1) targetsArray.push(<span className="target" key={i + 1}>{target.label}<span className="no-underline">,&nbsp;</span></span>);
+            if (i === targets.length - 1) targetsArray.push(<span className="target" key={i + 1}><span className="no-underline">and&nbsp;</span>{target.label}<span className="no-underline">.</span></span>)
+        } else if (targets.length >= 4) {
+            if (i < 3) targetsArray.push(<span className="target" key={i + 1}>{target.label}<span className="no-underline">,&nbsp;</span></span>);
+            if (i === 3) targetsArray.push(<span className="target" key={i + 1}><span className="no-underline">and&nbsp;</span>{targets.length - (i)} more<span className="no-underline">.</span></span>);
+            if (i > 3) return;
+        }
+    })
 
     const review = {
         title: (
-            <h3 className="bg-azure black">{title}</h3>
+            <div className="petition-title col-12">    
+                <h3 className="bg-azure black">{title}</h3>
+            </div>
         ),
-        statement: (
-            <p>{statement}</p>
+        targets: (
+            <div className="petition-targets col-12">        
+                <p>{targetsArray}</p>
+            </div>
         ),
-        background: (
-            <p>{background}</p>
+        summary: (
+            <div className="petition-summary col-12">
+                <h4>Statement</h4>
+                <p>{summary}</p>
+            </div>
+        ),
+        description: (
+            <div className="petition-description col-12">
+                <h4>Background</h4>    
+                <p>{description}</p>
+            </div>
         ),
         edit: (
-            <div className="ppp-tip bg-ice-blue" onClick={toggleOpen('editPetition')}>Edit
-                <span className="bg-white"></span>
+            <div className="ppp-tip bg-off-white" onClick={toggleOpen('editPetition')}>Edit
+                <span className="bg-azure"></span>
             </div>
         )
     }
     const edit = {
         title: (
-            <input
-                name="title"
-                id="title_field"
-                className="bg-ice-blue"
-                type="text"
-                title="Title"
-                value={title}
-                onChange={updateStateFromValue('title')}
-                onBlur={updateStateFromValue('title')}
-            />
+            <InputMaterial name="title" type="textarea" className="bg-ice-blue" placeholder="Your Petition Title" charLimit={50} stateRef={title} onChange={updateStateFromValue("title")} />
         ),
-        statement: (
-            <textarea
-                rows="1"
-                name="statement"
-                id="statement_field"
-                className="bg-ice-blue"
-                title="Petition statement"
-                value={statement}
-                onChange={updateStateFromValue('statement')}
-                onBlur={updateStateFromValue('statement')}
-            />
+        summary: (
+            <InputMaterial name="summary" type="textarea" className="bg-ice-blue" placeholder="Your Petition Statement" charLimit={100} stateRef={summary} onChange={updateStateFromValue("summary")} />
         ),
-        background: (
-            <textarea
-                rows="1"
-                name="background"
-                id="background_field"
-                className="bg-ice-blue"
-                type="text"
-                title="Petition background"
-                value={background}
-                onChange={updateStateFromValue('background')}
-                onBlur={updateStateFromValue('background')}
-            />
+        description: (
+            <InputMaterial name="description" type="textarea" className="bg-ice-blue" placeholder="Your Petition Description" charLimit={500} stateRef={description} onChange={updateStateFromValue("description")} />
         ),
         edit: (
-            <div className="ppp-tip bg-ice-blue" onClick={toggleOpen('editPetition')}>Save
-                <span className="bg-white"></span>
+            <div className="ppp-tip bg-off-white" onClick={toggleOpen('editPetition')}>Save
+                <span className="bg-azure"></span>
             </div>
         )
     }
@@ -79,28 +93,28 @@ const Review = ({
         <div className={classes}>
             <div className="row ppp-item">
                 <div className="col-12 ppp-heading">
-                    <h3 className="bg-azure black">Review your petition</h3>
+                    <h3 className="black">Review your petition</h3>
                     {editPetition ? edit.edit : review.edit}
                 </div>
-                <div className="petition-title col-12">
-                    {editPetition ? edit.title : review.title}
-                </div>
-                <div className="petition-targets col-12">
-                    <p>To be delivered to <span>The United States House of Representatives</span> and <span>Utah Senate</span>.</p>
-                </div>
-                {/*
-                <div className="petition-image col-12">
-                    <div className="image-wrap"></div>
-                </div>
-                */}
-                <div className="petition-statement col-12">
-                    <h4>Statement</h4>
-                    {editPetition ? edit.statement : review.statement}
-                </div>
-                <div className="petition-background col-12">
-                    <h4>Background</h4>
-                    {editPetition ? edit.background : review.background}
-                </div>
+
+                {editPetition ? edit.title : review.title}
+                {editPetition ? <CreateTargetsReview 
+                    tipModalToggled={tipModalToggled}
+                    toggleOpen={toggleOpen}
+                    updateStateFromValue={updateStateFromValue}
+                    step={step}
+                    nextStep={nextStep}
+    
+                    setSelected={setSelected}
+                    setRef={setRef}
+                    targets={targets}
+                    onTargetAdd={onTargetAdd}
+                    onTargetRemove={onTargetRemove}
+                    customInputs={customInputs}
+                    onChangeCustomInputs={onChangeCustomInputs}/> : review.targets}
+                {editPetition ? edit.summary : review.summary}
+                {editPetition ? edit.description : review.description}
+                
             </div>
             <button
                 type="button"

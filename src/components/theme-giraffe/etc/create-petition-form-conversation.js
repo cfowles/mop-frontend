@@ -17,6 +17,7 @@ import TitleTip from './form/instructions/title'
 import ChatBubble from './conversation/chat-bubble'
 import { conversation } from './conversation/conversation'
 import ConversationalInput from './conversation/input'
+import Tip from './ppp-steps/tip'
 
 
 const instructionsByField = {
@@ -44,9 +45,11 @@ const CreatePetitionFormConversation = ({
   bubbleLoading,
   email,
   title,
-  statement,
-  background,
-  chatEnd
+  summary,
+  description,
+  chatEnd,
+  tipModalToggled,
+  step
 }) => {
   const instructions = instructionsByField[selected]
 
@@ -54,8 +57,8 @@ const CreatePetitionFormConversation = ({
   // const welcome = <Welcome section={0} nextSection={nextSection} bubbleShow={bubbleShow} currentBubble={currentBubble} currentIndex={currentIndex} />
   // // const email = section < 1 ? '' : <Email emailOnChange={updateStateFromValue('email')} section={section} nextSection={nextSection} />
   // const title = section < 1 ? '' : <Title section={1} currentBubble={currentBubble} currentIndex={currentIndex} />
-  // const statement = section < 2 ? '' : <Statement statementOnChange={updateStateFromValue('statement')} />
-  // const background = section < 3 ? '' : <Background backgroundOnChange={updateStateFromValue('background')} />
+  // const summary = section < 2 ? '' : <summary summaryOnChange={updateStateFromValue('summary')} />
+  // const description = section < 3 ? '' : <description descriptionOnChange={updateStateFromValue('description')} />
 
   // let showLoader = bubbleLoading ? 'show' : '';
   let loaderClasses = bubbleLoading ? 'bubble show loader-wrap' : 'bubble loader-wrap';
@@ -72,11 +75,11 @@ const CreatePetitionFormConversation = ({
           case 'title':
             userInput = title;
             break;
-          case 'statement':
-            userInput = statement;
+          case 'summary':
+            userInput = summary;
             break;
-          case 'background':
-            userInput = background;
+          case 'description':
+            userInput = description;
             break;
         }
         break;
@@ -95,7 +98,8 @@ const CreatePetitionFormConversation = ({
         bubbleId={i}
         innerClasses={innerClasses}
         userInput={userInput}
-        />
+        toggleOpen={toggleOpen}
+      />
     )
   })
 
@@ -114,12 +118,16 @@ const CreatePetitionFormConversation = ({
           section={section}
           saveInput={saveInput}
           updateStateFromValue={updateStateFromValue}
-          currentIndex={currentIndex} 
-          />
+          currentIndex={currentIndex}
+        />
         <div style={{ float: "left", clear: "both" }}
           className="chat-end" >
         </div>
       </div>
+      <Tip
+        tipModalToggled={tipModalToggled}
+        toggleOpen={toggleOpen}
+        step={step} />
     </div>
   )
 

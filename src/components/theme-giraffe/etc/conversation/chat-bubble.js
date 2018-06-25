@@ -8,21 +8,26 @@ const ChatBubble = ({
     bubble,
     bubbleId,
     innerClasses,
-    userInput
+    userInput,
+    toggleOpen,
+    tipModalToggled
 }) => {
-    // const inputButton = (
-    //     <svg>
-    //         {React.createElement('use', {href:"#edit", "xlinkHref": "#edit"})}
-    //     </svg>
-    // )
-    // {bubble.type === 'input' ? inputButton : 'i' }
+
     const staticBubble = (
         <div className={innerClasses}>{bubble.content}</div>
     )
+    const tip = (
+        <span onClick={toggleOpen("tipModalToggled", bubble.tipID)}></span>
+    );
+    const edit = (
+        <span>
+            <svg><use xlinkHref="#edit"/></svg>
+        </span>
+    );
     const interactBubble = (
         <div className={innerClasses}>
             {bubble.type === 'input' ? userInput : bubble.content}
-            <span></span>
+            {bubble.type === 'input' ? edit : tip}
         </div>
     )
     const bubbleOutput = bubble.type === 'input' || bubble.type === 'tip' ? interactBubble : staticBubble;

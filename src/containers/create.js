@@ -36,7 +36,7 @@ class CreatePetition extends React.Component {
       // customOpen: false,
 
       /*** PPP ***/
-      step: 4,
+      step: 1,
 
       // User Data
       user: {},
@@ -54,10 +54,10 @@ class CreatePetition extends React.Component {
       editPetition: false,
 
       // Petition Data
-      title: 'asdf',
-      summary: 'asdf',
+      title: initialPetition.title || [],
+      summary: initialPetition.summary || [],
       target: initialPetition.target || [],
-      description: 'asdf',
+      description: initialPetition.description || [],
       //title: false,
       //summary: false,
       //description: false,
@@ -76,6 +76,7 @@ class CreatePetition extends React.Component {
     this.setSelected = this.setSelected.bind(this)
     this.setRef = this.setRef.bind(this)
     this.toggleOpen = this.toggleOpen.bind(this)
+    // this.toggleConvoTip = this.toggleConvoTip.bind(this)
     this.nextStep = this.nextStep.bind(this)
     this.updateStateFromValue = this.updateStateFromValue.bind(this)
     this.nextSection = this.nextSection.bind(this)
@@ -178,6 +179,16 @@ class CreatePetition extends React.Component {
     })
   }
 
+  // toggleConvoTip(tip) {
+  //   return () => {
+  //     console.log(tip)
+  //     console.log(this.state)
+  //     this.setState({ step: tip });
+  //     console.log(this.state)
+  //     this.toggleOpen('tipModalToggled');
+  //   }
+  // }
+
   // conversational scrolling
   scrollToBottom() {
     document.querySelector('.chat-end').scrollIntoView({ behavior: "smooth" });
@@ -192,11 +203,14 @@ class CreatePetition extends React.Component {
 
 
   // PPP
-  toggleOpen(element) {
-    return () => this.setState(prevState => {
-      const prev = prevState[element]
-      return { [element]: !prev }
-    })
+  toggleOpen(element, id = 0) {
+    return () => {
+      if (id) this.setState({ step: id });
+      this.setState(prevState => {
+        const prev = prevState[element]
+        return { [element]: !prev }
+      })
+    }
   }
 
   nextStep() {
@@ -223,7 +237,7 @@ class CreatePetition extends React.Component {
     target,
     { isCustom, callback } = { isCustom: false, callback: () => { } }
   ) {
-    return () => {    
+    return () => {
       if (!isCustom && !target.label) return // target is invalid
       if (!isCustom && this.state.target.find(old => old.label === target.label)) return // already exists
 
@@ -404,6 +418,7 @@ class CreatePetition extends React.Component {
 
             // Toggles
             toggleOpen={this.toggleOpen}
+            toggleConvoTip={this.toggleConvoTip}
             signupModalToggled={this.state.signupModalToggled}
             tipModalToggled={this.state.tipModalToggled}
             shareButtonsToggled={this.state.shareButtonsToggled}

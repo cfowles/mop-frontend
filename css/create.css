@@ -1,5 +1,5 @@
 body {
-  background-color: #f6f6f6;
+  background-color: #f3f3f3;
   overflow-x: hidden;
 }
 
@@ -375,6 +375,44 @@ hr {
   border-radius: 50%;
   margin-left: 10px;
 }
+#ppp .selection-pills {
+  margin-bottom: 20px;
+}
+#ppp .selection-pills .pill-inner {
+  height: 50px;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: bold;
+  font-stretch: condensed;
+  line-height: 1.25;
+  position: relative;
+  padding: 7px;
+  margin-bottom: 10px;
+}
+#ppp .selection-pills .pill-inner .close {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  top: -4px;
+  right: -4px;
+}
+#ppp .selection-pills .pill-inner .close span {
+  height: 2px;
+  width: 15px;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+#ppp .selection-pills .pill-inner .close span:first-of-type {
+  transform: translate(-50%) rotate(45deg);
+}
+#ppp .selection-pills .pill-inner .close span:last-of-type {
+  transform: translate(-50%) rotate(-45deg);
+}
 #ppp .checkbox-wrap {
   display: block;
   position: relative;
@@ -494,44 +532,6 @@ hr {
 #ppp .title p {
   margin-bottom: 25px;
 }
-#ppp .targets .selection-pills {
-  margin-bottom: 20px;
-}
-#ppp .targets .selection-pills .pill-inner {
-  height: 50px;
-  border-radius: 3px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 14px;
-  font-weight: bold;
-  font-stretch: condensed;
-  line-height: 1.25;
-  position: relative;
-  padding: 7px;
-  margin-bottom: 10px;
-}
-#ppp .targets .selection-pills .pill-inner .close {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  top: -4px;
-  right: -4px;
-}
-#ppp .targets .selection-pills .pill-inner .close span {
-  height: 2px;
-  width: 15px;
-  display: block;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-}
-#ppp .targets .selection-pills .pill-inner .close span:first-of-type {
-  transform: translate(-50%) rotate(45deg);
-}
-#ppp .targets .selection-pills .pill-inner .close span:last-of-type {
-  transform: translate(-50%) rotate(-45deg);
-}
 #ppp .targets .add-target {
   position: relative;
   margin-bottom: 5px;
@@ -581,6 +581,20 @@ hr {
 #ppp .review .ppp-heading {
   margin-bottom: 30px;
 }
+#ppp .review .ppp-heading .ppp-tip {
+  padding-right: 45px;
+  position: relative;
+  border-bottom-right-radius: 0;
+}
+#ppp .review .ppp-heading .ppp-tip span {
+  height: 35px;
+  width: 35px;
+  position: absolute;
+  background: #00abff;
+  border-radius: 50%;
+  right: -3px;
+  top: -3px;
+}
 #ppp .review .petition-title {
   margin-bottom: 15px;
 }
@@ -589,8 +603,12 @@ hr {
   line-height: 1.2rem;
   text-transform: uppercase;
 }
-#ppp .review .petition-targets span {
+#ppp .review .petition-targets span.target {
   text-decoration: underline;
+}
+#ppp .review .petition-targets span.target .no-underline {
+  text-decoration: none;
+  display: inline-block;
 }
 #ppp .review .petition-image .image-wrap {
   height: 215px;

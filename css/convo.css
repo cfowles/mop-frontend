@@ -10,8 +10,97 @@
   max-width: 560px;
   margin: 0 auto;
   padding: 40px 20px;
-  height: calc(100vh - 120px);
+  height: calc(100vh - 75px);
   overflow-y: scroll;
+  overflow-x: hidden;
+}
+#conversational .close {
+  position: absolute;
+  top: 20px;
+  right: 18px;
+  opacity: 1;
+  cursor: pointer;
+}
+#conversational .close span {
+  height: 4px;
+  width: 26px;
+  display: block;
+}
+#conversational .close span:first-of-type {
+  transform: rotate(45deg);
+  position: absolute;
+}
+#conversational .close span:last-of-type {
+  transform: rotate(-45deg);
+}
+#conversational .tip-modal {
+  padding-top: 50px;
+  position: relative;
+  padding-bottom: 50px;
+  position: fixed;
+  top: 100%;
+  max-width: 768px;
+  min-height: 100vh;
+  max-height: 100vh;
+  z-index: 200;
+  overflow-y: scroll;
+  transition: all 0.3s ease-in-out;
+}
+#conversational .tip-modal.toggled {
+  top: 0;
+  transition: all 0.3s ease-in-out;
+}
+@media screen and (min-width: 768px) {
+  #conversational .tip-modal {
+    top: 0;
+    opacity: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    visibility: hidden;
+    transition: all 0.6s ease-in-out, visibility 0s linear 0.6s;
+  }
+  #conversational .tip-modal.toggled {
+    opacity: 1;
+    visibility: visible;
+    transition: all 0.6s ease-in-out;
+  }
+  #conversational .tip-modal .row {
+    max-width: 768px;
+  }
+}
+#conversational .tip-modal .heading {
+  padding-top: 40px;
+  margin-bottom: 20px;
+}
+#conversational .tip-modal .heading span {
+  display: inline-block;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+}
+#conversational .tip-modal .example {
+  margin-bottom: 10px;
+}
+#conversational .tip-modal .example h3 {
+  display: inline;
+  line-height: 2.25rem;
+  text-transform: uppercase;
+  color: black;
+}
+#conversational .tip-modal .example .example-image {
+  border-radius: 3px;
+  background-color: #f6f6f6;
+  padding: 10px;
+  overflow: hidden;
+}
+#conversational .tip-modal .example .example-image .image-wrap {
+  height: 215px;
+  background-color: lightgray;
+  margin: -10px -10px 8px;
+}
+#conversational .tip-modal .example .example-image p {
+  margin-bottom: 0;
 }
 #conversational .bubble {
   position: relative;
@@ -79,7 +168,7 @@
 }
 #conversational .bubble.loader-wrap {
   max-height: 500px;
-  min-height: 50px;
+  min-height: 50px !important;
 }
 #conversational .bubble .loader {
   position: relative;
@@ -198,4 +287,4 @@
   }
 }
 
-/*# sourceMappingURL=convo.css.map */
+/*# sourceMappingURL=css/convo.css.map */

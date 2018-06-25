@@ -20,7 +20,7 @@ $bp-lg:	1008px;
 $bp-xl:	1440px;
 
 body {
-    background-color: #f6f6f6;
+    background-color: $off-white;
     overflow-x: hidden;
 }
 hr {
@@ -284,6 +284,7 @@ hr {
         position: fixed;
         top: 100%;
         max-width: $bp-md;
+        max-height: 100vh;
         min-height: 100vh;
         z-index: 200;
         overflow-y: scroll;
@@ -431,6 +432,48 @@ hr {
             }
         }
     }
+    .selection-pills {
+        margin-bottom: 20px;
+
+        .pill-inner {
+            height: 50px;
+            border-radius: 3px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            font-weight: bold;
+            font-stretch: condensed;
+            line-height: 1.25;
+            position: relative;
+            padding: 7px;
+            margin-bottom: 10px;
+
+            .close {
+                width: 24px;
+                height: 24px;
+                border-radius: 50%;
+                top: -4px;
+                right: -4px;
+
+                span {
+                    height: 2px;
+                    width: 15px;
+                    display: block;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+
+                    &:first-of-type {
+                        transform: translate(-50%) rotate(45deg);
+                    }
+                    &:last-of-type {
+                        transform: translate(-50%) rotate(-45deg);
+                    }
+                }
+            }
+        }
+    }
 
     /* Checkboxes */
     .checkbox-wrap {
@@ -569,49 +612,6 @@ hr {
     }
 
     .targets {
-        .selection-pills {
-            margin-bottom: 20px;
-
-            .pill-inner {
-                height: 50px;
-                border-radius: 3px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                font-size: 14px;
-                font-weight: bold;
-                font-stretch: condensed;
-                line-height: 1.25;
-                position: relative;
-                padding: 7px;
-                margin-bottom: 10px;
-
-                .close {
-                    width: 24px;
-                    height: 24px;
-                    border-radius: 50%;
-                    top: -4px;
-                    right: -4px;
-
-                    span {
-                        height: 2px;
-                        width: 15px;
-                        display: block;
-                        position: absolute;
-                        top: 50%;
-                        left: 50%;
-
-                        &:first-of-type {
-                            transform: translate(-50%) rotate(45deg);
-                        }
-                        &:last-of-type {
-                            transform: translate(-50%) rotate(-45deg);
-                        }
-                    }
-                }
-            }
-        }
-
         .add-target {
             position: relative;
             margin-bottom: 5px;
@@ -668,6 +668,22 @@ hr {
     .review {
         .ppp-heading {
             margin-bottom: 30px;
+
+            .ppp-tip {
+                padding-right: 45px;
+                position: relative;
+                border-bottom-right-radius: 0;
+
+                span {
+                    height: 35px;
+                    width: 35px;
+                    position: absolute;
+                    background: #00abff;
+                    border-radius: 50%;
+                    right: -3px;
+                    top: -3px;
+                }
+            }
         }
         .petition-title {
             margin-bottom: 15px;
@@ -680,8 +696,13 @@ hr {
         }
 
         .petition-targets {
-            span {
+            span.target {
                 text-decoration: underline;
+
+                .no-underline {
+                    text-decoration: none;
+                    display: inline-block;
+                }
             }
         }
         .petition-image {

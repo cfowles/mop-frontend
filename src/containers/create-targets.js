@@ -57,11 +57,11 @@ export class CreateTargets extends React.Component {
     return this.state.allTargets.map((target, i)=>{
         if (!(this.props.targets.length && this.props.targets.some(e => e.label === target.label))) {
             return (
-                <label className={cx("checkbox-wrap col-12")} key={i} onClick={this.props.onTargetAdd(target, false)}>
+                <label className={cx("checkbox-wrap col-12 review-hidden")} key={i} onClick={this.props.onTargetAdd(target, false)}>
                     <span>
                         {target.label}
                     </span>
-                    <input name={target.value} id={target.value} className="bg-ice-blue" type="checkbox" title={target.value} />
+                    <input name={target.value} id={this.props.step === 4 ? "review" + target.value : target.value } className="bg-ice-blue" type="checkbox" title={target.value} />
                     <span className="checkmark" />
                 </label>
             )
