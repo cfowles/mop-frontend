@@ -13,31 +13,113 @@ $light-blue: #99ddff;
 $ice-blue: #e5f5ff;
 $red: #ea1c24;
 $muted-red: #c3645c;
-
-$bp-sm:	0px;
-$bp-md:	768px;
-$bp-lg:	1008px;
-$bp-xl:	1440px;
-
+$bp-sm: 0px;
+$bp-md: 768px;
+$bp-lg: 1008px;
+$bp-xl: 1440px;
 body {
     background-color: $off-white;
     overflow-x: hidden;
 }
+
 hr {
     border-top: 5px solid gray;
     margin: 20px 0;
 }
-.giraffe body, .giraffe#giraffe-wrapper {
+
+.giraffe body,
+.giraffe#giraffe-wrapper {
     padding-top: 0;
 }
+
 .giraffe .header {
     display: none !important;
 }
+
 /****************
  * PPP
  ****************/
 
- /* General */
+/* General */
+
+.group {
+    position: relative;
+    margin-bottom: 45px;
+    input,
+    textarea {
+        width: 100%;
+        font-size: 16px;
+        padding: 32px 9px 10px;
+        border: 0;
+        border-bottom: 2px solid $light-blue;
+        box-shadow: none;
+        height: auto;
+        margin: 0;
+        &[type="text"]:hover,
+        &[type="text"]:active,
+        &[type="password"]:hover,
+        &[type="password"]:active {
+            background-color: $ice-blue;
+        }
+    }
+    label {
+        color: #999;
+        font-size: 18px;
+        font-weight: normal;
+        position: absolute;
+        pointer-events: none;
+        left: 23px;
+        top: 22px;
+        transition: 0.2s ease all;
+        -moz-transition: 0.2s ease all;
+        -webkit-transition: 0.2s ease all;
+    }
+    input:focus~label,
+    input.has-input~label,
+    textarea:focus~label,
+    textarea.has-input~label {
+        top: 2px;
+        font-size: 14px;
+        color: $azure;
+    }
+    .bar {
+        display: block;
+        width: 100%;
+        bottom: -2px;
+        position: relative;
+    }
+    .bar:before,
+    .bar:after {
+        content: '';
+        height: 2px;
+        width: 0;
+        bottom: 1px;
+        position: absolute;
+        background: $azure;
+        transition: 0.2s ease all;
+        -moz-transition: 0.2s ease all;
+        -webkit-transition: 0.2s ease all;
+    }
+    .bar:before {
+        left: 50%;
+    }
+    .bar:after {
+        right: 50%;
+    }
+    input:focus~.bar:before,
+    input:focus~.bar:after,
+    textarea:focus~.bar:before,
+    textarea:focus~.bar:after,
+        {
+        width: 50%;
+    }
+    textarea~.bar,
+    textarea~.bar textarea:focus~.bar,
+    textarea:focus~.bar {
+        top: -6px;
+    }
+}
+
 #ppp {
     min-height: 100vh;
     display: flex;
@@ -46,15 +128,12 @@ hr {
     max-width: $bp-md;
     margin: 0 auto;
     background-color: #fff;
-
-    @media screen and (min-width: $bp-md ) {
+    @media screen and (min-width: $bp-md) {
         min-height: 100vh;
     }
-
     #petition_form {
         position: relative;
     }
-
     $stepTransition: 1.5s cubic-bezier(0.64, 0.04, 0.35, 1);
     .ppp-step {
         padding-top: 25px;
@@ -67,93 +146,14 @@ hr {
         left: 0;
         transition: opacity $stepTransition, visibility 0s linear 1.5s;
         visibility: hidden;
-
+        background: $white;
         &.active {
             opacity: 1;
             z-index: 1;
             transition: opacity $stepTransition 1.5s;
             visibility: visible;
         }
-
     }
-
-    .group {
-        position:relative;
-        margin-bottom:45px;
-
-        input, textarea {
-            width: 100%;
-            font-size: 16px;
-            padding: 32px 9px 10px;
-            border: 0;
-            border-bottom: 2px solid $light-blue;
-            box-shadow: none;
-            height: auto;
-            margin: 0;
-
-            &[type="text"]:hover,
-            &[type="text"]:active,
-            &[type="password"]:hover,
-            &[type="password"]:active {
-                background-color: $ice-blue;
-            }
-        }
-        label {
-            color:#999;
-            font-size:18px;
-            font-weight:normal;
-            position:absolute;
-            pointer-events:none;
-            left: 23px;
-            top: 22px;
-            transition:0.2s ease all;
-            -moz-transition:0.2s ease all;
-            -webkit-transition:0.2s ease all;
-        }
-
-        input:focus ~ label,
-        input.has-input ~ label,
-        textarea:focus ~ label,
-        textarea.has-input ~ label {
-            top: 2px;
-            font-size:14px;
-            color:$azure;
-        }
-
-        .bar {
-            display: block;
-            width: 100%;
-            bottom: -2px;
-            position: relative;
-        }
-        .bar:before, .bar:after {
-            content:'';
-            height:2px;
-            width:0;
-            bottom:1px;
-            position:absolute;
-            background:$azure;
-            transition:0.2s ease all;
-            -moz-transition:0.2s ease all;
-            -webkit-transition:0.2s ease all;
-        }
-        .bar:before {
-            left:50%;
-        }
-        .bar:after {
-            right:50%;
-        }
-
-        input:focus ~ .bar:before, input:focus ~ .bar:after, 
-        textarea:focus ~ .bar:before, textarea:focus ~ .bar:after, {
-            width:50%;
-        }
-        textarea ~ .bar, textarea ~ .bar 
-        textarea:focus ~ .bar, textarea:focus ~ .bar {
-            top: -6px;
-        }
-      }
-
     .ppp-btn {
         position: fixed;
         bottom: 0;
@@ -165,7 +165,6 @@ hr {
         margin: 0;
         z-index: 100;
         height: 50px;
-
         @media screen and (min-width: $bp-md) {
             position: relative;
         }
@@ -176,12 +175,10 @@ hr {
         right: 18px;
         opacity: 1;
         cursor: pointer;
-
         span {
             height: 4px;
             width: 26px;
             display: block;
-
             &:first-of-type {
                 transform: rotate(45deg);
                 position: absolute;
@@ -193,40 +190,35 @@ hr {
     }
     $modalTransition: .3s ease-in-out;
     $modalTransitionDesktop: .6s ease-in-out;
-
     .signup-modal {
         position: fixed;
         top: 100%;
         bottom: 0;
         z-index: 200;
         padding-top: 75px;
-        background: rgba(0,0,0,0);
+        background: rgba(0, 0, 0, 0);
         transition: top $modalTransition, background $modalTransition .3s;
         overflow-y: scroll;
-
         &.toggled {
             top: 0;
-            background: rgba(0,0,0,1);
+            background: rgba(0, 0, 0, 1);
             transition: all $modalTransition;
         }
-
         @media screen and (min-width: $bp-md) {
             top: 0;
             opacity: 0;
             left: 0;
             width: 100%;
             visibility: hidden;
-            background: rgba(0,0,0,.8);
+            background: rgba(0, 0, 0, .8);
             transition: all $modalTransitionDesktop, visibility 0s linear .6s;
-
             &.toggled {
                 opacity: 1;
                 visibility: visible;
                 transition: all $modalTransitionDesktop;
-                background: rgba(0,0,0,.8);
+                background: rgba(0, 0, 0, .8);
             }
         }
-
         .container {
             max-width: 560px;
             border-top-left-radius: 10px;
@@ -236,36 +228,30 @@ hr {
             position: relative;
             min-height: 100%;
             height: auto;
-
             @media screen and (min-width: $bp-md) {
                 padding: 40px;
                 border-radius: 10px;
                 min-height: 0;
                 height: auto;
             }
-
         }
-
         .group {
             margin-bottom: 10px;
         }
-
         h2 {
             display: inline;
             line-height: 2.25rem;
             text-transform: uppercase;
             color: $white
         }
-        h2 + p {
+        h2+p {
             margin-top: 20px;
         }
-
         button {
             position: relative;
             background-color: #f6f6f6;
             color: #b2b2b2 !important;
         }
-
         a {
             line-height: 15px;
             font-size: 12px;
@@ -289,12 +275,10 @@ hr {
         z-index: 200;
         overflow-y: scroll;
         transition: all $modalTransition;
-
         &.toggled {
             top: 0;
             transition: all $modalTransition;
         }
-
         @media screen and (min-width: $bp-md) {
             top: 0;
             opacity: 0;
@@ -303,22 +287,18 @@ hr {
             width: 100%;
             visibility: hidden;
             transition: all $modalTransitionDesktop, visibility 0s linear .6s;
-
             &.toggled {
                 opacity: 1;
                 visibility: visible;
                 transition: all $modalTransitionDesktop;
             }
-
             .row {
                 max-width: $bp-md;
             }
         }
-
         .heading {
             padding-top: 40px;
             margin-bottom: 20px;
-
             span {
                 display: inline-block;
                 height: 30px;
@@ -326,23 +306,19 @@ hr {
                 border-radius: 50%;
             }
         }
-
         .example {
             margin-bottom: 10px;
-
             h3 {
                 display: inline;
                 line-height: 2.25rem;
                 text-transform: uppercase;
                 color: black;
             }
-
             .example-image {
                 border-radius: 3px;
                 background-color: #f6f6f6;
                 padding: 10px;
                 overflow: hidden;
-
                 .image-wrap {
                     height: 215px;
                     background-color: lightgray;
@@ -353,27 +329,23 @@ hr {
                 }
             }
         }
-
     }
     .upload-modal {
         padding-top: 30px;
         padding-bottom: 30px;
         background-color: black;
-
-        & > .container {
+        &>.container {
             padding-top: 15px;
             padding-bottom: 30px;
             border-radius: 4px;
             background-color: #ffffff;
             box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.1);
-
             .upload-media {
                 height: 200px;
                 background-color: lightgray;
                 width: 100%;
             }
         }
-
         button.ppp-btn {
             position: relative;
             margin-top: 20px;
@@ -382,35 +354,28 @@ hr {
     .ppp-btn.disabled {
         background-color: #b2b2b2;
     }
-
     .container::before,
     .container::after {
         content: none;
     }
-
-    .helper-text{
+    .helper-text {
         font-size: 12px;
         letter-spacing: 0;
         color: #000000;
-
         &.invalid {
             color: $red;
         }
     }
-
     .ppp-item {
         margin-bottom: 60px;
-
         @media screen and (min-width: $bp-md) {
             margin-bottom: 0;
         }
-
         .ppp-heading {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 15px;
-
             .ppp-tip {
                 height: 40px;
                 border-radius: 19.5px;
@@ -422,7 +387,6 @@ hr {
                 justify-content: center;
                 border-top-right-radius: 0;
                 cursor: pointer;
-
                 span {
                     width: 30px;
                     height: 30px;
@@ -434,7 +398,6 @@ hr {
     }
     .selection-pills {
         margin-bottom: 20px;
-
         .pill-inner {
             height: 50px;
             border-radius: 3px;
@@ -448,14 +411,12 @@ hr {
             position: relative;
             padding: 7px;
             margin-bottom: 10px;
-
             .close {
                 width: 24px;
                 height: 24px;
                 border-radius: 50%;
                 top: -4px;
                 right: -4px;
-
                 span {
                     height: 2px;
                     width: 15px;
@@ -463,7 +424,6 @@ hr {
                     position: absolute;
                     top: 50%;
                     left: 50%;
-
                     &:first-of-type {
                         transform: translate(-50%) rotate(45deg);
                     }
@@ -474,7 +434,6 @@ hr {
             }
         }
     }
-
     /* Checkboxes */
     .checkbox-wrap {
         display: block;
@@ -499,13 +458,11 @@ hr {
         margin-right: 15px;
         max-width: calc(100% - 30px);
         border-radius: 3px;
-
         input {
             position: absolute;
             opacity: 0;
             cursor: pointer;
         }
-
         .checkmark {
             position: absolute;
             top: 50%;
@@ -516,7 +473,6 @@ hr {
             background-color: #eee;
             margin-right: 20px;
             border-radius: 50%;
-
             &::before {
                 content: "";
                 position: absolute;
@@ -532,24 +488,19 @@ hr {
                 display: none;
             }
         }
-
-        &:hover input ~ .checkmark {
+        &:hover input~.checkmark {
             background-color: #ccc;
         }
-
-        input:checked ~ .checkmark {
+        input:checked~.checkmark {
             background-color: $azure;
         }
-
-        input:checked ~ .checkmark:after {
+        input:checked~.checkmark:after {
             display: block;
         }
     }
-
     /* Heading */
     .ppp-page-heading {
         position: relative;
-
         .progress-bar {
             content: '';
             position: absolute;
@@ -565,7 +516,6 @@ hr {
             width: 100%;
             height: 100%;
             overflow: hidden;
-
             img {
                 height: 100%;
                 width: 100%;
@@ -573,44 +523,35 @@ hr {
                 object-position: 10vw;
             }
         }
-
         .heading-title-wrap {
             padding-top: 14px;
             padding-bottom: 18px;
-
             a {
                 display: block;
                 margin-bottom: 45px;
-                
                 img {
                     display: block;
                     max-height: 40px;
-
-                    @media screen and(min-width: $bp-md){
+                    @media screen and(min-width: $bp-md) {
                         max-height: 70px;
                     }
                 }
             }
-
             h2 {
                 display: inline;
                 line-height: 2.25rem;
                 text-transform: uppercase;
-
-                @media screen and(min-width: $bp-md){
+                @media screen and(min-width: $bp-md) {
                     line-height: 3rem;
                     font-size: 3rem;
-                }                
+                }
             }
         }
     }
-
     /* Steps */
-
     .title p {
         margin-bottom: 25px;
     }
-
     .targets {
         .add-target {
             position: relative;
@@ -626,7 +567,6 @@ hr {
             border-radius: 3px;
             margin-top: 30px;
             padding: 0 15px;
-
             .add {
                 width: 20px;
                 height: 20px;
@@ -635,7 +575,6 @@ hr {
             }
         }
     }
-
     .media {
         .upload-block {
             height: 218px;
@@ -648,7 +587,6 @@ hr {
             line-height: 1.5;
             color: #b2b2b2;
             flex-direction: column;
-
             .icon {
                 width: 62px;
                 height: 57px;
@@ -664,16 +602,13 @@ hr {
             text-decoration: underline;
         }
     }
-
     .review {
         .ppp-heading {
             margin-bottom: 30px;
-
             .ppp-tip {
                 padding-right: 45px;
                 position: relative;
                 border-bottom-right-radius: 0;
-
                 span {
                     height: 35px;
                     width: 35px;
@@ -687,18 +622,15 @@ hr {
         }
         .petition-title {
             margin-bottom: 15px;
-
             h3 {
                 display: inline;
                 line-height: 1.2rem;
                 text-transform: uppercase;
             }
         }
-
         .petition-targets {
             span.target {
                 text-decoration: underline;
-
                 .no-underline {
                     text-decoration: none;
                     display: inline-block;
@@ -713,24 +645,22 @@ hr {
             }
         }
     }
-
     .share {
         .share-btns-main button {
             height: 50px;
             width: 100%;
         }
         .share-btns-extra-wrap {
-            & > div {
+            &>div {
                 height: 50px;
             }
-            & > div > a {
+            &>div>a {
                 color: $black;
             }
             .share-btns-extra {
                 max-height: 0;
                 overflow-y: hidden;
                 transition: max-height .3s ease-in-out;
-
                 &.toggled {
                     max-height: 700px;
                     transition: max-height .3s ease-in-out;
@@ -744,22 +674,40 @@ hr {
                 }
             }
         }
-
         .skip-share {
             text-align: center;
         }
     }
 }
-  /* ANIMATIONS ================ */
-  @-webkit-keyframes inputHighlighter {
-    from { background:#5264AE; }
-  to 	{ width:0; background:transparent; }
+
+/* ANIMATIONS ================ */
+
+@-webkit-keyframes inputHighlighter {
+    from {
+        background: #5264AE;
+    }
+    to {
+        width: 0;
+        background: transparent;
+    }
 }
+
 @-moz-keyframes inputHighlighter {
-    from { background:#5264AE; }
-  to 	{ width:0; background:transparent; }
+    from {
+        background: #5264AE;
+    }
+    to {
+        width: 0;
+        background: transparent;
+    }
 }
+
 @keyframes inputHighlighter {
-    from { background:#5264AE; }
-  to 	{ width:0; background:transparent; }
+    from {
+        background: #5264AE;
+    }
+    to {
+        width: 0;
+        background: transparent;
+    }
 }

@@ -18,7 +18,8 @@ const ERRORS = {
   name: 'Please provide a title for your petition.',
   text_statement: 'Please fill in the statement for your petition.',
   target: 'You must select at least one target for your petition.',
-  text_about: 'Please provide background info for your petition.'
+  text_about: 'Please provide background info for your petition.',
+  email: 'Invalid entry for the Email field.'
 }
 
 class CreatePetition extends React.Component {
@@ -36,7 +37,7 @@ class CreatePetition extends React.Component {
       // customOpen: false,
 
       /*** PPP ***/
-      step: 1,
+      step: 4,
 
       // User Data
       user: {},
@@ -62,6 +63,7 @@ class CreatePetition extends React.Component {
       //summary: false,
       //description: false,
       selectedTargets: [],
+      targetQuery: false,
 
       /*** Convo ***/
       section: 0,
@@ -152,16 +154,21 @@ class CreatePetition extends React.Component {
     }, bubbleTime)
   }
 
-  saveInput() {
-    this.nextBubble();
-    this.setState({ currentBubble: 0 });
-    document.getElementById("user-input").value = "";
-    document.getElementById("user-input").focus();
+  saveInput(inputType) {
+    return () => {
+      this.setState({ errors: [] });
+      if (!this.convoInputIsValid(inputType)) return;
 
-    this.inputTimeout = setTimeout(function () {
-      this.nextSection();
-      this.callSection();
-    }.bind(this), 500)
+      this.nextBubble();
+      this.setState({ currentBubble: 0 });
+      document.getElementById("user-input").value = "";
+      document.getElementById("user-input").focus();
+
+      this.inputTimeout = setTimeout(function () {
+        this.nextSection();
+        this.callSection();
+      }.bind(this), 500)
+    }
   }
 
   nextSection() {
@@ -312,6 +319,25 @@ class CreatePetition extends React.Component {
     return true
   }
 
+  convoInputIsValid(inputType) {
+    let errors = [];
+    let errorKey;
+
+    if (inputType === 'email') errorKey = 'email'
+    if (inputType === 'title') errorKey = 'name';
+    if (inputType === 'summary') errorKey = 'text_statement';
+    if (inputType === 'target') errorKey = 'target';
+    if (inputType === 'description') errorKey = 'text_about';
+
+    if (!this.state[inputType]) errors.push(ERRORS[errorKey]);
+    if (errors.length) {
+      console.error(errors);
+      this.setState({ errors })
+      return false
+    }
+    return true;
+  }
+
 
   render() {
 
@@ -370,6 +396,7 @@ class CreatePetition extends React.Component {
             summary={this.state.summary}
             description={this.state.description}
             selectTarget={this.selectTarget}
+            targetQuery={this.state.targetQuery}
 
             // Targets
             setSelected={this.setSelected}
@@ -404,6 +431,7 @@ class CreatePetition extends React.Component {
 
             updateStateFromValue={this.updateStateFromValue}
             getTargets={this.getTargets}
+            errors={this.state.errors}
 
             // User
             name={this.state.name}
@@ -428,6 +456,7 @@ class CreatePetition extends React.Component {
             title={this.state.title}
             summary={this.state.summary}
             description={this.state.description}
+            targetQuery={this.state.targetQuery}
 
             // Bubbles
             bubbleShow={this.state.bubbleShow}

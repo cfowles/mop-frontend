@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { conversation } from './conversation'
 import ReactTimeout from 'react-timeout'
+import Edit from '../../../../giraffe-ui/svgs/edit.svg'
+import Lightbulb from '../../../../giraffe-ui/svgs/lightbulb.svg'
 
 const ChatBubble = ({
     currentIndex,
@@ -17,11 +19,13 @@ const ChatBubble = ({
         <div className={innerClasses}>{bubble.content}</div>
     )
     const tip = (
-        <span onClick={toggleOpen("tipModalToggled", bubble.tipID)}></span>
+        <span onClick={toggleOpen("tipModalToggled", bubble.tipID)}>
+            <Lightbulb />
+        </span>
     );
     const edit = (
         <span>
-            <svg><use xlinkHref="#edit"/></svg>
+            <Edit />
         </span>
     );
     const interactBubble = (

@@ -18,7 +18,10 @@ export class CreateTargets extends React.Component {
       geoState: null,
       stateOpen: false,
       customOpen: false,
-      targetsLoaded: false
+      targetsLoaded: false,
+      // query: false,
+      load: 10,
+      filteredTargets: false
     }
 
     // this.toggleOpen = this.toggleOpen.bind(this)
@@ -27,20 +30,46 @@ export class CreateTargets extends React.Component {
     // this.renderCustom = this.renderCustom.bind(this)
     this.renderTargets = this.renderTargets.bind(this)
     this.renderSelectedTargets = this.renderSelectedTargets.bind(this)
+    this.loadMoreTargets = this.loadMoreTargets.bind(this)
+    // this.filterTargets = this.filterTargets.bind(this)
+    this.renderTargets = this.renderTargets.bind(this)
+    this.updateQuery = this.updateQuery.bind(this)
   }
 
   static getDerivedStateFromProps(props) {
     const allTargets = props.items;
+    let filteredTargets = allTargets.map((target, i) => {
+      // Filter selected targets
+      if (!(props.targets.length && props.targets.some(e => e.label === target.label))) {
+        // Filter query
+        if (target.label.toLowerCase().indexOf(props.targetQuery) != -1 || !props.targetQuery) {
+          return (
+            <label className={cx("checkbox-wrap col-12 review-hidden")} key={i} onClick={props.onTargetAdd(target, false)}>
+              <span>
+                {target.label}
+              </span>
+              <input name={target.value} id={props.step === 4 ? "review" + target.value : target.value} className="bg-ice-blue" type="checkbox" title={target.value} />
+              <span className="checkmark" />
+            </label>
+          )
+        } else {
+          return
+        }
+      }
+    })
+    
+    filteredTargets = filteredTargets.filter( target => !!target )
 
     return {
-      allTargets
+      allTargets,
+      filteredTargets
     }
   }
 
   componentDidMount() {
     // Preload congress for autocomplete
-    this.props.dispatch(loadTargets('national')).then(()=>{
-        this.setState({ targetsLoaded: true })
+    this.props.dispatch(loadTargets('national')).then(() => {
+      this.setState({ targetsLoaded: true })
     })
 
     // Handle if we need to preload a geoState
@@ -50,56 +79,67 @@ export class CreateTargets extends React.Component {
       )
     }
   }
-
+  updateQuery(event) {
+    this.renderTargets();
+    let u = this.props.updateStateFromValue('targetQuery');
+    u(event);
+  }
   renderTargets() {
-    if (!this.state.targetsLoaded) return null;
-
-    return this.state.allTargets.map((target, i)=>{
-        if (!(this.props.targets.length && this.props.targets.some(e => e.label === target.label))) {
-            return (
-                <label className={cx("checkbox-wrap col-12 review-hidden")} key={i} onClick={this.props.onTargetAdd(target, false)}>
-                    <span>
-                        {target.label}
-                    </span>
-                    <input name={target.value} id={this.props.step === 4 ? "review" + target.value : target.value } className="bg-ice-blue" type="checkbox" title={target.value} />
-                    <span className="checkmark" />
-                </label>
-            )
-        }
+    if (!this.state.filteredTargets) return;
+    let filterIndex = 1
+    return this.state.filteredTargets.map((target, i) => {
+      if (filterIndex < this.state.load) {
+        filterIndex++;
+        return target;
+      }
     })
   }
   renderSelectedTargets() {
-      return this.props.targets.map((target, i)=>{
-          return (
-            <div className="col-6 selection-pill" key={i}>
-                <div className="pill-inner bg-ice-blue black">
-                    {target.label}
-                    <div className="close bg-azure" onClick={this.props.onTargetRemove(target)}>
-                        <span className="bg-white" />
-                        <span className="bg-white" />
-                    </div>
-                </div>
+    return this.props.targets.map((target, i) => {
+      return (
+        <div className="col-6 selection-pill" key={i}>
+          <div className="pill-inner bg-ice-blue black">
+            {target.label}
+            <div className="close bg-azure" onClick={this.props.onTargetRemove(target)}>
+              <span className="bg-white" />
+              <span className="bg-white" />
             </div>
-          )
-      })
+          </div>
+        </div>
+      )
+    })
   }
 
-
+  loadMoreTargets() {
+    this.setState(prevState => {
+      let newLoad = prevState.load + 10;
+      return { load: newLoad }
+    })
+    this.renderTargets();
+  }
 
 
   render() {
     const { setSelected, setRef } = this.props
 
     return (
-    <Targets
+      <Targets
         setSelected={setSelected}
         setRef={setRef}
         step={this.props.step}
         nextStep={this.props.nextStep}
         toggleOpen={this.props.toggleOpen}
         renderTargets={this.renderTargets}
+        // filterTargets={this.filterTargets}
         renderSelectedTargets={this.renderSelectedTargets}
-    />
+        targetsLoaded={this.state.targetsLoaded}
+        load={this.state.load}
+        loadMoreTargets={this.loadMoreTargets}
+        updateStateFromValue={this.props.updateStateFromValue}
+        filteredTargets={this.state.filteredTargets}
+        updateQuery={this.updateQuery}
+        targetQuery={this.props.targetQuery}
+      />
     )
   }
 }
@@ -116,11 +156,11 @@ CreateTargets.propTypes = {
   onChangeCustomInputs: PropTypes.func
 }
 function mapStateToProps(store) {
-    return {
-      items:
-        (store.petitionTargetsStore && store.petitionTargetsStore.national) || []
-    }
+  return {
+    items:
+      (store.petitionTargetsStore && store.petitionTargetsStore.national) || []
   }
+}
 export default connect(mapStateToProps)(CreateTargets)
 
 // OLD
@@ -138,7 +178,7 @@ export default connect(mapStateToProps)(CreateTargets)
 
 // export class CreateTargets extends React.Component {
 //   constructor(props) {
-    
+
 //     super(props)
 //     this.state = {
 //       nationalOpen: false,

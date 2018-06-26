@@ -54,6 +54,7 @@ const CreatePetitionForm = ({
   title,
   summary,
   description,
+  targetQuery,
 
   // Targets
   selected,
@@ -98,9 +99,9 @@ const CreatePetitionForm = ({
   const targetsStep =     <CreateTargets 
                             tipModalToggled={tipModalToggled}
                             toggleOpen={toggleOpen}
-                            updateStateFromValue={updateStateFromValue}
                             step={step}
                             nextStep={nextStep}
+                            updateStateFromValue={updateStateFromValue}
 
                             setSelected={setSelected}
                             setRef={setRef}
@@ -108,7 +109,8 @@ const CreatePetitionForm = ({
                             onTargetAdd={onTargetAdd}
                             onTargetRemove={onTargetRemove}
                             customInputs={customInputs}
-                            onChangeCustomInputs={onChangeCustomInputs} />
+                            onChangeCustomInputs={onChangeCustomInputs} 
+                            targetQuery={targetQuery}/>
   const reviewStep =      <Review
                             tipModalToggled={tipModalToggled}
                             toggleOpen={toggleOpen}

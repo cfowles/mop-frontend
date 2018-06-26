@@ -1,19 +1,34 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
+import { InputMaterial } from "GiraffeUI/input-material";
+import Close from '../../../../giraffe-ui/svgs/Close.svg'
 
 const Targets = ({
-    toggleOpen, 
-    step, 
-    nextStep, 
-    setRef, 
-    setSelected, 
-    targets,
-    renderTargets, 
-    renderSelectedTargets 
+	toggleOpen,
+	step,
+	nextStep,
+	setRef,
+	setSelected,
+	targets,
+	renderTargets,
+	renderSelectedTargets,
+	targetsLoaded,
+	updateStateFromValue,
+	loadMoreTargets,
+	filteredTargets,
+	// filterTargets, 
+	load,
+	updateQuery,
+	targetQuery
 }) => {
-    const classes = step === 4 ? "targets ppp-step container active" : "targets ppp-step container";
- 
+	const classes = step === 4 ? "targets ppp-step container active" : "targets ppp-step container";
+
+	const loadMoreButton = (
+		<div className="col-12">
+			<button type="button" className="xl300 center display-block btn bg-gray" name="load-more" id="load-more" onClick={loadMoreTargets}>Show More Suggestions</button>
+		</div>
+	)
 
 	return (
 		<div className={classes}>
@@ -33,12 +48,16 @@ const Targets = ({
 						{renderSelectedTargets()}
 					</div>
 				</div>
-				<div className="col-12 group">
-					<input name="search" id="search_field" className="bg-ice-blue" type="text" title="Decision Maker Search" />
-					<span className="bar" />
-					<label>Search a specific target</label>
-				</div>
+				<InputMaterial 
+					name="target-query" 
+					type="text" 
+					className="bg-ice-blue" 
+					placeholder="Search a specific target" 
+					stateRef={targetQuery} 
+					onChange={updateQuery} />
+				{!targetsLoaded ? 'Loading...' : ''}
 				{renderTargets()}
+				{load < filteredTargets.length ? loadMoreButton : ''}
 				<div className="col-12">
 					<div className="add-target bg-ice-blue">
 						Add “Deseret News” as target

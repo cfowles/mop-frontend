@@ -11,7 +11,8 @@ export const InputMaterial = ({
   helperText,
   charLimit,
   stateRef,
-  onChange
+  onChange,
+  ...rest
 }) => {
   const input = (
     <input
@@ -24,6 +25,7 @@ export const InputMaterial = ({
         )}
         onChange={onChange}
         onBlur={onChange}
+        {...rest}
       />
   )
   const textarea = (
@@ -37,6 +39,7 @@ export const InputMaterial = ({
         )}
         onChange={onChange}
         onBlur={onChange}
+        {...rest}
       />
   )
   const inputElement = type === 'textarea' ? textarea : input;

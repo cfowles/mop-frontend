@@ -8,7 +8,8 @@ hr {
   margin: 20px 0;
 }
 
-.giraffe body, .giraffe#giraffe-wrapper {
+.giraffe body,
+.giraffe#giraffe-wrapper {
   padding-top: 0;
 }
 
@@ -20,6 +21,84 @@ hr {
  * PPP
  ****************/
 /* General */
+.group {
+  position: relative;
+  margin-bottom: 45px;
+}
+.group input,
+.group textarea {
+  width: 100%;
+  font-size: 16px;
+  padding: 32px 9px 10px;
+  border: 0;
+  border-bottom: 2px solid #99ddff;
+  box-shadow: none;
+  height: auto;
+  margin: 0;
+}
+.group input[type=text]:hover, .group input[type=text]:active, .group input[type=password]:hover, .group input[type=password]:active,
+.group textarea[type=text]:hover,
+.group textarea[type=text]:active,
+.group textarea[type=password]:hover,
+.group textarea[type=password]:active {
+  background-color: #e5f5ff;
+}
+.group label {
+  color: #999;
+  font-size: 18px;
+  font-weight: normal;
+  position: absolute;
+  pointer-events: none;
+  left: 23px;
+  top: 22px;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+}
+.group input:focus ~ label,
+.group input.has-input ~ label,
+.group textarea:focus ~ label,
+.group textarea.has-input ~ label {
+  top: 2px;
+  font-size: 14px;
+  color: #00abff;
+}
+.group .bar {
+  display: block;
+  width: 100%;
+  bottom: -2px;
+  position: relative;
+}
+.group .bar:before,
+.group .bar:after {
+  content: "";
+  height: 2px;
+  width: 0;
+  bottom: 1px;
+  position: absolute;
+  background: #00abff;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+}
+.group .bar:before {
+  left: 50%;
+}
+.group .bar:after {
+  right: 50%;
+}
+.group input:focus ~ .bar:before,
+.group input:focus ~ .bar:after,
+.group textarea:focus ~ .bar:before,
+.group textarea:focus ~ .bar:after {
+  width: 50%;
+}
+.group textarea ~ .bar,
+.group textarea ~ .bar textarea:focus ~ .bar,
+.group textarea:focus ~ .bar {
+  top: -6px;
+}
+
 #ppp {
   min-height: 100vh;
   display: flex;
@@ -51,80 +130,13 @@ hr {
   left: 0;
   transition: opacity 1.5s cubic-bezier(0.64, 0.04, 0.35, 1), visibility 0s linear 1.5s;
   visibility: hidden;
+  background: #ffffff;
 }
 #ppp .ppp-step.active {
   opacity: 1;
   z-index: 1;
   transition: opacity 1.5s cubic-bezier(0.64, 0.04, 0.35, 1) 1.5s;
   visibility: visible;
-}
-#ppp .group {
-  position: relative;
-  margin-bottom: 45px;
-}
-#ppp .group input, #ppp .group textarea {
-  width: 100%;
-  font-size: 16px;
-  padding: 32px 9px 10px;
-  border: 0;
-  border-bottom: 2px solid #99ddff;
-  box-shadow: none;
-  height: auto;
-  margin: 0;
-}
-#ppp .group input[type=text]:hover, #ppp .group input[type=text]:active, #ppp .group input[type=password]:hover, #ppp .group input[type=password]:active, #ppp .group textarea[type=text]:hover, #ppp .group textarea[type=text]:active, #ppp .group textarea[type=password]:hover, #ppp .group textarea[type=password]:active {
-  background-color: #e5f5ff;
-}
-#ppp .group label {
-  color: #999;
-  font-size: 18px;
-  font-weight: normal;
-  position: absolute;
-  pointer-events: none;
-  left: 23px;
-  top: 22px;
-  transition: 0.2s ease all;
-  -moz-transition: 0.2s ease all;
-  -webkit-transition: 0.2s ease all;
-}
-#ppp .group input:focus ~ label,
-#ppp .group input.has-input ~ label,
-#ppp .group textarea:focus ~ label,
-#ppp .group textarea.has-input ~ label {
-  top: 2px;
-  font-size: 14px;
-  color: #00abff;
-}
-#ppp .group .bar {
-  display: block;
-  width: 100%;
-  bottom: -2px;
-  position: relative;
-}
-#ppp .group .bar:before, #ppp .group .bar:after {
-  content: "";
-  height: 2px;
-  width: 0;
-  bottom: 1px;
-  position: absolute;
-  background: #00abff;
-  transition: 0.2s ease all;
-  -moz-transition: 0.2s ease all;
-  -webkit-transition: 0.2s ease all;
-}
-#ppp .group .bar:before {
-  left: 50%;
-}
-#ppp .group .bar:after {
-  right: 50%;
-}
-#ppp .group input:focus ~ .bar:before, #ppp .group input:focus ~ .bar:after,
-#ppp .group textarea:focus ~ .bar:before, #ppp .group textarea:focus ~ .bar:after {
-  width: 50%;
-}
-#ppp .group textarea ~ .bar, #ppp .group textarea ~ .bar textarea:focus ~ .bar,
-#ppp .group textarea:focus ~ .bar {
-  top: -6px;
 }
 #ppp .ppp-btn {
   position: fixed;
@@ -246,6 +258,7 @@ hr {
   position: fixed;
   top: 100%;
   max-width: 768px;
+  max-height: 100vh;
   min-height: 100vh;
   z-index: 200;
   overflow-y: scroll;

@@ -23,7 +23,8 @@ export const conversation = [
     type: 'input',
     input: {
       type: 'email',
-      editing: false
+      editing: false,
+      charLimit: 0
     }
   },
   // Section 1: Title
@@ -52,7 +53,8 @@ export const conversation = [
     type: 'input',
     input: {
       type: 'title',
-      editing: false
+      editing: false,
+      charLimit: 50
     }
   },
   // Section 2: Statement
@@ -87,7 +89,8 @@ export const conversation = [
     type: 'input',
     input: {
       type: 'summary',
-      editing: false
+      editing: false,
+      charLimit: 100
     }
   },
   // Section 3: Background
@@ -116,7 +119,8 @@ export const conversation = [
     type: 'input',
     input: {
       type: 'description',
-      editing: false
+      editing: false,
+      charLimit: 500
     }
   },
   // Section 4: Targets

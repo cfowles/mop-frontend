@@ -18,6 +18,9 @@ import ChatBubble from './conversation/chat-bubble'
 import { conversation } from './conversation/conversation'
 import ConversationalInput from './conversation/input'
 import Tip from './ppp-steps/tip'
+import DesktopProgress from './conversation/desktop-progress'
+
+
 
 
 const instructionsByField = {
@@ -49,7 +52,8 @@ const CreatePetitionFormConversation = ({
   description,
   chatEnd,
   tipModalToggled,
-  step
+  step,
+  errors
 }) => {
   const instructions = instructionsByField[selected]
 
@@ -119,6 +123,10 @@ const CreatePetitionFormConversation = ({
           saveInput={saveInput}
           updateStateFromValue={updateStateFromValue}
           currentIndex={currentIndex}
+          errors={errors}
+          title={title}
+          summary={summary}
+          description={description}
         />
         <div style={{ float: "left", clear: "both" }}
           className="chat-end" >
@@ -128,6 +136,10 @@ const CreatePetitionFormConversation = ({
         tipModalToggled={tipModalToggled}
         toggleOpen={toggleOpen}
         step={step} />
+      <DesktopProgress
+        section={section}
+      />
+
     </div>
   )
 

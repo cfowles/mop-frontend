@@ -1,3 +1,5 @@
+@import './create';
+
 $white: #ffffff;
 $off-white: #f3f3f3;
 $gray: #cacaca;
@@ -13,12 +15,10 @@ $light-blue: #99ddff;
 $ice-blue: #e5f5ff;
 $red: #ea1c24;
 $muted-red: #c3645c;
-
-$bp-sm:	0px;
-$bp-md:	768px;
-$bp-lg:	1008px;
-$bp-xl:	1440px;
-
+$bp-sm: 0px;
+$bp-md: 768px;
+$bp-lg: 1008px;
+$bp-xl: 1440px;
 #footer {
     display: none !important;
 }
@@ -51,6 +51,81 @@ $bp-xl:	1440px;
             &:last-of-type {
                 transform: rotate(-45deg);
             }
+        }
+    }
+    .progress-wrap {
+        display: none;
+        position: fixed;
+        top: 60px;
+        left: 50%;
+        margin-left: 296px;
+        border-left: 3px solid #e9e9e9;
+        padding: 8px;
+        .step {
+            width: 185px;
+            height: 35px;
+            border-radius: 4px;
+            background-color: #ffffff;
+            margin-top: 5px;
+            color: #b2b2b2;
+            line-height: 35px;
+            padding-left: 14px;
+            font-size: .875rem;
+            transition: .6s all ease;
+            .checkmark {
+                display: none;
+                float: right;
+                margin-right: 12px;
+                border-radius: 50%;
+            }
+            &.step-active {
+                height: 45px;
+                line-height: 45px;
+                width: 210px;
+                color: #000000;
+                font-size: 1rem;
+                margin: 10px 0;
+                .checkmark {
+                    display: block;
+                    float: right;
+                    margin-right: 12px;
+                    margin-top: 10px;
+                    width: 25px;
+                    height: 25px;
+                    border-radius: 50%;
+                    background-color: #f6f6f6;
+                    text-align: center;
+                    line-height: 35px;
+                    svg {
+                        fill: #e9e9e9;
+                        height: 20px;
+                        width: 20px;
+                    }
+                }
+            }
+            &.step-complete {
+                color: #000000;
+                .checkmark {
+                    display: block;
+                    background-color: #e5f5ff;
+                    width: 20px;
+                    height: 20px;
+                    margin-top: 7px;
+                    line-height: 26px;
+                    text-align: center;
+                    svg {
+                        fill: #000000;
+                        width: 16px;
+                        height: 16px;
+                    }
+                }
+            }
+            &:first-of-type {
+                margin-top: 15px;
+            }
+        }
+        @media (min-width: 1034px) {
+            display: block;
         }
     }
     $modalTransition: .3s ease-in-out;
@@ -154,6 +229,12 @@ $bp-xl:	1440px;
                     right: -3px;
                     top: -3px;
                     transform: scale(0);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    svg {
+                        fill: $white;
+                    }
                 }
             }
             &.bubble-tip {
@@ -167,6 +248,9 @@ $bp-xl:	1440px;
                     background-color: #ffffff;
                     border-radius: 50%;
                     margin-left: 15px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
                 }
             }
         }
@@ -238,24 +322,58 @@ $bp-xl:	1440px;
         width: 100%;
         max-width: 560px; //border-radius: 10px 10px 0 0;
         background-color: #00abff;
-        height: 75px;
-        padding: 15px;
-        input {
+        min-height: 75px;
+        padding: 15px 15px 5px;
+        .group {
+            margin-bottom: 0;
+            .bar {
+                display: none;
+            }
+            label {
+                display: none;
+            }
+            .helper-text {
+                position: absolute;
+                left: 27px;
+                top: calc(100% - 25px);
+                color: $azure;
+                &.invalid {
+                    color: $red;
+                }
+            }
+        }
+        input, textarea {
             width: 100%;
             height: 50px;
             border-radius: 5px;
             background-color: #ffffff;
             padding: 0 15px;
+            padding: 10px 30px 8px 10px;
+            min-height: 50px;
+            font-size: 16px;
+            line-height: 28px;
+            &.has-helper-text {
+                padding: 10px 30px 25px 10px;
+            }
         }
         .bubble-submit {
             position: absolute;
             right: 29px;
-            top: 29px;
+            top: 33px;
             height: 24px;
             width: 24px;
             z-index: 5;
             svg {
                 fill: #00abff;
+            }
+        }
+
+        .convo-error-message {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            &.show {
+                display: block;
             }
         }
     }
