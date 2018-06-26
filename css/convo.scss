@@ -203,7 +203,8 @@ $bp-xl: 1440px;
         display: block;
         opacity: 0;
         top: 100px;
-        transition: opacity .5s ease-in-out, top .5s ease-in-out, visibility 0s linear .5s;
+        //transition: opacity .5s ease-in-out, top .5s ease-in-out, visibility 0s linear .5s;
+        transition: opacity .6s ease-in-out, top .2s linear, visibility linear .5s;
         max-height: 0;
         .inner {
             display: inline-flex;
@@ -258,7 +259,8 @@ $bp-xl: 1440px;
             opacity: 1;
             top: 0;
             visibility: visible;
-            transition: opacity .5s ease-in-out, top .5s ease-in-out, visibility 0s linear 0s;
+            //transition: opacity .5s ease-in-out, top .5s ease-in-out, visibility 0s linear 0s;
+            transition: opacity .6s ease-in-out, top .2s linear, visibility linear .5s;
             max-height: 500px;
             .inner {
                 padding: 10px 20px;

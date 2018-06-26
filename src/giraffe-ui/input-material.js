@@ -33,6 +33,7 @@ export const InputMaterial = ({
         type={type}
         name={name}
         id={name}
+        placeholder={placeholder}
         className={cx(
           className,
           stateRef ? 'has-input' : ''

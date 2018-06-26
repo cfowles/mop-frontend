@@ -255,7 +255,7 @@ class CreatePetition extends React.Component {
       }
 
       this.setState(
-        state => ({ target: [...state.target, target] }),
+        state => ({ target: [...state.target, target], targetQuery: false }),
         () => callback && callback()
       )
     }

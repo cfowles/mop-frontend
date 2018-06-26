@@ -34,6 +34,7 @@ export class CreateTargets extends React.Component {
     // this.filterTargets = this.filterTargets.bind(this)
     this.renderTargets = this.renderTargets.bind(this)
     this.updateQuery = this.updateQuery.bind(this)
+    this.renderCustomTarget = this.renderCustomTarget.bind(this)
   }
 
   static getDerivedStateFromProps(props) {
@@ -41,8 +42,10 @@ export class CreateTargets extends React.Component {
     let filteredTargets = allTargets.map((target, i) => {
       // Filter selected targets
       if (!(props.targets.length && props.targets.some(e => e.label === target.label))) {
+        // If exists, make lowercase
+        let searchText = props.targetQuery == false ? false : props.targetQuery.toLowerCase()
         // Filter query
-        if (target.label.toLowerCase().indexOf(props.targetQuery) != -1 || !props.targetQuery) {
+        if (target.label.toLowerCase().indexOf(searchText) != -1 || !searchText) {
           return (
             <label className={cx("checkbox-wrap col-12 review-hidden")} key={i} onClick={props.onTargetAdd(target, false)}>
               <span>
@@ -57,7 +60,7 @@ export class CreateTargets extends React.Component {
         }
       }
     })
-    
+
     filteredTargets = filteredTargets.filter( target => !!target )
 
     return {
@@ -109,6 +112,26 @@ export class CreateTargets extends React.Component {
       )
     })
   }
+  renderCustomTarget() {
+    //props.onTargetAdd(target, false)
+    let ct = {
+      label: this.props.targetQuery,
+      name: this.props.targetQuery,
+      target_id: "",
+      target_type: "custom",
+      value: "custom::" + this.props.targetQuery
+    }
+    if(this.props.targetQuery && this.state.filteredTargets.length === 0) {
+      return (
+        <div className="add-target bg-ice-blue" onClick={this.props.onTargetAdd(ct, true)}>
+          Add “{this.props.targetQuery}” as your target
+          <div className="add" />
+        </div>
+      )
+    } else {
+      return
+    }
+  }
 
   loadMoreTargets() {
     this.setState(prevState => {
@@ -132,6 +155,7 @@ export class CreateTargets extends React.Component {
         renderTargets={this.renderTargets}
         // filterTargets={this.filterTargets}
         renderSelectedTargets={this.renderSelectedTargets}
+        renderCustomTarget={this.renderCustomTarget}
         targetsLoaded={this.state.targetsLoaded}
         load={this.state.load}
         loadMoreTargets={this.loadMoreTargets}
@@ -139,6 +163,7 @@ export class CreateTargets extends React.Component {
         filteredTargets={this.state.filteredTargets}
         updateQuery={this.updateQuery}
         targetQuery={this.props.targetQuery}
+        onTargetAdd={this.props.onTargetAdd}
       />
     )
   }

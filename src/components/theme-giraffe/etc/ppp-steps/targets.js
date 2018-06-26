@@ -17,10 +17,11 @@ const Targets = ({
 	updateStateFromValue,
 	loadMoreTargets,
 	filteredTargets,
-	// filterTargets, 
+	// filterTargets,
 	load,
 	updateQuery,
-	targetQuery
+	targetQuery,
+	renderCustomTarget
 }) => {
 	const classes = step === 4 ? "targets ppp-step container active" : "targets ppp-step container";
 
@@ -28,6 +29,13 @@ const Targets = ({
 		<div className="col-12">
 			<button type="button" className="xl300 center display-block btn bg-gray" name="load-more" id="load-more" onClick={loadMoreTargets}>Show More Suggestions</button>
 		</div>
+	)
+
+	const customTarget = filteredTargets.length > 0 ? '' : (
+			<div className="add-target bg-ice-blue">
+				Add “{targetQuery}” as target
+				<div className="add" />
+			</div>
 	)
 
 	return (
@@ -48,21 +56,18 @@ const Targets = ({
 						{renderSelectedTargets()}
 					</div>
 				</div>
-				<InputMaterial 
-					name="target-query" 
-					type="text" 
-					className="bg-ice-blue" 
-					placeholder="Search a specific target" 
-					stateRef={targetQuery} 
+				<InputMaterial
+					name="target-query"
+					type="search"
+					className="bg-ice-blue"
+					placeholder="Search a specific target"
+					stateRef={targetQuery}
 					onChange={updateQuery} />
 				{!targetsLoaded ? 'Loading...' : ''}
 				{renderTargets()}
 				{load < filteredTargets.length ? loadMoreButton : ''}
 				<div className="col-12">
-					<div className="add-target bg-ice-blue">
-						Add “Deseret News” as target
-						<div className="add" />
-					</div>
+					{renderCustomTarget()}
 				</div>
 			</div>
 			<button type="button" className="xl300 center display-block ppp-btn btn azure" value="Preview The Petition" name="targets_next" id="targets_next" onClick={nextStep}>
