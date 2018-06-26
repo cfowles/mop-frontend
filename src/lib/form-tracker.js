@@ -104,10 +104,7 @@ export function FormTracker({ experiment = '', formvariant = '', variationname =
   this.track = function track(eventName) {
     this.options.formStarted = 1
     if (window.analytics) {
-      window.analytics.track({
-        event: eventName,
-        properties: { ...this.state }
-      })
+      window.analytics.track(eventName, { ...this.state })
     }
     if (Config.FAKE_ANALYTICS) {
       console.log(`Tracking event ${eventName} with current state object: ${JSON.stringify(this.state)} `)
