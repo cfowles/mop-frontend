@@ -12,7 +12,8 @@ const ConversationalInput = ({
   errors,
   title,
   summary,
-  description
+  description,
+  email
 }) => {
 
   const inputType = conversation[currentIndex].hasOwnProperty('input') ? conversation[currentIndex].input.type : '';
@@ -20,6 +21,7 @@ const ConversationalInput = ({
   const charLimit = conversation[currentIndex].hasOwnProperty('input') ? conversation[currentIndex].input.charLimit: '';
   
   let stateRef;
+  if(inputType === 'email') stateRef = email;
   if(inputType === 'title') stateRef = title;
   if(inputType === 'summary') stateRef = summary;
   if(inputType === 'description') stateRef = description;
@@ -32,6 +34,7 @@ const ConversationalInput = ({
         name={inputType}
         type="textarea"
         className={classes}
+        label={inputPlaceholder}
         placeholder={inputPlaceholder}
         charLimit={charLimit}
         stateRef={stateRef}

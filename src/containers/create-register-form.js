@@ -41,7 +41,7 @@ class CreateRegister extends React.Component {
       errors.push({ message: 'Missing required entry for the Name field.' })
     }
     if (!isValidEmail(email)) {
-      if (!this.email.length) {
+      if (!email.length) {
         errors.push({ message: 'Missing required entry for the Email field.' })
       } else {
         errors.push({ message: 'Invalid entry for the Email field.' })

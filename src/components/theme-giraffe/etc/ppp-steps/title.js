@@ -19,7 +19,7 @@ const Title = ({ toggleOpen, updateStateFromValue, step, title }) => (
             <div className="col-12">
                 <p>Start with a petition title - successful titles are brief, like a newspaper headline.</p>
             </div>
-            <InputMaterial name="title" type="textarea" className="bg-ice-blue" placeholder="Your Petition Title" charLimit={50} stateRef={title} onChange={updateStateFromValue("title")} />
+            <InputMaterial name="title" type="textarea" className="bg-ice-blue" label="Your Petition Title" charLimit={50} stateRef={title} onChange={updateStateFromValue("title")} />
         </div>
         <button type="button" className="center display-block ppp-btn btn azure" name="title_next" id="title_next" onClick={toggleOpen("signupModalToggled")} disabled={!title || title.length > 50}>Next</button>
     </div>

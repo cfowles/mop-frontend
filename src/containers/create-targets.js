@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { loadTargets } from '../actions/createPetitionActions'
 
 import Targets from '../components/theme-giraffe/etc/ppp-steps/targets'
+import ConvoTargets from '../components/theme-giraffe/etc/conversation/targets'
 import NationalTargetSelect from 'LegacyTheme/form/target-select/national'
 import StateTargetSelect from 'LegacyTheme/form/target-select/state'
 import CustomTargetSelect from '../components/theme-legacy/form/target-select/custom'
@@ -47,11 +48,11 @@ export class CreateTargets extends React.Component {
         // Filter query
         if (target.label.toLowerCase().indexOf(searchText) != -1 || !searchText) {
           return (
-            <label className={cx("checkbox-wrap col-12 review-hidden")} key={i} onClick={props.onTargetAdd(target, false)}>
+            <label className={cx("checkbox-wrap col-12 review-hidden", props.theme === 'ppp'? "bg-ice-blue" : "bg-white")} key={i} onClick={props.onTargetAdd(target, false)}>
               <span>
                 {target.label}
               </span>
-              <input name={target.value} id={props.step === 4 ? "review" + target.value : target.value} className="bg-ice-blue" type="checkbox" title={target.value} />
+              <input name={target.value} id={props.step === 4 ? "review" + target.value : target.value}  type="checkbox" title={target.value} />
               <span className="checkmark" />
             </label>
           )
@@ -84,6 +85,7 @@ export class CreateTargets extends React.Component {
   }
   updateQuery(event) {
     this.renderTargets();
+    this.setState({load: 10});
     let u = this.props.updateStateFromValue('targetQuery');
     u(event);
   }
@@ -143,29 +145,55 @@ export class CreateTargets extends React.Component {
 
 
   render() {
-    const { setSelected, setRef } = this.props
+    const { setSelected, setRef, theme } = this.props
 
-    return (
-      <Targets
-        setSelected={setSelected}
-        setRef={setRef}
-        step={this.props.step}
-        nextStep={this.props.nextStep}
-        toggleOpen={this.props.toggleOpen}
-        renderTargets={this.renderTargets}
-        // filterTargets={this.filterTargets}
-        renderSelectedTargets={this.renderSelectedTargets}
-        renderCustomTarget={this.renderCustomTarget}
-        targetsLoaded={this.state.targetsLoaded}
-        load={this.state.load}
-        loadMoreTargets={this.loadMoreTargets}
-        updateStateFromValue={this.props.updateStateFromValue}
-        filteredTargets={this.state.filteredTargets}
-        updateQuery={this.updateQuery}
-        targetQuery={this.props.targetQuery}
-        onTargetAdd={this.props.onTargetAdd}
-      />
-    )
+    if (theme === 'ppp') {
+      return (
+        <Targets
+          setSelected={setSelected}
+          setRef={setRef}
+          step={this.props.step}
+          nextStep={this.props.nextStep}
+          toggleOpen={this.props.toggleOpen}
+          renderTargets={this.renderTargets}
+          // filterTargets={this.filterTargets}
+          renderSelectedTargets={this.renderSelectedTargets}
+          renderCustomTarget={this.renderCustomTarget}
+          targetsLoaded={this.state.targetsLoaded}
+          load={this.state.load}
+          loadMoreTargets={this.loadMoreTargets}
+          updateStateFromValue={this.props.updateStateFromValue}
+          filteredTargets={this.state.filteredTargets}
+          updateQuery={this.updateQuery}
+          targetQuery={this.props.targetQuery}
+          onTargetAdd={this.props.onTargetAdd}
+        />
+      )
+    } else {
+      return (
+        <ConvoTargets
+          setSelected={setSelected}
+          setRef={setRef}
+          step={this.props.step}
+          nextStep={this.props.nextStep}
+          toggleOpen={this.props.toggleOpen}
+          renderTargets={this.renderTargets}
+          // filterTargets={this.filterTargets}
+          renderSelectedTargets={this.renderSelectedTargets}
+          renderCustomTarget={this.renderCustomTarget}
+          targetsLoaded={this.state.targetsLoaded}
+          load={this.state.load}
+          loadMoreTargets={this.loadMoreTargets}
+          updateStateFromValue={this.props.updateStateFromValue}
+          filteredTargets={this.state.filteredTargets}
+          updateQuery={this.updateQuery}
+          targetQuery={this.props.targetQuery}
+          onTargetAdd={this.props.onTargetAdd}
+          section={this.props.section}
+          currentBubble={this.props.currentBubble}
+        />
+      )
+    }
   }
 }
 
@@ -176,7 +204,6 @@ CreateTargets.propTypes = {
   onTargetRemove: PropTypes.func,
   dispatch: PropTypes.func,
   // eslint-disable-next-line
-  targets: PropTypes.array,
   customInputs: PropTypes.object,
   onChangeCustomInputs: PropTypes.func
 }

@@ -7,7 +7,7 @@ export const InputMaterial = ({
   name,
   type,
   className,
-  placeholder,
+  label,
   helperText,
   charLimit,
   stateRef,
@@ -33,7 +33,6 @@ export const InputMaterial = ({
         type={type}
         name={name}
         id={name}
-        placeholder={placeholder}
         className={cx(
           className,
           stateRef ? 'has-input' : ''
@@ -49,7 +48,7 @@ export const InputMaterial = ({
     <div className="col-12 group">
       {inputElement}
       <span className="bar"></span>
-      <label>{placeholder}</label>
+      <label>{label}</label>
       {
         (!helperText && charLimit && <small className={cx("helper-text", stateRef.length > charLimit ? 'invalid' : '')}>{stateRef.length ? stateRef.length : '0'}/{charLimit} Characters</small>)
         ||

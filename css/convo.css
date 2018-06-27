@@ -894,7 +894,7 @@ hr {
   float: right;
   padding-right: 50px !important;
 }
-#conversational .bubble .inner.user-response span {
+#conversational .bubble .inner.user-response span.bubble-fab {
   height: 35px;
   width: 35px;
   position: absolute;
@@ -907,13 +907,12 @@ hr {
   justify-content: center;
   align-items: center;
 }
-#conversational .bubble .inner.user-response span svg {
+#conversational .bubble .inner.user-response span.bubble-fab svg {
   fill: #ffffff;
 }
 #conversational .bubble .inner.bubble-tip {
   color: white;
   background-color: #00abff;
-  height: 45px;
   border-radius: 20px;
 }
 #conversational .bubble .inner.bubble-tip span {
@@ -994,25 +993,33 @@ hr {
   min-height: 75px;
   padding: 15px 15px 5px;
 }
-#conversational .bubble.user .group {
+#conversational .bubble.user .group,
+#conversational .user-response .group {
   margin-bottom: 0;
 }
-#conversational .bubble.user .group .bar {
+#conversational .bubble.user .group .bar,
+#conversational .user-response .group .bar {
   display: none;
 }
-#conversational .bubble.user .group label {
+#conversational .bubble.user .group label,
+#conversational .user-response .group label {
   display: none;
 }
-#conversational .bubble.user .group .helper-text {
+#conversational .bubble.user .group .helper-text,
+#conversational .user-response .group .helper-text {
   position: absolute;
   left: 27px;
   top: calc(100% - 25px);
   color: #00abff;
 }
-#conversational .bubble.user .group .helper-text.invalid {
+#conversational .bubble.user .group .helper-text.invalid,
+#conversational .user-response .group .helper-text.invalid {
   color: #ea1c24;
 }
-#conversational .bubble.user input, #conversational .bubble.user textarea {
+#conversational .bubble.user input,
+#conversational .bubble.user textarea,
+#conversational .user-response input,
+#conversational .user-response textarea {
   width: 100%;
   height: 50px;
   border-radius: 5px;
@@ -1023,26 +1030,33 @@ hr {
   font-size: 16px;
   line-height: 28px;
 }
-#conversational .bubble.user input.has-helper-text, #conversational .bubble.user textarea.has-helper-text {
+#conversational .bubble.user input.has-helper-text,
+#conversational .bubble.user textarea.has-helper-text,
+#conversational .user-response input.has-helper-text,
+#conversational .user-response textarea.has-helper-text {
   padding: 10px 30px 25px 10px;
 }
-#conversational .bubble.user .bubble-submit {
+#conversational .bubble.user .bubble-submit,
+#conversational .user-response .bubble-submit {
   position: absolute;
-  right: 29px;
-  top: 33px;
+  right: 33px;
+  bottom: 24px;
   height: 24px;
   width: 24px;
   z-index: 5;
 }
-#conversational .bubble.user .bubble-submit svg {
+#conversational .bubble.user .bubble-submit svg,
+#conversational .user-response .bubble-submit svg {
   fill: #00abff;
 }
-#conversational .bubble.user .convo-error-message {
+#conversational .bubble.user .convo-error-message,
+#conversational .user-response .convo-error-message {
   display: none;
   position: absolute;
   bottom: 100%;
 }
-#conversational .bubble.user .convo-error-message.show {
+#conversational .bubble.user .convo-error-message.show,
+#conversational .user-response .convo-error-message.show {
   display: block;
 }
 @media (min-width: 768px) {
@@ -1050,6 +1064,168 @@ hr {
     left: 50%;
     transform: translateX(-50%);
   }
+}
+#conversational .targets {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 15;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: none;
+}
+#conversational .targets.toggled {
+  display: block;
+}
+#conversational .targets .targets-list {
+  display: none;
+  flex-direction: column;
+  max-height: 105px;
+  overflow-y: scroll;
+  width: 100%;
+  padding: 0px 15px;
+  margin-right: 15px;
+}
+#conversational .targets .targets-list.toggled {
+  display: flex;
+}
+#conversational .targets .targets-list::before {
+  content: none;
+}
+#conversational .targets .targets-list.toggled::before {
+  content: "";
+  position: absolute;
+  right: 18px;
+  height: 105px;
+  background-color: white;
+  width: 3.5px;
+}
+#conversational .targets .targets-list label.checkbox-wrap {
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font-weight: initial;
+  height: 50px;
+  max-height: 50px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 65px;
+  padding-right: 10px;
+  border-radius: 3px;
+}
+#conversational .targets .targets-list label.checkbox-wrap input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+#conversational .targets .targets-list label.checkbox-wrap .checkmark {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 10px;
+  height: 35px;
+  width: 35px;
+  background-color: #eee;
+  margin-right: 20px;
+  border-radius: 50%;
+}
+#conversational .targets .targets-list label.checkbox-wrap .checkmark::before {
+  content: "";
+  position: absolute;
+  height: 35px;
+  top: 0;
+  right: -9.5px;
+  width: 1px;
+  background-color: #99ddff;
+}
+#conversational .targets .targets-list label.checkbox-wrap .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+#conversational .targets .targets-list label.checkbox-wrap:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+#conversational .targets .targets-list label.checkbox-wrap input:checked ~ .checkmark {
+  background-color: #00abff;
+}
+#conversational .targets .targets-list label.checkbox-wrap input:checked ~ .checkmark:after {
+  display: block;
+}
+#conversational .targets .search-wrap {
+  display: flex;
+  padding: 15px 15px 5px;
+  width: 100%;
+}
+#conversational .targets .search-wrap .group {
+  margin-bottom: 0;
+  margin-right: 10px;
+  flex-basis: initial;
+  flex-shrink: 1;
+  padding: 0;
+}
+#conversational .targets .search-wrap .group .bar {
+  display: none;
+}
+#conversational .targets .search-wrap .group label {
+  display: none;
+}
+#conversational .targets .search-wrap .group .helper-text {
+  position: absolute;
+  left: 27px;
+  top: calc(100% - 25px);
+  color: #00abff;
+}
+#conversational .targets .search-wrap .group .helper-text.invalid {
+  color: #ea1c24;
+}
+#conversational .targets .search-wrap .group input,
+#conversational .targets .search-wrap .group textarea {
+  height: 50px;
+  border-radius: 5px;
+  background-color: #ffffff;
+  padding: 0 15px;
+  padding: 10px 30px 8px 10px;
+  min-height: 50px;
+  font-size: 16px;
+  line-height: 28px;
+}
+#conversational .targets .search-wrap .group input.has-helper-text,
+#conversational .targets .search-wrap .group textarea.has-helper-text {
+  padding: 10px 30px 25px 10px;
+}
+#conversational .targets .search-wrap .group .bubble-submit {
+  position: absolute;
+  right: 33px;
+  bottom: 24px;
+  height: 24px;
+  width: 24px;
+  z-index: 5;
+}
+#conversational .targets .search-wrap .group .bubble-submit svg {
+  fill: #00abff;
+}
+#conversational .targets .search-wrap .group .convo-error-message {
+  display: none;
+  position: absolute;
+  bottom: 100%;
+}
+#conversational .targets .search-wrap .group .convo-error-message.show {
+  display: block;
+}
+#conversational .targets .search-wrap button {
+  width: 70px;
+  display: flex;
+  position: relative;
+  border-radius: 4px;
+  font-size: 16px;
 }
 
 @-webkit-keyframes cycleOne {
@@ -1095,4 +1271,4 @@ hr {
   }
 }
 
-/*# sourceMappingURL=convo.css.map */
+/*# sourceMappingURL=css/convo.css.map */

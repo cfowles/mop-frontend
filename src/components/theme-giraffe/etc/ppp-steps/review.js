@@ -72,13 +72,13 @@ const Review = ({
     }
     const edit = {
         title: (
-            <InputMaterial name="title" type="textarea" className="bg-ice-blue" placeholder="Your Petition Title" charLimit={50} stateRef={title} onChange={updateStateFromValue("title")} />
+            <InputMaterial name="title" type="textarea" className="bg-ice-blue" label="Your Petition Title" charLimit={50} stateRef={title} onChange={updateStateFromValue("title")} />
         ),
         summary: (
-            <InputMaterial name="summary" type="textarea" className="bg-ice-blue" placeholder="Your Petition Statement" charLimit={100} stateRef={summary} onChange={updateStateFromValue("summary")} />
+            <InputMaterial name="summary" type="textarea" className="bg-ice-blue" label="Your Petition Statement" charLimit={100} stateRef={summary} onChange={updateStateFromValue("summary")} />
         ),
         description: (
-            <InputMaterial name="description" type="textarea" className="bg-ice-blue" placeholder="Your Petition Description" charLimit={500} stateRef={description} onChange={updateStateFromValue("description")} />
+            <InputMaterial name="description" type="textarea" className="bg-ice-blue" label="Your Petition Description" charLimit={500} stateRef={description} onChange={updateStateFromValue("description")} />
         ),
         edit: (
             <div className="ppp-tip bg-off-white" onClick={toggleOpen('editPetition')}>Save

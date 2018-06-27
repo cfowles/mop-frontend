@@ -18,7 +18,7 @@ export const conversation = [
     section: 0
   },
   {
-    content: 'enter your email',
+    content: 'Enter your email',
     showToLoggedIn: false,
     type: 'input',
     input: {
@@ -48,7 +48,7 @@ export const conversation = [
     section: 1
   },
   {
-    content: 'enter your petition title',
+    content: 'Enter your petition title',
     showToLoggedIn: false,
     type: 'input',
     input: {
@@ -84,7 +84,7 @@ export const conversation = [
     section: 2
   },
   {
-    content: 'enter your petition statement',
+    content: 'Enter your petition statement',
     showToLoggedIn: false,
     type: 'input',
     input: {
@@ -114,7 +114,7 @@ export const conversation = [
     section: 3
   },
   {
-    content: 'enter your petition background',
+    content: 'Enter your petition background',
     showToLoggedIn: false,
     type: 'input',
     input: {
@@ -125,47 +125,33 @@ export const conversation = [
   },
   // Section 4: Targets
   {
-    content: "Just a couple more steps. Let’s find the best person or group of people to make decisions about this issue.",
+    content: "Just a couple more steps. Let’s find the best person or group of people to make decisions about this issue. ",
     showToLoggedIn: true,
     type: 'static',
     section: 4
   },
   {
-    content: "Do you already know who you’d like to send this petition to?",
+    content: "Not sure who to choose as your decision maker?",
     showToLoggedIn: true,
-    type: 'static',
+    type: 'tip',
+    tipID: 4,
     section: 4
   },
   {
-    content: null,
+    content: 'Search your Decision Maker',
     showToLoggedIn: false,
-    type: 'select',
-    options: ['yes', 'no'],
+    type: 'input',
+    input: {
+      type: 'target',
+      editing: false,
+      targets: []
+    }
   },
-  // // If yes --- Section 5: Target select
-  // {
-  //   content: "Great! Enter your decision maker(s) below. If there’s more than one, enter one at a time.",
-  //   showToLoggedIn: true,
-  //   type: 'static',
-  //   section: 5
-  // },
-  // {
-  //   content: null,
-  //   showToLoggedIn: false,
-  //   type: 'target',
-  //   section: 5
-  // },
-  // // If no --- Section 6: Target select
-  // {
-  //   content: "Great! Enter your decision maker(s) below. If there’s more than one, enter one at a time.",
-  //   showToLoggedIn: true,
-  //   type: 'static',
-  //   section: 6
-  // },
-  // {
-  //   content: null,
-  //   showToLoggedIn: false,
-  //   type: 'target',
-  //   section: 6
-  // },
+  // Section 5: Review
+  {
+    content: "Almost done. 💪 Let’s review your petition before we publish it.",
+    showToLoggedIn: true,
+    type: 'static',
+    section: 5
+  },
 ]

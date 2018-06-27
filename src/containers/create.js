@@ -14,12 +14,28 @@ import { conversation } from 'Theme/etc/conversation/conversation'
 import CreatePetitionForm from 'Theme/etc/create-petition-form'
 import CreatePetitionFormConversation from 'Theme/etc/create-petition-form-conversation'
 
+import { isValidEmail } from '../lib'
+
 const ERRORS = {
   name: 'Please provide a title for your petition.',
   text_statement: 'Please fill in the statement for your petition.',
   target: 'You must select at least one target for your petition.',
   text_about: 'Please provide background info for your petition.',
   email: 'Invalid entry for the Email field.'
+}
+const CONVO_ERRORS = {
+  empty: {
+    email: 'Please provide your email.',
+    title: 'Please provide a title for your petition.',
+    summary: 'Please fill in the statement for your petition.',
+    target: 'You must select at least one target for your petition.',
+    description: 'Please provide background info for your petition.',
+  },
+  maxChar: {
+    title: 50,
+    summary: 100,
+    description: 500
+  }
 }
 
 class CreatePetition extends React.Component {
@@ -37,16 +53,16 @@ class CreatePetition extends React.Component {
       // customOpen: false,
 
       /*** PPP ***/
-      step: 4,
+      step: 1,
 
       // User Data
       user: {},
-      name: 'test',
-      email: 'test@email.com',
-      country: 'United States',
-      zip: '28105',
-      password: 'test',
-      passwordConfirm: 'test',
+      name: false,
+      email: false,
+      country: false,
+      zip: false,
+      password: false,
+      passwordConfirm: false,
 
       // Toggles
       signupModalToggled: false,
@@ -55,10 +71,10 @@ class CreatePetition extends React.Component {
       editPetition: false,
 
       // Petition Data
-      title: initialPetition.title || [],
-      summary: initialPetition.summary || [],
+      title: false,
+      summary: false,
       target: initialPetition.target || [],
-      description: initialPetition.description || [],
+      description: false,
       //title: false,
       //summary: false,
       //description: false,
@@ -73,7 +89,8 @@ class CreatePetition extends React.Component {
       currentBubble: 0,
       currentIndex: 0,
       bubbleShow: false,
-      bubbleLoading: false
+      bubbleLoading: false,
+      bubbleEdit: false
     }
     this.setSelected = this.setSelected.bind(this)
     this.setRef = this.setRef.bind(this)
@@ -91,6 +108,8 @@ class CreatePetition extends React.Component {
     this.submitPetition = this.submitPetition.bind(this)
     this.onTargetAdd = this.onTargetAdd.bind(this)
     this.onTargetRemove = this.onTargetRemove.bind(this)
+    this.editBubble = this.editBubble.bind(this)
+    this.saveEditBubble = this.saveEditBubble.bind(this)
   }
 
   componentDidMount() {
@@ -139,6 +158,7 @@ class CreatePetition extends React.Component {
   }
 
   callBubble(sectionLength) {
+    console.log(this.state.currentBubble, this.state.section)
     let bubbleLength = conversation[this.state.currentIndex].content.length
     let bubbleTime = (bubbleLength / 60) * 1000;
 
@@ -179,6 +199,7 @@ class CreatePetition extends React.Component {
   }
 
   nextBubble() {
+    document.querySelector('.chat-end').scrollIntoView({ behavior: "smooth" });
     this.setState(prevState => {
       const newBubble = prevState.currentBubble + 1;
       const newIndex = prevState.currentIndex + 1;
@@ -186,26 +207,23 @@ class CreatePetition extends React.Component {
     })
   }
 
-  // toggleConvoTip(tip) {
-  //   return () => {
-  //     console.log(tip)
-  //     console.log(this.state)
-  //     this.setState({ step: tip });
-  //     console.log(this.state)
-  //     this.toggleOpen('tipModalToggled');
-  //   }
-  // }
+  editBubble(inputType) {
+    return () => this.setState({bubbleEdit: inputType})
+  }
+
+  saveEditBubble(inputType) {
+    return () => {
+      this.setState({ errors: [] });
+      if (!this.convoInputIsValid(inputType)) return;
+      this.setState({bubbleEdit: false})
+    }
+  }
 
   // conversational scrolling
   scrollToBottom() {
     document.querySelector('.chat-end').scrollIntoView({ behavior: "smooth" });
   }
 
-  componentDidUpdate() {
-    if (document.querySelector('.chat-end')) {
-      this.scrollToBottom();
-    }
-  }
 
 
 
@@ -323,13 +341,14 @@ class CreatePetition extends React.Component {
     let errors = [];
     let errorKey;
 
-    if (inputType === 'email') errorKey = 'email'
-    if (inputType === 'title') errorKey = 'name';
-    if (inputType === 'summary') errorKey = 'text_statement';
-    if (inputType === 'target') errorKey = 'target';
-    if (inputType === 'description') errorKey = 'text_about';
 
-    if (!this.state[inputType]) errors.push(ERRORS[errorKey]);
+    if (!this.state[inputType]) errors.push(CONVO_ERRORS.empty[inputType]);
+    if (CONVO_ERRORS.maxChar.hasOwnProperty(inputType)) {
+      if (this.state[inputType].length > CONVO_ERRORS.maxChar[inputType]) errors.push('Please use ' + CONVO_ERRORS.maxChar[inputType] + ' characters or less in your ' + inputType);
+    }
+    if (inputType === 'email' && this.state.email) {
+      if (!isValidEmail(this.state.email)) errors.push('Please use a valid email address.')
+    }
     if (errors.length) {
       console.error(errors);
       this.setState({ errors })
@@ -338,6 +357,20 @@ class CreatePetition extends React.Component {
     return true;
   }
 
+  // const CONVO_ERRORS = {
+  //   empty: {
+  //     email: 'Invalid entry for the Email field.',
+  //     title: 'Please provide a title for your petition.',
+  //     summary: 'Please fill in the statement for your petition.',
+  //     target: 'You must select at least one target for your petition.',
+  //     description: 'Please provide background info for your petition.',
+  //   },
+  //   maxChar: {
+  //     title: 50,
+  //     summary: 200,
+  //     description: 500
+  //   },
+  // }
 
   render() {
 
@@ -463,9 +496,26 @@ class CreatePetition extends React.Component {
             bubbleLoading={this.state.bubbleLoading}
             currentBubble={this.state.currentBubble}
             currentIndex={this.state.currentIndex}
+            bubbleEdit={this.state.bubbleEdit}
+            editBubble={this.editBubble}
+            saveEditBubble={this.saveEditBubble}
 
             saveInput={this.saveInput}
             chatEnd={this.state.chatEnd}
+
+            // Targets
+            setSelected={this.setSelected}
+            setRef={this.setRef}
+            selected={this.state.selected}
+            targets={this.state.target}
+            onTargetAdd={this.onTargetAdd}
+            onTargetRemove={this.onTargetRemove}
+            customInputs={this.state.customInputs}
+            onChangeCustomInputs={({ target: { name, value } }) => {
+              this.setState(state => ({
+                customInputs: { ...state.customInputs, [name]: value }
+              }))
+            }}
           />
         </div>
       )

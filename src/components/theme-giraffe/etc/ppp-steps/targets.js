@@ -60,7 +60,7 @@ const Targets = ({
 					name="target-query"
 					type="search"
 					className="bg-ice-blue"
-					placeholder="Search a specific target"
+					label="Search a specific target"
 					stateRef={targetQuery}
 					onChange={updateQuery} />
 				{!targetsLoaded ? 'Loading...' : ''}

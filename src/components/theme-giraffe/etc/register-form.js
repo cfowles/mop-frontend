@@ -10,36 +10,36 @@ const RegisterForm = ({ errorList, handleSubmit, setRef, isSubmitting, user, ema
       <InputMaterial
         name='name'
         type='text'
-        placeholder='Name'
+        label='Name'
         stateRef={name}
         className='mt-0'
         onChange={updateStateFromValue('name')}
       />
       <InputMaterial
-        type='email'
+        type='text'
         name='email'
-        placeholder='Email'
+        label='Email'
         stateRef={email}
         onChange={updateStateFromValue('email')}
       />
       <InputMaterial
         type='number'
         name='zip'
-        placeholder='Zip'
+        label='Zip'
         stateRef={zip}
         onChange={updateStateFromValue('zip')}
       />
       <InputMaterial
         type='password'
         name='password'
-        placeholder='Password'
+        label='Password'
         stateRef={password}
         onChange={updateStateFromValue('password')}
       />
       <InputMaterial
         type='password'
         name='passwordConfirm'
-        placeholder='Confirm Password'
+        label='Confirm Password'
         stateRef={passwordConfirm}
         onChange={updateStateFromValue('passwordConfirm')}
       />

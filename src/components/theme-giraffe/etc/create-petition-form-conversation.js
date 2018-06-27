@@ -19,6 +19,7 @@ import { conversation } from './conversation/conversation'
 import ConversationalInput from './conversation/input'
 import Tip from './ppp-steps/tip'
 import DesktopProgress from './conversation/desktop-progress'
+import CreateTargets from '../../../containers/create-targets'
 
 
 
@@ -46,6 +47,9 @@ const CreatePetitionFormConversation = ({
   currentIndex,
   bubbleShow,
   bubbleLoading,
+  bubbleEdit,
+  editBubble,
+  saveEditBubble,
   email,
   title,
   summary,
@@ -53,7 +57,13 @@ const CreatePetitionFormConversation = ({
   chatEnd,
   tipModalToggled,
   step,
-  errors
+  errors,
+  targets,
+  onTargetAdd,
+  onTargetRemove,
+  customInputs,
+  onChangeCustomInputs,
+  targetQuery
 }) => {
   const instructions = instructionsByField[selected]
 
@@ -85,6 +95,9 @@ const CreatePetitionFormConversation = ({
           case 'description':
             userInput = description;
             break;
+          case 'target':
+            userInput = targets;
+            break;
         }
         break;
       case 'tip':
@@ -103,6 +116,20 @@ const CreatePetitionFormConversation = ({
         innerClasses={innerClasses}
         userInput={userInput}
         toggleOpen={toggleOpen}
+
+        section={section}
+        saveInput={saveInput}
+        updateStateFromValue={updateStateFromValue}
+        currentIndex={currentIndex}
+        errors={errors}
+        title={title}
+        summary={summary}
+        description={description}
+        email={email}
+        bubbleEdit={bubbleEdit}
+        editBubble={editBubble}
+        saveEditBubble={saveEditBubble}
+        targets={targets}
       />
     )
   })
@@ -118,6 +145,21 @@ const CreatePetitionFormConversation = ({
             </div>
           </div>
         </div>
+        <CreateTargets
+          updateStateFromValue={updateStateFromValue}
+
+          setSelected={setSelected}
+          setRef={setRef}
+          targets={targets}
+          onTargetAdd={onTargetAdd}
+          onTargetRemove={onTargetRemove}
+          customInputs={customInputs}
+          onChangeCustomInputs={onChangeCustomInputs}
+          targetQuery={targetQuery}
+          theme="convo" 
+          section={section}
+          currentBubble={currentBubble} />
+
         <ConversationalInput
           section={section}
           saveInput={saveInput}
@@ -127,6 +169,7 @@ const CreatePetitionFormConversation = ({
           title={title}
           summary={summary}
           description={description}
+          email={email}
         />
         <div style={{ float: "left", clear: "both" }}
           className="chat-end" >
