@@ -156,7 +156,7 @@ const CreatePetitionFormConversation = ({
           customInputs={customInputs}
           onChangeCustomInputs={onChangeCustomInputs}
           targetQuery={targetQuery}
-          theme="convo" 
+          theme="convo"
           section={section}
           currentBubble={currentBubble} />
 
@@ -171,7 +171,7 @@ const CreatePetitionFormConversation = ({
           description={description}
           email={email}
         />
-        <div style={{ float: "left", clear: "both" }}
+      <div id="chatend" style={{ float: "left", clear: "both" }}
           className="chat-end" >
         </div>
       </div>

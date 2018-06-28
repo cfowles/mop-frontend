@@ -573,6 +573,13 @@ hr {
                 height: 20px;
                 border: 2px solid $azure;
                 border-radius: 50%;
+                line-height: 20px;
+
+                svg {
+                  width: 16px;
+                  height: 16px;
+                  fill: $azure;
+                }
             }
         }
     }

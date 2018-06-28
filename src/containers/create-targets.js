@@ -11,6 +11,8 @@ import StateTargetSelect from 'LegacyTheme/form/target-select/state'
 import CustomTargetSelect from '../components/theme-legacy/form/target-select/custom'
 import cx from "classnames";
 
+import AddSvg from '../giraffe-ui/svgs/add.svg'
+
 export class CreateTargets extends React.Component {
   constructor(props) {
     super(props)
@@ -104,7 +106,7 @@ export class CreateTargets extends React.Component {
       return (
         <div className="col-6 selection-pill" key={i}>
           <div className="pill-inner bg-ice-blue black">
-            {target.label}
+            {target.name}
             <div className="close bg-azure" onClick={this.props.onTargetRemove(target)}>
               <span className="bg-white" />
               <span className="bg-white" />
@@ -115,19 +117,11 @@ export class CreateTargets extends React.Component {
     })
   }
   renderCustomTarget() {
-    //props.onTargetAdd(target, false)
-    let ct = {
-      label: this.props.targetQuery,
-      name: this.props.targetQuery,
-      target_id: "",
-      target_type: "custom",
-      value: "custom::" + this.props.targetQuery
-    }
     if(this.props.targetQuery && this.state.filteredTargets.length === 0) {
       return (
-        <div className="add-target bg-ice-blue" onClick={this.props.onTargetAdd(ct, true)}>
+        <div className="add-target bg-ice-blue" onClick={this.props.onTargetAdd({target_type: 'custom', name: this.props.targetQuery, email: '', title: ''}, { isCustom: true })}>
           Add “{this.props.targetQuery}” as your target
-          <div className="add" />
+          <div className="add"><AddSvg /></div>
         </div>
       )
     } else {

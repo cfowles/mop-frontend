@@ -37,6 +37,7 @@ const CONVO_ERRORS = {
     description: 500
   }
 }
+var CHAT_END;
 
 class CreatePetition extends React.Component {
   constructor(props) {
@@ -53,7 +54,7 @@ class CreatePetition extends React.Component {
       // customOpen: false,
 
       /*** PPP ***/
-      step: 1,
+      step: 4,
 
       // User Data
       user: {},
@@ -110,10 +111,12 @@ class CreatePetition extends React.Component {
     this.onTargetRemove = this.onTargetRemove.bind(this)
     this.editBubble = this.editBubble.bind(this)
     this.saveEditBubble = this.saveEditBubble.bind(this)
+    this.scrollToBottom = this.scrollToBottom.bind(this)
   }
 
   componentDidMount() {
     var uinput = document.getElementById('user-input');
+    CHAT_END = document.getElementById('chatend');
     if (uinput) {
       uinput.focus();
     }
@@ -199,7 +202,7 @@ class CreatePetition extends React.Component {
   }
 
   nextBubble() {
-    document.querySelector('.chat-end').scrollIntoView({ behavior: "smooth" });
+    this.scrollToBottom()
     this.setState(prevState => {
       const newBubble = prevState.currentBubble + 1;
       const newIndex = prevState.currentIndex + 1;
@@ -221,11 +224,9 @@ class CreatePetition extends React.Component {
 
   // conversational scrolling
   scrollToBottom() {
-    document.querySelector('.chat-end').scrollIntoView({ behavior: "smooth" });
+    if(CHAT_END)
+      CHAT_END.scrollIntoView();
   }
-
-
-
 
   // PPP
   toggleOpen(element, id = 0) {
@@ -263,19 +264,23 @@ class CreatePetition extends React.Component {
     { isCustom, callback } = { isCustom: false, callback: () => { } }
   ) {
     return () => {
+      console.log(target)
       if (!isCustom && !target.label) return // target is invalid
       if (!isCustom && this.state.target.find(old => old.label === target.label)) return // already exists
 
-      if (isCustom && !this.state.customInputs.name) return // Trying to add a blank custom target
+      if (isCustom && !this.state.targetQuery) return // Trying to add a blank custom target
 
       if (isCustom) {
         this.setState({ customInputs: { name: '', email: '', title: '' } })
       }
 
+      this.setState({ target: [...this.state.target, target], targetQuery: false })
+      /*
       this.setState(
         state => ({ target: [...state.target, target], targetQuery: false }),
         () => callback && callback()
       )
+      */
     }
   }
 

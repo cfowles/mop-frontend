@@ -31,13 +31,6 @@ const Targets = ({
 		</div>
 	)
 
-	const customTarget = filteredTargets.length > 0 ? '' : (
-			<div className="add-target bg-ice-blue">
-				Add “{targetQuery}” as target
-				<div className="add" />
-			</div>
-	)
-
 	return (
 		<div className={classes}>
 			<div className="row ppp-item">

@@ -566,6 +566,12 @@ hr {
   height: 20px;
   border: 2px solid #00abff;
   border-radius: 50%;
+  line-height: 20px;
+}
+#ppp .targets .add-target .add svg {
+  width: 16px;
+  height: 16px;
+  fill: #00abff;
 }
 #ppp .media .upload-block {
   height: 218px;
