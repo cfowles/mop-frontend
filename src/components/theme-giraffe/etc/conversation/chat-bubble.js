@@ -5,6 +5,7 @@ import ReactTimeout from 'react-timeout'
 import Edit from '../../../../giraffe-ui/svgs/edit.svg'
 import Lightbulb from '../../../../giraffe-ui/svgs/lightbulb.svg'
 import Check from '../../../../giraffe-ui/svgs/check.svg'
+import Close from '../../../../giraffe-ui/svgs/close.svg'
 import { InputMaterial } from "GiraffeUI/input-material";
 import ConversationalInput from './input'
 import cx from "classnames";
@@ -29,7 +30,8 @@ const ChatBubble = ({
     description,
     email,
     section,
-    targets
+    targets,
+    onTargetRemove
 }) => {
 
     const inputType = bubble.hasOwnProperty('input') ? bubble.input.type : '';
@@ -47,15 +49,19 @@ const ChatBubble = ({
     )
 
     let targetBubbles = [];
-    if (inputType === 'target' ) {
-        if(!targets.length) return null;
+    if (inputType === 'target') {
+        if (!targets.length) return null;
         targetBubbles = targets.map((target, i) => {
             return (
-                <div key={i}>
+                <div className={innerClasses} key={i}>
                     {target.label}
+                    <span className="close bubble-fab bg-azure" onClick={onTargetRemove(target)}>
+                        <Close />
+                    </span>
                 </div>
             )
         })
+        console.log(targetBubbles)
     }
 
     let interactBubble = null;
@@ -93,7 +99,9 @@ const ChatBubble = ({
     } else {
         if (inputType === 'target') {
             interactBubble = (
-                {targetBubbles}
+                <div>
+                    {targetBubbles}
+                </div>
             )
         } else {
             interactBubble = (
@@ -105,7 +113,7 @@ const ChatBubble = ({
         }
     }
     const bubbleOutput = bubble.type === 'input' || bubble.type === 'tip' ? interactBubble : staticBubble;
-    const classes = currentIndex >= (bubbleId + 1) ? 'bubble show' : 'bubble';
+    const classes = currentIndex >= (bubbleId + 1) || (inputType === 'target') ? 'bubble show' : 'bubble';
 
     return (
         <div className={classes}>

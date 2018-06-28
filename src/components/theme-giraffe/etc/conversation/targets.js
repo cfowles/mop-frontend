@@ -13,7 +13,6 @@ const ConvoTargets = ({
 	renderTargets,
 	renderSelectedTargets,
 	targetsLoaded,
-	updateStateFromValue,
 	loadMoreTargets,
 	filteredTargets,
 	// filterTargets,
@@ -22,7 +21,8 @@ const ConvoTargets = ({
 	targetQuery,
 	renderCustomTarget,
 	section,
-	currentBubble
+	currentIndex,
+	saveInput
 }) => {
 
 	const loadMoreButton = (
@@ -39,9 +39,9 @@ const ConvoTargets = ({
 	)
 
 	return (
-		<div className={cx("targets container bg-azure", section === 4 ? 'toggled' : '' )}>
+		<div className={cx("targets container bg-azure", currentIndex === 19 ? 'toggled' : '' )}>
 			<div className="row">
-				<div className={cx("targets-list", targetQuery ? 'toggled' : '')}>
+				<div className={cx("targets-list", currentIndex===19 ? 'toggled' : '')}>
 					{renderTargets()}
 					{load < filteredTargets.length ? loadMoreButton : ''}
 					<div className="col-12">
@@ -56,7 +56,7 @@ const ConvoTargets = ({
 						label="Search a specific target"
 						stateRef={targetQuery}
 						onChange={updateQuery} />
-					<button className="center display-block bg-white azure">DONE</button>
+					<button className="center display-block bg-white azure" onClick={saveInput('target')}>DONE</button>
 				</div>
 			</div>
 		</div>

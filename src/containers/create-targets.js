@@ -184,7 +184,9 @@ export class CreateTargets extends React.Component {
           targetQuery={this.props.targetQuery}
           onTargetAdd={this.props.onTargetAdd}
           section={this.props.section}
-          currentBubble={this.props.currentBubble}
+          currentIndex={this.props.currentIndex}
+          targets={this.props.targets}
+          saveInput={this.props.saveInput}
         />
       )
     }

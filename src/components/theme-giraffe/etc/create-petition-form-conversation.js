@@ -130,6 +130,7 @@ const CreatePetitionFormConversation = ({
         editBubble={editBubble}
         saveEditBubble={saveEditBubble}
         targets={targets}
+        onTargetRemove={onTargetRemove}
       />
     )
   })
@@ -158,7 +159,8 @@ const CreatePetitionFormConversation = ({
           targetQuery={targetQuery}
           theme="convo"
           section={section}
-          currentBubble={currentBubble} />
+          currentIndex={currentIndex} 
+          saveInput={saveInput}/>
 
         <ConversationalInput
           section={section}
@@ -170,8 +172,9 @@ const CreatePetitionFormConversation = ({
           summary={summary}
           description={description}
           email={email}
+          targetQuery={targetQuery}
         />
-      <div id="chatend" style={{ float: "left", clear: "both" }}
+      <div id="chatend" style={{ float: "left", clear: "both", display: "block", height: "100px", marginTop: targetQuery.length ? "150px" : "50px"}}
           className="chat-end" >
         </div>
       </div>

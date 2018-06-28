@@ -23,7 +23,6 @@ export const conversation = [
     type: 'input',
     input: {
       type: 'email',
-      editing: false,
       charLimit: 0
     }
   },
@@ -53,7 +52,6 @@ export const conversation = [
     type: 'input',
     input: {
       type: 'title',
-      editing: false,
       charLimit: 50
     }
   },
@@ -89,7 +87,6 @@ export const conversation = [
     type: 'input',
     input: {
       type: 'summary',
-      editing: false,
       charLimit: 100
     }
   },
@@ -119,7 +116,6 @@ export const conversation = [
     type: 'input',
     input: {
       type: 'description',
-      editing: false,
       charLimit: 500
     }
   },
@@ -143,8 +139,6 @@ export const conversation = [
     type: 'input',
     input: {
       type: 'target',
-      editing: false,
-      targets: []
     }
   },
   // Section 5: Review
@@ -153,5 +147,13 @@ export const conversation = [
     showToLoggedIn: true,
     type: 'static',
     section: 5
+  },
+  {
+    content: 'Search your Decision Maker',
+    showToLoggedIn: false,
+    type: 'input',
+    input: {
+      type: 'review',
+    }
   },
 ]

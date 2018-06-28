@@ -916,6 +916,18 @@ hr {
 #conversational .bubble .inner.user-response span.bubble-fab svg {
   fill: #ffffff;
 }
+#conversational .bubble .inner.user-response span.bubble-fab span {
+  height: 4px;
+  width: 26px;
+  display: block;
+}
+#conversational .bubble .inner.user-response span.bubble-fab span:first-of-type {
+  transform: rotate(45deg);
+  position: absolute;
+}
+#conversational .bubble .inner.user-response span.bubble-fab span:last-of-type {
+  transform: rotate(-45deg);
+}
 #conversational .bubble .inner.bubble-tip {
   color: white;
   background-color: #00abff;
@@ -1002,6 +1014,7 @@ hr {
 #conversational .bubble.user .group,
 #conversational .user-response .group {
   margin-bottom: 0;
+  padding: 0;
 }
 #conversational .bubble.user .group .bar,
 #conversational .user-response .group .bar {
@@ -1014,7 +1027,7 @@ hr {
 #conversational .bubble.user .group .helper-text,
 #conversational .user-response .group .helper-text {
   position: absolute;
-  left: 27px;
+  left: 12px;
   top: calc(100% - 25px);
   color: #00abff;
 }
@@ -1194,6 +1207,7 @@ hr {
 }
 #conversational .targets .search-wrap .group input,
 #conversational .targets .search-wrap .group textarea {
+  -webkit-appearance: textfield;
   height: 50px;
   border-radius: 5px;
   background-color: #ffffff;
@@ -1277,4 +1291,4 @@ hr {
   }
 }
 
-/*# sourceMappingURL=convo.css.map */
+/*# sourceMappingURL=css/convo.css.map */

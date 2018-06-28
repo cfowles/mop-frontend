@@ -215,8 +215,7 @@ $bp-xl: 1440px;
             align-items: center;
             position: relative;
             &.user-response {
-                border-radius: 20px 20px 0px 20px;
-                //background-color: $azure;
+                border-radius: 20px 20px 0px 20px; //background-color: $azure;
                 background-color: #f6f6f6;
                 float: right;
                 padding-right: 50px !important;
@@ -234,6 +233,18 @@ $bp-xl: 1440px;
                     align-items: center;
                     svg {
                         fill: $white;
+                    }
+                    span {
+                        height: 4px;
+                        width: 26px;
+                        display: block;
+                        &:first-of-type {
+                            transform: rotate(45deg);
+                            position: absolute;
+                        }
+                        &:last-of-type {
+                            transform: rotate(-45deg);
+                        }
                     }
                 }
             }
@@ -328,6 +339,7 @@ $bp-xl: 1440px;
     .user-response {
         .group {
             margin-bottom: 0;
+            padding: 0;
             .bar {
                 display: none;
             }
@@ -336,7 +348,7 @@ $bp-xl: 1440px;
             }
             .helper-text {
                 position: absolute;
-                left: 27px;
+                left: 12px;
                 top: calc(100% - 25px);
                 color: $azure;
                 &.invalid {
@@ -505,6 +517,7 @@ $bp-xl: 1440px;
                 }
                 input,
                 textarea {
+                    -webkit-appearance: textfield;
                     height: 50px;
                     border-radius: 5px;
                     background-color: #ffffff;

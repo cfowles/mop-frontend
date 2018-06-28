@@ -74,13 +74,13 @@ class CreatePetition extends React.Component {
       // Petition Data
       title: false,
       summary: false,
-      target: initialPetition.target || [],
+      target: false,
       description: false,
       //title: false,
       //summary: false,
       //description: false,
       selectedTargets: [],
-      targetQuery: false,
+      targetQuery: '',
 
       /*** Convo ***/
       section: 0,
@@ -161,7 +161,6 @@ class CreatePetition extends React.Component {
   }
 
   callBubble(sectionLength) {
-    console.log(this.state.currentBubble, this.state.section)
     let bubbleLength = conversation[this.state.currentIndex].content.length
     let bubbleTime = (bubbleLength / 60) * 1000;
 
@@ -179,13 +178,20 @@ class CreatePetition extends React.Component {
 
   saveInput(inputType) {
     return () => {
+      console.log(inputType);
       this.setState({ errors: [] });
       if (!this.convoInputIsValid(inputType)) return;
 
       this.nextBubble();
       this.setState({ currentBubble: 0 });
       document.getElementById("user-input").value = "";
-      document.getElementById("user-input").focus();
+      if(this.state.section === 3) {
+        setTimeout(()=>{
+          document.getElementById("target-query").focus()
+        },1000)
+      } else  {
+        document.getElementById("user-input").focus();
+      }
 
       this.inputTimeout = setTimeout(function () {
         this.nextSection();
@@ -203,6 +209,7 @@ class CreatePetition extends React.Component {
 
   nextBubble() {
     this.scrollToBottom()
+    if(this.state.currentIndex === 19) setTimeout(()=>this.scrollToBottom(), 500)
     this.setState(prevState => {
       const newBubble = prevState.currentBubble + 1;
       const newIndex = prevState.currentIndex + 1;
@@ -225,7 +232,7 @@ class CreatePetition extends React.Component {
   // conversational scrolling
   scrollToBottom() {
     if(CHAT_END)
-      CHAT_END.scrollIntoView();
+      CHAT_END.scrollIntoView({behavior: "smooth"});
   }
 
   // PPP
@@ -264,23 +271,26 @@ class CreatePetition extends React.Component {
     { isCustom, callback } = { isCustom: false, callback: () => { } }
   ) {
     return () => {
-      console.log(target)
       if (!isCustom && !target.label) return // target is invalid
-      if (!isCustom && this.state.target.find(old => old.label === target.label)) return // already exists
+      if (this.state.target){
+        if (!isCustom && this.state.target.find(old => old.label === target.label)) return // already exists
+      }
 
       if (isCustom && !this.state.targetQuery) return // Trying to add a blank custom target
 
       if (isCustom) {
-        this.setState({ customInputs: { name: '', email: '', title: '' } })
+        this.setState({ customInputs: { name: '', email: '', title: '' } }) 
       }
 
-      this.setState({ target: [...this.state.target, target], targetQuery: false })
-      /*
-      this.setState(
-        state => ({ target: [...state.target, target], targetQuery: false }),
-        () => callback && callback()
-      )
-      */
+      this.setState({ target: [...this.state.target, target], targetQuery: ''})
+
+      // Reset and focus on target search bar
+      let tquery = document.getElementById('target-query')
+      if(tquery) {
+        tquery.value = ""
+        tquery.focus();
+      }
+      this.scrollToBottom();
     }
   }
 
@@ -528,9 +538,9 @@ class CreatePetition extends React.Component {
   }
 }
 
-CreatePetition.defaultProps = {
-  initialPetition: {}
-}
+// CreatePetition.defaultProps = {
+//   initialPetition: {}
+// }
 
 CreatePetition.propTypes = {
   dispatch: PropTypes.func,
