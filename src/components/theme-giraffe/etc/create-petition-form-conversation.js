@@ -18,8 +18,10 @@ import ChatBubble from './conversation/chat-bubble'
 import { conversation } from './conversation/conversation'
 import ConversationalInput from './conversation/input'
 import Tip from './ppp-steps/tip'
+import Review from './ppp-steps/review'
 import DesktopProgress from './conversation/desktop-progress'
 import CreateTargets from '../../../containers/create-targets'
+import cx from 'classnames'
 
 
 
@@ -63,7 +65,10 @@ const CreatePetitionFormConversation = ({
   onTargetRemove,
   customInputs,
   onChangeCustomInputs,
-  targetQuery
+  targetQuery,
+  convoReviewToggled,
+  editPetition,
+  publish
 }) => {
   const instructions = instructionsByField[selected]
 
@@ -137,7 +142,7 @@ const CreatePetitionFormConversation = ({
 
   return (
     <div id='conversational'>
-      <div className='chat-wrap'>
+      <div className={cx('chat-wrap', !convoReviewToggled ? 'toggled' : '' )}>
         {bubbles}
         <div className={loaderClasses}>
           <div className='inner'>
@@ -159,8 +164,8 @@ const CreatePetitionFormConversation = ({
           targetQuery={targetQuery}
           theme="convo"
           section={section}
-          currentIndex={currentIndex} 
-          saveInput={saveInput}/>
+          currentIndex={currentIndex}
+          saveInput={saveInput} />
 
         <ConversationalInput
           section={section}
@@ -173,8 +178,9 @@ const CreatePetitionFormConversation = ({
           description={description}
           email={email}
           targetQuery={targetQuery}
+          toggleOpen={toggleOpen}
         />
-      <div id="chatend" style={{ float: "left", clear: "both", display: "block", height: "100px", marginTop: targetQuery.length ? "150px" : "50px"}}
+        <div id="chatend" style={{ float: "left", clear: "both", display: "block", height: "100px", marginTop: targetQuery.length ? "150px" : "50px" }}
           className="chat-end" >
         </div>
       </div>
@@ -182,6 +188,28 @@ const CreatePetitionFormConversation = ({
         tipModalToggled={tipModalToggled}
         toggleOpen={toggleOpen}
         step={step} />
+      <div className={cx("convo-review-wrap", convoReviewToggled ? 'toggled' : '')} >
+        <Review
+          tipModalToggled={tipModalToggled}
+          toggleOpen={toggleOpen}
+          editPetition={editPetition}
+          title={title}
+          summary={summary}
+          description={description}
+          updateStateFromValue={updateStateFromValue}
+          step={step}
+          nextStep={publish}
+
+          setSelected={setSelected}
+          setRef={setRef}
+          targets={targets}
+          onTargetAdd={onTargetAdd}
+          onTargetRemove={onTargetRemove}
+          customInputs={customInputs}
+          onChangeCustomInputs={onChangeCustomInputs}
+          targetQuery={targetQuery}
+        />
+      </div>
       <DesktopProgress
         section={section}
       />

@@ -70,6 +70,7 @@ class CreatePetition extends React.Component {
       tipModalToggled: false,
       shareButtonsToggled: false,
       editPetition: false,
+      convoReviewToggled: false,
 
       // Petition Data
       title: false,
@@ -178,7 +179,6 @@ class CreatePetition extends React.Component {
 
   saveInput(inputType) {
     return () => {
-      console.log(inputType);
       this.setState({ errors: [] });
       if (!this.convoInputIsValid(inputType)) return;
 
@@ -238,6 +238,7 @@ class CreatePetition extends React.Component {
   // PPP
   toggleOpen(element, id = 0) {
     return () => {
+      console.log(element)
       if (id) this.setState({ step: id });
       this.setState(prevState => {
         const prev = prevState[element]
@@ -289,6 +290,11 @@ class CreatePetition extends React.Component {
       if(tquery) {
         tquery.value = ""
         tquery.focus();
+      }
+      let rquery = document.getElementById('review-target-query')
+      if(rquery) {
+        rquery.value = ""
+        rquery.focus();
       }
       this.scrollToBottom();
     }
@@ -498,6 +504,8 @@ class CreatePetition extends React.Component {
             signupModalToggled={this.state.signupModalToggled}
             tipModalToggled={this.state.tipModalToggled}
             shareButtonsToggled={this.state.shareButtonsToggled}
+            convoInputIsValid={this.state.convoInputIsValid}
+            convoReviewToggled={this.state.convoReviewToggled}
 
             // Petition
             editPetition={this.state.editPetition}

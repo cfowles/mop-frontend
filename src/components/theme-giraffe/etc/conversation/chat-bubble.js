@@ -61,7 +61,6 @@ const ChatBubble = ({
                 </div>
             )
         })
-        console.log(targetBubbles)
     }
 
     let interactBubble = null;

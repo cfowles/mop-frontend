@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import cx from 'classnames'
+import { InputMaterial } from "GiraffeUI/input-material";
 
 const ReviewTargets = ({
     toggleOpen,
@@ -10,21 +12,43 @@ const ReviewTargets = ({
     setSelected,
     targets,
     renderTargets,
-    renderSelectedTargets
-}) => (
-    <div className="review-targets container">
-        <div className="selection-pills">
-            <div className="row">
-                {renderSelectedTargets()}
+    renderSelectedTargets,
+    targetQuery,
+    updateQuery,
+    load,
+    filteredTargets,
+    loadMoreTargets
+}) => {
+    console.log(targetQuery);
+    const loadMoreButton = (
+		<div className="col-12">
+			<button type="button" className="xl300 center display-block btn bg-gray" name="load-more" id="load-more" onClick={loadMoreTargets}>Show More Suggestions</button>
+		</div>
+	)
+    return (
+        <div className="review-targets">
+            <div className="selection-pills">
+                <div className="row">
+                    {renderSelectedTargets()}
+                </div>
+            </div>
+            <div className="review-targets-search-wrap">
+                <InputMaterial
+                    name="review-target-query"
+                    type="search"
+                    className="bg-ice-blue"
+                    label="Search a specific target"
+                    id="review-target-query"
+                    stateRef={targetQuery}
+                    onChange={updateQuery} />
+                <div className={cx("col-12", 'targets-dropdown', 'bg-azure', targetQuery && targetQuery.length ? 'toggled' : '')}>
+                    {renderTargets()}
+                    {load < filteredTargets.length ? loadMoreButton : ''}
+                </div>
             </div>
         </div>
-        <div className="group">
-            <input name="search" id="search_field" className="bg-ice-blue" type="text" title="Decision Maker Search" />
-            <span className="bar" />
-            <label>Search a specific target</label>
-        </div>
-    </div>
-);
+    )
+};
 
 ReviewTargets.propTypes = {
     toggleOpen: PropTypes.func,

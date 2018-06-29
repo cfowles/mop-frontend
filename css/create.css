@@ -99,6 +99,71 @@ hr {
   top: -6px;
 }
 
+/* Checkboxes */
+#content .checkbox-wrap {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font-weight: initial;
+  height: 50px;
+  background-color: #e5f5ff;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 65px;
+  padding-right: 10px;
+  margin-left: 15px;
+  margin-right: 15px;
+  max-width: calc(100% - 30px);
+  border-radius: 3px;
+}
+#content .checkbox-wrap input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+#content .checkbox-wrap .checkmark {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 10px;
+  height: 35px;
+  width: 35px;
+  background-color: #eee;
+  margin-right: 20px;
+  border-radius: 50%;
+}
+#content .checkbox-wrap .checkmark::before {
+  content: "";
+  position: absolute;
+  height: 35px;
+  top: 0;
+  right: -9.5px;
+  width: 1px;
+  background-color: #99ddff;
+}
+#content .checkbox-wrap .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+#content .checkbox-wrap:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+#content .checkbox-wrap input:checked ~ .checkmark {
+  background-color: #00abff;
+}
+#content .checkbox-wrap input:checked ~ .checkmark:after {
+  display: block;
+}
+
 #ppp {
   min-height: 100vh;
   display: flex;
@@ -107,7 +172,6 @@ hr {
   max-width: 768px;
   margin: 0 auto;
   background-color: #fff;
-  /* Checkboxes */
   /* Heading */
   /* Steps */
 }
@@ -427,69 +491,6 @@ hr {
 #ppp .selection-pills .pill-inner .close span:last-of-type {
   transform: translate(-50%) rotate(-45deg);
 }
-#ppp .checkbox-wrap {
-  display: block;
-  position: relative;
-  padding-left: 35px;
-  margin-bottom: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  font-weight: initial;
-  height: 50px;
-  background-color: #e5f5ff;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  padding-left: 65px;
-  padding-right: 10px;
-  margin-left: 15px;
-  margin-right: 15px;
-  max-width: calc(100% - 30px);
-  border-radius: 3px;
-}
-#ppp .checkbox-wrap input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-}
-#ppp .checkbox-wrap .checkmark {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  left: 10px;
-  height: 35px;
-  width: 35px;
-  background-color: #eee;
-  margin-right: 20px;
-  border-radius: 50%;
-}
-#ppp .checkbox-wrap .checkmark::before {
-  content: "";
-  position: absolute;
-  height: 35px;
-  top: 0;
-  right: -9.5px;
-  width: 1px;
-  background-color: #99ddff;
-}
-#ppp .checkbox-wrap .checkmark:after {
-  content: "";
-  position: absolute;
-  display: none;
-}
-#ppp .checkbox-wrap:hover input ~ .checkmark {
-  background-color: #ccc;
-}
-#ppp .checkbox-wrap input:checked ~ .checkmark {
-  background-color: #00abff;
-}
-#ppp .checkbox-wrap input:checked ~ .checkmark:after {
-  display: block;
-}
 #ppp .ppp-page-heading {
   position: relative;
 }
@@ -598,43 +599,6 @@ hr {
   color: black;
   text-decoration: underline;
 }
-#ppp .review .ppp-heading {
-  margin-bottom: 30px;
-}
-#ppp .review .ppp-heading .ppp-tip {
-  padding-right: 45px;
-  position: relative;
-  border-bottom-right-radius: 0;
-}
-#ppp .review .ppp-heading .ppp-tip span {
-  height: 35px;
-  width: 35px;
-  position: absolute;
-  background: #00abff;
-  border-radius: 50%;
-  right: -3px;
-  top: -3px;
-}
-#ppp .review .petition-title {
-  margin-bottom: 15px;
-}
-#ppp .review .petition-title h3 {
-  display: inline;
-  line-height: 1.2rem;
-  text-transform: uppercase;
-}
-#ppp .review .petition-targets span.target {
-  text-decoration: underline;
-}
-#ppp .review .petition-targets span.target .no-underline {
-  text-decoration: none;
-  display: inline-block;
-}
-#ppp .review .petition-image .image-wrap {
-  height: 215px;
-  background-color: lightgray;
-  margin-bottom: 15px;
-}
 #ppp .share .share-btns-main button {
   height: 50px;
   width: 100%;
@@ -663,6 +627,179 @@ hr {
 }
 #ppp .share .skip-share {
   text-align: center;
+}
+
+#content .review .ppp-step {
+  min-height: 100vh;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  margin-bottom: 50px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: opacity 1.5s cubic-bezier(0.64, 0.04, 0.35, 1), visibility 0s linear 1.5s;
+  background: #ffffff;
+  opacity: 1;
+  z-index: 1;
+  transition: opacity 1.5s cubic-bezier(0.64, 0.04, 0.35, 1) 1.5s;
+}
+#content .review .close {
+  position: absolute;
+  top: 20px;
+  right: 18px;
+  opacity: 1;
+  cursor: pointer;
+}
+#content .review .close span {
+  height: 4px;
+  width: 26px;
+  display: block;
+}
+#content .review .close span:first-of-type {
+  transform: rotate(45deg);
+  position: absolute;
+}
+#content .review .close span:last-of-type {
+  transform: rotate(-45deg);
+}
+#content .review .ppp-item {
+  margin-bottom: 60px;
+}
+@media screen and (min-width: 768px) {
+  #content .review .ppp-item {
+    margin-bottom: 0;
+  }
+}
+#content .review .ppp-item .ppp-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+#content .review .ppp-item .ppp-heading .ppp-tip {
+  height: 40px;
+  border-radius: 19.5px;
+  padding: 0 6px 0 14px;
+  text-transform: uppercase;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 45px;
+  position: relative;
+  border-bottom-right-radius: 0;
+  cursor: pointer;
+}
+#content .review .ppp-item .ppp-heading .ppp-tip span {
+  height: 35px;
+  width: 35px;
+  position: absolute;
+  background: #00abff;
+  border-radius: 50%;
+  right: -3px;
+  top: -3px;
+}
+#content .review .ppp-btn {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: initial;
+  font-size: 16px;
+  width: 100%;
+  margin: 0;
+  z-index: 100;
+  height: 50px;
+}
+@media screen and (min-width: 768px) {
+  #content .review .ppp-btn {
+    position: relative;
+    margin-top: 20px;
+  }
+}
+#content .review .selection-pills {
+  margin-bottom: 20px;
+}
+#content .review .selection-pills .pill-inner {
+  height: 50px;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: bold;
+  font-stretch: condensed;
+  line-height: 1.25;
+  position: relative;
+  padding: 7px;
+  margin-bottom: 10px;
+}
+#content .review .selection-pills .pill-inner .close {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  top: -4px;
+  right: -4px;
+}
+#content .review .selection-pills .pill-inner .close span {
+  height: 2px;
+  width: 15px;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+#content .review .selection-pills .pill-inner .close span:first-of-type {
+  transform: translate(-50%) rotate(45deg);
+}
+#content .review .selection-pills .pill-inner .close span:last-of-type {
+  transform: translate(-50%) rotate(-45deg);
+}
+#content .review .petition-title {
+  margin-bottom: 15px;
+}
+#content .review .petition-title h3 {
+  display: inline;
+  line-height: 1.2rem;
+  text-transform: uppercase;
+}
+#content .review .petition-targets span.target {
+  text-decoration: underline;
+}
+#content .review .petition-targets span.target .no-underline {
+  text-decoration: none;
+  display: inline-block;
+}
+#content .review .petition-image .image-wrap {
+  height: 215px;
+  background-color: lightgray;
+  margin-bottom: 15px;
+}
+#content .review .review-targets-wrap {
+  display: none;
+}
+#content .review .review-targets-wrap.toggled {
+  display: block;
+}
+#content .review .review-targets-wrap .group {
+  padding-right: 0;
+  padding-left: 0;
+}
+#content .review .review-targets-wrap .review-targets-search-wrap {
+  position: relative;
+}
+#content .review .review-targets-wrap .review-targets-search-wrap .targets-dropdown {
+  position: absolute;
+  max-height: 300px;
+  overflow-y: scroll;
+  display: none;
+  z-index: 5;
+  top: 62px;
+  padding: 15px 0;
+  left: 0;
+}
+#content .review .review-targets-wrap .review-targets-search-wrap .targets-dropdown.toggled {
+  display: block;
 }
 
 /* ANIMATIONS ================ */
@@ -694,4 +831,4 @@ hr {
   }
 }
 
-/*# sourceMappingURL=create.css.map */
+/*# sourceMappingURL=css/create.css.map */

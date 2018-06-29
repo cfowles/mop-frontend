@@ -36,8 +36,8 @@ const ConversationalInput = ({
 
   if (inputType === 'review') {
     return (
-      <div className='bubble user show'>
-        <button className='convo-review-btn bg-azure white' onClick={toggleOpen('convoReviewToggle')}>Review</button>
+      <div className='bubble user show review-btn-wrap'>
+        <button className='convo-review-btn bg-azure white' onClick={toggleOpen('convoReviewToggled')}>Review</button>
       </div>
     )
   } else {

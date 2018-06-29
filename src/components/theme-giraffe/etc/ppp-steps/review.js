@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { InputMaterial } from "GiraffeUI/input-material";
 import CreateTargetsReview from '../../../../containers/create-targets-review'
+import cx from 'classnames'
 
 const Review = ({
     toggleOpen,
@@ -23,23 +24,26 @@ const Review = ({
     onTargetRemove,
     customInputs,
     onChangeCustomInputs,
+    targetQuery
 }) => {
 
     const targetsArray = [
         <span key="0">To be delivered to </span>
     ];
-    targets.map(function(target, i){
-        if(targets.length === 1) {
-            targetsArray.push(<span className="target" key={i + 1}>{target.label}<span className="no-underline">.</span></span>);
-        } else if (targets.length < 4) {
-            if (i < targets.length - 1) targetsArray.push(<span className="target" key={i + 1}>{target.label}<span className="no-underline">,&nbsp;</span></span>);
-            if (i === targets.length - 1) targetsArray.push(<span className="target" key={i + 1}><span className="no-underline">and&nbsp;</span>{target.label}<span className="no-underline">.</span></span>)
-        } else if (targets.length >= 4) {
-            if (i < 3) targetsArray.push(<span className="target" key={i + 1}>{target.label}<span className="no-underline">,&nbsp;</span></span>);
-            if (i === 3) targetsArray.push(<span className="target" key={i + 1}><span className="no-underline">and&nbsp;</span>{targets.length - (i)} more<span className="no-underline">.</span></span>);
-            if (i > 3) return;
-        }
-    })
+    if (targets.length) {
+        targets.map(function(target, i){
+            if(targets.length === 1) {
+                targetsArray.push(<span className="target" key={i + 1}>{target.label}<span className="no-underline">.</span></span>);
+            } else if (targets.length < 4) {
+                if (i < targets.length - 1) targetsArray.push(<span className="target" key={i + 1}>{target.label}<span className="no-underline">,&nbsp;</span></span>);
+                if (i === targets.length - 1) targetsArray.push(<span className="target" key={i + 1}><span className="no-underline">and&nbsp;</span>{target.label}<span className="no-underline">.</span></span>)
+            } else if (targets.length >= 4) {
+                if (i < 3) targetsArray.push(<span className="target" key={i + 1}>{target.label}<span className="no-underline">,&nbsp;</span></span>);
+                if (i === 3) targetsArray.push(<span className="target" key={i + 1}><span className="no-underline">and&nbsp;</span>{targets.length - (i)} more<span className="no-underline">.</span></span>);
+                if (i > 3) return;
+            }
+        })
+    }
 
     const review = {
         title: (
@@ -98,20 +102,24 @@ const Review = ({
                 </div>
 
                 {editPetition ? edit.title : review.title}
-                {editPetition ? <CreateTargetsReview 
-                    tipModalToggled={tipModalToggled}
-                    toggleOpen={toggleOpen}
-                    updateStateFromValue={updateStateFromValue}
-                    step={step}
-                    nextStep={nextStep}
-    
-                    setSelected={setSelected}
-                    setRef={setRef}
-                    targets={targets}
-                    onTargetAdd={onTargetAdd}
-                    onTargetRemove={onTargetRemove}
-                    customInputs={customInputs}
-                    onChangeCustomInputs={onChangeCustomInputs}/> : review.targets}
+                {!editPetition ? review.targets : ''}
+                <div className={cx("review-targets-wrap container", editPetition ? "toggled" : '')}>
+                    <CreateTargetsReview 
+                        tipModalToggled={tipModalToggled}
+                        toggleOpen={toggleOpen}
+                        updateStateFromValue={updateStateFromValue}
+                        step={step}
+                        nextStep={nextStep}
+                        
+                        setSelected={setSelected}
+                        setRef={setRef}
+                        targets={targets}
+                        onTargetAdd={onTargetAdd}
+                        onTargetRemove={onTargetRemove}
+                        customInputs={customInputs}
+                        targetQuery={targetQuery}
+                        onChangeCustomInputs={onChangeCustomInputs} />
+                </div>
                 {editPetition ? edit.summary : review.summary}
                 {editPetition ? edit.description : review.description}
                 

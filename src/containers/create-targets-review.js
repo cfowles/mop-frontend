@@ -18,7 +18,9 @@ export class CreateTargetsReview extends React.Component {
       geoState: null,
       stateOpen: false,
       customOpen: false,
-      targetsLoaded: false
+      targetsLoaded: false,
+      load: 10,
+      filteredTargets: false
     }
 
     // this.toggleOpen = this.toggleOpen.bind(this)
@@ -27,61 +29,97 @@ export class CreateTargetsReview extends React.Component {
     // this.renderCustom = this.renderCustom.bind(this)
     this.renderTargets = this.renderTargets.bind(this)
     this.renderSelectedTargets = this.renderSelectedTargets.bind(this)
+    this.loadMoreTargets = this.loadMoreTargets.bind(this)
+    // this.filterTargets = this.filterTargets.bind(this)
+    this.renderTargets = this.renderTargets.bind(this)
+    this.updateQuery = this.updateQuery.bind(this)
+    this.renderCustomTarget = this.renderCustomTarget.bind(this)
   }
 
   static getDerivedStateFromProps(props) {
     const allTargets = props.items;
-
-    return {
-      allTargets
-    }
-  }
-
-  componentDidMount() {
-    // Preload congress for autocomplete
-    this.props.dispatch(loadTargets('national')).then(()=>{
-        this.setState({ targetsLoaded: true })
+    let filteredTargets = allTargets.map((target, i) => {
+      // Filter selected targets
+      if (!(props.targets.length && props.targets.some(e => e.label === target.label))) {
+        // If exists, make lowercase
+        let searchText = !props.targetQuery ? false : props.targetQuery.toLowerCase()
+        // Filter query
+        if (target.label.toLowerCase().indexOf(searchText) != -1 || !searchText) {
+          return (
+            <label className={cx("checkbox-wrap col-12 review-hidden", props.theme === 'ppp'? "bg-ice-blue" : "bg-white")} key={i} onClick={props.onTargetAdd(target, false)}>
+              <span>
+                {target.label}
+              </span>
+              <input name={target.value} id={'review-' + target.value}  type="checkbox" title={target.value} />
+              <span className="checkmark" />
+            </label>
+          )
+        } else {
+          return
+        }
+      }
     })
 
-    // Handle if we need to preload a geoState
-    if (this.state.stateTargets && this.state.stateTargets.length) {
-      this.props.dispatch(
-        loadTargets('state', this.state.stateTargets[0].target_id)
-      )
+    filteredTargets = filteredTargets.filter( target => !!target )
+
+    return {
+      allTargets,
+      filteredTargets
     }
   }
 
+  updateQuery(event) {
+    this.renderTargets();
+    this.setState({load: 10});
+    let u = this.props.updateStateFromValue('targetQuery');
+    u(event);
+  }
   renderTargets() {
-    if (!this.state.targetsLoaded) return null;
-
-    return this.state.allTargets.map((target, i)=>{
-        if (!(this.props.targets.length && this.props.targets.some(e => e.label === target.label))) {
-            return (
-                <label className={cx("checkbox-wrap col-12 review-hidden")} key={i} onClick={this.props.onTargetAdd(target, false)}>
-                    <span>
-                        {target.label}
-                    </span>
-                    <input name={target.value} id={this.props.step === 4 ? "review" + target.value : target.value } className="bg-ice-blue" type="checkbox" title={target.value} />
-                    <span className="checkmark" />
-                </label>
-            )
-        }
+    if (!this.state.filteredTargets) return;
+    let filterIndex = 1
+    return this.state.filteredTargets.map((target, i) => {
+      if (filterIndex < this.state.load) {
+        filterIndex++;
+        return target;
+      }
     })
   }
   renderSelectedTargets() {
-      return this.props.targets.map((target, i)=>{
-          return (
-            <div className="col-6 selection-pill" key={i}>
-                <div className="pill-inner bg-ice-blue black">
-                    {target.label}
-                    <div className="close bg-azure" onClick={this.props.onTargetRemove(target)}>
-                        <span className="bg-white" />
-                        <span className="bg-white" />
-                    </div>
-                </div>
+    if (this.props.targets.length) {
+      return this.props.targets.map((target, i) => {
+        return (
+          <div className="col-6 selection-pill" key={i}>
+            <div className="pill-inner bg-ice-blue black">
+              {target.name}
+              <div className="close bg-azure" onClick={this.props.onTargetRemove(target)}>
+                <span className="bg-white" />
+                <span className="bg-white" />
+              </div>
             </div>
-          )
+          </div>
+        )
       })
+    }
+  }
+  renderCustomTarget() {
+    if(this.props.targetQuery && this.state.filteredTargets.length === 0) {
+      return (
+        <div className="add-target bg-ice-blue" onClick={this.props.onTargetAdd({target_type: 'custom', name: this.props.targetQuery, email: '', title: ''}, { isCustom: true })}>
+          Add “{this.props.targetQuery}” as your target
+          <div className="add"><AddSvg /></div>
+        </div>
+      )
+    } else {
+      return
+    }
+  }
+
+  loadMoreTargets() {
+    this.setState(prevState => {
+      let newLoad = prevState.load + 10;
+      return { load: newLoad }
+    })
+    this.renderTargets();
   }
 
 
@@ -91,7 +129,7 @@ export class CreateTargetsReview extends React.Component {
     const { setSelected, setRef } = this.props
 
     return (
-    <ReviewTargets
+      <ReviewTargets
         setSelected={setSelected}
         setRef={setRef}
         step={this.props.step}
@@ -99,7 +137,12 @@ export class CreateTargetsReview extends React.Component {
         toggleOpen={this.props.toggleOpen}
         renderTargets={this.renderTargets}
         renderSelectedTargets={this.renderSelectedTargets}
-    />
+        targetQuery={this.props.targetQuery}
+        updateQuery={this.updateQuery}
+        load={this.state.load}
+        filteredTargets={this.state.filteredTargets}
+        loadMoreTargets={this.loadMoreTargets}
+      />
     )
   }
 }
@@ -111,14 +154,13 @@ CreateTargetsReview.propTypes = {
   onTargetRemove: PropTypes.func,
   dispatch: PropTypes.func,
   // eslint-disable-next-line
-  targets: PropTypes.array,
   customInputs: PropTypes.object,
   onChangeCustomInputs: PropTypes.func
 }
 function mapStateToProps(store) {
-    return {
-      items:
-        (store.petitionTargetsStore && store.petitionTargetsStore.national) || []
-    }
+  return {
+    items:
+      (store.petitionTargetsStore && store.petitionTargetsStore.national) || []
   }
+}
 export default connect(mapStateToProps)(CreateTargetsReview)
