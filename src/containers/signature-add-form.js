@@ -35,6 +35,7 @@ class SignatureAddForm extends React.Component {
     }
     this.validationFunction = {
       email: isValidEmail,
+      name: name => !isValidEmail(name), // See https://github.com/MoveOnOrg/mop-frontend/issues/560
       zip: zip => /(\d\D*){5}/.test(zip),
       phone: phone => /(\d\D*){10}/.test(phone) // 10-digits
     }
