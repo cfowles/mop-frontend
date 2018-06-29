@@ -47,12 +47,12 @@ const Review = ({
 
     const review = {
         title: (
-            <div className="petition-title col-12">    
+            <div className="petition-title col-12">
                 <h3 className="bg-azure black">{title}</h3>
             </div>
         ),
         targets: (
-            <div className="petition-targets col-12">        
+            <div className="petition-targets col-12">
                 <p>{targetsArray}</p>
             </div>
         ),
@@ -64,7 +64,7 @@ const Review = ({
         ),
         description: (
             <div className="petition-description col-12">
-                <h4>Background</h4>    
+                <h4>Background</h4>
                 <p>{description}</p>
             </div>
         ),
@@ -122,7 +122,7 @@ const Review = ({
                 </div>
                 {editPetition ? edit.summary : review.summary}
                 {editPetition ? edit.description : review.description}
-                
+
             </div>
             <button
                 type="button"

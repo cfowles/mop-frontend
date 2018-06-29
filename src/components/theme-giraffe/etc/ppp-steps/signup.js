@@ -50,7 +50,7 @@ const Signup = ({
                         />
                     </div>
                     <div className="col-12">
-                        <a>Already have an account? Click to Log In</a>
+                        <a onClick={user.existing = true}>Already have an account? Click to Log In</a>
                     </div>
                 </div>
             </div>
