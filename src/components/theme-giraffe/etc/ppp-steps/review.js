@@ -28,6 +28,7 @@ const Review = ({
     const targetsArray = [
         <span key="0">To be delivered to </span>
     ];
+    if(targets.length){
     targets.map(function(target, i){
         if(targets.length === 1) {
             targetsArray.push(<span className="target" key={i + 1}>{target.label}<span className="no-underline">.</span></span>);
@@ -40,15 +41,16 @@ const Review = ({
             if (i > 3) return;
         }
     })
+    }
 
     const review = {
         title: (
-            <div className="petition-title col-12">    
+            <div className="petition-title col-12">
                 <h3 className="bg-azure black">{title}</h3>
             </div>
         ),
         targets: (
-            <div className="petition-targets col-12">        
+            <div className="petition-targets col-12">
                 <p>{targetsArray}</p>
             </div>
         ),
@@ -60,7 +62,7 @@ const Review = ({
         ),
         description: (
             <div className="petition-description col-12">
-                <h4>Background</h4>    
+                <h4>Background</h4>
                 <p>{description}</p>
             </div>
         ),
@@ -98,13 +100,13 @@ const Review = ({
                 </div>
 
                 {editPetition ? edit.title : review.title}
-                {editPetition ? <CreateTargetsReview 
+                {editPetition ? <CreateTargetsReview
                     tipModalToggled={tipModalToggled}
                     toggleOpen={toggleOpen}
                     updateStateFromValue={updateStateFromValue}
                     step={step}
                     nextStep={nextStep}
-    
+
                     setSelected={setSelected}
                     setRef={setRef}
                     targets={targets}
@@ -114,7 +116,7 @@ const Review = ({
                     onChangeCustomInputs={onChangeCustomInputs}/> : review.targets}
                 {editPetition ? edit.summary : review.summary}
                 {editPetition ? edit.description : review.description}
-                
+
             </div>
             <button
                 type="button"

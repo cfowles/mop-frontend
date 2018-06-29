@@ -54,7 +54,7 @@ class CreatePetition extends React.Component {
       // customOpen: false,
 
       /*** PPP ***/
-      step: 4,
+      step: 1,
 
       // User Data
       user: {},
@@ -279,7 +279,7 @@ class CreatePetition extends React.Component {
       if (isCustom && !this.state.targetQuery) return // Trying to add a blank custom target
 
       if (isCustom) {
-        this.setState({ customInputs: { name: '', email: '', title: '' } }) 
+        this.setState({ customInputs: { name: '', email: '', title: '' } })
       }
 
       this.setState({ target: [...this.state.target, target], targetQuery: ''})

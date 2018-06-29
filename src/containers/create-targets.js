@@ -102,19 +102,21 @@ export class CreateTargets extends React.Component {
     })
   }
   renderSelectedTargets() {
-    return this.props.targets.map((target, i) => {
-      return (
-        <div className="col-6 selection-pill" key={i}>
-          <div className="pill-inner bg-ice-blue black">
-            {target.name}
-            <div className="close bg-azure" onClick={this.props.onTargetRemove(target)}>
-              <span className="bg-white" />
-              <span className="bg-white" />
+    if(this.props.targets.length){
+      return this.props.targets.map((target, i) => {
+        return (
+          <div className="col-6 selection-pill" key={i}>
+            <div className="pill-inner bg-ice-blue black">
+              {target.name}
+              <div className="close bg-azure" onClick={this.props.onTargetRemove(target)}>
+                <span className="bg-white" />
+                <span className="bg-white" />
+              </div>
             </div>
           </div>
-        </div>
-      )
-    })
+        )
+      })
+    }
   }
   renderCustomTarget() {
     if(this.props.targetQuery && this.state.filteredTargets.length === 0) {
