@@ -357,10 +357,15 @@ hr {
   margin-bottom: 20px;
 }
 #ppp .tip-modal .heading span {
-  display: inline-block;
+  display: inline-flex;
   height: 30px;
   width: 30px;
   border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+}
+#ppp .tip-modal .heading span svg path {
+  fill: #ffffff;
 }
 #ppp .tip-modal .example {
   margin-bottom: 10px;
@@ -452,6 +457,9 @@ hr {
   height: 30px;
   border-radius: 50%;
   margin-left: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 #ppp .selection-pills {
   margin-bottom: 20px;
@@ -698,6 +706,9 @@ hr {
   border-radius: 50%;
   right: -3px;
   top: -3px;
+}
+#content .review .ppp-item .ppp-heading .ppp-tip span svg path:first-of-type {
+  fill: white;
 }
 #content .review .ppp-btn {
   position: fixed;

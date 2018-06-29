@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { tips } from './tips-data'
+import Lightbulb from '../../../../giraffe-ui/svgs/lightbulb.svg'
 
 const Tip = ({
     toggleOpen,
@@ -33,7 +34,7 @@ const Tip = ({
             </div>
             <div className="row heading bg-off-white">
                 <div className="col-12">
-                    <span className="bg-azure"></span>
+                    <span className="bg-azure"><Lightbulb /></span>
                     <h2>{currentTip.title}</h2>
                 </div>
             </div>

@@ -48,6 +48,7 @@ const CreatePetitionForm = ({
   tipModalToggled,
   signupModalToggled,
   shareButtonsToggled,
+  loginToggled,
 
   // Petition
   editPetition,
@@ -153,6 +154,7 @@ const CreatePetitionForm = ({
                             zip={zip}
                             password={password}
                             passwordConfirm={passwordConfirm}
+                            loginToggled={loginToggled}
                             />
 
   const progressWidth = (step / 6) * 100 +'%';

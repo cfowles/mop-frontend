@@ -100,7 +100,7 @@ hr {
 }
 
 /* Checkboxes */
-.checkbox-wrap {
+#content .checkbox-wrap {
   display: block;
   position: relative;
   padding-left: 35px;
@@ -124,12 +124,12 @@ hr {
   max-width: calc(100% - 30px);
   border-radius: 3px;
 }
-.checkbox-wrap input {
+#content .checkbox-wrap input {
   position: absolute;
   opacity: 0;
   cursor: pointer;
 }
-.checkbox-wrap .checkmark {
+#content .checkbox-wrap .checkmark {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -140,7 +140,7 @@ hr {
   margin-right: 20px;
   border-radius: 50%;
 }
-.checkbox-wrap .checkmark::before {
+#content .checkbox-wrap .checkmark::before {
   content: "";
   position: absolute;
   height: 35px;
@@ -149,18 +149,18 @@ hr {
   width: 1px;
   background-color: #99ddff;
 }
-.checkbox-wrap .checkmark:after {
+#content .checkbox-wrap .checkmark:after {
   content: "";
   position: absolute;
   display: none;
 }
-.checkbox-wrap:hover input ~ .checkmark {
+#content .checkbox-wrap:hover input ~ .checkmark {
   background-color: #ccc;
 }
-.checkbox-wrap input:checked ~ .checkmark {
+#content .checkbox-wrap input:checked ~ .checkmark {
   background-color: #00abff;
 }
-.checkbox-wrap input:checked ~ .checkmark:after {
+#content .checkbox-wrap input:checked ~ .checkmark:after {
   display: block;
 }
 
@@ -357,10 +357,15 @@ hr {
   margin-bottom: 20px;
 }
 #ppp .tip-modal .heading span {
-  display: inline-block;
+  display: inline-flex;
   height: 30px;
   width: 30px;
   border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+}
+#ppp .tip-modal .heading span svg path {
+  fill: #ffffff;
 }
 #ppp .tip-modal .example {
   margin-bottom: 10px;
@@ -452,6 +457,9 @@ hr {
   height: 30px;
   border-radius: 50%;
   margin-left: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 #ppp .selection-pills {
   margin-bottom: 20px;
@@ -698,6 +706,9 @@ hr {
   border-radius: 50%;
   right: -3px;
   top: -3px;
+}
+#content .review .ppp-item .ppp-heading .ppp-tip span svg path:first-of-type {
+  fill: white;
 }
 #content .review .ppp-btn {
   position: fixed;
@@ -991,6 +1002,11 @@ hr {
   height: 30px;
   width: 30px;
   border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+}
+#conversational .tip-modal .heading span svg path {
+  fill: #ffffff;
 }
 #conversational .tip-modal .example {
   margin-bottom: 10px;
@@ -1099,10 +1115,6 @@ hr {
   transform: scale(1);
   transition: transform 0.3s cubic-bezier(0.61, 0.26, 0.49, 1.25) 0.7s;
 }
-#conversational .bubble.loader-wrap {
-  max-height: 500px;
-  min-height: 50px !important;
-}
 #conversational .bubble .loader {
   position: relative;
   text-align: center;
@@ -1110,6 +1122,7 @@ hr {
   height: auto;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: -5px;
 }
 #conversational .bubble .loader .dot {
   display: inline-block;
@@ -1139,8 +1152,35 @@ hr {
   display: table;
   clear: both;
 }
-#conversational .bubble.user {
+#conversational .user-bubble-wrap {
   position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+}
+#conversational .user-bubble-wrap .loader-wrap {
+  max-height: none;
+  min-height: 0 !important;
+  visibility: visible;
+  opacity: 1;
+  top: initial;
+  position: relative;
+  display: block;
+  margin-bottom: -50px;
+  transition: margin-bottom 0.4s ease-in-out;
+}
+#conversational .user-bubble-wrap .loader-wrap.show {
+  margin-bottom: 0;
+  transition: margin-bottom 0.4s ease-in-out;
+}
+#conversational .user-bubble-wrap .loader-wrap .inner {
+  min-height: 45px;
+  margin-left: 20px;
+  margin-bottom: 10px;
+}
+#conversational .bubble.user {
+  position: relative;
   display: block;
   top: inherit;
   bottom: 0;

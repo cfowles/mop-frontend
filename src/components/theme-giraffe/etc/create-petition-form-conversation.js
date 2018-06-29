@@ -68,7 +68,8 @@ const CreatePetitionFormConversation = ({
   targetQuery,
   convoReviewToggled,
   editPetition,
-  publish
+  publish,
+  theme
 }) => {
   const instructions = instructionsByField[selected]
 
@@ -144,13 +145,6 @@ const CreatePetitionFormConversation = ({
     <div id='conversational'>
       <div className={cx('chat-wrap', !convoReviewToggled ? 'toggled' : '' )}>
         {bubbles}
-        <div className={loaderClasses}>
-          <div className='inner'>
-            <div className='loader'>
-              <span className='dot'></span><span className='dot'></span><span className='dot'></span>
-            </div>
-          </div>
-        </div>
         <CreateTargets
           updateStateFromValue={updateStateFromValue}
 
@@ -179,6 +173,7 @@ const CreatePetitionFormConversation = ({
           email={email}
           targetQuery={targetQuery}
           toggleOpen={toggleOpen}
+          bubbleLoading={bubbleLoading}
         />
         <div id="chatend" style={{ float: "left", clear: "both", display: "block", height: "100px", marginTop: targetQuery.length ? "150px" : "50px" }}
           className="chat-end" >
@@ -190,24 +185,25 @@ const CreatePetitionFormConversation = ({
         step={step} />
       <div className={cx("convo-review-wrap", convoReviewToggled ? 'toggled' : '')} >
         <Review
-          tipModalToggled={tipModalToggled}
-          toggleOpen={toggleOpen}
-          editPetition={editPetition}
-          title={title}
-          summary={summary}
-          description={description}
-          updateStateFromValue={updateStateFromValue}
-          step={step}
-          nextStep={publish}
+        tipModalToggled={tipModalToggled}
+        toggleOpen={toggleOpen}
+        editPetition={editPetition}
+        title={title}
+        summary={summary}
+        description={description}
+        updateStateFromValue={updateStateFromValue}
+        step={step}
+        nextStep={publish} 
 
-          setSelected={setSelected}
-          setRef={setRef}
-          targets={targets}
-          onTargetAdd={onTargetAdd}
-          onTargetRemove={onTargetRemove}
-          customInputs={customInputs}
-          onChangeCustomInputs={onChangeCustomInputs}
-          targetQuery={targetQuery}
+        setSelected={setSelected}
+        setRef={setRef}
+        targets={targets}
+        onTargetAdd={onTargetAdd}
+        onTargetRemove={onTargetRemove}
+        customInputs={customInputs}
+        onChangeCustomInputs={onChangeCustomInputs}
+        targetQuery={targetQuery}
+        theme='convo'
         />
       </div>
       <DesktopProgress

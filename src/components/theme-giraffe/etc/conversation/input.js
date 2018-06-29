@@ -4,6 +4,7 @@ import ReactTimeout from 'react-timeout'
 import { conversation } from './conversation'
 import Errors from './errors'
 import { InputMaterial } from "GiraffeUI/input-material";
+import cx from 'classnames'
 
 const ConversationalInput = ({
   saveInput,
@@ -15,7 +16,8 @@ const ConversationalInput = ({
   description,
   email,
   targetQuery,
-  toggleOpen
+  toggleOpen,
+  bubbleLoading
 }) => {
 
   let inputType = conversation[currentIndex].hasOwnProperty('input') ? conversation[currentIndex].input.type : '';
@@ -42,34 +44,43 @@ const ConversationalInput = ({
     )
   } else {
     return (
-      <div className='bubble user show'>
-        <InputMaterial
-          name={inputType}
-          type="textarea"
-          className={classes}
-          label={inputPlaceholder}
-          placeholder={inputPlaceholder}
-          charLimit={charLimit}
-          stateRef={stateRef}
-          onChange={updateStateFromValue(inputType)}
-          onBlur={updateStateFromValue(inputType)}
-          id='user-input'
-          onKeyPress={event => {
-            if (event.key === 'Enter') {
-              event.preventDefault();
-              const s = saveInput(inputType)
-              s();
-            }
-          }}
-        />
-        <a className='bubble-submit' onClick={saveInput(inputType)}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
-            <path d="M0 0h24v24H0z" fill="none" />
-          </svg>
-        </a>
-        <Errors
-          errors={errors} />
+      <div className='user-bubble-wrap'>
+        <div className={cx("bubble loader-wrap", bubbleLoading ? 'show' : '')}>
+          <div className='inner'>
+            <div className='loader'>
+              <span className='dot'></span><span className='dot'></span><span className='dot'></span>
+            </div>
+          </div>
+        </div>
+        <div className='bubble user show'>
+          <InputMaterial
+            name={inputType}
+            type="textarea"
+            className={classes}
+            label={inputPlaceholder}
+            placeholder={inputPlaceholder}
+            charLimit={charLimit}
+            stateRef={stateRef}
+            onChange={updateStateFromValue(inputType)}
+            onBlur={updateStateFromValue(inputType)}
+            id='user-input'
+            onKeyPress={event => {
+              if (event.key === 'Enter') {
+                event.preventDefault();
+                const s = saveInput(inputType)
+                s();
+              }
+            }}
+          />
+          <a className='bubble-submit' onClick={saveInput(inputType)}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+              <path d="M0 0h24v24H0z" fill="none" />
+            </svg>
+          </a>
+          <Errors
+            errors={errors} />
+        </div>
       </div>
     )
   }

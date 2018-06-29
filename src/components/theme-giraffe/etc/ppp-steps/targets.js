@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { InputMaterial } from "GiraffeUI/input-material";
 import Close from '../../../../giraffe-ui/svgs/Close.svg'
+import Lightbulb from '../../../../giraffe-ui/svgs/lightbulb.svg'
+
 
 const Targets = ({
 	toggleOpen,
@@ -38,7 +40,7 @@ const Targets = ({
 					<h3>Decision Makers</h3>
 					<div className="ppp-tip bg-ice-blue" onClick={toggleOpen("tipModalToggled")}>
 						Tips
-						<span className="bg-white" />
+						<span className="bg-white"><Lightbulb /></span>
 					</div>
 				</div>
 				<div className="col-12">

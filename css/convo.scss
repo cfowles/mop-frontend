@@ -174,6 +174,11 @@ $bp-xl: 1440px;
                 height: 30px;
                 width: 30px;
                 border-radius: 50%;
+                justify-content: center;
+                align-items: center;
+                svg path {
+                    fill: $white;
+                }
             }
         }
         .example {
@@ -283,10 +288,6 @@ $bp-xl: 1440px;
                 }
             }
         }
-        &.loader-wrap {
-            max-height: 500px;
-            min-height: 50px !important;
-        }
         .loader {
             position: relative;
             text-align: center;
@@ -294,6 +295,7 @@ $bp-xl: 1440px;
             height: auto;
             margin-left: auto;
             margin-right: auto;
+            margin-bottom: -5px;
             .dot {
                 display: inline-block;
                 width: 6px;
@@ -326,16 +328,43 @@ $bp-xl: 1440px;
             clear: both;
         }
     }
-    .bubble.user {
+    .user-bubble-wrap {
         position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: auto;
+        .loader-wrap {
+            max-height: none;
+            min-height: 0 !important;
+            visibility: visible;
+            opacity: 1;
+            top: initial;
+            position: relative;
+            display: block;
+            margin-bottom: -50px;
+            transition: margin-bottom .4s ease-in-out;
+            &.show {
+                margin-bottom: 0;
+                transition: margin-bottom .4s ease-in-out;
+            }
+            .inner {
+                min-height: 45px;
+                margin-left: 20px;
+                margin-bottom: 10px;
+            }
+        }
+    }
+    .bubble.user {
+        position: relative;
         display: block;
         top: inherit;
         bottom: 0;
         left: 0;
         z-index: 10;
         width: 100%;
-        max-width: 560px; //border-radius: 10px 10px 0 0;
-        background-color: #00abff;
+        max-width: 560px;
+        background-color: $azure;
         min-height: 75px;
         padding: 15px 15px 5px;
     }

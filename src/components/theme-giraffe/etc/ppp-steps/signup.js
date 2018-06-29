@@ -17,7 +17,8 @@ const Signup = ({
     name,
     password,
     passwordConfirm,
-    registerSubmit
+    registerSubmit,
+    loginToggled
 }) => {
     return (
         <div className={cx(
@@ -47,10 +48,11 @@ const Signup = ({
                         passwordConfirm={passwordConfirm}
                         registerSubmit
                         updateStateFromValue={updateStateFromValue}
+                        loginToggled={loginToggled}
                         />
                     </div>
                     <div className="col-12">
-                        <a onClick={user.existing = true}>Already have an account? Click to Log In</a>
+                        <a onClick={toggleOpen('loginToggled')}>Already have an account? Click to Log In</a>
                     </div>
                 </div>
             </div>

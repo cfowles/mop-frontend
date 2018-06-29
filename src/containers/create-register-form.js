@@ -133,7 +133,7 @@ class CreateRegister extends React.Component {
   }
 
   render() {
-    if(this.state.existingUser){
+    if(this.props.loginToggled){
       return (
         <div className='moveon-petitions'>
           <LoginForm
@@ -144,6 +144,7 @@ class CreateRegister extends React.Component {
             isSubmitting={this.props.isSubmitting}
             email={this.props.email}
             password={this.props.password}
+            updateStateFromValue={this.props.updateStateFromValue}
           />
         </div>
       )

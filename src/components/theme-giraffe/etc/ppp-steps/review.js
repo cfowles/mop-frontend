@@ -3,6 +3,9 @@ import PropTypes from 'prop-types'
 import { InputMaterial } from "GiraffeUI/input-material";
 import CreateTargetsReview from '../../../../containers/create-targets-review'
 import cx from 'classnames'
+import Lightbulb from '../../../../giraffe-ui/svgs/lightbulb.svg'
+import Edit from '../../../../giraffe-ui/svgs/edit.svg'
+import Check from '../../../../giraffe-ui/svgs/check.svg'
 
 const Review = ({
     toggleOpen,
@@ -24,7 +27,8 @@ const Review = ({
     onTargetRemove,
     customInputs,
     onChangeCustomInputs,
-    targetQuery
+    targetQuery,
+    theme
 }) => {
 
     const targetsArray = [
@@ -70,7 +74,7 @@ const Review = ({
         ),
         edit: (
             <div className="ppp-tip bg-off-white" onClick={toggleOpen('editPetition')}>Edit
-                <span className="bg-azure"></span>
+                <span className="bg-azure"><Edit /></span>
             </div>
         )
     }
@@ -86,7 +90,7 @@ const Review = ({
         ),
         edit: (
             <div className="ppp-tip bg-off-white" onClick={toggleOpen('editPetition')}>Save
-                <span className="bg-azure"></span>
+                <span className="bg-azure"><Check /></span>
             </div>
         )
     }

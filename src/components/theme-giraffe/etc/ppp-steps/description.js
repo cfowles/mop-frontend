@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { InputMaterial } from "GiraffeUI/input-material";
 import cx from "classnames";
+import Lightbulb from '../../../../giraffe-ui/svgs/lightbulb.svg'
 
 const Description = ({
     toggleOpen,
@@ -18,7 +19,7 @@ const Description = ({
                     <h3>Petition Background</h3>
                     <div className="ppp-tip bg-ice-blue" onClick={toggleOpen('tipModalToggled')}>
                         Tips
-                        <span className="bg-white"></span>
+                        <span className="bg-white"><Lightbulb /></span>
                     </div>
                 </div>
                 <div className="col-12">

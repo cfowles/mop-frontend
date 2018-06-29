@@ -71,6 +71,7 @@ class CreatePetition extends React.Component {
       shareButtonsToggled: false,
       editPetition: false,
       convoReviewToggled: false,
+      loginToggled: false,
 
       // Petition Data
       title: false,
@@ -443,6 +444,7 @@ class CreatePetition extends React.Component {
             signupModalToggled={this.state.signupModalToggled}
             tipModalToggled={this.state.tipModalToggled}
             shareButtonsToggled={this.state.shareButtonsToggled}
+            loginToggled={this.state.loginToggled}
 
             // Petition
             editPetition={this.state.editPetition}

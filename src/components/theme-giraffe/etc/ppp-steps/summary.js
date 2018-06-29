@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import {InputMaterial} from "GiraffeUI/input-material";
 import cx from "classnames";
+import Lightbulb from '../../../../giraffe-ui/svgs/lightbulb.svg'
 
 const Summary = ({toggleOpen, updateStateFromValue, step, summary, nextStep}) => (
 	<div className={cx("statement", "ppp-step", "container", step === 2 ? "active" : "")}>
@@ -10,7 +11,7 @@ const Summary = ({toggleOpen, updateStateFromValue, step, summary, nextStep}) =>
 				<h3>Petition statement</h3>
 				<div className="ppp-tip bg-ice-blue" onClick={toggleOpen("tipModalToggled")}>
 					Tips
-					<span className="bg-white" />
+					<span className="bg-white"><Lightbulb /></span>
 				</div>
 			</div>
 			<div className="col-12">
