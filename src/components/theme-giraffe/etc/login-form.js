@@ -34,7 +34,7 @@ const LoginForm = ({ setRef, errorList, handleSubmit, isSubmitting, handleLoginS
                 name="login_next"
                 id="login_next"
                 >
-                Next
+                {type === 'conversational' ? 'Publish' : 'Next'}
             </button>
             <ul className='mt-3 red errors'>{errorList && errorList()}</ul>
           </div>

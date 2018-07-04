@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { InputMaterial } from 'GiraffeUI/input-material'
 import { Submit } from 'GiraffeUI/button'
 
-const RegisterForm = ({ errorList, handleSubmit, setRef, isSubmitting, user, email, zip, name, password, passwordConfirm, updateStateFromValue }) => (
+const RegisterForm = ({ errorList, handleSubmit, setRef, isSubmitting, user, email, zip, name, password, passwordConfirm, updateStateFromValue, type }) => (
   <form onSubmit={handleSubmit}>
     <div className='row'>
       <InputMaterial
@@ -55,7 +55,7 @@ const RegisterForm = ({ errorList, handleSubmit, setRef, isSubmitting, user, ema
           name="signup_next"
           id="signup_next"
           >
-          Next
+          {type === 'conversational' ? 'Publish' : 'Next'}
       </button>
       <ul className='mt-3 red errors'>{errorList && errorList()}</ul>
     </div>

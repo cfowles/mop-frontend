@@ -64,8 +64,6 @@ if (!process.env.PROD) {
                 : '/css/moui.css'),
       giraffeCssPath: process.env.LOCAL_CSS ||
                         'https://mop-static-stage.s3-us-west-1.amazonaws.com/giraffe/styles/main.css',
-      createStartCssPath: '/css/create.css',
-      conversationalCssPath: '/css/convo.css',
       reactJs: (process.env.LOCAL_REACT
                 ? process.env.LOCAL_REACT + 'react.js'
                 : 'https://unpkg.com/react@16.3.2/umd/react.development.js'),
@@ -120,6 +118,10 @@ var config = {
       {
         test: /\.svg$/,
         use: 'svg-react-loader'
+      },
+      {
+        test: /\.css$/,
+        use: [ 'style-loader', 'css-loader' ]
       }
     ]
   },

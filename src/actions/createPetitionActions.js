@@ -10,7 +10,9 @@ export const actionTypes = {
   CREATE_PETITION_FAILURE: 'CREATE_PETITION_FAILURE',
   FETCH_TARGETS_REQUEST: 'FETCH_TARGETS_REQUEST',
   FETCH_TARGETS_SUCCESS: 'FETCH_TARGETS_SUCCESS',
-  FETCH_TARGETS_FAILURE: 'FETCH_TARGETS_FAILURE'
+  FETCH_TARGETS_FAILURE: 'FETCH_TARGETS_FAILURE',
+  FETCH_MEMBERS_SUCCESS: 'FETCH_MEMBERS_SUCCESS',
+  FETCH_MEMBERS_FAILURE: 'FETCH_MEMBERS_FAILURE'
 }
 
 export function previewSubmit({
@@ -122,7 +124,7 @@ export function loadTargets(group, geoState) {
 
     let url = `${Config.API_URI}/targets.json?group=${group}`
     let storeKey = group
-    
+
     if (group === 'state') {
       url += `&state=${geoState}`
       storeKey += `--${geoState}`
@@ -156,6 +158,32 @@ export function loadTargets(group, geoState) {
           error: err,
           group,
           geoState
+        })
+      }
+    )
+  }
+}
+
+export function loadMembersFromZip(zip) {
+  return (dispatch, getState) => {
+    const { nearbyStore } = getState()
+
+    let url = `${Config.API_URI}/targets/zip?zip=${zip}`
+
+    return fetch(url).then(
+      response =>
+        response.json().then(json => {
+          dispatch({
+            type: actionTypes.FETCH_MEMBERS_SUCCESS,
+            nearby_count: json,
+            zip
+          })
+        }),
+      err => {
+        dispatch({
+          type: actionTypes.FETCH_MEMBERS_FAILURE,
+          error: err,
+          zip
         })
       }
     )

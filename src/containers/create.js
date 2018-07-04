@@ -7,7 +7,7 @@ import { appLocation } from '../routes'
 
 import Config from '../config'
 
-import { previewSubmit, submit, devLocalSubmit, loadTargets } from '../actions/createPetitionActions'
+import { previewSubmit, submit, devLocalSubmit, loadTargets, loadMembersFromZip } from '../actions/createPetitionActions'
 import ReactTimeout from 'react-timeout'
 import { conversation } from 'Theme/etc/conversation/conversation'
 
@@ -48,15 +48,7 @@ class CreatePetition extends React.Component {
       errors: [],
       selected: 'title',
       customInputs: { name: '', email: '', title: '' },
-
-      // nationalOpen: false,
-      // stateOpen: false,
-      // customOpen: false,
-
-      /*** PPP ***/
       step: 1,
-
-      // User Data
       user: {},
       name: false,
       email: false,
@@ -64,7 +56,6 @@ class CreatePetition extends React.Component {
       zip: false,
       password: false,
       passwordConfirm: false,
-
       // Toggles
       signupModalToggled: false,
       tipModalToggled: false,
@@ -72,22 +63,16 @@ class CreatePetition extends React.Component {
       editPetition: false,
       convoReviewToggled: false,
       loginToggled: false,
-
       // Petition Data
       title: false,
       summary: false,
       target: false,
       description: false,
-      //title: false,
-      //summary: false,
-      //description: false,
       selectedTargets: [],
       targetQuery: '',
-
       /*** Convo ***/
       section: 0,
       sectionLengths: [],
-
       // Bubbles
       currentBubble: 0,
       currentIndex: 0,
@@ -114,6 +99,7 @@ class CreatePetition extends React.Component {
     this.editBubble = this.editBubble.bind(this)
     this.saveEditBubble = this.saveEditBubble.bind(this)
     this.scrollToBottom = this.scrollToBottom.bind(this)
+    this.getStateValue = this.getStateValue.bind(this)
   }
 
   componentDidMount() {
@@ -233,7 +219,7 @@ class CreatePetition extends React.Component {
   // conversational scrolling
   scrollToBottom() {
     if(CHAT_END)
-      CHAT_END.scrollIntoView({behavior: "smooth"});
+      CHAT_END.scrollIntoView();
   }
 
   // PPP
@@ -255,8 +241,6 @@ class CreatePetition extends React.Component {
     })
   }
 
-
-
   // Shared
   updateStateFromValue(field, isCheckbox = false) {
     return (event) => {
@@ -265,6 +249,10 @@ class CreatePetition extends React.Component {
         [field]: value
       })
     }
+  }
+
+  getStateValue(field) {
+    if(this.state[field]) return this.state[field]
   }
 
   // Targets
@@ -379,21 +367,6 @@ class CreatePetition extends React.Component {
     return true;
   }
 
-  // const CONVO_ERRORS = {
-  //   empty: {
-  //     email: 'Invalid entry for the Email field.',
-  //     title: 'Please provide a title for your petition.',
-  //     summary: 'Please fill in the statement for your petition.',
-  //     target: 'You must select at least one target for your petition.',
-  //     description: 'Please provide background info for your petition.',
-  //   },
-  //   maxChar: {
-  //     title: 50,
-  //     summary: 200,
-  //     description: 500
-  //   },
-  // }
-
   render() {
 
     const createType = this.props.params.type ? this.props.params.type : 'p';
@@ -419,12 +392,6 @@ class CreatePetition extends React.Component {
       return (
         <div className='moveon-petitions'>
           <CreatePetitionForm
-            // Old
-            // nationalOpen={this.state.nationalOpen}
-            // stateOpen={this.state.stateOpen}
-            // customOpen={this.state.customOpen}
-            // instructionStyle={instructionStyle}
-
             updateStateFromValue={this.updateStateFromValue}
 
             // User
@@ -476,14 +443,11 @@ class CreatePetition extends React.Component {
       return (
         <div className='moveon-petitions'>
           <CreatePetitionFormConversation
-            // Old
             setSelected={this.setSelected}
             setRef={this.setRef}
             selected={this.state.selected}
-            nationalOpen={this.state.nationalOpen}
-            stateOpen={this.state.stateOpen}
-            customOpen={this.state.customOpen}
-            instructionStyle={instructionStyle}
+
+            getStateValue={this.getStateValue}
 
             updateStateFromValue={this.updateStateFromValue}
             getTargets={this.getTargets}
@@ -492,6 +456,9 @@ class CreatePetition extends React.Component {
             // User
             name={this.state.name}
             email={this.state.email}
+            zip={this.state.zip}
+            password={this.state.password}
+            passwordConfirm={this.state.passwordConfirm}
 
             // Steps
             nextStep={this.nextStep}
@@ -508,6 +475,7 @@ class CreatePetition extends React.Component {
             shareButtonsToggled={this.state.shareButtonsToggled}
             convoInputIsValid={this.state.convoInputIsValid}
             convoReviewToggled={this.state.convoReviewToggled}
+            loginToggled={this.state.loginToggled}
 
             // Petition
             editPetition={this.state.editPetition}
@@ -541,16 +509,14 @@ class CreatePetition extends React.Component {
                 customInputs: { ...state.customInputs, [name]: value }
               }))
             }}
+
+            publish={this.validateAndContinue}
           />
         </div>
       )
     }
   }
 }
-
-// CreatePetition.defaultProps = {
-//   initialPetition: {}
-// }
 
 CreatePetition.propTypes = {
   dispatch: PropTypes.func,

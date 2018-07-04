@@ -15,7 +15,7 @@ $ice-blue: #e5f5ff;
 $red: #ea1c24;
 $muted-red: #c3645c;
 $bp-sm: 0px;
-$bp-md: 768px;
+$bp-md: 560px;
 $bp-lg: 1008px;
 $bp-xl: 1440px;
 #footer {
@@ -176,6 +176,8 @@ $bp-xl: 1440px;
                 border-radius: 50%;
                 justify-content: center;
                 align-items: center;
+                text-align: center;
+                line-height: 35px;
                 svg path {
                     fill: $white;
                 }
@@ -203,6 +205,83 @@ $bp-xl: 1440px;
                     margin-bottom: 0;
                 }
             }
+        }
+    }
+    .signup-modal {
+        position: fixed;
+        top: 100%;
+        bottom: 0;
+        z-index: 200;
+        padding-top: 75px;
+        background: rgba(0, 0, 0, 0);
+        transition: top $modalTransition, background $modalTransition .3s;
+        overflow-y: scroll;
+        &.toggled {
+            top: 0;
+            background: rgba(0, 0, 0, 1);
+            transition: all $modalTransition;
+        }
+        @media screen and (min-width: $bp-md) {
+            top: 0;
+            opacity: 0;
+            left: 0;
+            width: 100%;
+            visibility: hidden;
+            background: rgba(0, 0, 0, .8);
+            transition: all $modalTransitionDesktop, visibility 0s linear .6s;
+            &.toggled {
+                opacity: 1;
+                visibility: visible;
+                transition: all $modalTransitionDesktop;
+                background: rgba(0, 0, 0, .8);
+            }
+        }
+        .container {
+            max-width: 560px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            padding-top: 67px;
+            padding-bottom: 22px;
+            position: relative;
+            min-height: 100%;
+            height: auto;
+            @media screen and (min-width: $bp-md) {
+                padding: 40px;
+                border-radius: 10px;
+                min-height: 0;
+                height: auto;
+            }
+        }
+        .group {
+            margin-bottom: 10px;
+        }
+        h2 {
+            display: inline;
+            line-height: 2.25rem;
+            text-transform: uppercase;
+            color: $white
+        }
+        h2+p {
+            margin-top: 20px;
+        }
+        button {
+            position: relative;
+            background-color: #f6f6f6;
+            color: #b2b2b2 !important;
+            display: block;
+            height: 50px;
+            font-size: 16px;
+            width: 100%;
+        }
+        a {
+            line-height: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            font-stretch: condensed;
+            color: $black;
+            text-align: center;
+            display: block;
+            margin-top: 20px;
         }
     }
     .bubble {
@@ -342,7 +421,8 @@ $bp-xl: 1440px;
             top: initial;
             position: relative;
             display: block;
-            margin-bottom: -50px;
+            max-width: 560px;
+            margin: 0 auto -60px auto;
             transition: margin-bottom .4s ease-in-out;
             &.show {
                 margin-bottom: 0;
@@ -415,6 +495,11 @@ $bp-xl: 1440px;
                 fill: #00abff;
             }
         }
+        .bubble-submit:disabled {
+          svg {
+              fill: #b2b2b2;
+          }
+        }
         .convo-error-message {
             display: none;
             position: absolute;
@@ -433,11 +518,15 @@ $bp-xl: 1440px;
     .targets {
         position: fixed;
         bottom: 0;
-        left: 0;
+        left: 50%;
         z-index: 15;
         padding-top: 10px;
         padding-bottom: 10px;
         display: none;
+        max-width: 560px;
+        margin: 0 auto;
+        transform: translateX(-50%);
+
         &.toggled {
             display: block;
         }
@@ -595,11 +684,14 @@ $bp-xl: 1440px;
     .bubble.user.review-btn-wrap {
         background: $white;
         .convo-review-btn {
+            position: fixed;
+            bottom: 0;
+            left: 0;
             display: block;
             height: 50px;
             font-size: 16px;
             width: 100%;
-            border-radius: 5px; 
+            border-radius: 5px;
         }
     }
     .convo-review-wrap {
@@ -611,6 +703,7 @@ $bp-xl: 1440px;
             min-height: 100vh;
             background: white;
             padding-top: 50px;
+            max-width: $bp-md;
         }
     }
 }

@@ -18,8 +18,19 @@ const Signup = ({
     password,
     passwordConfirm,
     registerSubmit,
-    loginToggled
+    loginToggled,
+    type
 }) => {
+
+    const defaults = {
+      title: "Your petition is important. Let’s make sure you don’t lose progress.",
+      description: "Provide your email and zip code to recover an incomplete petition draft and receive location specific suggestions to help you throughout your petition creation process."
+    }
+    const conversational = {
+      title: "Complete your account to publish this petition.",
+      description: "You can edit, manage, and share your petition from your account dashboard."
+    }
+
     return (
         <div className={cx(
             signupModalToggled ? "signup-modal toggled" : "signup-modal"
@@ -31,8 +42,8 @@ const Signup = ({
                 </div>
                 <div className="row">
                     <div className="col-12">
-                        <h2 className="bg-black white">Your petition is important. Let’s make sure you don’t lose progress.</h2>
-                        <p>Provide your email and Zip code to recover an incomplete petition draft and receive location specific suggestions to help you throughout your petition creation process.</p>
+                        <h2 className="bg-black white">{type === 'conversational' ? conversational.title : defaults.title}</h2>
+                        <p>{type === 'conversational' ? conversational.description : defaults.description}</p>
                     </div>
                     <div className="col-12">
                       <CreateRegister
@@ -49,10 +60,11 @@ const Signup = ({
                         registerSubmit
                         updateStateFromValue={updateStateFromValue}
                         loginToggled={loginToggled}
+                        type={type}
                         />
                     </div>
                     <div className="col-12">
-                        <a onClick={toggleOpen('loginToggled')}>Already have an account? Click to Log In</a>
+                        <a onClick={toggleOpen('loginToggled')}>{loginToggled ? 'Need an account? Click to register' : 'Already have an account? Click to login'}</a>
                     </div>
                 </div>
             </div>

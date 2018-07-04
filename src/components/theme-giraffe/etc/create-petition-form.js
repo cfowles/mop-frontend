@@ -21,6 +21,7 @@ import Review from './ppp-steps/review'
 import Share from './ppp-steps/share'
 import Tip from './ppp-steps/tip'
 import Signup from './ppp-steps/signup'
+import '../../../../css/create.css'
 
 const instructionsByField = {
   title: <Title />,
@@ -97,7 +98,7 @@ const CreatePetitionForm = ({
                             step={step}
                             description={description}
                             nextStep={nextStep} />
-  const targetsStep =     <CreateTargets 
+  const targetsStep =     <CreateTargets
                             tipModalToggled={tipModalToggled}
                             toggleOpen={toggleOpen}
                             step={step}
@@ -110,7 +111,7 @@ const CreatePetitionForm = ({
                             onTargetAdd={onTargetAdd}
                             onTargetRemove={onTargetRemove}
                             customInputs={customInputs}
-                            onChangeCustomInputs={onChangeCustomInputs} 
+                            onChangeCustomInputs={onChangeCustomInputs}
                             targetQuery={targetQuery}
                             theme="ppp"/>
   const reviewStep =      <Review
@@ -122,7 +123,7 @@ const CreatePetitionForm = ({
                             description={description}
                             updateStateFromValue={updateStateFromValue}
                             step={step}
-                            nextStep={publish} 
+                            nextStep={publish}
 
                             setSelected={setSelected}
                             setRef={setRef}
@@ -155,6 +156,7 @@ const CreatePetitionForm = ({
                             password={password}
                             passwordConfirm={passwordConfirm}
                             loginToggled={loginToggled}
+                            type={'ppp'}
                             />
 
   const progressWidth = (step / 6) * 100 +'%';

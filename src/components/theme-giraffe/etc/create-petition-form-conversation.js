@@ -8,23 +8,16 @@ import TargetNational from './form/instructions/target-national'
 import TargetState from './form/instructions/target-state'
 import TitleTip from './form/instructions/title'
 
-// import Welcome from './conversation/welcome'
-// import Email from './conversation/email'
-// import Title from './conversation/title'
-// import Statement from './conversation/statement'
-// import Background from './conversation/background'
-// import ConversationalInput from './conversation/input'
 import ChatBubble from './conversation/chat-bubble'
 import { conversation } from './conversation/conversation'
 import ConversationalInput from './conversation/input'
 import Tip from './ppp-steps/tip'
 import Review from './ppp-steps/review'
+import Signup from './ppp-steps/signup'
 import DesktopProgress from './conversation/desktop-progress'
 import CreateTargets from '../../../containers/create-targets'
 import cx from 'classnames'
-
-
-
+import '../../../../css/convo.css'
 
 const instructionsByField = {
   title: <TitleTip />,
@@ -35,10 +28,6 @@ const instructionsByField = {
 const CreatePetitionFormConversation = ({
   selected,
   setSelected,
-  nationalOpen,
-  stateOpen,
-  customOpen,
-  instructionStyle,
   setRef,
   toggleOpen,
   updateStateFromValue,
@@ -52,12 +41,14 @@ const CreatePetitionFormConversation = ({
   bubbleEdit,
   editBubble,
   saveEditBubble,
+  user,
   email,
   title,
   summary,
   description,
   chatEnd,
   tipModalToggled,
+  signupModalToggled,
   step,
   errors,
   targets,
@@ -69,18 +60,16 @@ const CreatePetitionFormConversation = ({
   convoReviewToggled,
   editPetition,
   publish,
-  theme
+  theme,
+  zip,
+  name,
+  password,
+  passwordConfirm,
+  loginToggled,
+  getStateValue
 }) => {
   const instructions = instructionsByField[selected]
 
-
-  // const welcome = <Welcome section={0} nextSection={nextSection} bubbleShow={bubbleShow} currentBubble={currentBubble} currentIndex={currentIndex} />
-  // // const email = section < 1 ? '' : <Email emailOnChange={updateStateFromValue('email')} section={section} nextSection={nextSection} />
-  // const title = section < 1 ? '' : <Title section={1} currentBubble={currentBubble} currentIndex={currentIndex} />
-  // const summary = section < 2 ? '' : <summary summaryOnChange={updateStateFromValue('summary')} />
-  // const description = section < 3 ? '' : <description descriptionOnChange={updateStateFromValue('description')} />
-
-  // let showLoader = bubbleLoading ? 'show' : '';
   let loaderClasses = bubbleLoading ? 'bubble show loader-wrap' : 'bubble loader-wrap';
   let bubbles = conversation.map(function (b, i) {
     let innerClasses;
@@ -174,6 +163,7 @@ const CreatePetitionFormConversation = ({
           targetQuery={targetQuery}
           toggleOpen={toggleOpen}
           bubbleLoading={bubbleLoading}
+          getStateValue={getStateValue}
         />
         <div id="chatend" style={{ float: "left", clear: "both", display: "block", height: "100px", marginTop: targetQuery.length ? "150px" : "50px" }}
           className="chat-end" >
@@ -185,58 +175,52 @@ const CreatePetitionFormConversation = ({
         step={step} />
       <div className={cx("convo-review-wrap", convoReviewToggled ? 'toggled' : '')} >
         <Review
-        tipModalToggled={tipModalToggled}
-        toggleOpen={toggleOpen}
-        editPetition={editPetition}
-        title={title}
-        summary={summary}
-        description={description}
-        updateStateFromValue={updateStateFromValue}
-        step={step}
-        nextStep={publish} 
+          tipModalToggled={tipModalToggled}
+          toggleOpen={toggleOpen}
+          editPetition={editPetition}
+          title={title}
+          summary={summary}
+          description={description}
+          updateStateFromValue={updateStateFromValue}
+          step={step}
+          nextStep={toggleOpen('signupModalToggled')}
 
-        setSelected={setSelected}
-        setRef={setRef}
-        targets={targets}
-        onTargetAdd={onTargetAdd}
-        onTargetRemove={onTargetRemove}
-        customInputs={customInputs}
-        onChangeCustomInputs={onChangeCustomInputs}
-        targetQuery={targetQuery}
-        theme='convo'
-        />
+          setSelected={setSelected}
+          setRef={setRef}
+          targets={targets}
+          onTargetAdd={onTargetAdd}
+          onTargetRemove={onTargetRemove}
+          customInputs={customInputs}
+          onChangeCustomInputs={onChangeCustomInputs}
+          targetQuery={targetQuery}
+          theme='convo'
+          />
       </div>
       <DesktopProgress
         section={section}
       />
-
+      <Signup
+                                user={user}
+                                afterSignup={publish}
+                                step={step}
+                                signupModalToggled={signupModalToggled}
+                                toggleOpen={toggleOpen}
+                                updateStateFromValue={updateStateFromValue}
+                                name={name}
+                                email={email}
+                                zip={zip}
+                                password={password}
+                                passwordConfirm={passwordConfirm}
+                                loginToggled={loginToggled}
+                                type={'conversational'}
+                                />
     </div>
   )
-
-  // {welcome}
-  // {title}
-  // {statement}
-  // {background}
-  // <ConversationalInput section={section} saveInput={saveInput} />
-  // <div style={{ float: "left", clear: "both" }}
-  //   ref={(el) => { this.chatEnd = el; }}>
-  // </div>
-  // <div className={loaderClasses}>
-  //   <div className='inner'>
-  //     <div className='loader'>
-  //       <span className='dot'></span><span className='dot'></span><span className='dot'></span>
-  //     </div>
-  //   </div>
-  // </div>
 }
 
 CreatePetitionFormConversation.propTypes = {
   selected: PropTypes.string,
   setSelected: PropTypes.func,
-  nationalOpen: PropTypes.bool,
-  stateOpen: PropTypes.bool,
-  customOpen: PropTypes.bool,
-  instructionStyle: PropTypes.object,
   setRef: PropTypes.func,
   toggleOpen: PropTypes.func,
   updateStateFromValue: PropTypes.func,

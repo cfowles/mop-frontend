@@ -90,7 +90,7 @@ class CreateRegister extends React.Component {
     const registerAction = Config.API_WRITABLE ? register : devLocalRegister
     console.log(event,this);
 
-    const { name, email, password, passwordConfirm, zip, phone } = this.props;
+    const { name, email, password, passwordConfirm, zip, phone } = this.props
     if (this.validateForm()) {
       const fields = {
         name: name,
@@ -100,7 +100,8 @@ class CreateRegister extends React.Component {
         passwordConfirm: passwordConfirm
       }
 
-      const { successCallback, dispatch } = this.props;
+      const { successCallback, dispatch } = this.props
+      console.log(successCallback)
       dispatch(registerAction(fields, successCallback))
     }
   }
@@ -110,7 +111,7 @@ class CreateRegister extends React.Component {
     event.preventDefault()
     console.log(event,this)
 
-    const { email, password } = this.this.props
+    const { email, password } = this.props
     if(this.validateLoginForm()){
 
       const fields = {
@@ -145,6 +146,7 @@ class CreateRegister extends React.Component {
             email={this.props.email}
             password={this.props.password}
             updateStateFromValue={this.props.updateStateFromValue}
+            type={this.props.type}
           />
         </div>
       )
@@ -165,14 +167,11 @@ class CreateRegister extends React.Component {
           password={this.props.password}
           passwordConfirm={this.props.passwordConfirm}
           updateStateFromValue={this.props.updateStateFromValue}
+          type={this.props.type}
         />
       )
     }
   }
-}
-
-CreateRegister.defaultProps = {
-  successCallback: () => appLocation.push('/no_petition.html')
 }
 
 CreateRegister.propTypes = {
