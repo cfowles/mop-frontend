@@ -7,7 +7,7 @@ import { appLocation } from '../routes'
 
 import Config from '../config'
 
-import { previewSubmit, submit, devLocalSubmit, loadTargets, loadMembersFromZip } from '../actions/createPetitionActions'
+import { previewSubmit, submit, devLocalSubmit, loadTargets, loadMembersFromZip, returnNearbyMembers } from '../actions/createPetitionActions'
 import ReactTimeout from 'react-timeout'
 import { conversation } from 'Theme/etc/conversation/conversation'
 
@@ -45,6 +45,7 @@ class CreatePetition extends React.Component {
       zip: false,
       password: false,
       passwordConfirm: false,
+      nearby_count: false,
       // Petition Data
       title: false,
       summary: false,
@@ -106,6 +107,17 @@ class CreatePetition extends React.Component {
   // PPP
   // --------------------
   nextStep() {
+    // TODO: Change so this fetch only happens after signup.
+    if(this.state.zip && !this.state.nearby_count){
+      let url = `${Config.API_URI}/targets/zip?zip=${this.state.zip}`
+
+      fetch(url).then(
+        response => {
+          return response.json()
+        }).then(data => {
+          if(data.nearby_count > 10) this.setState({ nearby_count: data.nearby_count })
+        })
+    }
     this.scrollToTop()
     this.setState(prevState => {
       let newStep = prevState.step + 1;
