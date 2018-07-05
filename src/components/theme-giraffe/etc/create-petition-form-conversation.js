@@ -26,194 +26,105 @@ const instructionsByField = {
 }
 
 const CreatePetitionFormConversation = ({
-  selected,
-  setSelected,
-  setRef,
-  toggleOpen,
   updateStateFromValue,
-  section,
-  nextSection,
-  saveInput,
-  currentBubble,
-  currentIndex,
-  bubbleShow,
-  bubbleLoading,
-  bubbleEdit,
-  editBubble,
-  saveEditBubble,
-  user,
-  email,
-  title,
-  summary,
-  description,
-  chatEnd,
-  tipModalToggled,
-  signupModalToggled,
-  step,
-  errors,
-  targets,
+  getStateValue,
+  toggleOpen,
+  editPetition,
   onTargetAdd,
   onTargetRemove,
-  customInputs,
   onChangeCustomInputs,
-  targetQuery,
-  convoReviewToggled,
-  editPetition,
   publish,
-  theme,
-  zip,
-  name,
-  password,
-  passwordConfirm,
-  loginToggled,
-  getStateValue
+  targets,
+  targetQuery,
+  nextSection,
+  saveInput,
+  toggleEditBubble,
+  chatEnd,
+  toggleConvoTip
 }) => {
-  const instructions = instructionsByField[selected]
-
-  let loaderClasses = bubbleLoading ? 'bubble show loader-wrap' : 'bubble loader-wrap';
+  let convoReviewToggled = getStateValue('convoReviewToggled')
   let bubbles = conversation.map(function (b, i) {
-    let innerClasses;
+    let innerClasses = 'inner';
     let userInput;
-    switch (b.type) {
-      case 'input':
-        innerClasses = 'inner user-response';
-        switch (b.input.type) {
-          case 'email':
-            userInput = email;
-            break;
-          case 'title':
-            userInput = title;
-            break;
-          case 'summary':
-            userInput = summary;
-            break;
-          case 'description':
-            userInput = description;
-            break;
-          case 'target':
-            userInput = targets;
-            break;
-        }
-        break;
-      case 'tip':
-        innerClasses = 'inner bubble-tip';
-        break;
-      default:
-        innerClasses = 'inner';
-        break;
+    if (b.type === 'input') {
+      innerClasses = 'inner user-response'
+      if (b.input.type === 'email') userInput = getStateValue('email');
+      if (b.input.type === 'title') userInput = getStateValue('title');
+      if (b.input.type === 'summary') userInput = getStateValue('summary');
+      if (b.input.type === 'description') userInput = getStateValue('description');
+      if (b.input.type === 'target') userInput = getStateValue('targets');
     }
-    return (
-      <ChatBubble
-        currentIndex={currentIndex}
-        bubble={b}
-        key={i}
-        bubbleId={i}
-        innerClasses={innerClasses}
-        userInput={userInput}
-        toggleOpen={toggleOpen}
+    if (b.type === 'tip') innerClasses = 'inner bubble-tip'
 
-        section={section}
-        saveInput={saveInput}
-        updateStateFromValue={updateStateFromValue}
-        currentIndex={currentIndex}
-        errors={errors}
-        title={title}
-        summary={summary}
-        description={description}
-        email={email}
-        bubbleEdit={bubbleEdit}
-        editBubble={editBubble}
-        saveEditBubble={saveEditBubble}
-        targets={targets}
-        onTargetRemove={onTargetRemove}
-      />
+    return (
+                      <ChatBubble
+                        bubble={b}
+                        key={i}
+                        bubbleId={i}
+                        innerClasses={innerClasses}
+                        userInput={userInput}
+                        toggleOpen={toggleOpen}
+                        updateStateFromValue={updateStateFromValue}
+                        toggleEditBubble={toggleEditBubble}
+                        targets={targets}
+                        onTargetRemove={onTargetRemove}/>
     )
   })
+  let createTargets = <CreateTargets
+                        toggleOpen={toggleOpen}
+                        updateStateFromValue={updateStateFromValue}
+                        getStateValue={getStateValue}
+                        onTargetAdd={onTargetAdd}
+                        onTargetRemove={onTargetRemove}
+                        onChangeCustomInputs={onChangeCustomInputs}
+                        targets={targets}
+                        targetQuery={targetQuery}
+                        theme="convo" 
+                        saveInput={saveInput}/>
+  let input =         <ConversationalInput
+                        saveInput={saveInput}
+                        updateStateFromValue={updateStateFromValue}
+                        toggleOpen={toggleOpen}
+                        getStateValue={getStateValue} />
+  let tips =          <Tip
+                        toggleOpen={toggleOpen}
+                        getStateValue={getStateValue} />
+  let review =        <Review
+                        toggleOpen={toggleOpen}
+                        updateStateFromValue={updateStateFromValue}
+                        getStateValue={getStateValue}
+                        nextStep={publish}
+                        onTargetAdd={onTargetAdd}
+                        onTargetRemove={onTargetRemove}
+                        onChangeCustomInputs={onChangeCustomInputs}
+                        targets={targets}
+                        targetQuery={targetQuery}
+                        theme='convo' />
+  let desktop =       <DesktopProgress
+                        getStateValue={getStateValue} />
+  let signup =        <Signup
+                        // afterSignup={nextStep}
+                        getStateValue={getStateValue}
+                        toggleOpen={toggleOpen}
+                        updateStateFromValue={updateStateFromValue}
+                        type='conversational'/>
 
   return (
     <div id='conversational'>
-      <div className={cx('chat-wrap', !convoReviewToggled ? 'toggled' : '' )}>
+      <div className={cx('chat-wrap', !convoReviewToggled ? 'toggled' : '')}>
         {bubbles}
-        <CreateTargets
-          updateStateFromValue={updateStateFromValue}
-
-          setSelected={setSelected}
-          setRef={setRef}
-          targets={targets}
-          onTargetAdd={onTargetAdd}
-          onTargetRemove={onTargetRemove}
-          customInputs={customInputs}
-          onChangeCustomInputs={onChangeCustomInputs}
-          targetQuery={targetQuery}
-          theme="convo"
-          section={section}
-          currentIndex={currentIndex}
-          saveInput={saveInput} />
-
-        <ConversationalInput
-          section={section}
-          saveInput={saveInput}
-          updateStateFromValue={updateStateFromValue}
-          currentIndex={currentIndex}
-          errors={errors}
-          title={title}
-          summary={summary}
-          description={description}
-          email={email}
-          targetQuery={targetQuery}
-          toggleOpen={toggleOpen}
-          bubbleLoading={bubbleLoading}
-          getStateValue={getStateValue}
-        />
+        {createTargets}
+        {input}
         <div id="chatend" style={{ float: "left", clear: "both", display: "block", height: "100px", marginTop: targetQuery.length ? "150px" : "50px" }}
           className="chat-end" >
         </div>
       </div>
-      <Tip
-        tipModalToggled={tipModalToggled}
-        toggleOpen={toggleOpen}
-        step={step} />
+      {tips}
       <div className={cx("convo-review-wrap", convoReviewToggled ? 'toggled' : '')} >
-        <Review
-          tipModalToggled={tipModalToggled}
-          toggleOpen={toggleOpen}
-          editPetition={editPetition}
-          title={title}
-          summary={summary}
-          description={description}
-          updateStateFromValue={updateStateFromValue}
-          step={step}
-          nextStep={toggleOpen('signupModalToggled')}
-
-          setSelected={setSelected}
-          setRef={setRef}
-          targets={targets}
-          onTargetAdd={onTargetAdd}
-          onTargetRemove={onTargetRemove}
-          customInputs={customInputs}
-          onChangeCustomInputs={onChangeCustomInputs}
-          targetQuery={targetQuery}
-          theme='convo'
-          />
+        {review}
       </div>
-      <DesktopProgress
-        section={section}
-      />
-      <Signup
-                                user={user}
-                                afterSignup={publish}
-                                step={step}
-                                signupModalToggled={signupModalToggled}
-                                toggleOpen={toggleOpen}
-                                updateStateFromValue={updateStateFromValue}
-                                name={name}
-                                email={email}
-                                zip={zip}
-                                password={password}
-                                passwordConfirm={passwordConfirm}
-                                loginToggled={loginToggled}
-                                type={'conversational'}
-                                />
+      {desktop}
+      {signup}
     </div>
   )
 }

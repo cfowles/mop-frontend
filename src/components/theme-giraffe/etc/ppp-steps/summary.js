@@ -4,8 +4,8 @@ import {InputMaterial} from "GiraffeUI/input-material";
 import cx from "classnames";
 import Lightbulb from '../../../../giraffe-ui/svgs/lightbulb.svg'
 
-const Summary = ({toggleOpen, updateStateFromValue, step, summary, nextStep}) => (
-	<div className={cx("statement", "ppp-step", "container", step === 2 ? "active" : "")}>
+const Summary = ({toggleOpen, updateStateFromValue, getStateValue, nextStep}) => (
+	<div className={cx("statement", "ppp-step", "container", getStateValue('step') === 2 ? "active" : "")}>
 		<div className="row ppp-item">
 			<div className="col-12 ppp-heading">
 				<h3>Petition statement</h3>
@@ -17,9 +17,9 @@ const Summary = ({toggleOpen, updateStateFromValue, step, summary, nextStep}) =>
 			<div className="col-12">
 				<p>In 1-2 sentences, tell us more about what you want your petition to accomplish.</p>
 			</div>
-			<InputMaterial name="summary" type="textarea" className="bg-ice-blue" label="Your Petition Statement" charLimit={100} stateRef={summary} onChange={updateStateFromValue("summary")} />
+			<InputMaterial name="summary" type="textarea" className="bg-ice-blue" label="Your Petition Statement" charLimit={100} stateRef={getStateValue('summary')} onChange={updateStateFromValue("summary")} />
 		</div>
-		<button type="button" className="center display-block ppp-btn btn azure" name="summary_next" id="summary_next" onClick={nextStep} disabled={!summary || summary.length > 100}>
+		<button type="button" className="center display-block ppp-btn btn azure" name="summary_next" id="summary_next" onClick={nextStep} disabled={!getStateValue('summary') || getStateValue('summary').length > 100}>
 			Next
 		</button>
 	</div>
@@ -28,6 +28,7 @@ const Summary = ({toggleOpen, updateStateFromValue, step, summary, nextStep}) =>
 Summary.propTypes = {
 	toggleOpen: PropTypes.func,
 	updateStateFromValue: PropTypes.func,
+	getStateValue: PropTypes.func,
 	nextStep: PropTypes.func
 };
 

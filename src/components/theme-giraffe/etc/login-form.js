@@ -5,22 +5,22 @@ import { Link } from 'react-router'
 import { InputMaterial } from 'GiraffeUI/input-material'
 import { Submit } from 'GiraffeUI/button'
 
-const LoginForm = ({ setRef, errorList, handleSubmit, isSubmitting, handleLoginSubmit, updateStateFromValue }) => (
+const LoginForm = ({ setRef, errorList, handleSubmit, isSubmitting, handleLoginSubmit, updateStateFromValue, type, getStateValue }) => (
         <form onSubmit={handleLoginSubmit}>
           <div className='row'>
             <InputMaterial
               type='text'
               name='email'
               label='Email'
-              stateRef={email}
+              stateRef={getStateValue('email')}
               onChange={updateStateFromValue('email')}
             />
             <InputMaterial
               type='password'
               name='password'
               label='Password'
-              stateRef={password}
-              onChange={updateStateFromValue('passwordConfirm')}
+              stateRef={getStateValue('password')}
+              onChange={updateStateFromValue('password')}
             />
           </div>
           <div className='buttons text-align-center'>

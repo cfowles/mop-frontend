@@ -31,134 +31,73 @@ const instructionsByField = {
 
 const CreatePetitionForm = ({
   updateStateFromValue,
-
-  // User
-  user,
-  name,
-  email,
-  zip,
-  password,
-  passwordConfirm,
-
-  // Steps
+  getStateValue,
   nextStep,
-  step,
-
-  // Toggles
   toggleOpen,
-  tipModalToggled,
-  signupModalToggled,
-  shareButtonsToggled,
-  loginToggled,
-
-  // Petition
   editPetition,
-  title,
-  summary,
-  description,
-  targetQuery,
-
-  // Targets
-  selected,
-  setSelected,
-  setRef,
-  targets,
   onTargetAdd,
   onTargetRemove,
-  customInputs,
   onChangeCustomInputs,
-
-  publish
+  publish,
+  targets,
+  targetQuery
 }) => {
-  // const instructions = instructionsByField[selected]
-
-  // const national = !nationalOpen ? '' : <NationalTargetSelect />
-  // const state = !stateOpen ? '' : <StateTargetSelect />
-  // const custom = !customOpen ? '' : <CustomTargetSelect />
 
   // Steps
   const titleStep =       <Title
-                            tipModalToggled={tipModalToggled}
                             toggleOpen={toggleOpen}
                             updateStateFromValue={updateStateFromValue}
-                            step={step}
-                            title={title}
+                            getStateValue={getStateValue}
                             nextStep={nextStep} />
   const summaryStep =     <Summary
-                            tipModalToggled={tipModalToggled}
                             toggleOpen={toggleOpen}
                             updateStateFromValue={updateStateFromValue}
-                            step={step}
-                            summary={summary}
+                            getStateValue={getStateValue}
                             nextStep={nextStep} />
   const descriptionStep = <Description
-                            tipModalToggled={tipModalToggled}
                             toggleOpen={toggleOpen}
                             updateStateFromValue={updateStateFromValue}
-                            step={step}
-                            description={description}
+                            getStateValue={getStateValue}
                             nextStep={nextStep} />
   const targetsStep =     <CreateTargets
-                            tipModalToggled={tipModalToggled}
                             toggleOpen={toggleOpen}
-                            step={step}
                             nextStep={nextStep}
                             updateStateFromValue={updateStateFromValue}
-
-                            setSelected={setSelected}
-                            setRef={setRef}
-                            targets={targets}
+                            getStateValue={getStateValue}
                             onTargetAdd={onTargetAdd}
                             onTargetRemove={onTargetRemove}
-                            customInputs={customInputs}
                             onChangeCustomInputs={onChangeCustomInputs}
+                            targets={targets} 
                             targetQuery={targetQuery}
-                            theme="ppp"/>
+                            theme="ppp" />
   const reviewStep =      <Review
-                            tipModalToggled={tipModalToggled}
                             toggleOpen={toggleOpen}
-                            editPetition={editPetition}
-                            title={title}
-                            summary={summary}
-                            description={description}
                             updateStateFromValue={updateStateFromValue}
-                            step={step}
+                            getStateValue={getStateValue}
                             nextStep={publish}
-
-                            setSelected={setSelected}
-                            setRef={setRef}
-                            targets={targets}
                             onTargetAdd={onTargetAdd}
                             onTargetRemove={onTargetRemove}
-                            customInputs={customInputs}
-                            onChangeCustomInputs={onChangeCustomInputs}
+                            onChangeCustomInputs={onChangeCustomInputs} 
+                            targets={targets}
                             targetQuery={targetQuery} />
-  const shareStep =       <Share
-                            shareButtonsToggled={shareButtonsToggled}
+  const shareStep =       <Share 
                             toggleOpen={toggleOpen}
-                            step={step} />
+                            getStateValue={getStateValue} />
 
   // Modals
   const tip =             <Tip
-                            tipModalToggled={tipModalToggled}
                             toggleOpen={toggleOpen}
-                            step={step} />
+                            getStateValue={getStateValue}/>
   const signup =          <Signup
-                            user={user}
                             afterSignup={nextStep}
-                            step={step}
-                            signupModalToggled={signupModalToggled}
+                            getStateValue={getStateValue}
                             toggleOpen={toggleOpen}
                             updateStateFromValue={updateStateFromValue}
-                            name={name}
-                            email={email}
-                            zip={zip}
-                            password={password}
-                            passwordConfirm={passwordConfirm}
-                            loginToggled={loginToggled}
-                            type={'ppp'}
+                            type='ppp'
                             />
 
+  let name = getStateValue('name'),
+      step = getStateValue('step');
   const progressWidth = (step / 6) * 100 +'%';
   const progressStyles = {
     width: progressWidth
@@ -194,13 +133,6 @@ const CreatePetitionForm = ({
 }
 
 CreatePetitionForm.propTypes = {
-  selected: PropTypes.string,
-  setSelected: PropTypes.func,
-  nationalOpen: PropTypes.bool,
-  stateOpen: PropTypes.bool,
-  customOpen: PropTypes.bool,
-  instructionStyle: PropTypes.object,
-  setRef: PropTypes.func,
   toggleOpen: PropTypes.func,
   nextStep: PropTypes.func,
   updateStateFromValue: PropTypes.func,

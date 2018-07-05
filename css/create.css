@@ -220,6 +220,10 @@ hr {
     margin-top: 20px;
   }
 }
+#ppp .ppp-btn[disabled] {
+  background-color: #cacaca;
+  color: #696a6a;
+}
 #ppp .close {
   position: absolute;
   top: 20px;

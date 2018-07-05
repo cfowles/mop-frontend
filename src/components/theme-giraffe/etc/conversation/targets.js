@@ -7,23 +7,20 @@ import cx from 'classnames'
 
 const ConvoTargets = ({
 	toggleOpen,
-	setRef,
-	setSelected,
-	targets,
+	nextStep,
 	renderTargets,
 	renderSelectedTargets,
 	targetsLoaded,
+	updateStateFromValue,
+	getStateValue,
 	loadMoreTargets,
 	filteredTargets,
-	// filterTargets,
 	load,
 	updateQuery,
-	targetQuery,
 	renderCustomTarget,
-	section,
-	currentIndex,
 	saveInput
 }) => {
+	let currentIndex = getStateValue('currentIndex');
 
 	const loadMoreButton = (
 		<div className="col-12">
@@ -33,15 +30,15 @@ const ConvoTargets = ({
 
 	const customTarget = filteredTargets.length > 0 ? '' : (
 			<div className="add-target bg-ice-blue">
-				Add “{targetQuery}” as target
+				Add “{getStateValue('targetQuery')}” as target
 				<div className="add" />
 			</div>
 	)
 
 	return (
-		<div className={cx("targets container bg-azure", currentIndex === 19 ? 'toggled' : '' )}>
+		<div className={cx("targets container bg-azure", currentIndex  === 19 ? 'toggled' : '' )}>
 			<div className="row">
-				<div className={cx("targets-list", currentIndex===19 ? 'toggled' : '')}>
+				<div className={cx("targets-list", currentIndex === 19 ? 'toggled' : '')}>
 					{renderTargets()}
 					{load < filteredTargets.length ? loadMoreButton : ''}
 					<div className="col-12">
@@ -54,7 +51,7 @@ const ConvoTargets = ({
 						type="search"
 						className="bg-white"
 						label="Search a specific target"
-						stateRef={targetQuery}
+						stateRef={getStateValue('targetQuery')}
 						onChange={updateQuery} />
 					<button className="center display-block bg-white azure" onClick={saveInput('target')}>DONE</button>
 				</div>
@@ -65,14 +62,6 @@ const ConvoTargets = ({
 
 ConvoTargets.propTypes = {
 	toggleOpen: PropTypes.func,
-	nextStep: PropTypes.func
 };
 
 export default ConvoTargets;
-
-
-// <div className="selection-pills col-12">
-// <div className="row">
-// 	{renderSelectedTargets()}
-// </div>
-// </div>

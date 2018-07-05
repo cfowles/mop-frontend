@@ -9,17 +9,17 @@ import cx from 'classnames'
 const ConversationalInput = ({
   saveInput,
   updateStateFromValue,
-  currentIndex,
-  errors,
-  title,
-  summary,
-  description,
-  email,
   targetQuery,
   toggleOpen,
   bubbleLoading,
   getStateValue
 }) => {
+  let currentIndex = getStateValue('currentIndex');
+      // errors = getStateValue('currentIndex'),
+      // title = getStateValue('currentIndex'),
+      // summary = getStateValue('currentIndex'),
+      // description = getStateValue('currentIndex'),
+      // email = getStateValue('currentIndex'),
 
   let inputType = conversation[currentIndex].hasOwnProperty('input') ? conversation[currentIndex].input.type : '';
   const inputPlaceholder = conversation[currentIndex].hasOwnProperty('input') ? conversation[currentIndex].content : '';

@@ -9,28 +9,20 @@ import Check from '../../../../giraffe-ui/svgs/check.svg'
 
 const Review = ({
     toggleOpen,
-    editPetition,
     updateStateFromValue,
-    title,
-    summary,
-    description,
-    step,
+    onChangeCustomInputs,
     nextStep,
-    tipModalToggled,
-
-    // Targets
-    selected,
-    setSelected,
-    setRef,
-    targets,
     onTargetAdd,
     onTargetRemove,
-    customInputs,
-    onChangeCustomInputs,
-    targetQuery,
-    theme
+    theme,
+    getStateValue,
+    targets
 }) => {
-
+    let title = getStateValue('title'),
+        summary = getStateValue('summary'),
+        description = getStateValue('description'),
+        editPetition = getStateValue('editPetition')
+    
     const targetsArray = [
         <span key="0">To be delivered to </span>
     ];
@@ -80,13 +72,13 @@ const Review = ({
     }
     const edit = {
         title: (
-            <InputMaterial name="title" type="textarea" className="bg-ice-blue" label="Your Petition Title" charLimit={50} stateRef={title} onChange={updateStateFromValue("title")} />
+            <InputMaterial name="title" type="textarea" className="bg-ice-blue" label="Your Petition Title" charLimit={50} stateRef={title} value={title} onChange={updateStateFromValue("title")} />
         ),
         summary: (
-            <InputMaterial name="summary" type="textarea" className="bg-ice-blue" label="Your Petition Statement" charLimit={100} stateRef={summary} onChange={updateStateFromValue("summary")} />
+            <InputMaterial name="summary" type="textarea" className="bg-ice-blue" label="Your Petition Statement" charLimit={100} stateRef={summary} value={summary} onChange={updateStateFromValue("summary")} />
         ),
         description: (
-            <InputMaterial name="description" type="textarea" className="bg-ice-blue" label="Your Petition Description" charLimit={500} stateRef={description} onChange={updateStateFromValue("description")} />
+            <InputMaterial name="description" type="textarea" className="bg-ice-blue" label="Your Petition Description" charLimit={500} stateRef={description} value={description} onChange={updateStateFromValue("description")} />
         ),
         edit: (
             <div className="ppp-tip bg-off-white" onClick={toggleOpen('editPetition')}>Save
@@ -95,7 +87,7 @@ const Review = ({
         )
     }
 
-    const classes = step === 5 ? "review ppp-step container active" : "review ppp-step container";
+    const classes = getStateValue('step') === 5 ? "review ppp-step container active" : "review ppp-step container";
 
     return (
         <div className={classes}>
@@ -109,20 +101,13 @@ const Review = ({
                 {!editPetition ? review.targets : ''}
                 <div className={cx("review-targets-wrap container", editPetition ? "toggled" : '')}>
                     <CreateTargetsReview 
-                        tipModalToggled={tipModalToggled}
                         toggleOpen={toggleOpen}
                         updateStateFromValue={updateStateFromValue}
-                        step={step}
                         nextStep={nextStep}
-                        
-                        setSelected={setSelected}
-                        setRef={setRef}
-                        targets={targets}
                         onTargetAdd={onTargetAdd}
                         onTargetRemove={onTargetRemove}
-                        customInputs={customInputs}
-                        targetQuery={targetQuery}
-                        onChangeCustomInputs={onChangeCustomInputs} />
+                        onChangeCustomInputs={onChangeCustomInputs} 
+                        targets={targets} />
                 </div>
                 {editPetition ? edit.summary : review.summary}
                 {editPetition ? edit.description : review.description}

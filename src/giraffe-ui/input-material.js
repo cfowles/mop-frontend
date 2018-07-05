@@ -43,6 +43,7 @@ export const InputMaterial = ({
       />
   )
   const inputElement = type === 'textarea' ? textarea : input;
+  stateRef = stateRef ? stateRef : '';
 
   return (
     <div className="col-12 group">

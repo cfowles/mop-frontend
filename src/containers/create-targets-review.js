@@ -14,23 +14,14 @@ export class CreateTargetsReview extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      nationalOpen: false,
-      geoState: null,
-      stateOpen: false,
-      customOpen: false,
       targetsLoaded: false,
       load: 10,
       filteredTargets: false
     }
 
-    // this.toggleOpen = this.toggleOpen.bind(this)
-    // this.renderNational = this.renderNational.bind(this)
-    // this.renderGeoState = this.renderGeoState.bind(this)
-    // this.renderCustom = this.renderCustom.bind(this)
     this.renderTargets = this.renderTargets.bind(this)
     this.renderSelectedTargets = this.renderSelectedTargets.bind(this)
     this.loadMoreTargets = this.loadMoreTargets.bind(this)
-    // this.filterTargets = this.filterTargets.bind(this)
     this.renderTargets = this.renderTargets.bind(this)
     this.updateQuery = this.updateQuery.bind(this)
     this.renderCustomTarget = this.renderCustomTarget.bind(this)
@@ -121,9 +112,6 @@ export class CreateTargetsReview extends React.Component {
     })
     this.renderTargets();
   }
-
-
-
 
   render() {
     const { setSelected, setRef } = this.props

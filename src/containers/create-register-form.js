@@ -88,7 +88,7 @@ class CreateRegister extends React.Component {
   handleSubmit(event) {
     event.preventDefault()
     const registerAction = Config.API_WRITABLE ? register : devLocalRegister
-    console.log(event,this);
+    console.log(event, this);
 
     const { name, email, password, passwordConfirm, zip, phone } = this.props
     if (this.validateForm()) {
@@ -109,10 +109,10 @@ class CreateRegister extends React.Component {
   /* Login Form */
   handleLoginSubmit(event) {
     event.preventDefault()
-    console.log(event,this)
+    console.log(event, this)
 
     const { email, password } = this.props
-    if(this.validateLoginForm()){
+    if (this.validateLoginForm()) {
 
       const fields = {
         email: this.email.value,
@@ -134,19 +134,15 @@ class CreateRegister extends React.Component {
   }
 
   render() {
-    if(this.props.loginToggled){
+    if (this.props.loginToggled) {
       return (
         <div className='moveon-petitions'>
           <LoginForm
             errorList={this.errorList}
             handleSubmit={this.handleSubmit}
-            // eslint-disable-next-line no-return-assign
-            setRef={input => input && (this[input.name] = input)}
-            isSubmitting={this.props.isSubmitting}
-            email={this.props.email}
-            password={this.props.password}
             updateStateFromValue={this.props.updateStateFromValue}
             type={this.props.type}
+            getStateValue={this.props.getStateValue}
           />
         </div>
       )
@@ -155,19 +151,9 @@ class CreateRegister extends React.Component {
         <RegisterForm
           errorList={this.errorList}
           handleSubmit={this.handleSubmit}
-          // eslint-disable-next-line no-return-assign
-          setRef={input => input && (this[input.name] = input)}
-          isSubmitting={this.props.isSubmitting}
-          includeZipAndPhone={this.props.includeZipAndPhone}
-          useLaunchButton={this.props.useLaunchButton}
-          useAlternateFields={this.props.useAlternateFields}
-          email={this.props.email}
-          zip={this.props.zip}
-          name={this.props.name}
-          password={this.props.password}
-          passwordConfirm={this.props.passwordConfirm}
           updateStateFromValue={this.props.updateStateFromValue}
           type={this.props.type}
+          getStateValue={this.props.getStateValue}
         />
       )
     }
@@ -177,10 +163,6 @@ class CreateRegister extends React.Component {
 CreateRegister.propTypes = {
   formErrors: PropTypes.array,
   dispatch: PropTypes.func,
-  isSubmitting: PropTypes.bool,
-  includeZipAndPhone: PropTypes.bool,
-  useLaunchButton: PropTypes.bool,
-  useAlternateFields: PropTypes.bool,
   successCallback: PropTypes.func,
   existingUser: PropTypes.bool
 }

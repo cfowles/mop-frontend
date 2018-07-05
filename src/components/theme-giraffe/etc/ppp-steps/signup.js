@@ -3,24 +3,20 @@ import PropTypes from 'prop-types'
 import { devLocalRegister } from '../../../../actions/accountActions';
 import CreateRegister from '../../../../containers/create-register-form';
 import cx from "classnames";
-import RegisterForm from '../../../../containers/register-form'
 
 const Signup = ({
     afterSignup,
-    step,
     toggleOpen,
     updateStateFromValue,
-    signupModalToggled,
-    user,
-    email,
-    zip,
-    name,
-    password,
-    passwordConfirm,
-    registerSubmit,
-    loginToggled,
+    getStateValue,
     type
 }) => {
+    let name = getStateValue('name'),
+        email = getStateValue('email'),
+        zip = getStateValue('zip'),
+        password = getStateValue('password'),
+        passwordConfirm = getStateValue('passwordConfirm'),
+        loginToggled = getStateValue('loginToggled')
 
     const defaults = {
       title: "Your petition is important. Let’s make sure you don’t lose progress.",
@@ -33,7 +29,7 @@ const Signup = ({
 
     return (
         <div className={cx(
-            signupModalToggled ? "signup-modal toggled" : "signup-modal"
+            getStateValue('signupModalToggled') ? "signup-modal toggled" : "signup-modal"
         )}>
             <div className="container bg-azure">
                 <div className="close" onClick={toggleOpen('signupModalToggled')}>
@@ -48,23 +44,19 @@ const Signup = ({
                     <div className="col-12">
                       <CreateRegister
                         successCallback={afterSignup}
-                        user={user}
-                        includeZipAndPhone
-                        useLaunchButton
-                        useAlternateFields
+                        updateStateFromValue={updateStateFromValue}
+                        getStateValue={getStateValue}
+                        type={type}
+                        name={name}
                         email={email}
                         zip={zip}
-                        name={name}
                         password={password}
                         passwordConfirm={passwordConfirm}
-                        registerSubmit
-                        updateStateFromValue={updateStateFromValue}
                         loginToggled={loginToggled}
-                        type={type}
                         />
                     </div>
                     <div className="col-12">
-                        <a onClick={toggleOpen('loginToggled')}>{loginToggled ? 'Need an account? Click to register' : 'Already have an account? Click to login'}</a>
+                        <a onClick={toggleOpen('loginToggled')}>{getStateValue('loginToggled') ? 'Need an account? Click to register' : 'Already have an account? Click to login'}</a>
                     </div>
                 </div>
             </div>

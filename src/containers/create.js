@@ -16,13 +16,6 @@ import CreatePetitionFormConversation from 'Theme/etc/create-petition-form-conve
 
 import { isValidEmail } from '../lib'
 
-const ERRORS = {
-  name: 'Please provide a title for your petition.',
-  text_statement: 'Please fill in the statement for your petition.',
-  target: 'You must select at least one target for your petition.',
-  text_about: 'Please provide background info for your petition.',
-  email: 'Invalid entry for the Email field.'
-}
 const CONVO_ERRORS = {
   empty: {
     email: 'Please provide your email.',
@@ -45,17 +38,30 @@ class CreatePetition extends React.Component {
     const { initialPetition, location } = this.props
     const query = (location && location.query) || {}
     this.state = {
-      errors: [],
-      selected: 'title',
-      customInputs: { name: '', email: '', title: '' },
-      step: 1,
-      user: {},
+      // User Data
       name: false,
       email: false,
       country: false,
       zip: false,
       password: false,
       passwordConfirm: false,
+      // Petition Data
+      title: false,
+      summary: false,
+      target: false,
+      description: false,
+      targetQuery: '',
+      customInputs: { name: '', email: '', title: '' },
+      errors: [],
+      // Flow control
+      step: 1,
+      section: 0,
+      sectionLengths: [],
+      currentBubble: 0,
+      currentIndex: 0,
+      bubbleShow: false,
+      bubbleLoading: false,
+      bubbleEdit: false,
       // Toggles
       signupModalToggled: false,
       tipModalToggled: false,
@@ -63,43 +69,23 @@ class CreatePetition extends React.Component {
       editPetition: false,
       convoReviewToggled: false,
       loginToggled: false,
-      // Petition Data
-      title: false,
-      summary: false,
-      target: false,
-      description: false,
-      selectedTargets: [],
-      targetQuery: '',
-      /*** Convo ***/
-      section: 0,
-      sectionLengths: [],
-      // Bubbles
-      currentBubble: 0,
-      currentIndex: 0,
-      bubbleShow: false,
-      bubbleLoading: false,
-      bubbleEdit: false
     }
-    this.setSelected = this.setSelected.bind(this)
-    this.setRef = this.setRef.bind(this)
-    this.toggleOpen = this.toggleOpen.bind(this)
-    // this.toggleConvoTip = this.toggleConvoTip.bind(this)
     this.nextStep = this.nextStep.bind(this)
-    this.updateStateFromValue = this.updateStateFromValue.bind(this)
-    this.nextSection = this.nextSection.bind(this)
+    this.getSectionLengths = this.getSectionLengths.bind(this)
     this.callSection = this.callSection.bind(this)
+    this.nextSection = this.nextSection.bind(this)
     this.callBubble = this.callBubble.bind(this)
     this.nextBubble = this.nextBubble.bind(this)
     this.saveInput = this.saveInput.bind(this)
-    this.getSectionLengths = this.getSectionLengths.bind(this)
-    this.validateAndContinue = this.validateAndContinue.bind(this)
-    this.submitPetition = this.submitPetition.bind(this)
+    this.toggleEditBubble = this.toggleEditBubble.bind(this)
+    this.scrollToBottom = this.scrollToBottom.bind(this)
+    this.updateStateFromValue = this.updateStateFromValue.bind(this)
+    this.getStateValue = this.getStateValue.bind(this)
+    this.toggleOpen = this.toggleOpen.bind(this)
     this.onTargetAdd = this.onTargetAdd.bind(this)
     this.onTargetRemove = this.onTargetRemove.bind(this)
-    this.editBubble = this.editBubble.bind(this)
-    this.saveEditBubble = this.saveEditBubble.bind(this)
-    this.scrollToBottom = this.scrollToBottom.bind(this)
-    this.getStateValue = this.getStateValue.bind(this)
+    this.submitPetition = this.submitPetition.bind(this)
+    this.validateAndContinue = this.validateAndContinue.bind(this)
   }
 
   componentDidMount() {
@@ -115,34 +101,45 @@ class CreatePetition extends React.Component {
     }.bind(this), 500)
   }
 
+  // --------------------
+  // PPP
+  // --------------------
+  nextStep() {
+    this.setState(prevState => {
+      let newStep = prevState.step + 1;
+      return { step: newStep, signupModalToggled: false }
+    })
+  }
 
-  // Conversation
-  getSectionLengths() {
-    let sections = [];
-    let sectionLengths = [];
-    let count = 0;
+  // --------------------
+  // CONVERSATION
+  // --------------------
+  getSectionLengths() {  // Get the length of each section in the conversation script to control how many bubbles are displayed before the user is given an input prompt
+    let sections = [], sectionLengths = [], count = 0;
     conversation.map(function (el) {
-      if (el.hasOwnProperty('section')) {
-        sections.push(el.section);
-      }
+      if (el.hasOwnProperty('section')) sections.push(el.section);
     });
     for (let i = 0; i < sections[sections.length - 1]; i++) {
       sections.map(function (el, ind) {
-        if (el === i) {
-          count++
-        }
+        if (el === i) count++
       })
       sectionLengths.push(count);
       count = 0;
     }
     this.setState(prevState => {
-      const prev = prevState.sectionLengths;
-      const newState = prev.concat(sectionLengths);
+      const newState = prevState.sectionLengths.concat(sectionLengths);
       return { sectionLengths: newState }
     })
   }
 
-  callSection() {
+  nextSection() { 
+    this.setState(prevState => {
+      let newSection = prevState.section + 1;
+      return { section: newSection }
+    })
+  }
+
+  callSection() { 
     let sectionLength = this.state.sectionLengths[this.state.section];
     this.setState({ bubbleLoading: true });
     this.callBubble(sectionLength);
@@ -151,52 +148,19 @@ class CreatePetition extends React.Component {
   callBubble(sectionLength) {
     let bubbleLength = conversation[this.state.currentIndex].content.length
     let bubbleTime = (bubbleLength / 60) * 1000;
-
     this.bubbleTimeout = setTimeout(() => {
       this.nextBubble();
-
       if (this.state.currentBubble < sectionLength) {
         this.callBubble(sectionLength);
       } else {
-        this.setState({ bubbleLoading: false });
-        this.setState({ currentBubble: 0 });
+        this.setState({ bubbleLoading: false, currentBubble: 0 });
       }
     }, bubbleTime)
   }
 
-  saveInput(inputType) {
-    return () => {
-      this.setState({ errors: [] });
-      if (!this.convoInputIsValid(inputType)) return;
-
-      this.nextBubble();
-      this.setState({ currentBubble: 0 });
-      document.getElementById("user-input").value = "";
-      if(this.state.section === 3) {
-        setTimeout(()=>{
-          document.getElementById("target-query").focus()
-        },1000)
-      } else  {
-        document.getElementById("user-input").focus();
-      }
-
-      this.inputTimeout = setTimeout(function () {
-        this.nextSection();
-        this.callSection();
-      }.bind(this), 500)
-    }
-  }
-
-  nextSection() {
-    this.setState(prevState => {
-      let newSection = prevState.section + 1;
-      return { section: newSection }
-    })
-  }
-
   nextBubble() {
     this.scrollToBottom()
-    if(this.state.currentIndex === 19) setTimeout(()=>this.scrollToBottom(), 500)
+    if (this.state.currentIndex === 19) setTimeout(() => this.scrollToBottom(), 500)
     this.setState(prevState => {
       const newBubble = prevState.currentBubble + 1;
       const newIndex = prevState.currentIndex + 1;
@@ -204,44 +168,45 @@ class CreatePetition extends React.Component {
     })
   }
 
-  editBubble(inputType) {
-    return () => this.setState({bubbleEdit: inputType})
-  }
-
-  saveEditBubble(inputType) {
+  saveInput(inputType) {
+    const uinput = document.getElementById("user-input"),
+      tquery = document.getElementById("target-query");
     return () => {
       this.setState({ errors: [] });
       if (!this.convoInputIsValid(inputType)) return;
-      this.setState({bubbleEdit: false})
+      this.nextBubble();
+      this.setState({ currentBubble: 0 });
+      uinput.value = "";
+      tquery.value = "";
+      if (this.state.section === 3) {
+        setTimeout(() => tquery.focus(), 1000)
+      } else {
+        uinput.focus();
+      }
+      this.inputTimeout = setTimeout(() => {
+        this.nextSection();
+        this.callSection();
+      }, 500)
     }
   }
 
-  // conversational scrolling
+  toggleEditBubble(inputType) {
+    if (!this.state.bubbleEdit) return () => this.setState({ bubbleEdit: inputType }) // Toggle bubble editing on
+    return () => { // Validate and toggle bubble editing off
+      this.setState({ errors: [] });
+      if (!this.convoInputIsValid(inputType)) return;
+      this.setState({ bubbleEdit: false })
+    }
+  }
+
   scrollToBottom() {
-    if(CHAT_END)
+    if (CHAT_END)
       CHAT_END.scrollIntoView();
   }
 
-  // PPP
-  toggleOpen(element, id = 0) {
-    return () => {
-      console.log(element)
-      if (id) this.setState({ step: id });
-      this.setState(prevState => {
-        const prev = prevState[element]
-        return { [element]: !prev }
-      })
-    }
-  }
-
-  nextStep() {
-    this.setState(prevState => {
-      let newStep = prevState.step + 1;
-      return { step: newStep, signupModalToggled: false }
-    })
-  }
-
-  // Shared
+  // --------------------
+  // SHARED
+  // --------------------
   updateStateFromValue(field, isCheckbox = false) {
     return (event) => {
       const value = isCheckbox ? event.target.checked : event.target.value
@@ -252,36 +217,42 @@ class CreatePetition extends React.Component {
   }
 
   getStateValue(field) {
-    if(this.state[field]) return this.state[field]
+    console.log(field,this.state[field]);
+    if (this.state[field]) return this.state[field]
   }
 
-  // Targets
-  onTargetAdd(
-    target,
-    { isCustom, callback } = { isCustom: false, callback: () => { } }
-  ) {
+  toggleOpen(element, id = 0) {
+    return () => {
+      if (id) this.setState({ step: id });
+      this.setState(prevState => {
+        const prev = prevState[element]
+        return { [element]: !prev }
+      })
+    }
+  }
+
+  // --------------------
+  // TARGETS
+  // --------------------
+  onTargetAdd(target, { isCustom, callback } = { isCustom: false, callback: () => { } }) {
     return () => {
       if (!isCustom && !target.label) return // target is invalid
-      if (this.state.target){
+      if (this.state.target) {
         if (!isCustom && this.state.target.find(old => old.label === target.label)) return // already exists
       }
-
       if (isCustom && !this.state.targetQuery) return // Trying to add a blank custom target
-
       if (isCustom) {
         this.setState({ customInputs: { name: '', email: '', title: '' } })
       }
-
-      this.setState({ target: [...this.state.target, target], targetQuery: ''})
-
+      this.setState({ target: [...this.state.target, target], targetQuery: '' })
       // Reset and focus on target search bar
       let tquery = document.getElementById('target-query')
-      if(tquery) {
+      let rquery = document.getElementById('review-target-query')
+      if (tquery) {
         tquery.value = ""
         tquery.focus();
       }
-      let rquery = document.getElementById('review-target-query')
-      if(rquery) {
+      if (rquery) {
         rquery.value = ""
         rquery.focus();
       }
@@ -297,23 +268,9 @@ class CreatePetition extends React.Component {
     }
   }
 
-  setSelected(name) {
-    return () => this.setState({ selected: name })
-  }
-
-  setRef(name) {
-    // eslint-disable-next-line no-return-assign
-    return input => input && (this[name] = input)
-  }
-
-
-  // Submit
-
-  submitPetition() {
-    return this.props.dispatch(Config.API_WRITABLE ? submit(this.state.zip) : devLocalSubmit())
-  }
-
-
+  // --------------------
+  // VALIDATION
+  // --------------------
   validateAndContinue() {
     if (this.formIsValid()) {
       this.props.dispatch(
@@ -336,22 +293,18 @@ class CreatePetition extends React.Component {
     const errors = []
     if (!title) errors.push(ERRORS.name)
     if (!summary) errors.push(ERRORS.text_statement)
-    //if (!target.length) errors.push(ERRORS.target)
+    if (!target) errors.push(ERRORS.target)
     if (!description) errors.push(ERRORS.text_about)
     if (errors.length) {
       console.error(errors);
       this.setState({ errors })
       return false
     }
-
     return true
   }
 
   convoInputIsValid(inputType) {
-    let errors = [];
-    let errorKey;
-
-
+    let errors = [], errorKey;
     if (!this.state[inputType]) errors.push(CONVO_ERRORS.empty[inputType]);
     if (CONVO_ERRORS.maxChar.hasOwnProperty(inputType)) {
       if (this.state[inputType].length > CONVO_ERRORS.maxChar[inputType]) errors.push('Please use ' + CONVO_ERRORS.maxChar[inputType] + ' characters or less in your ' + inputType);
@@ -367,75 +320,34 @@ class CreatePetition extends React.Component {
     return true;
   }
 
+  // SUBMIT
+  submitPetition() {
+    return this.props.dispatch(Config.API_WRITABLE ? submit(this.state.zip) : devLocalSubmit())
+  }
+
+
   render() {
-
     const createType = this.props.params.type ? this.props.params.type : 'p';
-
-    const elementByField = {
-      title: this.titleInput,
-      statement: this.statementInput,
-      'target-national': this.nationalInput,
-      'target-state': this.stateInput,
-      'target-custom': this.customInput,
-      about: this.aboutInput
-    }
-
-    const instructionStyle = { position: 'relative', top: -45 }
-    const selectedElement = elementByField[this.state.selected]
-    const bodyTop = document.body.getBoundingClientRect().top + 175
-
-    if (typeof selectedElement !== 'undefined') {
-      instructionStyle.top = selectedElement.getBoundingClientRect().top - bodyTop
-    }
 
     if (createType === 'p') {
       return (
         <div className='moveon-petitions'>
           <CreatePetitionForm
             updateStateFromValue={this.updateStateFromValue}
-
-            // User
-            user={this.state.user}
-            name={this.state.name}
-            email={this.state.email}
-            zip={this.state.zip}
-            password={this.state.password}
-            passwordConfirm={this.state.passwordConfirm}
-
-            // Steps
+            getStateValue={this.getStateValue}
             nextStep={this.nextStep}
-            step={this.state.step}
-
-            // Toggles
             toggleOpen={this.toggleOpen}
-            signupModalToggled={this.state.signupModalToggled}
-            tipModalToggled={this.state.tipModalToggled}
-            shareButtonsToggled={this.state.shareButtonsToggled}
-            loginToggled={this.state.loginToggled}
-
-            // Petition
             editPetition={this.state.editPetition}
-            title={this.state.title}
-            summary={this.state.summary}
-            description={this.state.description}
-            selectTarget={this.selectTarget}
-            targetQuery={this.state.targetQuery}
-
-            // Targets
-            setSelected={this.setSelected}
-            setRef={this.setRef}
-            selected={this.state.selected}
-            targets={this.state.target}
             onTargetAdd={this.onTargetAdd}
             onTargetRemove={this.onTargetRemove}
-            customInputs={this.state.customInputs}
             onChangeCustomInputs={({ target: { name, value } }) => {
               this.setState(state => ({
                 customInputs: { ...state.customInputs, [name]: value }
               }))
             }}
-
             publish={this.validateAndContinue}
+            targets={this.state.target}
+            targetQuery={this.state.targetQuery}
           />
         </div>
       )
@@ -443,74 +355,24 @@ class CreatePetition extends React.Component {
       return (
         <div className='moveon-petitions'>
           <CreatePetitionFormConversation
-            setSelected={this.setSelected}
-            setRef={this.setRef}
-            selected={this.state.selected}
-
-            getStateValue={this.getStateValue}
-
             updateStateFromValue={this.updateStateFromValue}
-            getTargets={this.getTargets}
-            errors={this.state.errors}
-
-            // User
-            name={this.state.name}
-            email={this.state.email}
-            zip={this.state.zip}
-            password={this.state.password}
-            passwordConfirm={this.state.passwordConfirm}
-
-            // Steps
-            nextStep={this.nextStep}
-            step={this.state.step}
-
-            section={this.state.section}
-            nextSection={this.nextSection}
-
-            // Toggles
+            getStateValue={this.getStateValue}
             toggleOpen={this.toggleOpen}
+            nextSection={this.nextSection}
             toggleConvoTip={this.toggleConvoTip}
-            signupModalToggled={this.state.signupModalToggled}
-            tipModalToggled={this.state.tipModalToggled}
-            shareButtonsToggled={this.state.shareButtonsToggled}
-            convoInputIsValid={this.state.convoInputIsValid}
-            convoReviewToggled={this.state.convoReviewToggled}
-            loginToggled={this.state.loginToggled}
-
-            // Petition
-            editPetition={this.state.editPetition}
-            title={this.state.title}
-            summary={this.state.summary}
-            description={this.state.description}
-            targetQuery={this.state.targetQuery}
-
-            // Bubbles
-            bubbleShow={this.state.bubbleShow}
-            bubbleLoading={this.state.bubbleLoading}
-            currentBubble={this.state.currentBubble}
-            currentIndex={this.state.currentIndex}
-            bubbleEdit={this.state.bubbleEdit}
-            editBubble={this.editBubble}
-            saveEditBubble={this.saveEditBubble}
-
+            toggleEditBubble={this.toggleEditBubble}
             saveInput={this.saveInput}
             chatEnd={this.state.chatEnd}
-
-            // Targets
-            setSelected={this.setSelected}
-            setRef={this.setRef}
-            selected={this.state.selected}
-            targets={this.state.target}
             onTargetAdd={this.onTargetAdd}
             onTargetRemove={this.onTargetRemove}
-            customInputs={this.state.customInputs}
             onChangeCustomInputs={({ target: { name, value } }) => {
               this.setState(state => ({
                 customInputs: { ...state.customInputs, [name]: value }
               }))
             }}
-
             publish={this.validateAndContinue}
+            targetQuery={this.state.targetQuery}
+            targets={this.state.target}
           />
         </div>
       )

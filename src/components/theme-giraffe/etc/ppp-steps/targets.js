@@ -8,24 +8,19 @@ import Lightbulb from '../../../../giraffe-ui/svgs/lightbulb.svg'
 
 const Targets = ({
 	toggleOpen,
-	step,
 	nextStep,
-	setRef,
-	setSelected,
-	targets,
 	renderTargets,
 	renderSelectedTargets,
 	targetsLoaded,
 	updateStateFromValue,
+	getStateValue,
 	loadMoreTargets,
 	filteredTargets,
-	// filterTargets,
 	load,
 	updateQuery,
-	targetQuery,
 	renderCustomTarget
 }) => {
-	const classes = step === 4 ? "targets ppp-step container active" : "targets ppp-step container";
+	const classes = getStateValue('step') === 4 ? "targets ppp-step container active" : "targets ppp-step container";
 
 	const loadMoreButton = (
 		<div className="col-12">
@@ -56,7 +51,7 @@ const Targets = ({
 					type="search"
 					className="bg-ice-blue"
 					label="Search a specific target"
-					stateRef={targetQuery}
+					stateRef={getStateValue('targetQuery')}
 					onChange={updateQuery} />
 				{!targetsLoaded ? 'Loading...' : ''}
 				{renderTargets()}
@@ -65,7 +60,7 @@ const Targets = ({
 					{renderCustomTarget()}
 				</div>
 			</div>
-			<button type="button" className="xl300 center display-block ppp-btn btn azure" value="Preview The Petition" name="targets_next" id="targets_next" onClick={nextStep}>
+			<button type="button" className="xl300 center display-block ppp-btn btn azure" value="Preview The Petition" name="targets_next" id="targets_next" onClick={nextStep} disabled={!getStateValue('target')}>
 				Next
 			</button>
 		</div>

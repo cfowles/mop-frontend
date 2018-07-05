@@ -21,7 +21,7 @@ const ReviewTargets = ({
 }) => {
     const loadMoreButton = (
 		<div className="col-12">
-			<button type="button" className="xl300 center display-block btn bg-gray" name="load-more" id="load-more" onClick={loadMoreTargets}>Show More Suggestions</button>
+			<button type="button" className="xl300 center display-block btn bg-gray" name="load-more" id="review-load-more" onClick={loadMoreTargets}>Show More Suggestions</button>
 		</div>
 	)
     return (

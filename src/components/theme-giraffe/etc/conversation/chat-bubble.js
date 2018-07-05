@@ -15,8 +15,7 @@ const ChatBubble = ({
     bubble,
     bubbleId,
     bubbleEdit,
-    editBubble,
-    saveEditBubble,
+    toggleEditBubble,
     innerClasses,
     userInput,
     toggleOpen,
@@ -87,7 +86,7 @@ const ChatBubble = ({
                         }
                     }}
                 />
-                <a className='bubble-submit' onClick={saveEditBubble(inputType)}>
+                <a className='bubble-submit' onClick={toggleEditBubble(inputType)}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                         <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
                         <path d="M0 0h24v24H0z" fill="none" />
@@ -106,7 +105,7 @@ const ChatBubble = ({
             interactBubble = (
                 <div className={innerClasses}>
                     {bubble.type === 'input' ? userInput : bubble.content}
-                    {bubble.type === 'input' ? <span onClick={editBubble(inputType)} className="bubble-fab"><Edit /></span> : <span onClick={toggleOpen("tipModalToggled", bubble.tipID)} className="bubble-fab"><Lightbulb /></span>}
+                    {bubble.type === 'input' ? <span onClick={toggleEditBubble(inputType)} className="bubble-fab"><Edit /></span> : <span onClick={toggleOpen("tipModalToggled", bubble.tipID)} className="bubble-fab"><Lightbulb /></span>}
                 </div>
             )
         }

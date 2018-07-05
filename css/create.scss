@@ -233,6 +233,10 @@ hr {
             position: relative;
             margin-top: 20px;
         }
+        &[disabled] {
+            background-color: $gray;
+            color: $slate-gray;
+        }
     }
     .close {
         position: absolute;

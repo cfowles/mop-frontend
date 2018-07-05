@@ -5,10 +5,9 @@ import Lightbulb from '../../../../giraffe-ui/svgs/lightbulb.svg'
 
 const Tip = ({
     toggleOpen,
-    tipModalToggled,
-    step
+    getStateValue
 }) => {
-    const currentTip = tips[step - 1];
+    const currentTip = tips[getStateValue('step') - 1];
 
     const description = currentTip.description.map(function(paragraph, index){
         return <p key={index}>{paragraph}</p>;
@@ -24,7 +23,7 @@ const Tip = ({
             </div>)
     })
 
-    const classes = tipModalToggled ? "tip-modal container bg-white toggled" : "tip-modal container bg-white";
+    const classes = getStateValue('tipModalToggled') ? "tip-modal container bg-white toggled" : "tip-modal container bg-white";
 
     return (
         <div className={classes}>
