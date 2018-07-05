@@ -27,6 +27,7 @@ hr {
 }
 .group input,
 .group textarea {
+  -webkit-appearance: textfield;
   width: 100%;
   font-size: 16px;
   padding: 32px 9px 10px;
@@ -213,12 +214,17 @@ hr {
   margin: 0;
   z-index: 100;
   height: 50px;
+  display: inline-block;
 }
 @media screen and (min-width: 768px) {
   #ppp .ppp-btn {
     position: relative;
     margin-top: 20px;
   }
+}
+#ppp .ppp-btn[disabled] {
+  background-color: #cacaca;
+  color: #696a6a;
 }
 #ppp .close {
   position: absolute;
@@ -1331,6 +1337,7 @@ hr {
 }
 #conversational .bubble.user .bubble-submit svg,
 #conversational .user-response .bubble-submit svg {
+  background-color: #fff;
   fill: #00abff;
 }
 #conversational .bubble.user .bubble-submit:disabled svg,
@@ -1502,6 +1509,7 @@ hr {
   z-index: 5;
 }
 #conversational .targets .search-wrap .group .bubble-submit svg {
+  background-color: #fff;
   fill: #00abff;
 }
 #conversational .targets .search-wrap .group .convo-error-message {

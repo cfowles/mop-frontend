@@ -27,6 +27,7 @@ hr {
 }
 .group input,
 .group textarea {
+  -webkit-appearance: textfield;
   width: 100%;
   font-size: 16px;
   padding: 32px 9px 10px;
@@ -213,6 +214,7 @@ hr {
   margin: 0;
   z-index: 100;
   height: 50px;
+  display: inline-block;
 }
 @media screen and (min-width: 768px) {
   #ppp .ppp-btn {
@@ -846,4 +848,4 @@ hr {
   }
 }
 
-/*# sourceMappingURL=css/create.css.map */
+/*# sourceMappingURL=create.css.map */

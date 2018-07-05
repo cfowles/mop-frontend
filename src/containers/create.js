@@ -79,6 +79,7 @@ class CreatePetition extends React.Component {
     this.saveInput = this.saveInput.bind(this)
     this.toggleEditBubble = this.toggleEditBubble.bind(this)
     this.scrollToBottom = this.scrollToBottom.bind(this)
+    this.scrollToTop = this.scrollToTop.bind(this)
     this.updateStateFromValue = this.updateStateFromValue.bind(this)
     this.getStateValue = this.getStateValue.bind(this)
     this.toggleOpen = this.toggleOpen.bind(this)
@@ -105,6 +106,7 @@ class CreatePetition extends React.Component {
   // PPP
   // --------------------
   nextStep() {
+    this.scrollToTop()
     this.setState(prevState => {
       let newStep = prevState.step + 1;
       return { step: newStep, signupModalToggled: false }
@@ -132,15 +134,16 @@ class CreatePetition extends React.Component {
     })
   }
 
-  nextSection() { 
+  nextSection() {
     this.setState(prevState => {
       let newSection = prevState.section + 1;
       return { section: newSection }
     })
   }
 
-  callSection() { 
+  callSection() {
     let sectionLength = this.state.sectionLengths[this.state.section];
+    console.log(sectionLength)
     this.setState({ bubbleLoading: true });
     this.callBubble(sectionLength);
   }
@@ -204,6 +207,10 @@ class CreatePetition extends React.Component {
       CHAT_END.scrollIntoView();
   }
 
+  scrollToTop() {
+    window.scrollTo(0, 0)
+  }
+
   // --------------------
   // SHARED
   // --------------------
@@ -217,8 +224,9 @@ class CreatePetition extends React.Component {
   }
 
   getStateValue(field) {
-    console.log(field,this.state[field]);
-    if (this.state[field]) return this.state[field]
+    // some check? Need to return undefined right now.
+    //if (this.state[field])
+    return this.state[field]
   }
 
   toggleOpen(element, id = 0) {

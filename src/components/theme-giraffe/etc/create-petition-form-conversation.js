@@ -79,7 +79,7 @@ const CreatePetitionFormConversation = ({
                         onChangeCustomInputs={onChangeCustomInputs}
                         targets={targets}
                         targetQuery={targetQuery}
-                        theme="convo" 
+                        theme="convo"
                         saveInput={saveInput}/>
   let input =         <ConversationalInput
                         saveInput={saveInput}
@@ -134,7 +134,7 @@ CreatePetitionFormConversation.propTypes = {
   setSelected: PropTypes.func,
   setRef: PropTypes.func,
   toggleOpen: PropTypes.func,
-  updateStateFromValue: PropTypes.func,
+  updateStateFromValue: PropTypes.func
 }
 
 export default CreatePetitionFormConversation
