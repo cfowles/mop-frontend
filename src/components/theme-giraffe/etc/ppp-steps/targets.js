@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { InputMaterial } from "GiraffeUI/input-material";
-import Close from '../../../../giraffe-ui/svgs/Close.svg'
 import Lightbulb from '../../../../giraffe-ui/svgs/lightbulb.svg'
 
 
@@ -39,7 +38,7 @@ const Targets = ({
 					</div>
 				</div>
 				<div className="col-12">
-					<p>The Target of your petition is the person or group that has the decision making power to make this change. Let’s find the best target for your petition.</p>
+					<p>The decision-maker for your petition is the person or group that has the power to make your change. Let’s find the best decision-maker(s) for your petition.</p>
 				</div>
 				<div className="selection-pills col-12">
 					<div className="row">

@@ -107,16 +107,17 @@ class CreatePetition extends React.Component {
   // PPP
   // --------------------
   nextStep() {
-    // TODO: Change so this fetch only happens after signup.
-    if(this.state.zip && !this.state.nearby_count){
-      let url = `${Config.API_URI}/targets/zip?zip=${this.state.zip}`
-
-      fetch(url).then(
-        response => {
-          return response.json()
-        }).then(data => {
-          if(data.nearby_count > 10) this.setState({ nearby_count: data.nearby_count })
-        })
+    if(this.state.step === 1) {
+      if(this.state.zip && !this.state.nearby_count){
+        let url = `${Config.API_URI}/targets/zip?zip=${this.state.zip}`
+  
+        fetch(url).then(
+          response => {
+            return response.json()
+          }).then(data => {
+            if(data.nearby_count > 10) this.setState({ nearby_count: data.nearby_count })
+          })
+      }
     }
     this.scrollToTop()
     this.setState(prevState => {
@@ -155,7 +156,6 @@ class CreatePetition extends React.Component {
 
   callSection() {
     let sectionLength = this.state.sectionLengths[this.state.section];
-    console.log(sectionLength)
     this.setState({ bubbleLoading: true });
     this.callBubble(sectionLength);
   }
@@ -174,8 +174,7 @@ class CreatePetition extends React.Component {
   }
 
   nextBubble() {
-    this.scrollToBottom()
-    if (this.state.currentIndex === 19) setTimeout(() => this.scrollToBottom(), 500)
+    setTimeout(()=>this.scrollToBottom(),600)
     this.setState(prevState => {
       const newBubble = prevState.currentBubble + 1;
       const newIndex = prevState.currentIndex + 1;
@@ -215,8 +214,7 @@ class CreatePetition extends React.Component {
   }
 
   scrollToBottom() {
-    if (CHAT_END)
-      CHAT_END.scrollIntoView();
+    if (CHAT_END) CHAT_END.scrollIntoView({behavior: "smooth",block: "end"});
   }
 
   scrollToTop() {

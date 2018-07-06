@@ -5,43 +5,27 @@ import ReactTimeout from 'react-timeout'
 import Edit from '../../../../giraffe-ui/svgs/edit.svg'
 import Check from '../../../../giraffe-ui/svgs/check.svg'
 import Lightbulb from '../../../../giraffe-ui/svgs/lightbulb.svg'
-import Close from '../../../../giraffe-ui/svgs/close.svg'
+import CloseIcon from '../../../../giraffe-ui/svgs/close.svg'
 import { InputMaterial } from "GiraffeUI/input-material";
 import ConversationalInput from './input'
 import cx from "classnames";
 
 const ChatBubble = ({
-    currentIndex,
     bubble,
     bubbleId,
-    bubbleEdit,
-    toggleEditBubble,
     innerClasses,
     userInput,
     toggleOpen,
-    tipModalToggled,
-
-    saveInput,
     updateStateFromValue,
-    errors,
-    title,
-    summary,
-    description,
-    email,
-    section,
+    getStateValue,
+    toggleEditBubble,
     targets,
-    onTargetRemove
+    onTargetRemove,
 }) => {
 
     const inputType = bubble.hasOwnProperty('input') ? bubble.input.type : '';
     const inputPlaceholder = bubble.hasOwnProperty('input') ? bubble.content : '';
     const charLimit = bubble.hasOwnProperty('input') ? bubble.input.charLimit : '';
-
-    let stateRef;
-    if (inputType === 'email') stateRef = email;
-    if (inputType === 'title') stateRef = title;
-    if (inputType === 'summary') stateRef = summary;
-    if (inputType === 'description') stateRef = description;
 
     const staticBubble = (
         <div className={innerClasses}>{bubble.content}</div>
@@ -55,7 +39,7 @@ const ChatBubble = ({
                 <div className={innerClasses} key={i}>
                     {target.label}
                     <span className="close bubble-fab bg-azure" onClick={onTargetRemove(target)}>
-                        <Close />
+                        <CloseIcon />
                     </span>
                 </div>
             )
@@ -64,24 +48,24 @@ const ChatBubble = ({
 
     let interactBubble = null;
 
-    if (bubbleEdit === inputType) {
+    if (getStateValue('bubbleEdit') === inputType) {
         interactBubble = (
-            <div className={innerClasses}>
+            <div className={cx(innerClasses,'editing')}>
                 <InputMaterial
                     name={inputType}
                     type="textarea"
                     className={cx('bg-white user-input', charLimit > 0 ? 'has-helper-text' : '')}
                     label={inputPlaceholder}
                     charLimit={charLimit}
-                    stateRef={stateRef}
+                    stateRef={userInput}
                     onChange={updateStateFromValue(inputType)}
                     onBlur={updateStateFromValue(inputType)}
                     id='user-input'
-                    value={stateRef}
+                    value={userInput}
                     onKeyPress={event => {
                         if (event.key === 'Enter') {
                             event.preventDefault();
-                            const s = saveInput(inputType)
+                            const s = toggleEditBubble(inputType)
                             s();
                         }
                     }}
@@ -111,7 +95,7 @@ const ChatBubble = ({
         }
     }
     const bubbleOutput = bubble.type === 'input' || bubble.type === 'tip' ? interactBubble : staticBubble;
-    const classes = currentIndex >= (bubbleId + 1) || (inputType === 'target') ? 'bubble show' : 'bubble';
+    const classes = getStateValue('currentIndex') >= (bubbleId + 1) || (inputType === 'target') ? 'bubble show' : 'bubble';
 
     return (
         <div className={classes}>
@@ -122,7 +106,6 @@ const ChatBubble = ({
 
 ChatBubble.propTypes = {
     toggleOpen: PropTypes.func,
-    section: PropTypes.number,
 }
 
 export default ChatBubble

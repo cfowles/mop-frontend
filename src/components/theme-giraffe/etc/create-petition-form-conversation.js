@@ -65,6 +65,7 @@ const CreatePetitionFormConversation = ({
                         userInput={userInput}
                         toggleOpen={toggleOpen}
                         updateStateFromValue={updateStateFromValue}
+                        getStateValue={getStateValue}
                         toggleEditBubble={toggleEditBubble}
                         targets={targets}
                         onTargetRemove={onTargetRemove}/>
@@ -111,11 +112,11 @@ const CreatePetitionFormConversation = ({
 
   return (
     <div id='conversational'>
-      <div className={cx('chat-wrap', !convoReviewToggled ? 'toggled' : '')}>
+      <div id='chat-wrap' className={cx('chat-wrap', !convoReviewToggled ? 'toggled' : '')}>
         {bubbles}
         {createTargets}
         {input}
-        <div id="chatend" style={{ float: "left", clear: "both", display: "block", height: "100px", marginTop: targetQuery.length ? "150px" : "50px" }}
+        <div id="chatend" style={{ float: "left", clear: "both", display: getStateValue('currentIndex') > 20  ? "none" : "block" , height: '0', marginTop: getStateValue('currentIndex') === 19 || getStateValue('currentIndex') === 18  ? "210px" : "90px" , background: 'black', width: '100px'}}
           className="chat-end" >
         </div>
       </div>

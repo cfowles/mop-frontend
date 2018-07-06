@@ -13,25 +13,25 @@ export const tips = [
     {
       title: "Petition Statement",
       description: [
-        "This is the message that will be delivered to the decision-maker(s). You will get a lot more signers if your message is short and sweet—one or two sentences at the most. The petition statement is NOT the place to make a detailed persuasive argument for your position."
+        "This is the message that will be delivered to the decision-maker(s). You will get a lot more signers if your message is short and sweet—one or two sentences at most. The petition statement is NOT the place to make a detailed persuasive argument for your position."
       ],
       examples: [
         ["Stop the proposed cuts in funding for Dewey Elementary School."],
-        ["We need common sense gun control now."],
+        ["We need commonsense gun control now."],
         ["We call on Congress to use the Congressional Review Act to overturn the Federal Communications Commission's repeal of net neutrality"]
       ]
     },
     {
       title: "Petition Background",
       description: [
-        "In 1-2 paragraphs, why should people be concerned about this issue? Is there a deadline? Have you been personally affected by the issue?"
+        "In one to two paragraphs, why should people be concerned about this issue? Is there a deadline? Have you been personally affected by the issue?"
       ],
       examples: [
-        ["My daughter Maria attends Dewey Elementary School, which is about to lose 10 teachers and funding for activities like chess club. Our children's education should be our top priority, and these cuts should be stopped."],
+        ["My daughter Maria attends Dewey Elementary School, which is about to lose 10 teachers and funding for activities such as Chess Club. Our children's education should be our top priority, and these cuts should be stopped."],
         ["I'm a MoveOn member. I'm a gun owner. I'm a Christian. I'm a Grammy-winning country music producer. And I'm asking us to come together, in the wake of one of the deadliest mass shootings in modern U.S. history, and stand up to the NRA by calling for an end to senseless gun violence.",
-        "Parkland. Sutherland Springs. Las Vegas. Sandy Hook. Columbine. Aurora. Virginia Tech. How many more innocent victims must die at the hands of an antiquated and oft-misinterpreted amendment? Enough. It's time to say that thoughts and prayers are no longer enough in the face of gun-related tragedies. We need meaningful action. "],
-        ["The repeal of net neutrality gives monopolistic internet providers like Verizon, Comcast, and AT&T the power to block, censor, and slow down your favorite sites on the web. 83% of Americans support net neutrality protections.",
-        "Congress, as the oversight body for the FCC, can overturn this massive giveaway to the telecom industry. Since the FCC voted to end net neutrality, 20 senators have already pledged to reverse the FCC's vote, and we can convince others to join us. We need to build on this momentum -- tell your member of Congress to support the resolution to restore net neutrality now."]
+        "Parkland. Sutherland Springs. Las Vegas. Sandy Hook. Columbine. Aurora. Virginia Tech. How many more innocent victims must die at the hands of an antiquated and oft-misinterpreted amendment? Enough. It's time to say that thoughts and prayers are no longer enough in the face of gun-related tragedies. We need meaningful action."],
+        ["The repeal of Net Neutrality gives monopolistic internet providers such as Verizon, Comcast, and AT&T the power to block, censor, and slow down your favorite sites on the web. 83% of Americans support Net Neutrality protections.",
+        "Congress, as the oversight body for the FCC, can overturn this massive giveaway to the telecom industry. Since the FCC voted to end Net Neutrality, 20 senators have already pledged to reverse the FCC's vote, and we can convince others to join us. We need to build on this momentum. Tell your member of Congress to support the resolution to restore Net Neutrality now."]
       ]
     },
     {
@@ -42,9 +42,9 @@ export const tips = [
         "It’s best if you send your petition to a human being instead of a group. For instance, it’s better to address your petition to the Walmart CEO than Walmart the corporation."
       ],
       examples: [
-        ["Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et."],
-        ["Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et."],
-        ["Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et."]
+        ["Dewey Elementary School Principal Stevens"],
+        ["Senator John McCain"],
+        ["The entire U.S. Senate, The entire U.S. House of Representatives"]
       ]
     },
     {

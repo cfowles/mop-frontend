@@ -11,7 +11,6 @@ const ConversationalInput = ({
   updateStateFromValue,
   targetQuery,
   toggleOpen,
-  bubbleLoading,
   getStateValue
 }) => {
   let currentIndex = getStateValue('currentIndex'),
@@ -46,7 +45,7 @@ const ConversationalInput = ({
   } else {
     return (
       <div className='user-bubble-wrap'>
-        <div className={cx("bubble loader-wrap", bubbleLoading ? 'show' : '')}>
+        <div className={cx("bubble loader-wrap", getStateValue('bubbleLoading') ? 'show' : '')}>
           <div className='inner'>
             <div className='loader'>
               <span className='dot'></span><span className='dot'></span><span className='dot'></span>

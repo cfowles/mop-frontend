@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { InputMaterial } from "GiraffeUI/input-material";
-import Close from '../../../../giraffe-ui/svgs/Close.svg'
 import cx from 'classnames'
 
 const ConvoTargets = ({

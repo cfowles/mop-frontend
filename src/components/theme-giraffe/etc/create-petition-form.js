@@ -97,7 +97,8 @@ const CreatePetitionForm = ({
                             />
 
   let name = getStateValue('name'),
-      step = getStateValue('step');
+      step = getStateValue('step'),
+      nearby_count = getStateValue('nearby_count');
   const progressWidth = (step / 6) * 100 +'%';
   const progressStyles = {
     width: progressWidth
@@ -113,7 +114,13 @@ const CreatePetitionForm = ({
         <div className="row">
           <div className="col-12 heading-title-wrap">
             <Logo />
-            <h2 className="bg-white">{step === 7 ? 'Congratulations, '+{name}+'! Let’s get your first 10 signatures.' : 'There are millions of MoveOn members waiting for your petition.'}</h2>
+            <h2 className="bg-white">
+            {
+              (step === 7 && 'Congratulations, '+name+'! Let’s get your first 10 signatures.') || 
+              (nearby_count > 10 && nearby_count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' MoveOn members in your area have recently taken action.') || 
+              ('There are millions of MoveOn members waiting for your petition.')
+            }
+            </h2>
           </div>
         </div>
       </div>

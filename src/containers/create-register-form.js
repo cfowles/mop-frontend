@@ -117,8 +117,8 @@ class CreateRegister extends React.Component {
         email: this.email.value,
         password: this.password.value
       }
-
-      const { successCallback, dispatch } = this.props
+      const { dispatch } = this.props
+      const successCallback = this.props.successCallback(true)
       dispatch(accountActions.login(fields, successCallback))
     }
   }
