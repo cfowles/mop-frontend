@@ -81,7 +81,7 @@ export const conversation = [
     section: 2
   },
   {
-    content: "More tips petition statements",
+    content: "More tips on petition statements",
     showToLoggedIn: true,
     type: 'tip',
     tipID: 2,
@@ -110,7 +110,7 @@ export const conversation = [
     section: 3
   },
   {
-    content: "More tips petition backgrounds",
+    content: "More tips on petition backgrounds",
     showToLoggedIn: true,
     type: 'tip',
     tipID: 3,

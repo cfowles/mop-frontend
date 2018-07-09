@@ -924,8 +924,8 @@ hr {
         position: absolute;
         bottom: 75px;
         left: 0;
-        max-height: 100vh;
-        padding-top: 40px;
+        max-height: calc(100vh - 130px);
+        padding-top: 60px;
         &.toggled {
             display: block;
         }
@@ -1032,7 +1032,7 @@ hr {
         padding-bottom: 50px;
         position: fixed;
         top: 100%;
-        max-width: $bp-md;
+        max-width: 560px;
         min-height: 100vh;
         max-height: 100vh;
         z-index: 200;

@@ -18,7 +18,7 @@ import Signup from './ppp-steps/signup'
 import DesktopProgress from './conversation/desktop-progress'
 import CreateTargets from '../../../containers/create-targets'
 import cx from 'classnames'
-import '../../../../css/convo.css'
+import '../../../../css/create.css'
 
 const instructionsByField = {
   title: <TitleTip />,
