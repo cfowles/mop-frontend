@@ -159,6 +159,10 @@ class CreateRegister extends React.Component {
   }
 }
 
+CreateRegister.defaultProps = {
+  isCreatingPetition: false
+}
+
 CreateRegister.propTypes = {
   formErrors: PropTypes.array,
   dispatch: PropTypes.func,
