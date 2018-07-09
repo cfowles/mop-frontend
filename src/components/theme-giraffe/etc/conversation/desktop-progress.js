@@ -1,7 +1,9 @@
 import React from 'react'
 import cx from "classnames"
 
-const DesktopProgress = ({section}) => (
+const DesktopProgress = ({getStateValue}) => {
+let section = getStateValue('section')
+return (
   <div>
     <div className='progress-wrap'>
       <h3>Check your progress!</h3>
@@ -45,5 +47,6 @@ const DesktopProgress = ({section}) => (
     </div>
   </div>
 )
+}
 
 export default DesktopProgress

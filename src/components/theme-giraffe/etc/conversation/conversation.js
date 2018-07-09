@@ -1,6 +1,6 @@
 export const conversation = [
   {
-    content: "Hi 👋 Want to start a petition? That’s great! Petitions like yours are one of the most powerful ways to get support for an issue or topic.",
+    content: "Hi 👋 Want to start a petition? That’s great! Petitions like yours are one of the most powerful ways to bring people together to create change.",
     showToLoggedIn: false,
     type: 'static',
     section: 0
@@ -28,7 +28,13 @@ export const conversation = [
   },
   // Section 1: Title
   {
-    content: "Excellent. First, what would you like the title of your petition to be?",
+    content: "Excellent. Also, you can edit your answers at any time by clicking the pencil next to your response.",
+    showToLoggedIn: true,
+    type: 'static',
+    section: 1
+  },
+  {
+    content: "What would you like the title of your petition to be?",
     showToLoggedIn: true,
     type: 'static',
     section: 1
@@ -121,13 +127,13 @@ export const conversation = [
   },
   // Section 4: Targets
   {
-    content: "Just a couple more steps. Let’s find the best person or group of people to make decisions about this issue. ",
+    content: "Just a couple more steps. Let’s find the best person or group of people to make decisions about this issue. Let’s find the best decision-maker(s) for your petition.",
     showToLoggedIn: true,
     type: 'static',
     section: 4
   },
   {
-    content: "Not sure who to choose as your decision maker?",
+    content: "Not sure whom to choose as your decision-maker?",
     showToLoggedIn: true,
     type: 'tip',
     tipID: 4,

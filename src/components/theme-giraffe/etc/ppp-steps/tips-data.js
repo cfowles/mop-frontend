@@ -5,7 +5,7 @@ export const tips = [
         'Your title should be brief and get people’s attention. Include the change you want to make.'
       ],
       examples: [
-        ['Mayor Jones: Save Dewey Elementary School.'],
+        ['Mayor Jones: Save Dewey Elementary School!'],
         ['Enough is enough. We demand gun control.'],
         ['Tell Congress: Restore Net Neutrality before it’s too late!']
       ]
@@ -37,7 +37,7 @@ export const tips = [
     {
       title: 'Decision Makers',
       description: [
-        "When deciding who should receive your petition, think about who actually has the power to solve the problem or make the decision you want.", 
+        "When deciding who should receive your petition, think about who actually has the power to solve the problem or make the decision you want.",
         "If there are multiple people who may be able to solve the problem, focus on the person who is most likely to be influenced by public opinion. For instance, an elected official is usually a better target than an unelected judge.",
         "It’s best if you send your petition to a human being instead of a group. For instance, it’s better to address your petition to the Walmart CEO than Walmart the corporation."
       ],
@@ -50,7 +50,7 @@ export const tips = [
     {
       title: "Petition Image",
       description: [
-        "This is the image that will be displayed on the top of your petition. Choose something specific to your petition. We've found that photos of people, animals, or rallies generally do best.", 
+        "This is the image that will be displayed on the top of your petition. Choose something specific to your petition. We've found that photos of people, animals, or rallies generally do best.",
         "Obey copyright laws. To be safe, upload your own photo, or choose a free photo from Pixabay or the Creative Commons. ",
         "Bigger images are better. Images that are at least 1200x630px will look the best on Facebook. ",
         "Keep it PG. We will not use any images that show explicit violence or sexual content."

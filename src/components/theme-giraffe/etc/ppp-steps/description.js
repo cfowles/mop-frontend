@@ -15,7 +15,7 @@ const Description = ({ toggleOpen, updateStateFromValue, getStateValue, nextStep
                     </div>
                 </div>
                 <div className="col-12">
-                    <p>Briefly describe why this issue is important, and how it’s affected you.</p>
+                    <p>Briefly describe why this issue is important and how it has affected you.</p>
                 </div>
                 <InputMaterial name="description" type="textarea" className="bg-ice-blue" label="Your Petition Description" charLimit={500} stateRef={getStateValue('description')} onChange={updateStateFromValue("description")} />
             </div>

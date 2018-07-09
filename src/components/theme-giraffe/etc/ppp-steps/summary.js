@@ -15,7 +15,7 @@ const Summary = ({toggleOpen, updateStateFromValue, getStateValue, nextStep}) =>
 				</div>
 			</div>
 			<div className="col-12">
-				<p>In 1-2 sentences, tell us more about what you want your petition to accomplish.</p>
+				<p>In one to two sentences, tell us more about what you want your petition to accomplish.</p>
 			</div>
 			<InputMaterial name="summary" type="textarea" className="bg-ice-blue" label="Your Petition Statement" charLimit={100} stateRef={getStateValue('summary')} onChange={updateStateFromValue("summary")} />
 		</div>

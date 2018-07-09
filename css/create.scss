@@ -878,6 +878,34 @@ hr {
     display: none !important;
 }
 
+/* Conversational */
+
+#conversational-top {
+  position: fixed;
+  height: 60px;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background-color: #000000;
+  z-index: 100;
+
+  .logo {
+    img {
+      width: 90px;
+      top: 30px;
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+}
+
+@media screen and (min-width: $bp-md) {
+  #conversational-top {
+
+  }
+}
+
 #conversational {
     background-color: $white;
     max-width: 560px;
@@ -897,6 +925,7 @@ hr {
         bottom: 75px;
         left: 0;
         max-height: 100vh;
+        padding-top: 40px;
         &.toggled {
             display: block;
         }

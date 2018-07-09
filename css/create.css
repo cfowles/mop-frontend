@@ -851,6 +851,24 @@ hr {
   display: none !important;
 }
 
+/* Conversational */
+#conversational-top {
+  position: fixed;
+  height: 60px;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background-color: #000000;
+  z-index: 100;
+}
+#conversational-top .logo img {
+  width: 90px;
+  top: 30px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 #conversational {
   background-color: #ffffff;
   max-width: 560px;
@@ -870,6 +888,7 @@ hr {
   bottom: 75px;
   left: 0;
   max-height: 100vh;
+  padding-top: 40px;
 }
 #conversational .chat-wrap.toggled {
   display: block;
@@ -1614,4 +1633,4 @@ hr {
   }
 }
 
-/*# sourceMappingURL=css/create.css.map */
+/*# sourceMappingURL=create.css.map */

@@ -8,7 +8,12 @@ const Title = ({ toggleOpen, updateStateFromValue, getStateValue }) => (
     <div className={cx("title", "ppp-step", "container", getStateValue('step') == 1 ? "active" : "")}>
         <div className="row ppp-item">
             <div className="col-12">
-                <p>Let’s launch your petition! From Local to National, we want to give your voice a platform to help you create progressive change. </p>
+                <p>
+                  Let’s launch your petition! From local to national, we want to give your voice a platform to help you create progressive change.
+                </p>
+                <p>
+                  Start with a petition title. It should be brief, like a newspaper headline.
+                </p>
             </div>
             <div className="col-12 ppp-heading">
                 <h3>Petition title</h3>

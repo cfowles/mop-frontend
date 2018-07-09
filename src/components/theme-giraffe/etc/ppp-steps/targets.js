@@ -31,14 +31,16 @@ const Targets = ({
 		<div className={classes}>
 			<div className="row ppp-item">
 				<div className="col-12 ppp-heading">
-					<h3>Decision Makers</h3>
+					<h3>Decision-maker</h3>
 					<div className="ppp-tip bg-ice-blue" onClick={toggleOpen("tipModalToggled")}>
 						Tips
 						<span className="bg-white"><Lightbulb /></span>
 					</div>
 				</div>
 				<div className="col-12">
-					<p>The decision-maker for your petition is the person or group that has the power to make your change. Let’s find the best decision-maker(s) for your petition.</p>
+					<p>
+						The decision-maker for your petition is the person or group that has the power to make your change. Let’s find the best decision-maker(s) for your petition.
+					</p>
 				</div>
 				<div className="selection-pills col-12">
 					<div className="row">

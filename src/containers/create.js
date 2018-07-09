@@ -110,7 +110,7 @@ class CreatePetition extends React.Component {
     if(this.state.step === 1) {
       if(this.state.zip && !this.state.nearby_count){
         let url = `${Config.API_URI}/targets/zip?zip=${this.state.zip}`
-  
+
         fetch(url).then(
           response => {
             return response.json()
@@ -214,7 +214,8 @@ class CreatePetition extends React.Component {
   }
 
   scrollToBottom() {
-    if (CHAT_END) CHAT_END.scrollIntoView({behavior: "smooth",block: "end"});
+    //browser bug {behavior: "smooth",block: "end"}
+    if (CHAT_END) CHAT_END.scrollIntoView();
   }
 
   scrollToTop() {

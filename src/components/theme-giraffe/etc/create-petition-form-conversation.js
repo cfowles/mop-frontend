@@ -7,6 +7,7 @@ import TargetCustom from './form/instructions/target-custom'
 import TargetNational from './form/instructions/target-national'
 import TargetState from './form/instructions/target-state'
 import TitleTip from './form/instructions/title'
+import Logo from 'GiraffeUI/logo'
 
 import ChatBubble from './conversation/chat-bubble'
 import { conversation } from './conversation/conversation'
@@ -111,21 +112,26 @@ const CreatePetitionFormConversation = ({
                         type='conversational'/>
 
   return (
-    <div id='conversational'>
-      <div id='chat-wrap' className={cx('chat-wrap', !convoReviewToggled ? 'toggled' : '')}>
-        {bubbles}
-        {createTargets}
-        {input}
-        <div id="chatend" style={{ float: "left", clear: "both", display: getStateValue('currentIndex') > 20  ? "none" : "block" , height: '0', marginTop: getStateValue('currentIndex') === 19 || getStateValue('currentIndex') === 18  ? "210px" : "90px" , background: 'black', width: '100px'}}
-          className="chat-end" >
+    <div>
+      <div id='conversational-top'>
+        <Logo />
+      </div>
+      <div id='conversational'>
+        <div id='chat-wrap' className={cx('chat-wrap', !convoReviewToggled ? 'toggled' : '')}>
+          {bubbles}
+          {createTargets}
+          {input}
+          <div id="chatend" style={{ float: "left", clear: "both", display: getStateValue('currentIndex') > 20  ? "none" : "block" , height: '0', marginTop: getStateValue('currentIndex') === 19 || getStateValue('currentIndex') === 18  ? "210px" : "90px" , background: 'black', width: '100px'}}
+            className="chat-end" >
+          </div>
         </div>
+        {tips}
+        <div className={cx("convo-review-wrap", convoReviewToggled ? 'toggled' : '')} >
+          {review}
+        </div>
+        {desktop}
+        {signup}
       </div>
-      {tips}
-      <div className={cx("convo-review-wrap", convoReviewToggled ? 'toggled' : '')} >
-        {review}
-      </div>
-      {desktop}
-      {signup}
     </div>
   )
 }

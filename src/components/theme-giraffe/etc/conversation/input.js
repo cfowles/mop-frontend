@@ -65,7 +65,7 @@ const ConversationalInput = ({
             onBlur={updateStateFromValue(inputType)}
             id='user-input'
             onKeyPress={event => {
-              if (event.key === 'Enter' && getStateValue(inputType)) {
+              if (event.key === 'Enter' && stateRef) {
                 event.preventDefault();
                 const s = saveInput(inputType)
                 s();
