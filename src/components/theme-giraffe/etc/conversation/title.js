@@ -8,8 +8,8 @@ const Title = ({
   currentIndex
 }) => (
   <div>
-    <ChatBubble currentBubble={currentBubble} bubble={conversation[section][0]} currentIndex={currentIndex}/>
-    <ChatBubble currentBubble={currentBubble} bubble={conversation[section][1]} currentIndex={currentIndex}/>
+    <ChatBubble currentBubble={currentBubble} bubble={conversation[section][0]} currentIndex={currentIndex} />
+    <ChatBubble currentBubble={currentBubble} bubble={conversation[section][1]} currentIndex={currentIndex} />
   </div>
 )
 

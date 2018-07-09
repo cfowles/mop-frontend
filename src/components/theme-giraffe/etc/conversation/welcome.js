@@ -8,12 +8,9 @@ const Welcome = ({
   // currentBubble,
   currentIndex
 }) => {
-
-  let bubbles = conversation[section].map(function (b, i) {
-    return (
-      <ChatBubble currentIndex={currentIndex} bubble={b} key={i}/>
-    )
-  })
+  const bubbles = conversation[section].map((b, i) => (
+    <ChatBubble currentIndex={currentIndex} bubble={b} key={i} />
+    ))
 
   return (
     <div>

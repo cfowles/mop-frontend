@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
-import Textarea from "react-textarea-autosize";
+import Textarea from 'react-textarea-autosize'
 
 export const InputMaterial = ({
   name,
@@ -16,44 +16,44 @@ export const InputMaterial = ({
 }) => {
   const input = (
     <input
-        type={type}
-        name={name}
-        id={name}
-        className={cx(
+      type={type}
+      name={name}
+      id={name}
+      className={cx(
           className,
           stateRef ? 'has-input' : ''
         )}
-        onChange={onChange}
-        onBlur={onChange}
-        {...rest}
-      />
+      onChange={onChange}
+      onBlur={onChange}
+      {...rest}
+    />
   )
   const textarea = (
     <Textarea
-        type={type}
-        name={name}
-        id={name}
-        className={cx(
+      type={type}
+      name={name}
+      id={name}
+      className={cx(
           className,
           stateRef ? 'has-input' : ''
         )}
-        onChange={onChange}
-        onBlur={onChange}
-        {...rest}
-      />
+      onChange={onChange}
+      onBlur={onChange}
+      {...rest}
+    />
   )
-  const inputElement = type === 'textarea' ? textarea : input;
-  stateRef = stateRef ? stateRef : '';
+  const inputElement = type === 'textarea' ? textarea : input
+  stateRef = stateRef || '' // eslint-disable-line
 
   return (
-    <div className="col-12 group">
+    <div className='col-12 group'>
       {inputElement}
-      <span className="bar"></span>
+      <span className='bar' />
       <label>{label}</label>
       {
-        (!helperText && charLimit && <small className={cx("helper-text", stateRef.length > charLimit ? 'invalid' : '')}>{stateRef.length ? stateRef.length : '0'}/{charLimit} Characters</small>)
+        (!helperText && charLimit && <small className={cx('helper-text', stateRef.length > charLimit ? 'invalid' : '')}>{stateRef.length ? stateRef.length : '0'}/{charLimit} Characters</small>)
         ||
-        (helperText && !charLimit && <small className="helper-text">{helperText}</small>)
+        (helperText && !charLimit && <small className='helper-text'>{helperText}</small>)
       }
     </div>
   )
@@ -67,4 +67,9 @@ InputMaterial.propTypes = {
   type: PropTypes.string,
   placeholder: PropTypes.string,
   className: PropTypes.string,
+  label: PropTypes.string,
+  helperText: PropTypes.string,
+  charLimit: PropTypes.number,
+  stateRef: PropTypes.func,
+  onChange: PropTypes.func
 }

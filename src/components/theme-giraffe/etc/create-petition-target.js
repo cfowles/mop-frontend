@@ -61,8 +61,7 @@ export class CreatePetitionTarget extends React.Component {
   componentDidMount() {
     // Preload congress for autocomplete
     this.props.dispatch(loadTargets('national')).then(
-      (result) => {
-        console.log(this.props);
+      result => {
       }
     )
 

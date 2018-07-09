@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import ReactTimeout from 'react-timeout'
 import { conversation } from './conversation'
 import Errors from './errors'
-import { InputMaterial } from "GiraffeUI/input-material";
+import { InputMaterial } from 'GiraffeUI/input-material'
 import cx from 'classnames'
 
 const ConversationalInput = ({
@@ -18,19 +18,19 @@ const ConversationalInput = ({
   title = getStateValue('title'),
   summary = getStateValue('summary'),
   description = getStateValue('description'),
-  email = getStateValue('email');
+  email = getStateValue('email')
 
-  let inputType = conversation[currentIndex].hasOwnProperty('input') ? conversation[currentIndex].input.type : '';
-  const inputPlaceholder = conversation[currentIndex].hasOwnProperty('input') ? conversation[currentIndex].content : '';
-  const charLimit = conversation[currentIndex].hasOwnProperty('input') ? conversation[currentIndex].input.charLimit : '';
+  let inputType = conversation[currentIndex].hasOwnProperty('input') ? conversation[currentIndex].input.type : ''
+  const inputPlaceholder = conversation[currentIndex].hasOwnProperty('input') ? conversation[currentIndex].content : ''
+  const charLimit = conversation[currentIndex].hasOwnProperty('input') ? conversation[currentIndex].input.charLimit : ''
 
-  let stateRef;
-  if (inputType === 'email') stateRef = email;
-  if (inputType === 'title') stateRef = title;
-  if (inputType === 'summary') stateRef = summary;
-  if (inputType === 'description') stateRef = description;
+  let stateRef
+  if (inputType === 'email') stateRef = email
+  if (inputType === 'title') stateRef = title
+  if (inputType === 'summary') stateRef = summary
+  if (inputType === 'description') stateRef = description
   if (inputType === 'target') {
-    stateRef = targetQuery;
+    stateRef = targetQuery
     inputType = 'targetQuery'
   }
 
@@ -42,20 +42,20 @@ const ConversationalInput = ({
         <button className='convo-review-btn bg-azure white' onClick={toggleOpen('convoReviewToggled')}>Review</button>
       </div>
     )
-  } else {
+  }
     return (
       <div className='user-bubble-wrap'>
-        <div className={cx("bubble loader-wrap", getStateValue('bubbleLoading') ? 'show' : '')}>
+        <div className={cx('bubble loader-wrap', getStateValue('bubbleLoading') ? 'show' : '')}>
           <div className='inner'>
             <div className='loader'>
-              <span className='dot'></span><span className='dot'></span><span className='dot'></span>
+              <span className='dot' /><span className='dot' /><span className='dot' />
             </div>
           </div>
         </div>
         <div className='bubble user show'>
           <InputMaterial
             name={inputType}
-            type="textarea"
+            type='textarea'
             className={classes}
             label={inputPlaceholder}
             placeholder={inputPlaceholder}
@@ -66,30 +66,30 @@ const ConversationalInput = ({
             id='user-input'
             onKeyPress={event => {
               if (event.key === 'Enter' && stateRef) {
-                event.preventDefault();
+                event.preventDefault()
                 const s = saveInput(inputType)
-                s();
+                s()
               }
             }}
           />
-        <button className='bubble-submit' disabled={!getStateValue(inputType)} onClick={saveInput(inputType)}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-              <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
-              <path d="M0 0h24v24H0z" fill="none" />
+          <button className='bubble-submit' disabled={!getStateValue(inputType)} onClick={saveInput(inputType)}>
+            <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
+              <path d='M2.01 21L23 12 2.01 3 2 10l15 2-15 2z' />
+              <path d='M0 0h24v24H0z' fill='none' />
             </svg>
           </button>
           <Errors
-            errors={errors} />
+            errors={errors}
+          />
         </div>
       </div>
     )
-  }
 }
 
 ConversationalInput.propTypes = {
   toggleOpen: PropTypes.func,
   updateStateFromValue: PropTypes.func,
-  section: PropTypes.number,
+  section: PropTypes.number
 }
 
 export default ConversationalInput

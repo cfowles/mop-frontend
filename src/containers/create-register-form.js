@@ -38,7 +38,7 @@ class CreateRegister extends React.Component {
    * @returns {boolean}
    */
   validateForm() {
-    const { name, email, password, passwordConfirm, zip } = this.props;
+    const { name, email, password, passwordConfirm, zip } = this.props
     const errors = []
     if (!name.length) {
       errors.push({ message: 'Missing required entry for the Name field.' })
@@ -88,16 +88,16 @@ class CreateRegister extends React.Component {
   handleSubmit(event) {
     event.preventDefault()
     const registerAction = Config.API_WRITABLE ? register : devLocalRegister
-    console.log(event, this);
+    console.log(event, this)
 
     const { name, email, password, passwordConfirm, zip, phone } = this.props
     if (this.validateForm()) {
       const fields = {
-        name: name,
-        email: email,
-        zip: zip,
-        password: password,
-        passwordConfirm: passwordConfirm
+        name,
+        email,
+        zip,
+        password,
+        passwordConfirm
       }
 
       const { successCallback, isCreatingPetition, dispatch } = this.props
@@ -112,7 +112,6 @@ class CreateRegister extends React.Component {
 
     const { email, password } = this.props
     if (this.validateLoginForm()) {
-
       const fields = {
         email: this.email.value,
         password: this.password.value
@@ -145,7 +144,7 @@ class CreateRegister extends React.Component {
           />
         </div>
       )
-    } else {
+    }
       return (
         <RegisterForm
           errorList={this.errorList}
@@ -155,7 +154,6 @@ class CreateRegister extends React.Component {
           getStateValue={this.props.getStateValue}
         />
       )
-    }
   }
 }
 

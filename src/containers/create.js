@@ -3,16 +3,15 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 
-import { appLocation } from '../routes'
+// import { appLocation } from '../routes'
 
 import Config from '../config'
 
-import { previewSubmit, submit, devLocalSubmit, loadTargets, loadMembersFromZip, returnNearbyMembers } from '../actions/createPetitionActions'
-import ReactTimeout from 'react-timeout'
-import { conversation } from 'Theme/etc/conversation/conversation'
+import { previewSubmit, submit, devLocalSubmit } from '../actions/createPetitionActions'
+import { conversation } from 'Theme/etc/conversation/conversation' // eslint-disable-line
 
-import CreatePetitionForm from 'Theme/etc/create-petition-form'
-import CreatePetitionFormConversation from 'Theme/etc/create-petition-form-conversation'
+import CreatePetitionForm from 'Theme/etc/create-petition-form' // eslint-disable-line
+import CreatePetitionFormConversation from 'Theme/etc/create-petition-form-conversation' // eslint-disable-line
 
 import { isValidEmail } from '../lib'
 
@@ -22,7 +21,7 @@ const CONVO_ERRORS = {
     title: 'Please provide a title for your petition.',
     summary: 'Please fill in the statement for your petition.',
     target: 'You must select at least one target for your petition.',
-    description: 'Please provide background info for your petition.',
+    description: 'Please provide background info for your petition.'
   },
   maxChar: {
     title: 50,
@@ -30,12 +29,12 @@ const CONVO_ERRORS = {
     description: 500
   }
 }
-var CHAT_END;
+let CHAT_END
 
 class CreatePetition extends React.Component {
   constructor(props) {
     super(props)
-    const { initialPetition, location } = this.props
+    const { location } = this.props
     const query = (location && location.query) || {}
     this.state = {
       // User Data
@@ -69,7 +68,7 @@ class CreatePetition extends React.Component {
       shareButtonsToggled: false,
       editPetition: false,
       convoReviewToggled: false,
-      loginToggled: false,
+      loginToggled: false
     }
     this.nextStep = this.nextStep.bind(this)
     this.getSectionLengths = this.getSectionLengths.bind(this)
@@ -91,142 +90,61 @@ class CreatePetition extends React.Component {
   }
 
   componentDidMount() {
-    var uinput = document.getElementById('user-input');
-    CHAT_END = document.getElementById('chatend');
+    const uinput = document.getElementById('user-input')
+    CHAT_END = document.getElementById('chatend')
     if (uinput) {
-      uinput.focus();
+      uinput.focus()
     }
 
-    this.getSectionLengths();
-    this.initSection = setTimeout(function () {
-      this.callSection();
-    }.bind(this), 500)
+    this.getSectionLengths()
+    this.initSection = setTimeout(() => {
+      this.callSection()
+    }, 500)
   }
 
-  // --------------------
-  // PPP
-  // --------------------
-  nextStep() {
-    if(this.state.step === 1) {
-      if(this.state.zip && !this.state.nearby_count){
-        let url = `${Config.API_URI}/targets/zip?zip=${this.state.zip}`
 
-        fetch(url).then(
-          response => {
-            return response.json()
-          }).then(data => {
-            if(data.nearby_count > 10) this.setState({ nearby_count: data.nearby_count })
-          })
+    // --------------------
+    // TARGETS
+    // --------------------
+    onTargetAdd(target, { isCustom, callback } = { isCustom: false, callback: () => { } }) {
+      return () => {
+        if (!isCustom && !target.label) return // target is invalid
+        if (this.state.target) {
+          if (!isCustom && this.state.target.find(old => old.label === target.label)) return // already exists
+        }
+        if (isCustom && !this.state.targetQuery) return // Trying to add a blank custom target
+        if (isCustom) {
+          this.setState({ customInputs: { name: '', email: '', title: '' } })
+        }
+        this.setState({ target: [...this.state.target, target], targetQuery: '' })
+        // Reset and focus on target search bar
+        const tquery = document.getElementById('target-query')
+        const rquery = document.getElementById('review-target-query')
+        if (tquery) {
+          tquery.value = ''
+          tquery.focus()
+        }
+        if (rquery) {
+          rquery.value = ''
+          rquery.focus()
+        }
+        this.scrollToBottom()
       }
     }
-    this.scrollToTop()
-    this.setState(prevState => {
-      let newStep = prevState.step + 1;
-      return { step: newStep, signupModalToggled: false }
-    })
-  }
 
-  // --------------------
-  // CONVERSATION
-  // --------------------
-  getSectionLengths() {  // Get the length of each section in the conversation script to control how many bubbles are displayed before the user is given an input prompt
-    let sections = [], sectionLengths = [], count = 0;
-    conversation.map(function (el) {
-      if (el.hasOwnProperty('section')) sections.push(el.section);
-    });
-    for (let i = 0; i < sections[sections.length - 1]; i++) {
-      sections.map(function (el, ind) {
-        if (el === i) count++
-      })
-      sectionLengths.push(count);
-      count = 0;
-    }
-    this.setState(prevState => {
-      const newState = prevState.sectionLengths.concat(sectionLengths);
-      return { sectionLengths: newState }
-    })
-  }
-
-  nextSection() {
-    this.setState(prevState => {
-      let newSection = prevState.section + 1;
-      return { section: newSection }
-    })
-  }
-
-  callSection() {
-    let sectionLength = this.state.sectionLengths[this.state.section];
-    this.setState({ bubbleLoading: true });
-    this.callBubble(sectionLength);
-  }
-
-  callBubble(sectionLength) {
-    let bubbleLength = conversation[this.state.currentIndex].content.length
-    let bubbleTime = (bubbleLength / 60) * 1000;
-    this.bubbleTimeout = setTimeout(() => {
-      this.nextBubble();
-      if (this.state.currentBubble < sectionLength) {
-        this.callBubble(sectionLength);
-      } else {
-        this.setState({ bubbleLoading: false, currentBubble: 0 });
+    onTargetRemove(target) {
+      return () => {
+        this.setState(state => ({
+          target: state.target.filter(e => e.label !== target.label)
+        }))
       }
-    }, bubbleTime)
-  }
-
-  nextBubble() {
-    setTimeout(()=>this.scrollToBottom(),600)
-    this.setState(prevState => {
-      const newBubble = prevState.currentBubble + 1;
-      const newIndex = prevState.currentIndex + 1;
-      return { currentBubble: newBubble, currentIndex: newIndex }
-    })
-  }
-
-  saveInput(inputType) {
-    const uinput = document.getElementById("user-input"),
-      tquery = document.getElementById("target-query");
-    return () => {
-      this.setState({ errors: [] });
-      if (!this.convoInputIsValid(inputType)) return;
-      this.nextBubble();
-      this.setState({ currentBubble: 0 });
-      uinput.value = "";
-      tquery.value = "";
-      if (this.state.section === 3) {
-        setTimeout(() => tquery.focus(), 1000)
-      } else {
-        uinput.focus();
-      }
-      this.inputTimeout = setTimeout(() => {
-        this.nextSection();
-        this.callSection();
-      }, 500)
     }
-  }
-
-  toggleEditBubble(inputType) {
-    if (!this.state.bubbleEdit) return () => this.setState({ bubbleEdit: inputType }) // Toggle bubble editing on
-    return () => { // Validate and toggle bubble editing off
-      this.setState({ errors: [] });
-      if (!this.convoInputIsValid(inputType)) return;
-      this.setState({ bubbleEdit: false })
-    }
-  }
-
-  scrollToBottom() {
-    //browser bug {behavior: "smooth",block: "end"}
-    if (CHAT_END) CHAT_END.scrollIntoView();
-  }
-
-  scrollToTop() {
-    window.scrollTo(0, 0)
-  }
 
   // --------------------
   // SHARED
   // --------------------
   updateStateFromValue(field, isCheckbox = false) {
-    return (event) => {
+    return event => {
       const value = isCheckbox ? event.target.checked : event.target.value
       this.setState({
         [field]: value
@@ -236,13 +154,13 @@ class CreatePetition extends React.Component {
 
   getStateValue(field) {
     // some check? Need to return undefined right now.
-    //if (this.state[field])
+    // if (this.state[field])
     return this.state[field]
   }
 
   toggleOpen(element, id = 0) {
     return () => {
-      if (id) this.setState({ step: id });
+      if (id) this.setState({ step: id })
       this.setState(prevState => {
         const prev = prevState[element]
         return { [element]: !prev }
@@ -251,41 +169,124 @@ class CreatePetition extends React.Component {
   }
 
   // --------------------
-  // TARGETS
+  // PPP
   // --------------------
-  onTargetAdd(target, { isCustom, callback } = { isCustom: false, callback: () => { } }) {
+  nextStep() {
+    if (this.state.step === 1) {
+      if (this.state.zip && !this.state.nearby_count) {
+        const url = `${Config.API_URI}/targets/zip?zip=${this.state.zip}`
+
+        fetch(url).then(
+          response => response.json()).then(data => {
+            if (data.nearby_count > 10) this.setState({ nearby_count: data.nearby_count })
+          })
+      }
+    }
+    this.scrollToTop()
+    this.setState(prevState => {
+      const newStep = prevState.step + 1
+      return { step: newStep, signupModalToggled: false }
+    })
+  }
+
+  // --------------------
+  // CONVERSATION
+  // --------------------
+  getSectionLengths() { // Get the length of each section in the conversation script to control how many bubbles are displayed before the user is given an input prompt
+    let sections = [],
+  sectionLengths = [],
+  count = 0
+    conversation.map(el => {
+      if (el.hasOwnProperty('section')) sections.push(el.section)
+    })
+    for (let i = 0; i < sections[sections.length - 1]; i++) {
+      sections.map((el, ind) => {
+        if (el === i) count++
+      })
+      sectionLengths.push(count)
+      count = 0
+    }
+    this.setState(prevState => {
+      const newState = prevState.sectionLengths.concat(sectionLengths)
+      return { sectionLengths: newState }
+    })
+  }
+
+  nextSection() {
+    this.setState(prevState => {
+      const newSection = prevState.section + 1
+      return { section: newSection }
+    })
+  }
+
+  callSection() {
+    const sectionLength = this.state.sectionLengths[this.state.section]
+    this.setState({ bubbleLoading: true })
+    this.callBubble(sectionLength)
+  }
+
+  callBubble(sectionLength) {
+    const bubbleLength = conversation[this.state.currentIndex].content.length
+    const bubbleTime = (bubbleLength / 60) * 1000
+    this.bubbleTimeout = setTimeout(() => {
+      this.nextBubble()
+      if (this.state.currentBubble < sectionLength) {
+        this.callBubble(sectionLength)
+      } else {
+        this.setState({ bubbleLoading: false, currentBubble: 0 })
+      }
+    }, bubbleTime)
+  }
+
+  nextBubble() {
+    setTimeout(() => this.scrollToBottom(), 600)
+    this.setState(prevState => {
+      const newBubble = prevState.currentBubble + 1
+      const newIndex = prevState.currentIndex + 1
+      return { currentBubble: newBubble, currentIndex: newIndex }
+    })
+  }
+
+  saveInput(inputType) {
+    const uinput = document.getElementById('user-input')
+    const tquery = document.getElementById('target-query')
     return () => {
-      if (!isCustom && !target.label) return // target is invalid
-      if (this.state.target) {
-        if (!isCustom && this.state.target.find(old => old.label === target.label)) return // already exists
+      this.setState({ errors: [] })
+      if (!this.convoInputIsValid(inputType)) return
+      this.nextBubble()
+      this.setState({ currentBubble: 0 })
+      uinput.value = ''
+      tquery.value = ''
+      if (this.state.section === 3) {
+        setTimeout(() => tquery.focus(), 1000)
+      } else {
+        uinput.focus()
       }
-      if (isCustom && !this.state.targetQuery) return // Trying to add a blank custom target
-      if (isCustom) {
-        this.setState({ customInputs: { name: '', email: '', title: '' } })
-      }
-      this.setState({ target: [...this.state.target, target], targetQuery: '' })
-      // Reset and focus on target search bar
-      let tquery = document.getElementById('target-query')
-      let rquery = document.getElementById('review-target-query')
-      if (tquery) {
-        tquery.value = ""
-        tquery.focus();
-      }
-      if (rquery) {
-        rquery.value = ""
-        rquery.focus();
-      }
-      this.scrollToBottom();
+      this.inputTimeout = setTimeout(() => {
+        this.nextSection()
+        this.callSection()
+      }, 500)
     }
   }
 
-  onTargetRemove(target) {
-    return () => {
-      this.setState(state => ({
-        target: state.target.filter(e => e.label !== target.label)
-      }))
+  toggleEditBubble(inputType) {
+    if (!this.state.bubbleEdit) return () => this.setState({ bubbleEdit: inputType }) // Toggle bubble editing on
+    return () => { // Validate and toggle bubble editing off
+      this.setState({ errors: [] })
+      if (!this.convoInputIsValid(inputType)) return
+      this.setState({ bubbleEdit: false })
     }
   }
+
+  scrollToBottom() {
+    // browser bug {behavior: "smooth",block: "end"}
+    if (CHAT_END) CHAT_END.scrollIntoView()
+  }
+
+  scrollToTop() {
+    window.scrollTo(0, 0)
+  }
+
 
   // --------------------
   // VALIDATION
@@ -315,7 +316,6 @@ class CreatePetition extends React.Component {
     if (!target) errors.push(ERRORS.target)
     if (!description) errors.push(ERRORS.text_about)
     if (errors.length) {
-      console.error(errors);
       this.setState({ errors })
       return false
     }
@@ -323,20 +323,19 @@ class CreatePetition extends React.Component {
   }
 
   convoInputIsValid(inputType) {
-    let errors = [], errorKey;
-    if (!this.state[inputType]) errors.push(CONVO_ERRORS.empty[inputType]);
+    const errors = []
+    if (!this.state[inputType]) errors.push(CONVO_ERRORS.empty[inputType])
     if (CONVO_ERRORS.maxChar.hasOwnProperty(inputType)) {
-      if (this.state[inputType].length > CONVO_ERRORS.maxChar[inputType]) errors.push('Please use ' + CONVO_ERRORS.maxChar[inputType] + ' characters or less in your ' + inputType);
+      if (this.state[inputType].length > CONVO_ERRORS.maxChar[inputType]) errors.push(`Please use ${CONVO_ERRORS.maxChar[inputType]} characters or less in your ${inputType}`)
     }
     if (inputType === 'email' && this.state.email) {
       if (!isValidEmail(this.state.email)) errors.push('Please use a valid email address.')
     }
     if (errors.length) {
-      console.error(errors);
       this.setState({ errors })
       return false
     }
-    return true;
+    return true
   }
 
   // SUBMIT
@@ -346,7 +345,7 @@ class CreatePetition extends React.Component {
 
 
   render() {
-    const createType = this.props.params.type ? this.props.params.type : 'p';
+    const createType = this.props.params.type ? this.props.params.type : 'p'
 
     if (createType === 'p') {
       return (
@@ -370,7 +369,7 @@ class CreatePetition extends React.Component {
           />
         </div>
       )
-    } else {
+    }
       return (
         <div className='moveon-petitions'>
           <CreatePetitionFormConversation
@@ -395,14 +394,14 @@ class CreatePetition extends React.Component {
           />
         </div>
       )
-    }
   }
 }
 
 CreatePetition.propTypes = {
   dispatch: PropTypes.func,
   initialPetition: PropTypes.object,
-  location: PropTypes.object
+  location: PropTypes.object,
+  params: PropTypes.object
 }
 
 export default withRouter(connect()(CreatePetition))

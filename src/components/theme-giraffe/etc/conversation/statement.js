@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const Statement = ({statementOnChange}) => (
+const Statement = ({ statementOnChange }) => (
   <div>
-    <div className='bubble'>That’s a great title! 👍
+    <div className='bubble'>That’s a great title! <span role='img' aria-label='thumbs up'>👍</span>
     </div>
-    <div className='bubble'>Now for the petition statement, what is the change you want to see? 💬
+    <div className='bubble'>Now for the petition statement, what is the change you want to see? <span role='img' aria-label='chat bubble'>💬</span>
     </div>
     <div className='bubble'>You will get a lot more signers if your message is short and sweet—one or two sentences at most.
     </div>
@@ -22,8 +22,7 @@ const Statement = ({statementOnChange}) => (
 )
 
 Statement.propTypes = {
-  statementOnChange: PropTypes.func,
-  statementValidationError: PropTypes.element
+  statementOnChange: PropTypes.func
 }
 
 export default Statement

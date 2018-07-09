@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const Background = ({backgroundOnChange}) => (
+const Background = ({ backgroundOnChange }) => (
   <div>
     <div className='bubble'>
       Great. Why are you starting this petition?
     </div>
     <div className='bubble'>
-      Adding a paragraph or two about this issue and why it matters to you goes a long way. ✍️
+      Adding a paragraph or two about this issue and why it matters to you goes a long way. <span role='img' aria-label='writing'>✍️</span>
     </div>
     <div className='bubble user'>
       <input
@@ -22,8 +22,7 @@ const Background = ({backgroundOnChange}) => (
 )
 
 Background.propTypes = {
-  backgroundOnChange: PropTypes.func,
-  backgroundValidationError: PropTypes.element
+  backgroundOnChange: PropTypes.func
 }
 
 export default Background
