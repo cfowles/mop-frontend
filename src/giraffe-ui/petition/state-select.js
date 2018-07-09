@@ -22,7 +22,7 @@ export const StateSelect = ({ label, placeholder, onChange, className, onlyState
         ))}
     </select>
     <CaretDownSvg className='select-caret' />
-    {label && <label htmlFor='country'>{label}</label>}
+    {label && <label htmlFor='state'>{label}</label>}
   </div>
 )
 

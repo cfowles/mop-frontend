@@ -14,6 +14,8 @@ export const actionTypes = {
   FETCH_USER_PETITIONS_FAILURE: 'FETCH_USER_PETITIONS_FAILURE'
 }
 
+const ACC_EXISTS_ERROR = 'Error: An account already exists for your email address.'
+
 function checkSuccess(response) {
   if (!response.success) {
     return Promise.reject(response)
@@ -21,7 +23,7 @@ function checkSuccess(response) {
   return response
 }
 
-export function register(fields, successCallback) {
+export function register(fields, { successCallback, isCreatingPetition }) {
   return dispatch => {
     dispatch({
       type: actionTypes.REGISTER_SUBMIT
@@ -45,6 +47,10 @@ export function register(fields, successCallback) {
         if (err && err.fields) {
           formErrors = parseServerErrors(err.fields)
         }
+        if (isCreatingPetition && formErrors[0].message === ACC_EXISTS_ERROR) {
+          formErrors[0].message =
+            'A MoveOn Petitions account already exists for the email address you entered, but the password you entered is not correct. You may either enter a different email address or the correct password.'
+        }
         dispatch({
           type: actionTypes.REGISTER_FAILURE,
           formErrors
@@ -55,7 +61,7 @@ export function register(fields, successCallback) {
 
 // This action is for development when no backend server is running
 // It is configured to be used in the component when API_WRITABLE is false
-export function devLocalRegister(fields, successCallback) {
+export function devLocalRegister(fields, { successCallback }) {
   console.log('Register with', fields) // eslint-disable-line
   return dispatch => {
     dispatch({
@@ -103,7 +109,9 @@ export function loadUserPetitions() {
     dispatch({
       type: actionTypes.FETCH_USER_PETITIONS_REQUEST
     })
-    return fetch(`${Config.API_URI}/user/petitions.json`, { credentials: 'include' })
+    return fetch(`${Config.API_URI}/user/petitions.json`, {
+      credentials: 'include'
+    })
       .then(response => response.json())
       .then(
         json => {

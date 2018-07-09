@@ -6,7 +6,7 @@ import SignatureAddFormComponent from 'Theme/signature-add-form'
 
 import { signPetition, devLocalSignPetition } from '../actions/petitionActions'
 import { actions as sessionActions } from '../actions/sessionActions'
-import { isValidEmail } from '../lib'
+import { isValidEmail, FormTracker } from '../lib'
 import Config from '../config'
 
 class SignatureAddForm extends React.Component {
@@ -35,6 +35,7 @@ class SignatureAddForm extends React.Component {
     }
     this.validationFunction = {
       email: isValidEmail,
+      name: name => !isValidEmail(name), // See https://github.com/MoveOnOrg/mop-frontend/issues/560
       zip: zip => /(\d\D*){5}/.test(zip),
       phone: phone => /(\d\D*){10}/.test(phone) // 10-digits
     }
@@ -43,6 +44,27 @@ class SignatureAddForm extends React.Component {
     this.submit = this.submit.bind(this)
     this.validationError = this.validationError.bind(this)
     this.updateStateFromValue = this.updateStateFromValue.bind(this)
+    this.formTracker = new FormTracker({
+      experiment: (props.query.cohort ? 'signMobilePhones1' : 'current'),
+      formvariant: props.id,
+      variationname: (props.query.cohort === '1' ? 'smsSubScribeOption1' : 'current')
+    })
+  }
+
+  componentDidMount() {
+    const ref = this.form
+    if (ref && this.formTracker.isVisible(ref)) this.formTracker.setForm(ref, ref.id)
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const ref = this.form
+
+    if (ref && this.formTracker.isVisible(ref)) {
+      if (!this.state.hideUntilInteract) this.formTracker.setForm(ref, ref.id)
+      if ((!prevState.phone && this.state.phone) || (!prevState.name && this.state.name) || (!prevState.volunteer && this.state.volunteer)) {
+        this.formTracker.formExpandTracker()
+      }
+    }
   }
 
   getOsdiSignature() {
@@ -136,6 +158,13 @@ class SignatureAddForm extends React.Component {
   updateStateFromValue(field, isCheckbox = false) {
     return event => {
       const value = isCheckbox ? event.target.checked : event.target.value
+      if (this.state[field] !== value) {
+        this.formTracker.updateFormProgress({
+          fieldchanged: field,
+          fieldfocused: field,
+          userInfo: this.props.user
+        })
+      }
       this.setState({
         [field]: value,
         hideUntilInteract: false // show some hidden fields if they are hidden
@@ -151,6 +180,7 @@ class SignatureAddForm extends React.Component {
     } else {
       delete req.phone
     }
+    if (!this.state.volunteer) this.formTracker.formExpandTracker()
     this.setState({ volunteer: vol,
       required: req })
   }
@@ -204,10 +234,14 @@ class SignatureAddForm extends React.Component {
     const signAction = Config.API_WRITABLE ? signPetition : devLocalSignPetition
 
     if (this.formIsValid()) {
+      this.formTracker.submitForm({
+        loginstate: (this.props.user.anonymous ? 0 : 1)
+      })
       const osdiSignature = this.getOsdiSignature()
       return dispatch(signAction(osdiSignature, petition, { redirectOnSuccess: true }))
     }
     this.setState({ hideUntilInteract: false }) // show fields so we can show validation error
+    this.formTracker.validationErrorTracker()
     return false
   }
 
@@ -237,13 +271,13 @@ class SignatureAddForm extends React.Component {
         user={user}
         query={query}
         showAddressFields={showAddressFields}
-        showMobileSignup={showMobileSignup}
+        showMobileSignup={!!showMobileSignup}
         requireAddressFields={requireAddressFields}
         onUnrecognize={() => { dispatch(sessionActions.unRecognize()) }}
         volunteer={this.state.volunteer}
         onClickVolunteer={this.volunteer}
         thirdPartyOptin={this.state.thirdparty_optin}
-        displayMobileOptIn={this.state.phone}
+        displayMobileOptIn={!!this.state.phone}
         country={this.state.country}
         onChangeCountry={event => this.setState({ country: event.target.value })}
         updateStateFromValue={this.updateStateFromValue}
@@ -251,7 +285,7 @@ class SignatureAddForm extends React.Component {
         showOptinWarning={showOptinWarning}
         showOptinCheckbox={showOptinCheckbox}
         setRef={setRef}
-        innerRef={innerRef}
+        innerRef={ref => { this.form = ref; if (innerRef) { innerRef(ref) } }}
         id={id}
         // Don't hide at first if the user doesn't have an address and the petition needs one
         hideUntilInteract={

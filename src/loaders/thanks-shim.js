@@ -5,7 +5,8 @@ import { connect } from 'react-redux'
 import { LoadableThanks } from './index'
 import { actions as petitionActions } from '../actions/petitionActions'
 
-// This component is used in place of the Thanks component,
+// This component is used in place of the Thanks component after a user has signed a petition,
+// for creating a petition, see CreateFinished
 // and handles lazy-loading the actual Thanks component (with LoadableThanks)
 class ThanksShim extends React.Component {
   componentWillMount() {
@@ -26,7 +27,6 @@ class ThanksShim extends React.Component {
         {(this.props.petition ?
           <LoadableThanks
             petition={this.props.petition}
-            user={this.props.user}
             signatureMessage={this.props.signatureMessage}
             fromSource={this.props.location.query.from_source}
           />
@@ -39,7 +39,6 @@ class ThanksShim extends React.Component {
 
 ThanksShim.propTypes = {
   petition: PropTypes.object,
-  user: PropTypes.object,
   signatureMessage: PropTypes.object,
   dispatch: PropTypes.func,
   location: PropTypes.object
@@ -50,7 +49,6 @@ function mapStateToProps(store, ownProps) {
   const petition = pkey && store.petitionStore.petitions[pkey]
   return {
     petition,
-    user: store.userStore,
     searchQuery: {},
     signatureMessage: (petition
                        && petition.petition_id

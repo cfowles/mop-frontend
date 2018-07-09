@@ -3,6 +3,7 @@ import Config from '../config'
 
 export { getStateFullName, getRegions, armedForcesRegions } from './state-abbrev'
 export { countries } from './countries'
+export { FormTracker } from './form-tracker'
 
 export const formatDate = date => {
   const monthAbbr = [
@@ -51,9 +52,13 @@ export const splitIntoSpansJsx = str => (
 export const capitalizeFirstLetter = string =>
   string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
 
-export const parseServerErrors = errors => Object.keys(errors).map(key => ({
-  message: `${capitalizeFirstLetter(key)}: ${capitalizeFirstLetter(errors[key][0])}`
-}))
+export const parseServerErrors = errors => Object.keys(errors).map(key => {
+  let fieldName = key
+  if (fieldName === '__all__') fieldName = 'error'
+  return {
+    message: `${capitalizeFirstLetter(fieldName)}: ${capitalizeFirstLetter(errors[key][0])}`
+  }
+})
 
 export const moNumber2base62 = num => {
   // This converts a number to base62, and will be used to generate petition redirect urls

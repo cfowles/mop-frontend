@@ -80,8 +80,8 @@ class Register extends React.Component {
         fields[phone.name] = phone.value
       }
 
-      const { successCallback, dispatch } = this.props
-      dispatch(registerAction(fields, successCallback))
+      const { successCallback, isCreatingPetition, dispatch } = this.props
+      dispatch(registerAction(fields, { successCallback, isCreatingPetition }))
     }
   }
 
@@ -111,7 +111,8 @@ class Register extends React.Component {
 }
 
 Register.defaultProps = {
-  successCallback: () => appLocation.push('/no_petition.html')
+  successCallback: () => appLocation.push('/no_petition.html'),
+  isCreatingPetition: false
 }
 
 Register.propTypes = {
@@ -121,7 +122,8 @@ Register.propTypes = {
   includeZipAndPhone: PropTypes.bool,
   useLaunchButton: PropTypes.bool,
   useAlternateFields: PropTypes.bool,
-  successCallback: PropTypes.func
+  successCallback: PropTypes.func,
+  isCreatingPetition: PropTypes.bool
 }
 
 function mapStateToProps({ userStore = {}, petitionCreateStore = {} }) {

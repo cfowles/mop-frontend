@@ -5,6 +5,7 @@ import ThanksNextPetition from '../../containers/thanks-next-petition'
 
 const Thanks = ({
   sharedSocially,
+  isCreator,
   renderRawLink,
   renderTwitter,
   renderFacebook,
@@ -13,7 +14,7 @@ const Thanks = ({
   nextPetition
 }) => (
   <div className='row my-4 my-lg-5 mx-1 justify-content-center'>
-    {sharedSocially && <ThanksNextPetition nextPetition={nextPetition} />}
+    {sharedSocially && !isCreator && <ThanksNextPetition nextPetition={nextPetition} />}
     <div className='col-10 col-md-7 petition-thanks__container'>
       <div className='petition-thanks__heading mt-lg-4'>ONE MORE STEP…</div>
       <div className='petition-thanks__content'>
@@ -45,6 +46,7 @@ const Thanks = ({
 
 Thanks.propTypes = {
   sharedSocially: PropTypes.bool,
+  isCreator: PropTypes.bool,
   renderTwitter: PropTypes.func,
   renderFacebook: PropTypes.func,
   renderMail: PropTypes.func,
