@@ -100,8 +100,8 @@ class CreateRegister extends React.Component {
         passwordConfirm: passwordConfirm
       }
 
-      const { successCallback, dispatch } = this.props
-      dispatch(registerAction(fields, successCallback))
+      const { successCallback, isCreatingPetition, dispatch } = this.props
+      dispatch(registerAction(fields, { successCallback, isCreatingPetition }))
     }
   }
 
@@ -163,7 +163,8 @@ CreateRegister.propTypes = {
   formErrors: PropTypes.array,
   dispatch: PropTypes.func,
   successCallback: PropTypes.func,
-  existingUser: PropTypes.bool
+  existingUser: PropTypes.bool,
+  isCreatingPetition: PropTypes.bool
 }
 
 function mapStateToProps({ userStore = {}, petitionCreateStore = {} }) {

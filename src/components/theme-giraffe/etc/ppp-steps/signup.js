@@ -53,6 +53,7 @@ const Signup = ({
                         password={password}
                         passwordConfirm={passwordConfirm}
                         loginToggled={loginToggled}
+                        isCreatingPetition
                         />
                     </div>
                     <div className="col-12">
