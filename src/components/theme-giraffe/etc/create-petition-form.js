@@ -23,6 +23,7 @@ import Tip from './ppp-steps/tip'
 import Signup from './ppp-steps/signup'
 import '../../../../css/create.css'
 
+import Config from '../../../config'
 /* const instructionsByField = {
   title: <Title />,
   // statement: <Statement />,
@@ -115,7 +116,7 @@ const CreatePetitionForm = ({
       <div className='container-fluid ppp-page-heading bg-off-white'>
         <div className='progress-bar bg-azure' style={progressStyles} />
         <div className='background'>
-          <img alt='background' src='../../../local/images/ppp-heading-background.svg' />
+          <img alt='background' src={`${Config.STATIC_ROOT}images/ppp-heading-background.svg`} />
         </div>
         <div className='row'>
           <div className='col-12 heading-title-wrap'>

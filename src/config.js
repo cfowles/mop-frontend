@@ -1,5 +1,5 @@
 export const Config = {
-  API_URI: 'https://broom.moveon.org/api/v1',
+  API_URI: process.env.API_URI,
   API_WRITABLE: process.env.API_WRITABLE,
   API_SIGN_PETITION: process.env.API_SIGN_PETITION || '',
   BASE_APP_PATH: process.env.BASE_APP_PATH,
@@ -15,8 +15,3 @@ export const Config = {
   FAKE_ANALYTICS: process.env.FAKE_ANALYTICS
 }
 export default Config
-
-
-// export API_URI="https://petitions.moveon.org"
-// export BASE_APP_PATH="/path/to/your/local/mop-frontend/local/"
-// export STATIC_ROOT="../../build/"
