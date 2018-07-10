@@ -1,20 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-
-import { loadTargets } from '../actions/createPetitionActions'
-
 import ReviewTargets from '../components/theme-giraffe/etc/ppp-steps/review-targets'
-// import NationalTargetSelect from 'LegacyTheme/form/target-select/national'
-// import StateTargetSelect from 'LegacyTheme/form/target-select/state'
-// import CustomTargetSelect from '../components/theme-legacy/form/target-select/custom'
 import cx from 'classnames'
+import AddSvg from '../giraffe-ui/svgs/add.svg'
 
 export class CreateTargetsReview extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      targetsLoaded: false,
       load: 10,
       filteredTargets: false
     }
@@ -36,17 +30,19 @@ export class CreateTargetsReview extends React.Component {
         const searchText = !props.targetQuery ? false : props.targetQuery.toLowerCase()
         // Filter query
         if (target.label.toLowerCase().indexOf(searchText) !== -1 || !searchText) {
+          const key = i
           return (
-            <label className={cx('checkbox-wrap col-12 review-hidden', props.theme === 'ppp' ? 'bg-ice-blue' : 'bg-white')} key={i} onClick={props.onTargetAdd(target, false)}>
+            <button className={cx('checkbox-wrap col-12 review-hidden', props.theme === 'ppp' ? 'bg-ice-blue' : 'bg-white')} key={key} onClick={props.onTargetAdd(target, false)}>
               <span>
                 {target.label}
               </span>
               <input name={target.value} id={`review-${target.value}`} type='checkbox' title={target.value} />
               <span className='checkmark' />
-            </label>
+            </button>
           )
         }
       }
+      return false
     })
 
     filteredTargets = filteredTargets.filter(target => !!target)
@@ -73,29 +69,34 @@ export class CreateTargetsReview extends React.Component {
   }
 
   renderTargets() {
-    if (!this.state.filteredTargets) return
+    if (!this.state.filteredTargets) return false
     let filterIndex = 1
-    return this.state.filteredTargets.map((target, i) => {
+    return this.state.filteredTargets.map(target => {
       if (filterIndex < this.state.load) {
-        filterIndex++
+        filterIndex += 1
         return target
       }
+      return false
     })
   }
   renderSelectedTargets() {
     if (this.props.targets.length) {
-      return this.props.targets.map((target, i) => (
-        <div className='col-6 selection-pill' key={i}>
-          <div className='pill-inner bg-ice-blue black'>
-            {target.name}
-            <div className='close bg-azure' onClick={this.props.onTargetRemove(target)}>
-              <span className='bg-white' />
-              <span className='bg-white' />
+      return this.props.targets.map((target, i) => {
+        const key = i
+        return (
+          <div className='col-6 selection-pill' key={key}>
+            <div className='pill-inner bg-ice-blue black'>
+              {target.name}
+              <div className='close bg-azure' onClick={this.props.onTargetRemove(target)}>
+                <span className='bg-white' />
+                <span className='bg-white' />
+              </div>
             </div>
           </div>
-        </div>
-        ))
+        )
+      })
     }
+    return false
   }
   renderCustomTarget() {
     if (this.props.targetQuery && this.state.filteredTargets.length === 0) {
@@ -106,6 +107,7 @@ export class CreateTargetsReview extends React.Component {
         </div>
       )
     }
+    return false
   }
 
   render() {
@@ -135,10 +137,20 @@ CreateTargetsReview.propTypes = {
   setRef: PropTypes.func,
   onTargetAdd: PropTypes.func,
   onTargetRemove: PropTypes.func,
-  dispatch: PropTypes.func,
   // eslint-disable-next-line
   customInputs: PropTypes.object,
-  onChangeCustomInputs: PropTypes.func
+  updateStateFromValue: PropTypes.func,
+  step: PropTypes.number,
+  nextStep: PropTypes.func,
+  toggleOpen: PropTypes.func,
+  targets: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.array
+  ]),
+  targetQuery: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.string
+  ])
 }
 function mapStateToProps(store) {
   return {

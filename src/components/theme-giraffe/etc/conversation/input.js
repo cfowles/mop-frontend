@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ReactTimeout from 'react-timeout'
 import { conversation } from './conversation'
 import Errors from './errors'
 import { InputMaterial } from 'GiraffeUI/input-material'
@@ -13,16 +12,17 @@ const ConversationalInput = ({
   toggleOpen,
   getStateValue
 }) => {
-  let currentIndex = getStateValue('currentIndex'),
-  errors = getStateValue('errors'),
-  title = getStateValue('title'),
-  summary = getStateValue('summary'),
-  description = getStateValue('description'),
-  email = getStateValue('email')
+  const currentIndex = getStateValue('currentIndex')
+  const errors = getStateValue('errors')
+  const title = getStateValue('title')
+  const summary = getStateValue('summary')
+  const description = getStateValue('description')
+  const email = getStateValue('email')
 
-  let inputType = conversation[currentIndex].hasOwnProperty('input') ? conversation[currentIndex].input.type : ''
-  const inputPlaceholder = conversation[currentIndex].hasOwnProperty('input') ? conversation[currentIndex].content : ''
-  const charLimit = conversation[currentIndex].hasOwnProperty('input') ? conversation[currentIndex].input.charLimit : ''
+  const hasInput = Object.prototype.hasOwnProperty.call(conversation[currentIndex], 'input')
+  let inputType = hasInput ? conversation[currentIndex].input.type : ''
+  const inputPlaceholder = hasInput ? conversation[currentIndex].content : ''
+  const charLimit = hasInput ? conversation[currentIndex].input.charLimit : ''
 
   let stateRef
   if (inputType === 'email') stateRef = email
@@ -89,7 +89,12 @@ const ConversationalInput = ({
 ConversationalInput.propTypes = {
   toggleOpen: PropTypes.func,
   updateStateFromValue: PropTypes.func,
-  section: PropTypes.number
+  saveInput: PropTypes.func,
+  targetQuery: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.string
+  ]),
+  getStateValue: PropTypes.func
 }
 
 export default ConversationalInput

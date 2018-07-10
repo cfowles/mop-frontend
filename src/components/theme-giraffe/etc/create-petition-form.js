@@ -153,7 +153,15 @@ CreatePetitionForm.propTypes = {
   publish: PropTypes.func,
   onTargetAdd: PropTypes.func,
   onTargetRemove: PropTypes.func,
-  onChangeCustomInputs: PropTypes.func
+  onChangeCustomInputs: PropTypes.func,
+  targets: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.array
+  ]),
+  targetQuery: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.string
+  ])
 }
 
 export default CreatePetitionForm

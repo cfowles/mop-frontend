@@ -12,9 +12,7 @@ const Errors = ({
 
 
 Errors.propTypes = {
-    toggleOpen: PropTypes.func,
-    updateStateFromValue: PropTypes.func,
-    section: PropTypes.number
+    errors: PropTypes.array
 }
 
 export default Errors

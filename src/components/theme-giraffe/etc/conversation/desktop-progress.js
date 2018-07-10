@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import cx from 'classnames'
 
 const DesktopProgress = ({ getStateValue }) => {
@@ -52,6 +53,9 @@ return (
     </div>
   </div>
 )
+}
+DesktopProgress.propTypes = {
+  getStateValue: PropTypes.func
 }
 
 export default DesktopProgress

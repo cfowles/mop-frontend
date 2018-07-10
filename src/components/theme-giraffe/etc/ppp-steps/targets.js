@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import { InputMaterial } from 'GiraffeUI/input-material'
 import Lightbulb from '../../../../giraffe-ui/svgs/lightbulb.svg'
 
@@ -11,7 +10,6 @@ nextStep,
 renderTargets,
 renderSelectedTargets,
 targetsLoaded,
-updateStateFromValue,
 getStateValue,
 loadMoreTargets,
 filteredTargets,
@@ -74,11 +72,16 @@ Targets.propTypes = {
   nextStep: PropTypes.func,
   renderTargets: PropTypes.func,
   renderSelectedTargets: PropTypes.func,
-  updateStateFromValue: PropTypes.func,
   getStateValue: PropTypes.func,
   loadMoreTargets: PropTypes.func,
   updateQuery: PropTypes.func,
-  renderCustomTarget: PropTypes.func
+  renderCustomTarget: PropTypes.func,
+  targetsLoaded: PropTypes.bool,
+  filteredTargets: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.array
+  ]),
+  load: PropTypes.number
 }
 
 export default Targets

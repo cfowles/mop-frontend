@@ -26,10 +26,10 @@ const Summary = ({ toggleOpen, updateStateFromValue, getStateValue, nextStep }) 
 )
 
 Summary.propTypes = {
-	toggleOpen: PropTypes.func,
-	updateStateFromValue: PropTypes.func,
-	getStateValue: PropTypes.func,
-	nextStep: PropTypes.func
+  toggleOpen: PropTypes.func,
+  updateStateFromValue: PropTypes.func,
+  getStateValue: PropTypes.func,
+  nextStep: PropTypes.func
 }
 
 export default Summary

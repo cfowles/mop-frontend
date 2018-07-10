@@ -34,8 +34,6 @@ let CHAT_END
 class CreatePetition extends React.Component {
   constructor(props) {
     super(props)
-    const { location } = this.props
-    const query = (location && location.query) || {}
     this.state = {
       // User Data
       name: false,
@@ -106,7 +104,7 @@ class CreatePetition extends React.Component {
     // --------------------
     // TARGETS
     // --------------------
-    onTargetAdd(target, { isCustom, callback } = { isCustom: false, callback: () => { } }) {
+    onTargetAdd(target, { isCustom } = { isCustom: false }) {
       return () => {
         if (!isCustom && !target.label) return // target is invalid
         if (this.state.target) {
@@ -143,6 +141,33 @@ class CreatePetition extends React.Component {
   // --------------------
   // SHARED
   // --------------------
+  getSectionLengths() { // Get the length of each section in the conversation script to control how many bubbles are displayed before the user is given an input prompt
+    const sections = []
+    const sectionLengths = []
+    let count = 0
+    conversation.forEach(el => {
+      if (Object.prototype.hasOwnProperty.call(el, 'section')) sections.push(el.section)
+    })
+    for (let i = 0; i < sections[sections.length - 1]; i += 1) {
+      /* eslint-disable no-loop-func */
+      sections.forEach(el => {
+        if (el === i) count += 1
+      })
+      sectionLengths.push(count)
+      count = 0
+    }
+    this.setState(prevState => {
+      const newState = prevState.sectionLengths.concat(sectionLengths)
+      return { sectionLengths: newState }
+    })
+  }
+
+  getStateValue(field) {
+    // some check? Need to return undefined right now.
+    // if (this.state[field])
+    return this.state[field]
+  }
+
   updateStateFromValue(field, isCheckbox = false) {
     return event => {
       const value = isCheckbox ? event.target.checked : event.target.value
@@ -150,12 +175,6 @@ class CreatePetition extends React.Component {
         [field]: value
       })
     }
-  }
-
-  getStateValue(field) {
-    // some check? Need to return undefined right now.
-    // if (this.state[field])
-    return this.state[field]
   }
 
   toggleOpen(element, id = 0) {
@@ -192,26 +211,6 @@ class CreatePetition extends React.Component {
   // --------------------
   // CONVERSATION
   // --------------------
-  getSectionLengths() { // Get the length of each section in the conversation script to control how many bubbles are displayed before the user is given an input prompt
-    let sections = [],
-  sectionLengths = [],
-  count = 0
-    conversation.map(el => {
-      if (el.hasOwnProperty('section')) sections.push(el.section)
-    })
-    for (let i = 0; i < sections[sections.length - 1]; i++) {
-      sections.map((el, ind) => {
-        if (el === i) count++
-      })
-      sectionLengths.push(count)
-      count = 0
-    }
-    this.setState(prevState => {
-      const newState = prevState.sectionLengths.concat(sectionLengths)
-      return { sectionLengths: newState }
-    })
-  }
-
   nextSection() {
     this.setState(prevState => {
       const newSection = prevState.section + 1
@@ -278,6 +277,7 @@ class CreatePetition extends React.Component {
     }
   }
 
+  /* eslint-disable class-methods-use-this */
   scrollToBottom() {
     // browser bug {behavior: "smooth",block: "end"}
     if (CHAT_END) CHAT_END.scrollIntoView()
@@ -311,10 +311,10 @@ class CreatePetition extends React.Component {
   formIsValid() {
     const { title, summary, target, description } = this.state
     const errors = []
-    if (!title) errors.push(ERRORS.name)
-    if (!summary) errors.push(ERRORS.text_statement)
-    if (!target) errors.push(ERRORS.target)
-    if (!description) errors.push(ERRORS.text_about)
+    if (!title) errors.push(CONVO_ERRORS.name)
+    if (!summary) errors.push(CONVO_ERRORS.text_statement)
+    if (!target) errors.push(CONVO_ERRORS.target)
+    if (!description) errors.push(CONVO_ERRORS.text_about)
     if (errors.length) {
       this.setState({ errors })
       return false
@@ -325,7 +325,7 @@ class CreatePetition extends React.Component {
   convoInputIsValid(inputType) {
     const errors = []
     if (!this.state[inputType]) errors.push(CONVO_ERRORS.empty[inputType])
-    if (CONVO_ERRORS.maxChar.hasOwnProperty(inputType)) {
+    if (Object.prototype.hasOwnProperty.call(CONVO_ERRORS.maxChar, inputType)) {
       if (this.state[inputType].length > CONVO_ERRORS.maxChar[inputType]) errors.push(`Please use ${CONVO_ERRORS.maxChar[inputType]} characters or less in your ${inputType}`)
     }
     if (inputType === 'email' && this.state.email) {
@@ -399,8 +399,6 @@ class CreatePetition extends React.Component {
 
 CreatePetition.propTypes = {
   dispatch: PropTypes.func,
-  initialPetition: PropTypes.object,
-  location: PropTypes.object,
   params: PropTypes.object
 }
 

@@ -75,7 +75,9 @@ const Share = ({
 }
 
 Share.propTypes = {
-    toggleOpen: PropTypes.func
+    toggleOpen: PropTypes.func,
+    shareButtonsToggled: PropTypes.bool,
+    step: PropTypes.number
 }
 
 export default Share

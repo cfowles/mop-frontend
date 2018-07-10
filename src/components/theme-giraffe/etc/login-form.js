@@ -1,11 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router'
-
 import { InputMaterial } from 'GiraffeUI/input-material'
-import { Submit } from 'GiraffeUI/button'
 
-const LoginForm = ({ setRef, errorList, handleSubmit, isSubmitting, handleLoginSubmit, updateStateFromValue, type, getStateValue }) => (
+const LoginForm = ({
+  errorList,
+  handleLoginSubmit,
+  updateStateFromValue,
+  type,
+  getStateValue
+}) => (
   <form onSubmit={handleLoginSubmit}>
     <div className='row'>
       <InputMaterial
@@ -43,9 +46,10 @@ const LoginForm = ({ setRef, errorList, handleSubmit, isSubmitting, handleLoginS
 
 LoginForm.propTypes = {
   errorList: PropTypes.func,
-  handleSubmit: PropTypes.func,
-  setRef: PropTypes.func,
-  isSubmitting: PropTypes.bool
+  handleLoginSubmit: PropTypes.func,
+  updateStateFromValue: PropTypes.func,
+  type: PropTypes.string,
+  getStateValue: PropTypes.func
 }
 
 export default LoginForm

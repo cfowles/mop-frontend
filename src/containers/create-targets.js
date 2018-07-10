@@ -39,17 +39,19 @@ export class CreateTargets extends React.Component {
         const searchText = props.targetQuery === false ? false : props.targetQuery.toLowerCase()
         // Filter query
         if (target.label.toLowerCase().indexOf(searchText) !== -1 || !searchText) {
+          const key = i
           return (
-            <label className={cx('checkbox-wrap col-12 review-hidden', props.theme === 'ppp' ? 'bg-ice-blue' : 'bg-white')} key={i} onClick={props.onTargetAdd(target, false)}>
+            <button className={cx('checkbox-wrap col-12 review-hidden', props.theme === 'ppp' ? 'bg-ice-blue' : 'bg-white')} key={key} onClick={props.onTargetAdd(target, false)}>
               <span>
                 {target.label}
               </span>
               <input name={target.value} id={target.value} type='checkbox' title={target.value} />
               <span className='checkmark' />
-            </label>
+            </button>
           )
         }
       }
+      return false
     })
 
     filteredTargets = filteredTargets.filter(target => !!target)
@@ -89,20 +91,23 @@ export class CreateTargets extends React.Component {
   }
 
   renderTargets() {
-    if (!this.state.filteredTargets) return
+    if (!this.state.filteredTargets) return false
     let filterIndex = 1
-    return this.state.filteredTargets.map((target, i) => {
+    return this.state.filteredTargets.map(target => {
       if (filterIndex < this.state.load) {
-        filterIndex++
+        filterIndex += 1
         return target
       }
+      return false
     })
   }
 
   renderSelectedTargets() {
-      if (this.props.targets.length) {
-        return this.props.targets.map((target, i) => (
-          <div className='col-6 selection-pill' key={i}>
+    if (this.props.targets.length) {
+      return this.props.targets.map((target, i) => {
+        const key = i
+        return (
+          <div className='col-6 selection-pill' key={key}>
             <div className='pill-inner bg-ice-blue black'>
               {target.name}
               <div className='close bg-azure' onClick={this.props.onTargetRemove(target)}>
@@ -111,23 +116,26 @@ export class CreateTargets extends React.Component {
               </div>
             </div>
           </div>
-          ))
-      }
+        )
+      })
     }
+    return false
+  }
 
   renderCustomTarget() {
-      if (this.props.targetQuery && this.state.filteredTargets.length === 0) {
-        return (
-          <div className='add-target bg-ice-blue' onClick={this.props.onTargetAdd({ target_type: 'custom', name: this.props.targetQuery, email: '', title: '' }, { isCustom: true })}>
-            Add “{this.props.targetQuery}” as your target
-            <div className='add'><AddSvg /></div>
-          </div>
-        )
-      }
+    if (this.props.targetQuery && this.state.filteredTargets.length === 0) {
+      return (
+        <div className='add-target bg-ice-blue' onClick={this.props.onTargetAdd({ target_type: 'custom', name: this.props.targetQuery, email: '', title: '' }, { isCustom: true })}>
+          Add “{this.props.targetQuery}” as your target
+          <div className='add'><AddSvg /></div>
+        </div>
+      )
     }
+    return false
+  }
 
   render() {
-    const { setSelected, setRef, theme } = this.props
+    const { theme } = this.props
 
     if (theme === 'ppp') {
       return (
@@ -170,14 +178,25 @@ export class CreateTargets extends React.Component {
 }
 
 CreateTargets.propTypes = {
-  setSelected: PropTypes.func,
-  setRef: PropTypes.func,
   onTargetAdd: PropTypes.func,
   onTargetRemove: PropTypes.func,
   dispatch: PropTypes.func,
   // eslint-disable-next-line
   customInputs: PropTypes.object,
-  updateStateFromValue: PropTypes.func
+  updateStateFromValue: PropTypes.func,
+  theme: PropTypes.string,
+  saveInput: PropTypes.func,
+  getStateValue: PropTypes.func,
+  nextStep: PropTypes.func,
+  toggleOpen: PropTypes.func,
+  targets: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.array
+  ]),
+  targetQuery: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.string
+  ])
 }
 function mapStateToProps(store) {
   return {

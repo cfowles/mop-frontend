@@ -4,7 +4,11 @@ import { InputMaterial } from 'GiraffeUI/input-material'
 import cx from 'classnames'
 import Lightbulb from '../../../../giraffe-ui/svgs/lightbulb.svg'
 
-const Title = ({ toggleOpen, updateStateFromValue, getStateValue }) => (
+const Title = ({
+  toggleOpen,
+  updateStateFromValue,
+  getStateValue
+}) => (
   <div className={cx('title', 'ppp-step', 'container', getStateValue('step') === 1 ? 'active' : '')}>
     <div className='row ppp-item'>
       <div className='col-12'>
@@ -33,7 +37,8 @@ const Title = ({ toggleOpen, updateStateFromValue, getStateValue }) => (
 
 Title.propTypes = {
     toggleOpen: PropTypes.func,
-    updateStateFromValue: PropTypes.func
+    updateStateFromValue: PropTypes.func,
+    getStateValue: PropTypes.func
 }
 
 export default Title

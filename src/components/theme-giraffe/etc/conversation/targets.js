@@ -1,16 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import { InputMaterial } from 'GiraffeUI/input-material'
 import cx from 'classnames'
 
 const ConvoTargets = ({
-toggleOpen,
-nextStep,
 renderTargets,
-renderSelectedTargets,
-targetsLoaded,
-updateStateFromValue,
 getStateValue,
 loadMoreTargets,
 filteredTargets,
@@ -27,17 +21,17 @@ const loadMoreButton = (
   </div>
 )
 
-const customTarget = filteredTargets.length > 0 ? '' : (
-  <div className='add-target bg-ice-blue'>
-Add “{getStateValue('targetQuery')}” as target
-    <div className='add' />
-  </div>
-)
+// const customTarget = filteredTargets.length > 0 ? '' : (
+//   <div className='add-target bg-ice-blue'>
+// Add “{getStateValue('targetQuery')}” as target
+//     <div className='add' />
+//   </div>
+// )
 
 return (
-  <div className={cx('targets container bg-azure', currentIndex === 19 ? 'toggled' : '')}>
+  <div className={cx('targets container bg-azure', currentIndex === 20 ? 'toggled' : '')}>
     <div className='row'>
-      <div className={cx('targets-list', currentIndex === 19 ? 'toggled' : '')}>
+      <div className={cx('targets-list', currentIndex === 20 ? 'toggled' : '')}>
         {renderTargets()}
         {load < filteredTargets.length ? loadMoreButton : ''}
         <div className='col-12'>
@@ -61,7 +55,17 @@ return (
 }
 
 ConvoTargets.propTypes = {
-toggleOpen: PropTypes.func
+  renderTargets: PropTypes.func,
+  getStateValue: PropTypes.func,
+  loadMoreTargets: PropTypes.func,
+  filteredTargets: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.bool
+  ]),
+  load: PropTypes.number,
+  updateQuery: PropTypes.func,
+  renderCustomTarget: PropTypes.func,
+  saveInput: PropTypes.func
 }
 
 export default ConvoTargets

@@ -1,14 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-
-import RegisterForm from 'Theme/etc/register-form'
-import LoginForm from 'Theme/etc/login-form'
-
 import Config from '../config'
-import { register, devLocalRegister } from '../actions/accountActions'
-import { appLocation } from '../routes'
+import { register, devLocalRegister, login } from '../actions/accountActions'
 import { isValidEmail } from '../lib'
+import LoginForm from '../components/theme-giraffe/etc/login-form'
+import RegisterForm from '../components/theme-giraffe/etc/register-form'
 
 class CreateRegister extends React.Component {
   constructor(props) {
@@ -88,9 +85,8 @@ class CreateRegister extends React.Component {
   handleSubmit(event) {
     event.preventDefault()
     const registerAction = Config.API_WRITABLE ? register : devLocalRegister
-    console.log(event, this)
 
-    const { name, email, password, passwordConfirm, zip, phone } = this.props
+    const { name, email, password, passwordConfirm, zip } = this.props
     if (this.validateForm()) {
       const fields = {
         name,
@@ -108,9 +104,8 @@ class CreateRegister extends React.Component {
   /* Login Form */
   handleLoginSubmit(event) {
     event.preventDefault()
-    console.log(event, this)
 
-    const { email, password } = this.props
+    // const { email, password } = this.props
     if (this.validateLoginForm()) {
       const fields = {
         email: this.email.value,
@@ -118,7 +113,7 @@ class CreateRegister extends React.Component {
       }
       const { dispatch } = this.props
       const successCallback = this.props.successCallback(true)
-      dispatch(accountActions.login(fields, successCallback))
+      dispatch(login(fields, successCallback))
     }
   }
 
@@ -165,8 +160,31 @@ CreateRegister.propTypes = {
   formErrors: PropTypes.array,
   dispatch: PropTypes.func,
   successCallback: PropTypes.func,
-  existingUser: PropTypes.bool,
-  isCreatingPetition: PropTypes.bool
+  isCreatingPetition: PropTypes.bool,
+  loginToggled: PropTypes.bool,
+  updateStateFromValue: PropTypes.func,
+  type: PropTypes.string,
+  getStateValue: PropTypes.func,
+  name: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.string
+  ]),
+  email: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.string
+  ]),
+  password: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.string
+  ]),
+  passwordConfirm: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.string
+  ]),
+  zip: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.string
+  ])
 }
 
 function mapStateToProps({ userStore = {}, petitionCreateStore = {} }) {

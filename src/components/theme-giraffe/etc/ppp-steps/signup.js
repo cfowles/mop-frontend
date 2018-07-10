@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { devLocalRegister } from '../../../../actions/accountActions'
 import CreateRegister from '../../../../containers/create-register-form'
 import cx from 'classnames'
 
@@ -11,12 +10,12 @@ const Signup = ({
     getStateValue,
     type
 }) => {
-    let name = getStateValue('name'),
-        email = getStateValue('email'),
-        zip = getStateValue('zip'),
-        password = getStateValue('password'),
-        passwordConfirm = getStateValue('passwordConfirm'),
-        loginToggled = getStateValue('loginToggled')
+    const name = getStateValue('name')
+    const email = getStateValue('email')
+    const zip = getStateValue('zip')
+    const password = getStateValue('password')
+    const passwordConfirm = getStateValue('passwordConfirm')
+    const loginToggled = getStateValue('loginToggled')
 
     const defaults = {
       title: 'Your petition is important. Let’s make sure you don’t lose progress.',
@@ -71,8 +70,8 @@ Signup.propTypes = {
     afterSignup: PropTypes.func,
     toggleOpen: PropTypes.func,
     updateStateFromValue: PropTypes.func,
-    user: PropTypes.object,
-    onSubmit: PropTypes.func
+    getStateValue: PropTypes.func,
+    type: PropTypes.string
 }
 
 export default Signup

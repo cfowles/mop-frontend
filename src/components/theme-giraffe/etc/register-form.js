@@ -2,9 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { InputMaterial } from 'GiraffeUI/input-material'
-import { Submit } from 'GiraffeUI/button'
 
-const RegisterForm = ({ errorList, handleSubmit, getStateValue, updateStateFromValue, type }) => (
+const RegisterForm = ({
+  errorList,
+  handleSubmit,
+  getStateValue,
+  updateStateFromValue,
+  type
+}) => (
   <form onSubmit={handleSubmit}>
     <div className='row'>
       <InputMaterial
@@ -62,8 +67,9 @@ const RegisterForm = ({ errorList, handleSubmit, getStateValue, updateStateFromV
 RegisterForm.propTypes = {
   errorList: PropTypes.func,
   handleSubmit: PropTypes.func,
-  setRef: PropTypes.func,
-  isSubmitting: PropTypes.bool
+  getStateValue: PropTypes.func,
+  updateStateFromValue: PropTypes.func,
+  type: PropTypes.string
 }
 
 export default RegisterForm

@@ -58,7 +58,6 @@ export const InputMaterial = ({
     </div>
   )
 }
-// const helperClasses = titleLength > 50 ? 'helper-text invalid' : 'helper-text';
 
 InputMaterial.defaultProps = { type: 'text' }
 
@@ -69,7 +68,14 @@ InputMaterial.propTypes = {
   className: PropTypes.string,
   label: PropTypes.string,
   helperText: PropTypes.string,
-  charLimit: PropTypes.number,
-  stateRef: PropTypes.func,
+  charLimit: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
+  stateRef: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.bool
+  ]),
   onChange: PropTypes.func
 }

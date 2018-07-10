@@ -51,7 +51,18 @@ const ReviewTargets = ({
 
 ReviewTargets.propTypes = {
     renderTargets: PropTypes.func,
-    renderSelectedTargets: PropTypes.func
+    renderSelectedTargets: PropTypes.func,
+    targetQuery: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.string
+    ]),
+    updateQuery: PropTypes.func,
+    load: PropTypes.number,
+    filteredTargets: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.array
+    ]),
+    loadMoreTargets: PropTypes.func
 }
 
 export default ReviewTargets

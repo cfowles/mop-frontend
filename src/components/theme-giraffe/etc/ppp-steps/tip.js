@@ -9,14 +9,21 @@ const Tip = ({
 }) => {
     const currentTip = tips[getStateValue('step') - 1]
 
-    const description = currentTip.description.map((paragraph, index) => <p key={index}>{paragraph}</p>)
+    const description = currentTip.description.map((paragraph, index) => {
+      const key = index
+      return <p key={key}>{paragraph}</p>
+    })
     const examples = currentTip.examples.map((example, index) => {
-        const paragraphs = example.map((paragraph, subIndex) => <p key={subIndex}>{paragraph}</p>)
-        return (
-          <div className='example col-12' key={index}>
-            <h3 className='bg-azure'>Example #{index + 1}</h3>
-            {paragraphs}
-          </div>)
+      const key = index
+      const paragraphs = example.map((paragraph, subIndex) => {
+        const subKey = subIndex
+        return <p key={subKey}>{paragraph}</p>
+      })
+      return (
+        <div className='example col-12' key={key}>
+          <h3 className='bg-azure'>Example #{index + 1}</h3>
+          {paragraphs}
+        </div>)
     })
 
     const classes = getStateValue('tipModalToggled') ? 'tip-modal container bg-white toggled' : 'tip-modal container bg-white'
@@ -45,7 +52,7 @@ const Tip = ({
 
 Tip.propTypes = {
     toggleOpen: PropTypes.func,
-    step: PropTypes.number
+    getStateValue: PropTypes.func
 }
 
 export default Tip

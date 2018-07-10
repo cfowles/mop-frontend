@@ -66,7 +66,6 @@ class Register extends React.Component {
   handleSubmit(event) {
     event.preventDefault()
     const registerAction = Config.API_WRITABLE ? register : devLocalRegister
-    console.log(this);
     const { name, email, password, passwordConfirm, zip, phone } = this
     if (this.validateForm()) {
       const fields = {

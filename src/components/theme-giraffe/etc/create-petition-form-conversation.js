@@ -23,12 +23,6 @@ import CreateTargets from '../../../containers/create-targets'
 import cx from 'classnames'
 import '../../../../css/create.css'
 
-/* const instructionsByField = {
-  title: <TitleTip />,
-  statement: <StatementTip />,
-  about: <About />
-} */
-
 const CreatePetitionFormConversation = ({
   updateStateFromValue,
   getStateValue,
@@ -47,7 +41,7 @@ const CreatePetitionFormConversation = ({
   // toggleConvoTip
 }) => {
   const convoReviewToggled = getStateValue('convoReviewToggled')
-  const bubbles = conversation.map((b, i) => {
+  const bubbles = conversation.map(b => {
     let innerClasses = 'inner'
     let userInput
     if (b.type === 'input') {
@@ -63,8 +57,8 @@ const CreatePetitionFormConversation = ({
     return (
       <ChatBubble
         bubble={b}
-        key={i}
-        bubbleId={i}
+        key={b.id}
+        bubbleId={b.id}
         innerClasses={innerClasses}
         userInput={userInput}
         toggleOpen={toggleOpen}
@@ -120,7 +114,6 @@ const CreatePetitionFormConversation = ({
     updateStateFromValue={updateStateFromValue}
     type='conversational'
   />)
-
   return (
     <div>
       <div id='conversational-top'>
@@ -133,7 +126,7 @@ const CreatePetitionFormConversation = ({
           {input}
           <div
             id='chatend'
-            style={{ float: 'left', clear: 'both', display: getStateValue('currentIndex') > 20 ? 'none' : 'block', height: '0', marginTop: getStateValue('currentIndex') === 19 || getStateValue('currentIndex') === 18 ? '210px' : '90px', background: 'black', width: '100px' }}
+            style={{ float: 'left', clear: 'both', display: getStateValue('currentIndex') > 21 ? 'none' : 'block', height: '0', marginTop: getStateValue('currentIndex') === 20 || getStateValue('currentIndex') === 18 ? '210px' : '90px', background: 'black', width: '100px' }}
             className='chat-end'
           />
         </div>
@@ -157,7 +150,15 @@ CreatePetitionFormConversation.propTypes = {
   onChangeCustomInputs: PropTypes.func,
   publish: PropTypes.func,
   saveInput: PropTypes.func,
-  toggleEditBubble: PropTypes.func
+  toggleEditBubble: PropTypes.func,
+  targets: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.array
+  ]),
+  targetQuery: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.string
+  ])
 }
 
 export default CreatePetitionFormConversation

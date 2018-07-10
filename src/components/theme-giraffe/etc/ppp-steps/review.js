@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { InputMaterial } from 'GiraffeUI/input-material'
 import CreateTargetsReview from '../../../../containers/create-targets-review'
 import cx from 'classnames'
-import Lightbulb from '../../../../giraffe-ui/svgs/lightbulb.svg'
 import Edit from '../../../../giraffe-ui/svgs/edit.svg'
 import Check from '../../../../giraffe-ui/svgs/check.svg'
 
@@ -14,29 +13,27 @@ const Review = ({
     nextStep,
     onTargetAdd,
     onTargetRemove,
-    theme,
     getStateValue,
     targets
 }) => {
-    let title = getStateValue('title'),
-        summary = getStateValue('summary'),
-        description = getStateValue('description'),
-        editPetition = getStateValue('editPetition')
+    const title = getStateValue('title')
+    const summary = getStateValue('summary')
+    const description = getStateValue('description')
+    const editPetition = getStateValue('editPetition')
 
     const targetsArray = [
       <span key='0'>To be delivered to </span>
     ]
     if (targets.length) {
-        targets.map((target, i) => {
+        targets.forEach((target, i) => {
             if (targets.length === 1) {
-                targetsArray.push(<span className='target' key={i + 1}>{target.label}<span className='no-underline'>.</span></span>)
+                targetsArray.push(<span className='target' key={target.value}>{target.label}<span className='no-underline'>.</span></span>)
             } else if (targets.length < 4) {
-                if (i < targets.length - 1) targetsArray.push(<span className='target' key={i + 1}>{target.label}<span className='no-underline'>,&nbsp;</span></span>)
-                if (i === targets.length - 1) targetsArray.push(<span className='target' key={i + 1}><span className='no-underline'>and&nbsp;</span>{target.label}<span className='no-underline'>.</span></span>)
+                if (i < targets.length - 1) targetsArray.push(<span className='target' key={target.value}>{target.label}<span className='no-underline'>,&nbsp;</span></span>)
+                if (i === targets.length - 1) targetsArray.push(<span className='target' key={target.value}><span className='no-underline'>and&nbsp;</span>{target.label}<span className='no-underline'>.</span></span>)
             } else if (targets.length >= 4) {
-                if (i < 3) targetsArray.push(<span className='target' key={i + 1}>{target.label}<span className='no-underline'>,&nbsp;</span></span>)
-                if (i === 3) targetsArray.push(<span className='target' key={i + 1}><span className='no-underline'>and&nbsp;</span>{targets.length - (i)} more<span className='no-underline'>.</span></span>)
-                if (i > 3) return
+                if (i < 3) targetsArray.push(<span className='target' key={target.value}>{target.label}<span className='no-underline'>,&nbsp;</span></span>)
+                if (i === 3) targetsArray.push(<span className='target' key={target.value}><span className='no-underline'>and&nbsp;</span>{targets.length - (i)} more<span className='no-underline'>.</span></span>)
             }
         })
     }
@@ -131,7 +128,15 @@ const Review = ({
 Review.propTypes = {
     toggleOpen: PropTypes.func,
     updateStateFromValue: PropTypes.func,
-    nextStep: PropTypes.func
+    nextStep: PropTypes.func,
+    onChangeCustomInputs: PropTypes.func,
+    onTargetAdd: PropTypes.func,
+    onTargetRemove: PropTypes.func,
+    getStateValue: PropTypes.func,
+    targets: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.array
+    ])
 }
 
 export default Review

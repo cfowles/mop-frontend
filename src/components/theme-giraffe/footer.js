@@ -13,7 +13,6 @@ import {
 
 import CaretRightSvg from 'GiraffeUI/svgs/caret-right.svg'
 import DocumentSvg from 'GiraffeUI/svgs/document-add.svg'
-import Edit from 'GiraffeUI/svgs/edit.svg'
 
 export const Footer = ({ entity }) => (
   <MoFooter>

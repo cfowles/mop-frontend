@@ -133,13 +133,13 @@ hr {
     -ms-user-select: none;
     user-select: none;
     font-weight: initial;
-    height: 50px;
+    min-height: 50px;
     background-color: $ice-blue;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     //padding-left: 65px;
-    padding-left: 20px;
+    padding-left: 10px;
     padding-right: 10px;
     margin-left: 15px;
     margin-right: 15px;
@@ -1199,6 +1199,7 @@ hr {
             position: relative;
             transition: max-height .5s ease-in-out;
             max-height: 0;
+            overflow: hidden;
             &.user-response {
                 border-radius: 20px 20px 0px 20px; //background-color: $azure;
                 background-color: #f6f6f6;
@@ -1265,6 +1266,7 @@ hr {
                 margin-top: 20px;
                 transition: max-height .5s ease-in-out;
                 max-height: 500px;
+                overflow: visible;
                 &.user-response span {
                     transform: scale(1);
                     transition: transform .3s cubic-bezier(0.61, 0.26, 0.49, 1.25) .7s;
@@ -1458,7 +1460,7 @@ hr {
                 background-color: white;
                 width: 3.5px;
             }
-            label.checkbox-wrap {
+            .checkbox-wrap {
                 position: relative;
                 padding-left: 35px;
                 margin-bottom: 5px;
@@ -1469,12 +1471,12 @@ hr {
                 -ms-user-select: none;
                 user-select: none;
                 font-weight: initial;
-                height: 50px;
+                min-height: 50px;
                 max-height: 50px;
                 display: flex;
                 justify-content: flex-start;
                 align-items: center;
-                padding-left: 65px;
+                padding-left: 10px;
                 padding-right: 10px;
                 border-radius: 3px;
                 input {
@@ -1603,6 +1605,7 @@ hr {
         }
     }
     .convo-review-wrap {
+        padding-top: 50px;
         display: none;
         &.toggled {
             display: block;
