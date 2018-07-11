@@ -23,6 +23,7 @@ var envVars = {
   'ONLY_PROD_ROUTES': process.env.ONLY_PROD_ROUTES || '',
   'SESSION_COOKIE_NAME': process.env.SESSION_COOKIE_NAME || 'SO_SESSION',
   'STATIC_ROOT': process.env.STATIC_ROOT || '/local/',
+  'THEME': THEME,
   'TRACK_SHARE_URL': process.env.TRACK_SHARE_URL || '',
   'USE_HASH_BROWSING': process.env.USE_HASH_BROWSING || false,
   'PROD': process.env.PROD,
@@ -123,6 +124,14 @@ var config = {
       {
         test: /\.css$/,
         use: [ 'style-loader', 'css-loader' ]
+      },
+      {
+        test: /\.scss$/,
+        use: [
+            "style-loader",
+            "css-loader",
+            "sass-loader"
+        ]
       }
     ]
   },

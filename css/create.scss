@@ -321,8 +321,8 @@ hr {
         }
         button {
             position: relative;
-            background-color: #f6f6f6;
-            color: #b2b2b2 !important;
+            background-color: #fff;
+            color: $azure;
         }
         a {
             line-height: 15px;
@@ -892,13 +892,11 @@ hr {
   z-index: 100;
 
   .logo {
-    img {
       width: 90px;
       top: 30px;
       position: relative;
       left: 50%;
       transform: translateX(-50%);
-    }
   }
 }
 

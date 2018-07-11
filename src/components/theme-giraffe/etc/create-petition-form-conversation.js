@@ -10,7 +10,7 @@ import TargetState from './form/instructions/target-state'
 import TitleTip from './form/instructions/title'
 */
 
-import Logo from 'GiraffeUI/logo'
+import Config from '../../../config'
 
 import ChatBubble from './conversation/chat-bubble'
 import { conversation } from './conversation/conversation'
@@ -21,7 +21,7 @@ import Signup from './ppp-steps/signup'
 import DesktopProgress from './conversation/desktop-progress'
 import CreateTargets from '../../../containers/create-targets'
 import cx from 'classnames'
-import '../../../../css/create.css'
+import '../../../../css/create.scss'
 
 const CreatePetitionFormConversation = ({
   updateStateFromValue,
@@ -76,7 +76,6 @@ const CreatePetitionFormConversation = ({
     getStateValue={getStateValue}
     onTargetAdd={onTargetAdd}
     onTargetRemove={onTargetRemove}
-    onChangeCustomInputs={onChangeCustomInputs}
     targets={targets}
     targetQuery={targetQuery}
     theme='convo'
@@ -117,7 +116,9 @@ const CreatePetitionFormConversation = ({
   return (
     <div>
       <div id='conversational-top'>
-        <Logo />
+        <a href='https://front.moveon.org/'>
+          <img className='logo' src={`${Config.STATIC_ROOT}images/logo.svg`} alt='MoveOn Logo' />
+        </a>
       </div>
       <div id='conversational'>
         <div id='chat-wrap' className={cx('chat-wrap', !convoReviewToggled ? 'toggled' : '')}>

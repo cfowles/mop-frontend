@@ -56,6 +56,7 @@ const RegisterForm = ({
         value='Preview The Petition'
         name='signup_next'
         id='signup_next'
+        disabled={!getStateValue('name') || !getStateValue('email') || !getStateValue('password') || !getStateValue('passwordConfirm')}
       >
         {type === 'conversational' ? 'Publish' : 'Next'}
       </button>

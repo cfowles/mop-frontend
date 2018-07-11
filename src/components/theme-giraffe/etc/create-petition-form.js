@@ -7,7 +7,6 @@ import TargetCustom from './form/instructions/target-custom'
 import TargetNational from './form/instructions/target-national'
 import TargetState from './form/instructions/target-state'
 import Title from './form/instructions/title' */
-import Logo from 'GiraffeUI/logo'
 
 // import CreatePetitionTarget from './create-petition-target'
 
@@ -21,7 +20,7 @@ import Review from './ppp-steps/review'
 import Share from './ppp-steps/share'
 import Tip from './ppp-steps/tip'
 import Signup from './ppp-steps/signup'
-import '../../../../css/create.css'
+import '../../../../css/create.scss'
 
 import Config from '../../../config'
 /* const instructionsByField = {
@@ -120,7 +119,9 @@ const CreatePetitionForm = ({
         </div>
         <div className='row'>
           <div className='col-12 heading-title-wrap'>
-            <Logo />
+            <a href='https://front.moveon.org/'>
+              <img className='logo' src={`${Config.STATIC_ROOT}images/logo.svg`} alt='MoveOn Logo' />
+            </a>
             <h2 className='bg-white'>
               {
               (step === 7 && `Congratulations, ${name}! Let’s get your first 10 signatures.`) ||

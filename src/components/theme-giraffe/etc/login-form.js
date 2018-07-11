@@ -36,6 +36,7 @@ const LoginForm = ({
         value='Preview The Petition'
         name='login_next'
         id='login_next'
+        disabled={!getStateValue('email') || !getStateValue('password')}
       >
         {type === 'conversational' ? 'Publish' : 'Next'}
       </button>
