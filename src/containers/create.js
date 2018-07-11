@@ -8,10 +8,10 @@ import { withRouter } from 'react-router'
 import Config from '../config'
 
 import { previewSubmit, submit, devLocalSubmit } from '../actions/createPetitionActions'
-import { conversation } from 'Theme/etc/conversation/conversation' // eslint-disable-line
+import { conversation } from 'GiraffeTheme/etc/conversation/conversation'
 
-import CreatePetitionForm from 'Theme/etc/create-petition-form' // eslint-disable-line
-import CreatePetitionFormConversation from 'Theme/etc/create-petition-form-conversation' // eslint-disable-line
+import CreatePetitionForm from 'GiraffeTheme/etc/create-petition-form'
+import CreatePetitionFormConversation from 'GiraffeTheme/etc/create-petition-form-conversation'
 
 import { isValidEmail } from '../lib'
 
