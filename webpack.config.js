@@ -130,6 +130,7 @@ var config = {
     alias: {
       Theme: THEME_DIR,
       LegacyTheme: path.resolve(__dirname, "src/components/theme-legacy/"),
+      GiraffeTheme: path.resolve(__dirname, "src/components/theme-giraffe/"),
       GiraffeUI: path.resolve(__dirname, "src/giraffe-ui")
     }
   },
