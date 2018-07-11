@@ -130,7 +130,7 @@ class Thanks extends React.Component {
     // Only used for theme-giraffe
     return (
       <RawLink
-        shortLinkMode={this.isCreator ? 'k' : 'l'}
+        shortLinkMode={this.props.isCreator ? 'k' : 'l'}
         shortLinkArgs={this.shortLinkArgs}
       />
     )

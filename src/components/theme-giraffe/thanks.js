@@ -19,7 +19,7 @@ const Thanks = ({
       <div className='petition-thanks__heading mt-lg-4'>ONE MORE STEP…</div>
       <div className='petition-thanks__content'>
         <p>
-          Thank you for signing! Now help this petition grow by asking your
+          Thank you for {isCreator ? 'creating your petition' : 'signing'}! Now help this petition grow by asking your
           friends, family, and colleagues to sign.
         </p>
         <p>
