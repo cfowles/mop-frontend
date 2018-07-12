@@ -132,8 +132,8 @@ export const routes = store => {
       <Route path=':organization/thanks.html' component={ThanksShim} onEnter={orgLoader} prodReady minimalNav />
       <Route path='find' component={LoadableSearch} />
 
-      {Config.THEME === 'giraffe' && <Route path='create' component={LoadableCreatePetition} minimalNav />}
-      {Config.THEME === 'giraffe' && <Route path='create/:type' component={LoadableCreatePetition} minimalNav />}
+      {Config.THEME === 'giraffe' && <Route path='create' component={LoadableCreatePetition} hideNav hideFooter offWhiteBg />}
+      {Config.THEME === 'giraffe' && <Route path='create/:type' component={LoadableCreatePetition} hideNav hideFooter offWhiteBg />}
 
       <Route path='create_start.html' component={LoadableCreate} minimalNav />
       <Route path='create_preview.html' component={LoadablePreview} minimalNav />
