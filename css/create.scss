@@ -1,5 +1,4 @@
 $white: #ffffff;
-$off-white: #f3f3f3;
 $gray: #cacaca;
 $light-gray: #a7a7a7;
 $slate-gray: #696a6a;
@@ -17,23 +16,10 @@ $bp-sm: 0px;
 $bp-md: 768px;
 $bp-lg: 1008px;
 $bp-xl: 1440px;
-body {
-    background-color: $off-white;
-    overflow-x: hidden;
-}
 
 hr {
     border-top: 5px solid gray;
     margin: 20px 0;
-}
-
-.giraffe body,
-.giraffe#giraffe-wrapper {
-    padding-top: 0;
-}
-
-.giraffe .header {
-    display: none !important;
 }
 
 /****************
@@ -874,12 +860,6 @@ hr {
     }
 }
 
-
-
-#footer {
-    display: none !important;
-}
-
 /* Conversational */
 
 #conversational-top {
@@ -897,12 +877,6 @@ hr {
       position: relative;
       left: 50%;
       transform: translateX(-50%);
-  }
-}
-
-@media screen and (min-width: $bp-md) {
-  #conversational-top {
-
   }
 }
 
