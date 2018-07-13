@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import RegisterForm from 'Theme/register-form'
 
 import Config from '../config'
-import { register, devLocalRegister } from '../actions/accountActions'
+import { register, devLocalRegister, login } from '../actions/accountActions'
 import { appLocation } from '../routes'
 import { isValidEmail } from '../lib'
 
@@ -16,7 +16,9 @@ class Register extends React.Component {
       presubmitErrors: null
     }
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleLoginSubmit = this.handleLoginSubmit.bind(this)
     this.validateForm = this.validateForm.bind(this)
+    this.validateLoginForm = this.validateLoginForm.bind(this)
     this.errorList = this.errorList.bind(this)
   }
 
@@ -81,6 +83,22 @@ class Register extends React.Component {
 
       const { successCallback, isCreatingPetition, dispatch } = this.props
       dispatch(registerAction(fields, { successCallback, isCreatingPetition }))
+    }
+  }
+
+  /* Login Form */
+  handleLoginSubmit(event) {
+    event.preventDefault()
+
+    // const { email, password } = this.props
+    if (this.validateLoginForm()) {
+      const fields = {
+        email: this.email.value,
+        password: this.password.value
+      }
+      const { dispatch } = this.props
+      const successCallback = this.props.successCallback(true)
+      dispatch(login(fields, successCallback))
     }
   }
 

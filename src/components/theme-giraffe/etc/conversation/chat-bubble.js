@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import Edit from '../../../../giraffe-ui/svgs/edit.svg'
 import Lightbulb from '../../../../giraffe-ui/svgs/lightbulb.svg'
 import CloseIcon from '../../../../giraffe-ui/svgs/close.svg'
+import Send from '../../../../giraffe-ui/svgs/send.svg'
 import { InputMaterial } from 'GiraffeUI/input-material'
 import cx from 'classnames'
 
@@ -66,10 +67,7 @@ const ChatBubble = ({
                     }}
             />
             <a className='bubble-submit' onClick={toggleEditBubble(inputType)}>
-              <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
-                <path d='M2.01 21L23 12 2.01 3 2 10l15 2-15 2z' />
-                <path d='M0 0h24v24H0z' fill='none' />
-              </svg>
+              <Send />
             </a>
           </div>
         )

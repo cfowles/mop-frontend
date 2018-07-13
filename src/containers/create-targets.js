@@ -181,8 +181,6 @@ CreateTargets.propTypes = {
   onTargetAdd: PropTypes.func,
   onTargetRemove: PropTypes.func,
   dispatch: PropTypes.func,
-  // eslint-disable-next-line
-  customInputs: PropTypes.object,
   updateStateFromValue: PropTypes.func,
   theme: PropTypes.string,
   saveInput: PropTypes.func,

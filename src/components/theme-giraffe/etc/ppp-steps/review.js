@@ -9,7 +9,6 @@ import Check from '../../../../giraffe-ui/svgs/check.svg'
 const Review = ({
     toggleOpen,
     updateStateFromValue,
-    onChangeCustomInputs,
     nextStep,
     onTargetAdd,
     onTargetRemove,
@@ -103,7 +102,6 @@ const Review = ({
               nextStep={nextStep}
               onTargetAdd={onTargetAdd}
               onTargetRemove={onTargetRemove}
-              onChangeCustomInputs={onChangeCustomInputs}
               targets={targets}
             />
           </div>
