@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 
 import { loadTargets } from '../actions/createPetitionActions'
 
-import Targets from '../components/theme-giraffe/etc/ppp-steps/targets'
-import ConvoTargets from '../components/theme-giraffe/etc/conversation/targets'
+import Targets from '../components/theme-giraffe/create-petition/ppp-steps/targets'
+import ConvoTargets from 'GiraffeUI/conversation/targets'
 // import NationalTargetSelect from 'LegacyTheme/form/target-select/national'
 // import StateTargetSelect from 'LegacyTheme/form/target-select/state'
 // import CustomTargetSelect from '../components/theme-legacy/form/target-select/custom'

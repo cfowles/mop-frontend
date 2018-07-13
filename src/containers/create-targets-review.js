@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import ReviewTargets from '../components/theme-giraffe/etc/ppp-steps/review-targets'
+import ReviewTargets from '../components/theme-giraffe/create-petition/ppp-steps/review-targets'
 import cx from 'classnames'
 import AddSvg from '../giraffe-ui/svgs/add.svg'
 

@@ -19,12 +19,12 @@ export const LoadableSearch = Loadable({
 })
 
 export const LoadableCreatePetition = Loadable({
-  loader: () => import('../containers/create'),
+  loader: () => import('../containers/create-petition'),
   loading: Loading
 })
 
 export const LoadableCreate = Loadable({
-  loader: () => import('../containers/create-petition'),
+  loader: () => import('../containers/create-petition-legacy'),
   loading: Loading
 })
 

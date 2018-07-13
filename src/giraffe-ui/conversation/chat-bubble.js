@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Edit from '../../../../giraffe-ui/svgs/edit.svg'
-import Lightbulb from '../../../../giraffe-ui/svgs/lightbulb.svg'
-import CloseIcon from '../../../../giraffe-ui/svgs/close.svg'
+import Edit from 'GiraffeUI/svgs/edit.svg'
+import Lightbulb from 'GiraffeUI/svgs/lightbulb.svg'
+import CloseIcon from 'GiraffeUI/svgs/close.svg'
 import { InputMaterial } from 'GiraffeUI/input-material'
 import cx from 'classnames'
 

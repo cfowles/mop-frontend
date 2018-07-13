@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 import Config from '../config'
 import { register, devLocalRegister, login } from '../actions/accountActions'
 import { isValidEmail } from '../lib'
-import LoginForm from '../components/theme-giraffe/etc/login-form'
-import RegisterForm from '../components/theme-giraffe/etc/register-form'
+import LoginForm from 'GiraffeTheme/create-petition/login-form'
+import RegisterForm from 'GiraffeTheme/create-petition/register-form'
 
 class CreateRegister extends React.Component {
   constructor(props) {

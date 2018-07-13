@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Register from '../../../../containers/register-form'
+import Register from '../../../../containers/create-register-form'
 import cx from 'classnames'
 
 const Signup = ({
