@@ -30,7 +30,6 @@ const CreatePetitionFormConversation = ({
   // editPetition,
   onTargetAdd,
   onTargetRemove,
-  onChangeCustomInputs,
   publish,
   targets,
   targetQuery,
@@ -98,7 +97,6 @@ const CreatePetitionFormConversation = ({
     nextStep={publish}
     onTargetAdd={onTargetAdd}
     onTargetRemove={onTargetRemove}
-    onChangeCustomInputs={onChangeCustomInputs}
     targets={targets}
     targetQuery={targetQuery}
     theme='convo'
@@ -148,7 +146,6 @@ CreatePetitionFormConversation.propTypes = {
   getStateValue: PropTypes.func,
   onTargetAdd: PropTypes.func,
   onTargetRemove: PropTypes.func,
-  onChangeCustomInputs: PropTypes.func,
   publish: PropTypes.func,
   saveInput: PropTypes.func,
   toggleEditBubble: PropTypes.func,

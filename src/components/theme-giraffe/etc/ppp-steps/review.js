@@ -3,13 +3,12 @@ import PropTypes from 'prop-types'
 import { InputMaterial } from 'GiraffeUI/input-material'
 import CreateTargetsReview from '../../../../containers/create-targets-review'
 import cx from 'classnames'
-import Edit from '../../../../giraffe-ui/svgs/edit.svg'
-import Check from '../../../../giraffe-ui/svgs/check.svg'
+import Edit from 'GiraffeUI/svgs/edit.svg'
+import Check from 'GiraffeUI/svgs/check.svg'
 
 const Review = ({
     toggleOpen,
     updateStateFromValue,
-    onChangeCustomInputs,
     nextStep,
     onTargetAdd,
     onTargetRemove,
@@ -103,7 +102,6 @@ const Review = ({
               nextStep={nextStep}
               onTargetAdd={onTargetAdd}
               onTargetRemove={onTargetRemove}
-              onChangeCustomInputs={onChangeCustomInputs}
               targets={targets}
             />
           </div>
@@ -129,7 +127,6 @@ Review.propTypes = {
     toggleOpen: PropTypes.func,
     updateStateFromValue: PropTypes.func,
     nextStep: PropTypes.func,
-    onChangeCustomInputs: PropTypes.func,
     onTargetAdd: PropTypes.func,
     onTargetRemove: PropTypes.func,
     getStateValue: PropTypes.func,

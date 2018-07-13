@@ -36,7 +36,6 @@ const CreatePetitionForm = ({
   toggleOpen,
   onTargetAdd,
   onTargetRemove,
-  onChangeCustomInputs,
   publish,
   targets,
   targetQuery
@@ -67,7 +66,6 @@ const CreatePetitionForm = ({
     getStateValue={getStateValue}
     onTargetAdd={onTargetAdd}
     onTargetRemove={onTargetRemove}
-    onChangeCustomInputs={onChangeCustomInputs}
     targets={targets}
     targetQuery={targetQuery}
     theme='ppp'
@@ -79,7 +77,6 @@ const CreatePetitionForm = ({
     nextStep={publish}
     onTargetAdd={onTargetAdd}
     onTargetRemove={onTargetRemove}
-    onChangeCustomInputs={onChangeCustomInputs}
     targets={targets}
     targetQuery={targetQuery}
   />)
@@ -155,7 +152,6 @@ CreatePetitionForm.propTypes = {
   publish: PropTypes.func,
   onTargetAdd: PropTypes.func,
   onTargetRemove: PropTypes.func,
-  onChangeCustomInputs: PropTypes.func,
   targets: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.array

@@ -8,7 +8,7 @@ import { withRouter } from 'react-router'
 import Config from '../config'
 
 import { previewSubmit, submit, devLocalSubmit } from '../actions/createPetitionActions'
-import { conversation } from 'GiraffeTheme/etc/conversation/conversation'
+import { conversation } from 'GiraffeUI/conversation/conversation'
 
 import CreatePetitionForm from 'GiraffeTheme/etc/create-petition-form'
 import CreatePetitionFormConversation from 'GiraffeTheme/etc/create-petition-form-conversation'
