@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CreateRegister from '../../../../containers/create-register-form'
+import Register from '../../../../containers/register-form'
 import cx from 'classnames'
 
 const Signup = ({
@@ -42,7 +42,7 @@ const Signup = ({
               <p>{type === 'conversational' ? conversational.description : defaults.description}</p>
             </div>
             <div className='col-12'>
-              <CreateRegister
+              <Register
                 successCallback={afterSignup}
                 updateStateFromValue={updateStateFromValue}
                 getStateValue={getStateValue}

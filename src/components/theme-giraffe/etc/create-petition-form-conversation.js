@@ -19,6 +19,7 @@ import Tip from './ppp-steps/tip'
 import Review from './ppp-steps/review'
 import Signup from './ppp-steps/signup'
 import DesktopProgress from './conversation/desktop-progress'
+import ChatEnd from './conversation/chat-end'
 import CreateTargets from '../../../containers/create-targets'
 import cx from 'classnames'
 import '../../../../css/create.scss'
@@ -86,6 +87,9 @@ const CreatePetitionFormConversation = ({
     toggleOpen={toggleOpen}
     getStateValue={getStateValue}
   />)
+  const chatend = (<ChatEnd
+    getStateValue={getStateValue}
+  />)
   const tips = (<Tip
     toggleOpen={toggleOpen}
     getStateValue={getStateValue}
@@ -123,11 +127,7 @@ const CreatePetitionFormConversation = ({
           {bubbles}
           {createTargets}
           {input}
-          <div
-            id='chatend'
-            style={{ float: 'left', clear: 'both', display: getStateValue('currentIndex') > 21 ? 'none' : 'block', height: '0', marginTop: getStateValue('currentIndex') === 20 || getStateValue('currentIndex') === 18 ? '210px' : '90px', background: 'black', width: '100px' }}
-            className='chat-end'
-          />
+          {chatend}
         </div>
         {tips}
         <div className={cx('convo-review-wrap', convoReviewToggled ? 'toggled' : '')} >

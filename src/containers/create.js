@@ -358,11 +358,6 @@ class CreatePetition extends React.Component {
             editPetition={this.state.editPetition}
             onTargetAdd={this.onTargetAdd}
             onTargetRemove={this.onTargetRemove}
-            onChangeCustomInputs={({ target: { name, value } }) => {
-              this.setState(state => ({
-                customInputs: { ...state.customInputs, [name]: value }
-              }))
-            }}
             publish={this.validateAndContinue}
             targets={this.state.target}
             targetQuery={this.state.targetQuery}
@@ -383,11 +378,6 @@ class CreatePetition extends React.Component {
             chatEnd={this.state.chatEnd}
             onTargetAdd={this.onTargetAdd}
             onTargetRemove={this.onTargetRemove}
-            onChangeCustomInputs={({ target: { name, value } }) => {
-              this.setState(state => ({
-                customInputs: { ...state.customInputs, [name]: value }
-              }))
-            }}
             publish={this.validateAndContinue}
             targetQuery={this.state.targetQuery}
             targets={this.state.target}
