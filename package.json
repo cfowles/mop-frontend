@@ -6,7 +6,7 @@
   "repository": "https://github.com/MoveOnOrg/mop-frontend",
   "directories": {},
   "scripts": {
-    "test": "NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --require babel-core/register --require isomorphic-fetch --require ./test-setup.js --recursive",
+    "test": "NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --require babel-core/register --require isomorphic-fetch --require ignore-styles --require ./test-setup.js --recursive",
     "test:coverage": "nyc --reporter=html --reporter=text npm test",
     "build": "THEME=legacy webpack --mode=production && THEME=giraffe webpack --mode=production",
     "dev-build": "THEME=legacy webpack --mode=development && THEME=giraffe webpack --mode=development",
@@ -72,6 +72,7 @@
     "fetch-mock": "^5.1.5",
     "file-loader": "^0.11.1",
     "html-webpack-plugin": "^3.2.0",
+    "ignore-styles": "^5.0.1",
     "isomorphic-fetch": "^2.2.1",
     "jsdom": "11.10.0",
     "jsdom-global": "3.0.2",
