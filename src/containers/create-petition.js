@@ -368,6 +368,7 @@ class CreatePetition extends React.Component {
             publish={this.validateAndContinue}
             targets={this.state.target}
             targetQuery={this.state.targetQuery}
+            step={this.state.step}
           />
         </div>
       )
