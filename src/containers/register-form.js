@@ -18,7 +18,7 @@ class Register extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleLoginSubmit = this.handleLoginSubmit.bind(this)
     this.validateForm = this.validateForm.bind(this)
-    this.validateLoginForm = this.validateLoginForm.bind(this)
+    // this.validateLoginForm = this.validateLoginForm.bind(this)
     this.errorList = this.errorList.bind(this)
   }
 
