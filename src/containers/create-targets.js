@@ -153,6 +153,7 @@ export class CreateTargets extends React.Component {
           updateQuery={this.updateQuery}
           onTargetAdd={this.props.onTargetAdd}
           getStateValue={this.props.getStateValue}
+          step={this.props.step}
         />
       )
     }
@@ -194,7 +195,8 @@ CreateTargets.propTypes = {
   targetQuery: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.string
-  ])
+  ]),
+  step: PropTypes.number
 }
 function mapStateToProps(store) {
   return {

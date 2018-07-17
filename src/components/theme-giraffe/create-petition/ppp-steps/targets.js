@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { InputMaterial } from 'GiraffeUI/input-material'
 import Lightbulb from '../../../../giraffe-ui/svgs/lightbulb.svg'
-
+import cx from 'classnames'
 
 const Targets = ({
 toggleOpen,
@@ -15,9 +15,10 @@ loadMoreTargets,
 filteredTargets,
 load,
 updateQuery,
-renderCustomTarget
+renderCustomTarget,
+step
 }) => {
-const classes = getStateValue('step') === 4 ? 'targets ppp-step container active' : 'targets ppp-step container'
+// const classes = getStateValue('step') === 4 ? 'targets ppp-step container active' : 'targets ppp-step container'
 
 const loadMoreButton = (
   <div className='col-12'>
@@ -26,7 +27,7 @@ const loadMoreButton = (
 )
 
 return (
-  <div className={classes}>
+  <div className={cx('targets ppp-step container', step === 4 ? 'active' : '')}>
     <div className='row ppp-item'>
       <div className='col-12 ppp-heading'>
         <h3>Decision-maker</h3>
@@ -81,7 +82,8 @@ Targets.propTypes = {
     PropTypes.bool,
     PropTypes.array
   ]),
-  load: PropTypes.number
+  load: PropTypes.number,
+  step: PropTypes.number
 }
 
 export default Targets

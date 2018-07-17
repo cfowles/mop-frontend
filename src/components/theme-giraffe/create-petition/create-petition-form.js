@@ -38,7 +38,8 @@ const CreatePetitionForm = ({
   onTargetRemove,
   publish,
   targets,
-  targetQuery
+  targetQuery,
+  step
 }) => {
   // Steps
   const titleStep = (<Title
@@ -69,6 +70,7 @@ const CreatePetitionForm = ({
     targets={targets}
     targetQuery={targetQuery}
     theme='ppp'
+    step={step}
   />)
   const reviewStep = (<Review
     toggleOpen={toggleOpen}
@@ -99,7 +101,7 @@ const CreatePetitionForm = ({
   />)
 
   const name = getStateValue('name')
-  const step = getStateValue('step')
+  // const step = getStateValue('step')
   const nearbyCount = getStateValue('nearby_count')
 
   const progressWidth = `${(step / 6) * 100}%`
@@ -159,7 +161,8 @@ CreatePetitionForm.propTypes = {
   targetQuery: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.string
-  ])
+  ]),
+  step: PropTypes.number
 }
 
 export default CreatePetitionForm
