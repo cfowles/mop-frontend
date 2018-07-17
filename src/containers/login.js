@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import LoginForm from 'Theme/login-form'
+import LoginFormMaterial from '../components/theme-giraffe/create-petition/login-form'
 
 import { actions as accountActions } from '../actions/accountActions'
 import { appLocation } from '../routes'
@@ -21,7 +22,7 @@ class Login extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.formErrors.length) {
       this.setState({ presubmitErrors: null })
-      this.password.value = ''
+      if (!this.props.useMaterialDesign) this.password.value = ''
     }
   }
 
@@ -32,16 +33,17 @@ class Login extends React.Component {
    * @returns {boolean}
    */
   validateForm() {
-    const { email, password } = this
+    const material = this.props.useMaterialDesign
+    const { email, password } = material ? this.props : this
     const errors = []
-    if (!isValidEmail(email.value)) {
-      if (!this.email.value.trim().length) {
+    if (!isValidEmail(material ? email : email.value)) {
+      if (material ? !email.length : !this.email.value.trim().length) {
         errors.push({ message: 'Missing required entry for the Email field.' })
       } else {
         errors.push({ message: 'Invalid entry for the Email field.' })
       }
     }
-    if (!password.value.trim().length) {
+    if (material ? !password.length : !password.value.trim().length) {
       errors.push({ message: 'Missing required entry for the Password field.' })
     }
     if (errors.length) {
@@ -63,21 +65,34 @@ class Login extends React.Component {
     event.preventDefault()
     if (!this.validateForm()) return
 
+    const material = this.props.useMaterialDesign
+    const { email, password } = material ? this.props : this
     const fields = {
-      email: this.email.value,
-      password: this.password.value
+      email: material ? email : email.value,
+      password: material ? password : password.value
     }
     const { dispatch, location } = this.props
 
     let successCallback = this.props.successCallback
-    if (location.query.redirect) {
+    if (!material && location.query.redirect) {
       successCallback = () => appLocation.push(location.query.redirect)
     }
-
     dispatch(accountActions.login(fields, successCallback))
   }
 
   render() {
+    if (this.props.useMaterialDesign) {
+      return (
+        <LoginFormMaterial
+          errorList={this.errorList}
+          handleSubmit={this.handleSubmit}
+          updateStateFromValue={this.props.updateStateFromValue}
+          type={this.props.type}
+          getStateValue={this.props.getStateValue}
+          useMaterialDesign='true'
+        />
+      )
+    }
     return (
       <div className='moveon-petitions'>
         <LoginForm
@@ -101,7 +116,11 @@ Login.propTypes = {
   dispatch: PropTypes.func,
   location: PropTypes.object,
   isSubmitting: PropTypes.bool,
-  successCallback: PropTypes.func
+  successCallback: PropTypes.func,
+  useMaterialDesign: PropTypes.bool,
+  updateStateFromValue: PropTypes.func,
+  type: PropTypes.string,
+  getStateValue: PropTypes.func
 }
 
 function mapStateToProps({ userStore = {} }) {

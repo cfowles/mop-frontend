@@ -2,14 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { InputMaterial } from 'GiraffeUI/input-material'
 
-const LoginForm = ({
+const LoginFormMaterial = ({
   errorList,
-  handleLoginSubmit,
+  handleSubmit,
   updateStateFromValue,
   type,
   getStateValue
 }) => (
-  <form onSubmit={handleLoginSubmit}>
+  <form onSubmit={handleSubmit}>
     <div className='row'>
       <InputMaterial
         type='text'
@@ -31,7 +31,7 @@ const LoginForm = ({
               {isSubmitting ? 'Please wait...' : 'Next'}
             </Submit> */}
       <button
-        type='button'
+        type='submit'
         className='center display-block ppp-btn btn'
         value='Preview The Petition'
         name='login_next'
@@ -45,31 +45,13 @@ const LoginForm = ({
   </form>
 )
 
-LoginForm.propTypes = {
+LoginFormMaterial.propTypes = {
   errorList: PropTypes.func,
-  handleLoginSubmit: PropTypes.func,
+  handleSubmit: PropTypes.func,
   updateStateFromValue: PropTypes.func,
   type: PropTypes.string,
   getStateValue: PropTypes.func
 }
 
-export default LoginForm
+export default LoginFormMaterial
 
-
-            /*
-            <InputBlock
-              type='email'
-              name='email'
-              label='Email'
-              setRef={setRef}
-              className='mt-0'
-              labelBefore
-            />
-            <InputBlock
-              type='password'
-              name='password'
-              label='Password'
-              setRef={setRef}
-              labelBefore
-            />
-            */

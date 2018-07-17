@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { InputMaterial } from 'GiraffeUI/input-material'
 
-const RegisterForm = ({
+const RegisterFormMaterial = ({
   errorList,
   handleSubmit,
   getStateValue,
@@ -65,7 +65,7 @@ const RegisterForm = ({
   </form>
   )
 
-RegisterForm.propTypes = {
+RegisterFormMaterial.propTypes = {
   errorList: PropTypes.func,
   handleSubmit: PropTypes.func,
   getStateValue: PropTypes.func,
@@ -73,4 +73,4 @@ RegisterForm.propTypes = {
   type: PropTypes.string
 }
 
-export default RegisterForm
+export default RegisterFormMaterial

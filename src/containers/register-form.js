@@ -3,9 +3,10 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import RegisterForm from 'Theme/register-form'
+import RegisterFormMaterial from '../components/theme-giraffe/create-petition/register-form'
 
 import Config from '../config'
-import { register, devLocalRegister, login } from '../actions/accountActions'
+import { register, devLocalRegister } from '../actions/accountActions'
 import { appLocation } from '../routes'
 import { isValidEmail } from '../lib'
 
@@ -16,9 +17,7 @@ class Register extends React.Component {
       presubmitErrors: null
     }
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleLoginSubmit = this.handleLoginSubmit.bind(this)
     this.validateForm = this.validateForm.bind(this)
-    // this.validateLoginForm = this.validateLoginForm.bind(this)
     this.errorList = this.errorList.bind(this)
   }
 
@@ -37,26 +36,27 @@ class Register extends React.Component {
    * @returns {boolean}
    */
   validateForm() {
-    const { name, email, password, passwordConfirm, zip } = this
+    const material = this.props.useMaterialDesign
+    const { name, email, password, passwordConfirm, zip } = material ? this.props : this
     const errors = []
-    if (!name.value.trim().length) {
+    if (material ? !name.length : !name.value.trim().length) {
       errors.push({ message: 'Missing required entry for the Name field.' })
     }
-    if (!isValidEmail(email.value)) {
-      if (!this.email.value.trim().length) {
+    if (!isValidEmail(material ? email : email.value)) {
+      if (material ? !email.length : !this.email.value.trim().length) {
         errors.push({ message: 'Missing required entry for the Email field.' })
       } else {
         errors.push({ message: 'Invalid entry for the Email field.' })
       }
     }
-    if (!password.value.trim().length) {
+    if (material ? !password.length : !password.value.trim().length) {
       errors.push({ message: 'Missing required entry for the Password field.' })
-    } else if (password.value.trim() !== passwordConfirm.value.trim()) {
+    } else if (material ? (password !== passwordConfirm) : (password.value.trim() !== passwordConfirm.value.trim())) {
       errors.push({
         message: 'Password and PasswordConfirm fields do not match.'
       })
     }
-    if (this.props.includeZipAndPhone && !zip.value.trim().length) {
+    if (material ? !zip.length : (this.props.includeZipAndPhone && !zip.value.trim().length)) {
       errors.push({ message: 'Missing required entry for the ZIP Code field.' })
     }
     if (errors.length) {
@@ -67,38 +67,34 @@ class Register extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault()
+    const material = this.props.useMaterialDesign
     const registerAction = Config.API_WRITABLE ? register : devLocalRegister
-    const { name, email, password, passwordConfirm, zip, phone } = this
+    const { name, email, password, passwordConfirm, zip, phone } = material ? this.props : this
     if (this.validateForm()) {
-      const fields = {
-        [name.name]: name.value,
-        [email.name]: email.value,
-        [password.name]: password.value,
-        [passwordConfirm.name]: passwordConfirm.value
-      }
-      if (this.props.includeZipAndPhone) {
-        fields[zip.name] = zip.value
-        fields[phone.name] = phone.value
+      let fields
+      if (material) {
+        fields = {
+          name,
+          email,
+          zip,
+          password,
+          passwordConfirm
+        }
+      } else {
+        fields = {
+          [name.name]: name.value,
+          [email.name]: email.value,
+          [password.name]: password.value,
+          [passwordConfirm.name]: passwordConfirm.value
+        }
+        if (this.props.includeZipAndPhone) {
+          fields[zip.name] = zip.value
+          fields[phone.name] = phone.value
+        }
       }
 
       const { successCallback, isCreatingPetition, dispatch } = this.props
       dispatch(registerAction(fields, { successCallback, isCreatingPetition }))
-    }
-  }
-
-  /* Login Form */
-  handleLoginSubmit(event) {
-    event.preventDefault()
-
-    // const { email, password } = this.props
-    if (this.validateLoginForm()) {
-      const fields = {
-        email: this.email.value,
-        password: this.password.value
-      }
-      const { dispatch } = this.props
-      const successCallback = this.props.successCallback(true)
-      dispatch(login(fields, successCallback))
     }
   }
 
@@ -112,6 +108,17 @@ class Register extends React.Component {
   }
 
   render() {
+    if (this.props.useMaterialDesign) {
+      return (
+        <RegisterFormMaterial
+          errorList={this.errorList}
+          handleSubmit={this.handleSubmit}
+          updateStateFromValue={this.props.updateStateFromValue}
+          type={this.props.type}
+          getStateValue={this.props.getStateValue}
+        />
+      )
+    }
     return (
       <RegisterForm
         errorList={this.errorList}
@@ -140,7 +147,11 @@ Register.propTypes = {
   useLaunchButton: PropTypes.bool,
   useAlternateFields: PropTypes.bool,
   successCallback: PropTypes.func,
-  isCreatingPetition: PropTypes.bool
+  isCreatingPetition: PropTypes.bool,
+  useMaterialDesign: PropTypes.bool,
+  updateStateFromValue: PropTypes.func,
+  type: PropTypes.string,
+  getStateValue: PropTypes.func
 }
 
 function mapStateToProps({ userStore = {}, petitionCreateStore = {} }) {
