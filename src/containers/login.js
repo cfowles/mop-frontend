@@ -90,6 +90,7 @@ class Login extends React.Component {
           type={this.props.type}
           getStateValue={this.props.getStateValue}
           useMaterialDesign='true'
+          isSubmitting={this.props.isSubmitting}
         />
       )
     }

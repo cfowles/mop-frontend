@@ -7,7 +7,8 @@ const LoginFormMaterial = ({
   handleSubmit,
   updateStateFromValue,
   type,
-  getStateValue
+  getStateValue,
+  isSubmitting
 }) => (
   <form onSubmit={handleSubmit}>
     <div className='row'>
@@ -36,9 +37,10 @@ const LoginFormMaterial = ({
         value='Preview The Petition'
         name='login_next'
         id='login_next'
-        disabled={!getStateValue('email') || !getStateValue('password')}
+        disabled={!getStateValue('email') || !getStateValue('password') || isSubmitting}
       >
         {type === 'conversational' ? 'Publish' : 'Next'}
+        {isSubmitting ? 'Please wait...' : ''}
       </button>
       <ul className='mt-3 red errors'>{errorList && errorList()}</ul>
     </div>
@@ -50,8 +52,8 @@ LoginFormMaterial.propTypes = {
   handleSubmit: PropTypes.func,
   updateStateFromValue: PropTypes.func,
   type: PropTypes.string,
-  getStateValue: PropTypes.func
+  getStateValue: PropTypes.func,
+  isSubmitting: PropTypes.bool
 }
 
 export default LoginFormMaterial
-

@@ -116,6 +116,7 @@ class Register extends React.Component {
           updateStateFromValue={this.props.updateStateFromValue}
           type={this.props.type}
           getStateValue={this.props.getStateValue}
+          isSubmitting={this.props.isSubmitting}
         />
       )
     }

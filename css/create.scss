@@ -322,7 +322,7 @@ hr {
         }
     }
     .tip-modal {
-        padding-top: 50px;
+        padding-top: 0;
         position: relative;
         padding-bottom: 50px;
         position: fixed;
@@ -357,6 +357,7 @@ hr {
         .heading {
             padding-top: 40px;
             margin-bottom: 20px;
+            background-color: #f3f3f3;
             span {
                 display: inline-flex;
                 height: 30px;
@@ -368,10 +369,14 @@ hr {
                     fill: $white;
                 }
             }
+            @media screen and (min-width: $bp-md) {
+              background-color: $white;
+            }
         }
         .example {
             margin-bottom: 10px;
             h3 {
+                padding: 2px 3px;
                 display: inline;
                 line-height: 2.25rem;
                 text-transform: uppercase;
@@ -533,9 +538,9 @@ hr {
                 margin-bottom: 45px;
                 img {
                     display: block;
-                    max-height: 40px;
+                    max-width: 100px;
                     @media screen and(min-width: $bp-md) {
-                        max-height: 70px;
+                        max-width: 160px;
                     }
                 }
             }
@@ -543,6 +548,7 @@ hr {
                 display: inline;
                 line-height: 2.25rem;
                 text-transform: uppercase;
+                box-shadow: 5px 0 0 white, -5px 0 0 white;
                 @media screen and(min-width: $bp-md) {
                     line-height: 3rem;
                     font-size: 3rem;
@@ -782,6 +788,7 @@ hr {
             display: inline;
             line-height: 1.2rem;
             text-transform: uppercase;
+            box-shadow: 5px 0 0 $azure, -5px 0 0 $azure;
         }
     }
     .petition-targets {
@@ -896,7 +903,7 @@ hr {
         overflow-x: hidden;
         height: auto;
         position: absolute;
-        bottom: 75px;
+        bottom: 112px;
         left: 0;
         max-height: calc(100vh - 130px);
         padding-top: 60px;
@@ -1001,7 +1008,7 @@ hr {
     $modalTransition: .3s ease-in-out;
     $modalTransitionDesktop: .6s ease-in-out;
     .tip-modal {
-        padding-top: 50px;
+        padding-top: 0;
         position: relative;
         padding-bottom: 50px;
         position: fixed;
@@ -1036,6 +1043,7 @@ hr {
         .heading {
             padding-top: 40px;
             margin-bottom: 20px;
+            background-color: #f3f3f3;
             span {
                 display: inline-block;
                 height: 30px;
@@ -1049,10 +1057,14 @@ hr {
                     fill: $white;
                 }
             }
+            @media screen and (min-width: $bp-md) {
+              background-color: $white;
+            }
         }
         .example {
             margin-bottom: 10px;
             h3 {
+                padding: 2px 3px;
                 display: inline;
                 line-height: 2.25rem;
                 text-transform: uppercase;
@@ -1229,7 +1241,7 @@ hr {
         }
         &.show {
             opacity: 1;
-            top: 0;
+            //top: 0;
             visibility: visible; //transition: opacity .5s ease-in-out, top .5s ease-in-out, visibility 0s linear 0s;
             transition: opacity .3s ease-in-out .6s, top .2s linear .6s, visibility linear .5s, max-height .6s ease-in-out;
             max-height: 500px;
@@ -1451,6 +1463,7 @@ hr {
                 padding-left: 10px;
                 padding-right: 10px;
                 border-radius: 3px;
+                text-align: left;
                 input {
                     position: absolute;
                     opacity: 0;

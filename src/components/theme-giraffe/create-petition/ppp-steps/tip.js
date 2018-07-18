@@ -34,7 +34,7 @@ const Tip = ({
           <span className='bg-azure' />
           <span className='bg-azure' />
         </div>
-        <div className='row heading bg-off-white'>
+        <div className='row heading'>
           <div className='col-12'>
             <span className='bg-azure'><Lightbulb /></span>
             <h2>{currentTip.title}</h2>

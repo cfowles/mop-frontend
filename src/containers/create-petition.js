@@ -226,7 +226,7 @@ class CreatePetition extends React.Component {
 
   callBubble(sectionLength) {
     const bubbleLength = conversation[this.state.currentIndex].content.length
-    const bubbleTime = (bubbleLength / 60) * 1000
+    const bubbleTime = ((bubbleLength / 60) * 1000) >= 800 ? ((bubbleLength / 60) * 1000) : 800
     this.bubbleTimeout = setTimeout(() => {
       this.nextBubble()
       if (this.state.currentBubble < sectionLength) {

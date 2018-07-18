@@ -8,7 +8,8 @@ const RegisterFormMaterial = ({
   handleSubmit,
   getStateValue,
   updateStateFromValue,
-  type
+  type,
+  isSubmitting
 }) => (
   <form onSubmit={handleSubmit}>
     <div className='row'>
@@ -56,9 +57,10 @@ const RegisterFormMaterial = ({
         value='Preview The Petition'
         name='signup_next'
         id='signup_next'
-        disabled={!getStateValue('name') || !getStateValue('email') || !getStateValue('password') || !getStateValue('passwordConfirm')}
+        disabled={!getStateValue('name') || !getStateValue('email') || !getStateValue('password') || !getStateValue('passwordConfirm') || isSubmitting}
       >
         {type === 'conversational' ? 'Publish' : 'Next'}
+        {isSubmitting ? 'Please wait...' : ''}
       </button>
       <ul className='mt-3 red errors'>{errorList && errorList()}</ul>
     </div>
@@ -70,7 +72,8 @@ RegisterFormMaterial.propTypes = {
   handleSubmit: PropTypes.func,
   getStateValue: PropTypes.func,
   updateStateFromValue: PropTypes.func,
-  type: PropTypes.string
+  type: PropTypes.string,
+  isSubmitting: PropTypes.bool
 }
 
 export default RegisterFormMaterial
