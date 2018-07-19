@@ -59,11 +59,6 @@ const SignatureAddForm = ({
           onChange={updateStateFromValue('email')}
         />
         {validationError('email')}
-      </div>
-    )}
-
-    {(!hideUntilInteract && showAddressFields) ? (
-      <div>
         {(showMobileSignup) ?
           <MobileSubscribe
             className='mobile_subscribe'
@@ -73,6 +68,11 @@ const SignatureAddForm = ({
                 /* isCheckbox: */ true)}
           /> : ''
         }
+      </div>
+    )}
+
+    {(!hideUntilInteract && showAddressFields) ? (
+      <div>
         <CountrySelect
           className='override-collapse'
           onChange={onChangeCountry}
