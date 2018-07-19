@@ -36,10 +36,16 @@ const CreatePetitionFormConversation = ({
   targetQuery,
   // nextSection,
   saveInput,
-  toggleEditBubble
+  toggleEditBubble,
+  currentIndex
   // chatEnd,
   // toggleConvoTip
 }) => {
+  const section = getStateValue('section')
+  const progressWidth = `${(section / 5) * 100}%`
+  const progressStyles = {
+    width: progressWidth
+  }
   const convoReviewToggled = getStateValue('convoReviewToggled')
   const bubbles = conversation.map(b => {
     let innerClasses = 'inner'
@@ -80,6 +86,7 @@ const CreatePetitionFormConversation = ({
     targetQuery={targetQuery}
     theme='convo'
     saveInput={saveInput}
+    currentIndex={currentIndex}
   />)
   const input = (<ConversationalInput
     saveInput={saveInput}
@@ -118,6 +125,9 @@ const CreatePetitionFormConversation = ({
   return (
     <div>
       <div id='conversational-top'>
+        <div className='conversational-progress'>
+          <span className='progress-bar' style={progressStyles} />
+        </div>
         <a href='https://front.moveon.org/'>
           <img className='logo' src={`${Config.STATIC_ROOT}images/logo.svg`} alt='MoveOn Logo' />
         </a>
@@ -149,6 +159,7 @@ CreatePetitionFormConversation.propTypes = {
   publish: PropTypes.func,
   saveInput: PropTypes.func,
   toggleEditBubble: PropTypes.func,
+  currentIndex: PropTypes.number,
   targets: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.array

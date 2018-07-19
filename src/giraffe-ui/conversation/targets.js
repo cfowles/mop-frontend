@@ -11,10 +11,9 @@ filteredTargets,
 load,
 updateQuery,
 renderCustomTarget,
-saveInput
+saveInput,
+currentIndex
 }) => {
-const currentIndex = getStateValue('currentIndex')
-
 const loadMoreButton = (
   <div className='col-12'>
     <button type='button' className='xl300 center display-block btn bg-gray' name='load-more' id='load-more' onClick={loadMoreTargets}>Show More Suggestions</button>
@@ -29,14 +28,12 @@ const loadMoreButton = (
 // )
 
 return (
-  <div className={cx('targets container bg-azure', currentIndex === 20 ? 'toggled' : '')}>
+  <div className={cx('targets container bg-azure', currentIndex >= 18 && currentIndex <= 20 ? 'toggled' : '')}>
     <div className='row'>
       <div className={cx('targets-list', currentIndex === 20 ? 'toggled' : '')}>
         {renderTargets()}
         {load < filteredTargets.length ? loadMoreButton : ''}
-        <div className='col-12'>
-          {renderCustomTarget()}
-        </div>
+        {renderCustomTarget()}
       </div>
       <div className='search-wrap'>
         <InputMaterial
@@ -65,7 +62,8 @@ ConvoTargets.propTypes = {
   load: PropTypes.number,
   updateQuery: PropTypes.func,
   renderCustomTarget: PropTypes.func,
-  saveInput: PropTypes.func
+  saveInput: PropTypes.func,
+  currentIndex: PropTypes.number
 }
 
 export default ConvoTargets

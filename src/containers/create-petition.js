@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
+import Scroll from 'react-scroll'
 
 // import { appLocation } from '../routes'
 
@@ -29,7 +30,7 @@ const CONVO_ERRORS = {
     description: 500
   }
 }
-let CHAT_END
+// let CHAT_END
 
 class CreatePetition extends React.Component {
   constructor(props) {
@@ -51,6 +52,7 @@ class CreatePetition extends React.Component {
       targetQuery: '',
       customInputs: { name: '', email: '', title: '' },
       errors: [],
+      isPublishing: false,
       // Flow control
       step: 1,
       section: 0,
@@ -89,7 +91,7 @@ class CreatePetition extends React.Component {
 
   componentDidMount() {
     const uinput = document.getElementById('user-input')
-    CHAT_END = document.getElementById('chatend')
+    // CHAT_END = document.getElementById('chatend')
     if (uinput) {
       uinput.focus()
     }
@@ -108,7 +110,7 @@ class CreatePetition extends React.Component {
       return () => {
         if (!isCustom && !target.label) return // target is invalid
         if (this.state.target) {
-          if (!isCustom && this.state.target.find(old => old.label === target.label)) return // already exists
+          if (this.state.target.find(old => old.label === target.label || old.name === target.name)) return // already exists
         }
         if (isCustom && !this.state.targetQuery) return // Trying to add a blank custom target
         if (isCustom) {
@@ -126,7 +128,7 @@ class CreatePetition extends React.Component {
           rquery.value = ''
           rquery.focus()
         }
-        this.scrollToBottom()
+        setTimeout(() => this.scrollToBottom(), 200)
       }
     }
 
@@ -238,7 +240,7 @@ class CreatePetition extends React.Component {
   }
 
   nextBubble() {
-    setTimeout(() => this.scrollToBottom(), 600)
+    setTimeout(() => this.scrollToBottom(), this.state.currentIndex === 19 ? 700 : 200)
     this.setState(prevState => {
       const newBubble = prevState.currentBubble + 1
       const newIndex = prevState.currentIndex + 1
@@ -280,7 +282,12 @@ class CreatePetition extends React.Component {
   /* eslint-disable class-methods-use-this */
   scrollToBottom() {
     // browser bug {behavior: "smooth",block: "end"}
-    if (CHAT_END) CHAT_END.scrollIntoView()
+    // if (CHAT_END) CHAT_END.scrollIntoView()
+    Scroll.animateScroll.scrollToBottom({
+      smooth: true,
+      containerId: 'chat-wrap',
+      duration: 700
+    })
   }
 
   scrollToTop() {
@@ -340,6 +347,10 @@ class CreatePetition extends React.Component {
 
   // SUBMIT
   submitPetition() {
+    this.setState(prevState => {
+      const newState = prevState.isPublishing
+      return { isPublishing: !newState }
+    })
     return this.props.dispatch(Config.API_WRITABLE ? submit(this.state.zip) : devLocalSubmit())
   }
 
@@ -369,6 +380,7 @@ class CreatePetition extends React.Component {
             targets={this.state.target}
             targetQuery={this.state.targetQuery}
             step={this.state.step}
+            submitPetition={this.submitPetition}
           />
         </div>
       )
@@ -389,6 +401,8 @@ class CreatePetition extends React.Component {
             publish={this.validateAndContinue}
             targetQuery={this.state.targetQuery}
             targets={this.state.target}
+            currentIndex={this.state.currentIndex}
+            submitPetition={this.submitPetition}
           />
         </div>
       )

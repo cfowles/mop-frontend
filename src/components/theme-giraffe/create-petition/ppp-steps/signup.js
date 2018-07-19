@@ -47,7 +47,10 @@ const Signup = ({
       useMaterialDesign
     />
   )
-
+  const linkStyle = {
+    textDecoration: 'underline',
+    cursor: 'pointer'
+  }
   const display = loginToggled ? login : register
   const defaults = {
     title: 'Your petition is important. Let’s make sure you don’t lose progress.',
@@ -77,7 +80,9 @@ const Signup = ({
             {display}
           </div>
           <div className='col-12'>
-            <a onClick={toggleOpen('loginToggled')}>{getStateValue('loginToggled') ? 'Need an account? Click to register' : 'Already have an account? Click to login'}</a>
+            <a onClick={toggleOpen('loginToggled')} style={linkStyle}>
+              {getStateValue('loginToggled') ? 'Need an account? Click to register' : 'Already have an account? Click to login'}
+            </a>
           </div>
         </div>
       </div>

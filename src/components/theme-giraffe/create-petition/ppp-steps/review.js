@@ -19,6 +19,7 @@ const Review = ({
     const summary = getStateValue('summary')
     const description = getStateValue('description')
     const editPetition = getStateValue('editPetition')
+    const isPublishing = getStateValue('isPublishing')
 
     const targetsArray = [
       <span key='0'>To be delivered to </span>
@@ -112,9 +113,10 @@ const Review = ({
         <button
           type='button'
           className='xl300 center display-block ppp-btn btn azure'
-          value='Preview The Petition'
+          value='Publish'
           name='review_next'
           id='review_next'
+          disabled={isPublishing}
           onClick={nextStep}
         >
                 Publish

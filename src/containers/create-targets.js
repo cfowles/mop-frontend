@@ -41,7 +41,7 @@ export class CreateTargets extends React.Component {
         if (target.label.toLowerCase().indexOf(searchText) !== -1 || !searchText) {
           const key = i
           return (
-            <button className={cx('checkbox-wrap col-12 review-hidden', props.theme === 'ppp' ? 'bg-ice-blue' : 'bg-white')} key={key} onClick={props.onTargetAdd(target, false)}>
+            <button className={cx('checkbox-wrap col-12 review-hidden', 'bg-white')} key={key} onClick={props.onTargetAdd(target, false)}>
               <span>
                 {target.label}
               </span>
@@ -125,10 +125,12 @@ export class CreateTargets extends React.Component {
   renderCustomTarget() {
     if (this.props.targetQuery && this.state.filteredTargets.length === 0) {
       return (
-        <div className='add-target bg-ice-blue' onClick={this.props.onTargetAdd({ target_type: 'custom', name: this.props.targetQuery, email: '', title: '' }, { isCustom: true })}>
-          Add “{this.props.targetQuery}” as your target
+        // <div className='col-12'>
+        <div className='add-target bg-white' onClick={this.props.onTargetAdd({ target_type: 'custom', name: this.props.targetQuery, email: '', title: '' }, { isCustom: true })}>
+          <span>Add <span style={{ fontWeight: 'bold' }}>“{this.props.targetQuery}”</span> as your target</span>
           <div className='add'><AddSvg /></div>
         </div>
+        // </div>
       )
     }
     return false
@@ -173,6 +175,7 @@ export class CreateTargets extends React.Component {
           onTargetAdd={this.props.onTargetAdd}
           saveInput={this.props.saveInput}
           getStateValue={this.props.getStateValue}
+          currentIndex={this.props.currentIndex}
         />
       )
   }
@@ -188,6 +191,7 @@ CreateTargets.propTypes = {
   getStateValue: PropTypes.func,
   nextStep: PropTypes.func,
   toggleOpen: PropTypes.func,
+  currentIndex: PropTypes.number,
   targets: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.array

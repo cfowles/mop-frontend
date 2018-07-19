@@ -32,8 +32,8 @@ const ChatBubble = ({
     if (inputType === 'target') {
         if (!targets.length) return null
         targetBubbles = targets.map(target => (
-          <div className={innerClasses} key={target.value}>
-            {target.label}
+          <div className={innerClasses} key={target.value ? target.value : target.name}>
+            {target.label ? target.label : target.name }
             <span className='close bubble-fab bg-azure' onClick={onTargetRemove(target)}>
               <CloseIcon />
             </span>
