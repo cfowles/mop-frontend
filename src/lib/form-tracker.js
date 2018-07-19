@@ -107,7 +107,8 @@ export function FormTracker({ experiment = '', formvariant = '', variationname =
       window.analytics.track(eventName, { ...this.state })
     }
     if (Config.FAKE_ANALYTICS) {
-      // console.log(`Tracking event ${eventName} with current state object: ${JSON.stringify(this.state)} `)
+      // eslint-disable-next-line no-console
+      console.log(`Tracking event ${eventName} with current state object: ${JSON.stringify(this.state)} `)
     }
   }
 }
