@@ -27,7 +27,11 @@ const Review = ({
     if (targets.length) {
         targets.forEach((target, i) => {
             if (targets.length === 1) {
-                targetsArray.push(<span className='target' key={target.value}>{target.label}<span className='no-underline'>.</span></span>)
+                if (!target.label && target.name) {
+                  targetsArray.push(<span className='target' key={target.value}>{target.name}<span className='no-underline'>.</span></span>)
+                } else {
+                  targetsArray.push(<span className='target' key={target.value}>{target.label}<span className='no-underline'>.</span></span>)
+                }
             } else if (targets.length < 4) {
                 if (i < targets.length - 1) targetsArray.push(<span className='target' key={target.value}>{target.label}<span className='no-underline'>,&nbsp;</span></span>)
                 if (i === targets.length - 1) targetsArray.push(<span className='target' key={target.value}><span className='no-underline'>and&nbsp;</span>{target.label}<span className='no-underline'>.</span></span>)

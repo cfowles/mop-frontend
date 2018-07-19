@@ -60,7 +60,7 @@ const RegisterFormMaterial = ({
         disabled={!getStateValue('name') || !getStateValue('email') || !getStateValue('password') || !getStateValue('passwordConfirm') || isSubmitting}
       >
         {type === 'conversational' ? 'Publish' : 'Next'}
-        {isSubmitting ? 'Please wait...' : ''}
+        {isSubmitting ? ' Please wait...' : ''}
       </button>
       <ul className='mt-3 red errors'>{errorList && errorList()}</ul>
     </div>

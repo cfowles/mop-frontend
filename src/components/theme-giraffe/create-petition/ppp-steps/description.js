@@ -25,7 +25,7 @@ const Description = ({ toggleOpen, updateStateFromValue, getStateValue, nextStep
       name='description_next'
       id='description_next'
       onClick={nextStep}
-      disabled={!getStateValue('description') || getStateValue('description').length > 500}
+      disabled={!getStateValue('description')}
     >
                 Next
     </button>

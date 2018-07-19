@@ -25,7 +25,7 @@ const Summary = ({ toggleOpen, updateStateFromValue, getStateValue, nextStep }) 
       name='summary_next'
       id='summary_next'
       onClick={nextStep}
-      disabled={!getStateValue('summary') || getStateValue('summary').length > 100}
+      disabled={!getStateValue('summary')}
     >
      Next
     </button>

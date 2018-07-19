@@ -894,6 +894,10 @@ hr {
         min-width: 3%;
         transition: width 1.5s cubic-bezier(0.64, 0.04, 0.35, 1);
     }
+
+    @media screen and (min-width: $bp-md) {
+        display: none;
+    }
   }
   .logo {
       width: 90px;

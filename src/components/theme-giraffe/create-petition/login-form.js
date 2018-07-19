@@ -40,7 +40,7 @@ const LoginFormMaterial = ({
         disabled={!getStateValue('email') || !getStateValue('password') || isSubmitting}
       >
         {type === 'conversational' ? 'Publish' : 'Next'}
-        {isSubmitting ? 'Please wait...' : ''}
+        {isSubmitting ? ' Please wait...' : ''}
       </button>
       <ul className='mt-3 red errors'>{errorList && errorList()}</ul>
     </div>

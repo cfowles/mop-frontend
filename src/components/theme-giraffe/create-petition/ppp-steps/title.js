@@ -31,7 +31,7 @@ const Title = ({
       </div>
       <InputMaterial name='title' type='textarea' className='bg-ice-blue' label='Your Petition Title' charLimit={50} stateRef={getStateValue('title')} onChange={updateStateFromValue('title')} />
     </div>
-    <button type='button' className='center display-block ppp-btn btn azure' name='title_next' id='title_next' onClick={toggleOpen('signupModalToggled')} disabled={!getStateValue('title') || getStateValue('title').length > 50}>Next</button>
+    <button type='button' className='center display-block ppp-btn btn azure' name='title_next' id='title_next' onClick={toggleOpen('signupModalToggled')} disabled={!getStateValue('title')}>Next</button>
   </div>
 )
 

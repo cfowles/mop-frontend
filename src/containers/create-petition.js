@@ -332,9 +332,9 @@ class CreatePetition extends React.Component {
   convoInputIsValid(inputType) {
     const errors = []
     if (!this.state[inputType]) errors.push(CONVO_ERRORS.empty[inputType])
-    if (Object.prototype.hasOwnProperty.call(CONVO_ERRORS.maxChar, inputType)) {
+    /* if (Object.prototype.hasOwnProperty.call(CONVO_ERRORS.maxChar, inputType)) {
       if (this.state[inputType].length > CONVO_ERRORS.maxChar[inputType]) errors.push(`Please use ${CONVO_ERRORS.maxChar[inputType]} characters or less in your ${inputType}`)
-    }
+    } */
     if (inputType === 'email' && this.state.email) {
       if (!isValidEmail(this.state.email)) errors.push('Please use a valid email address.')
     }
