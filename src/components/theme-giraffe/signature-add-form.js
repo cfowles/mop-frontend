@@ -64,7 +64,7 @@ const SignatureAddForm = ({
 
     {(!hideUntilInteract && showAddressFields) ? (
       <div>
-        {(showMobileSignup) ?
+        {(showMobileSignup && !user.signonId) ?
           <MobileSubscribe
             className='mobile_subscribe'
             showBox={!!displayMobileOptIn}
@@ -122,6 +122,15 @@ const SignatureAddForm = ({
     ) : (
       ''
     )}
+    {(showMobileSignup && user.signonId) ?
+      <MobileSubscribe
+        className='mobile_subscribe'
+        showBox={!!displayMobileOptIn}
+        updatePhoneNo={updateStateFromValue('phone')}
+        updateOptIn={updateStateFromValue('mobile_optin',
+            /* isCheckbox: */ true)}
+      /> : ''
+    }
     <InputBlock name='comment' label='Comment (Optional)'>
       <textarea
         rows='10'
