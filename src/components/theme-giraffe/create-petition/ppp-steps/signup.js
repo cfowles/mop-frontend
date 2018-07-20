@@ -32,6 +32,7 @@ const Signup = ({
       loginToggled={loginToggled}
       isCreatingPetition
       useMaterialDesign
+      includeZipAndPhone
     />
   )
   const login = (
