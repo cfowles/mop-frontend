@@ -59,7 +59,12 @@ const SignatureAddForm = ({
           onChange={updateStateFromValue('email')}
         />
         {validationError('email')}
-        {(showMobileSignup) ?
+      </div>
+    )}
+
+    {(!hideUntilInteract && showAddressFields) ? (
+      <div>
+        {(showMobileSignup && !user.signonId) ?
           <MobileSubscribe
             className='mobile_subscribe'
             showBox={!!displayMobileOptIn}
@@ -68,11 +73,6 @@ const SignatureAddForm = ({
                 /* isCheckbox: */ true)}
           /> : ''
         }
-      </div>
-    )}
-
-    {(!hideUntilInteract && showAddressFields) ? (
-      <div>
         <CountrySelect
           className='override-collapse'
           onChange={onChangeCountry}
@@ -122,6 +122,15 @@ const SignatureAddForm = ({
     ) : (
       ''
     )}
+    {(showMobileSignup && user.signonId) ?
+      <MobileSubscribe
+        className='mobile_subscribe'
+        showBox={!!displayMobileOptIn}
+        updatePhoneNo={updateStateFromValue('phone')}
+        updateOptIn={updateStateFromValue('mobile_optin',
+            /* isCheckbox: */ true)}
+      /> : ''
+    }
     <InputBlock name='comment' label='Comment (Optional)'>
       <textarea
         rows='10'
