@@ -1,15 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-/*
-import About from './form/instructions/about'
-import StatementTip from './form/instructions/statement'
-import TargetCustom from './form/instructions/target-custom'
-import TargetNational from './form/instructions/target-national'
-import TargetState from './form/instructions/target-state'
-import TitleTip from './form/instructions/title'
-*/
-
 import Config from '../../../config'
 
 import ChatBubble from 'GiraffeUI/conversation/chat-bubble'
@@ -28,18 +19,14 @@ const CreatePetitionFormConversation = ({
   updateStateFromValue,
   getStateValue,
   toggleOpen,
-  // editPetition,
   onTargetAdd,
   onTargetRemove,
   publish,
   targets,
   targetQuery,
-  // nextSection,
   saveInput,
   toggleEditBubble,
   currentIndex
-  // chatEnd,
-  // toggleConvoTip
 }) => {
   const section = getStateValue('section')
   const progressWidth = `${(section / 5) * 100}%`

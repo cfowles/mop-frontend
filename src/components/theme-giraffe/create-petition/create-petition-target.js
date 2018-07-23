@@ -25,39 +25,6 @@ export class CreatePetitionTarget extends React.Component {
     this.renderCustom = this.renderCustom.bind(this)
   }
 
-  // static getDerivedStateFromProps(props) {
-  //   console.log(props);
-  //   const customTargets = props.targets.filter(t => t.target_type === 'custom')
-  //   const nationalTargets = props.targets.filter(
-  //     target =>
-  //       ['senatemem', 'housemem', 'president', 'house', 'senate'].indexOf(
-  //         target.target_type
-  //       ) !== -1
-  //   )
-  //   const stateTargets = props.targets.filter(
-  //     target =>
-  //       [
-  //         'statesenatemem',
-  //         'statehousemem',
-  //         'governor',
-  //         'statehouse',
-  //         'statesenate'
-  //       ].indexOf(target.target_type) !== -1
-  //   )
-
-  //   const openCheckboxes = {}
-  //   if (nationalTargets.length) openCheckboxes.nationalOpen = true
-  //   if (stateTargets.length) openCheckboxes.stateOpen = true
-  //   if (customTargets.length) openCheckboxes.customOpen = true
-
-  //   return {
-  //     nationalTargets,
-  //     stateTargets,
-  //     customTargets,
-  //     ...openCheckboxes
-  //   }
-  // }
-
   componentDidMount() {
     // Preload congress for autocomplete
     this.props.dispatch(loadTargets('national')).then(

@@ -20,13 +20,6 @@ const loadMoreButton = (
   </div>
 )
 
-// const customTarget = filteredTargets.length > 0 ? '' : (
-//   <div className='add-target bg-ice-blue'>
-// Add “{getStateValue('targetQuery')}” as target
-//     <div className='add' />
-//   </div>
-// )
-
 return (
   <div className={cx('targets container bg-azure', currentIndex >= 18 && currentIndex <= 20 ? 'toggled' : '')}>
     <div className='row'>

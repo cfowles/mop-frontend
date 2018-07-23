@@ -100,5 +100,3 @@ Signup.propTypes = {
 }
 
 export default Signup
-
-// disabled={!email || !zip || zip.length !== 5 || !name || !password || !passwordConfirm || passwordConfirm !== password} >

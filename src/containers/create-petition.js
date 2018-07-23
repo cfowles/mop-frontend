@@ -4,8 +4,6 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import Scroll from 'react-scroll'
 
-// import { appLocation } from '../routes'
-
 import Config from '../config'
 
 import { previewSubmit, submit, devLocalSubmit } from '../actions/createPetitionActions'
@@ -30,7 +28,6 @@ const CONVO_ERRORS = {
     description: 500
   }
 }
-// let CHAT_END
 
 class CreatePetition extends React.Component {
   constructor(props) {
@@ -91,7 +88,6 @@ class CreatePetition extends React.Component {
 
   componentDidMount() {
     const uinput = document.getElementById('user-input')
-    // CHAT_END = document.getElementById('chatend')
     if (uinput) {
       uinput.focus()
     }
@@ -165,8 +161,6 @@ class CreatePetition extends React.Component {
   }
 
   getStateValue(field) {
-    // some check? Need to return undefined right now.
-    // if (this.state[field])
     return this.state[field]
   }
 
@@ -281,8 +275,6 @@ class CreatePetition extends React.Component {
 
   /* eslint-disable class-methods-use-this */
   scrollToBottom() {
-    // browser bug {behavior: "smooth",block: "end"}
-    // if (CHAT_END) CHAT_END.scrollIntoView()
     Scroll.animateScroll.scrollToBottom({
       smooth: true,
       containerId: 'chat-wrap',
@@ -332,9 +324,6 @@ class CreatePetition extends React.Component {
   convoInputIsValid(inputType) {
     const errors = []
     if (!this.state[inputType]) errors.push(CONVO_ERRORS.empty[inputType])
-    /* if (Object.prototype.hasOwnProperty.call(CONVO_ERRORS.maxChar, inputType)) {
-      if (this.state[inputType].length > CONVO_ERRORS.maxChar[inputType]) errors.push(`Please use ${CONVO_ERRORS.maxChar[inputType]} characters or less in your ${inputType}`)
-    } */
     if (inputType === 'email' && this.state.email) {
       if (!isValidEmail(this.state.email)) errors.push('Please use a valid email address.')
     }
@@ -356,7 +345,6 @@ class CreatePetition extends React.Component {
 
 
   render() {
-    // const createType = !this.props.params.type ? 'p' : this.props.params.type
     let createType
 
     if (this.props.params) {

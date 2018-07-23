@@ -1,20 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-/* import About from './form/instructions/about'
-import Statement from './form/instructions/statement'
-import TargetCustom from './form/instructions/target-custom'
-import TargetNational from './form/instructions/target-national'
-import TargetState from './form/instructions/target-state'
-import Title from './form/instructions/title' */
-
-// import CreatePetitionTarget from './create-petition-target'
-
-// Steps
 import Title from './ppp-steps/title'
 import Summary from './ppp-steps/summary'
 import Description from './ppp-steps/description'
-// import Targets from './ppp-steps/targets'
 import CreateTargets from '../../../containers/create-targets'
 import Review from './ppp-steps/review'
 import Share from './ppp-steps/share'
@@ -23,11 +12,6 @@ import Signup from './ppp-steps/signup'
 import '../../../../css/create.scss'
 
 import Config from '../../../config'
-/* const instructionsByField = {
-  title: <Title />,
-  // statement: <Statement />,
-  about: <About />
-} */
 
 const CreatePetitionForm = ({
   updateStateFromValue,
@@ -41,7 +25,6 @@ const CreatePetitionForm = ({
   targetQuery,
   step
 }) => {
-  // Steps
   const titleStep = (<Title
     toggleOpen={toggleOpen}
     updateStateFromValue={updateStateFromValue}
@@ -87,7 +70,6 @@ const CreatePetitionForm = ({
     getStateValue={getStateValue}
   />)
 
-  // Modals
   const tip = (<Tip
     toggleOpen={toggleOpen}
     getStateValue={getStateValue}
@@ -101,9 +83,7 @@ const CreatePetitionForm = ({
   />)
 
   const name = getStateValue('name')
-  // const step = getStateValue('step')
   const nearbyCount = getStateValue('nearby_count')
-
   const progressWidth = `${(step / 6) * 100}%`
   const progressStyles = {
     width: progressWidth

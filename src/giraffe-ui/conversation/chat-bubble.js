@@ -18,7 +18,6 @@ const ChatBubble = ({
     targets,
     onTargetRemove
 }) => {
-    // Object.prototype.hasOwnProperty.call(foo, "bar");
     const hasInput = Object.prototype.hasOwnProperty.call(bubble, 'input')
     const inputType = hasInput ? bubble.input.type : ''
     const inputPlaceholder = hasInput ? bubble.content : ''

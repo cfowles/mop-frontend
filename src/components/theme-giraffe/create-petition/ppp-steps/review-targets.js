@@ -4,12 +4,6 @@ import cx from 'classnames'
 import { InputMaterial } from 'GiraffeUI/input-material'
 
 const ReviewTargets = ({
-    // toggleOpen,
-    // step,
-    // nextStep,
-    // setRef,
-    // setSelected,
-    // targets,
     renderTargets,
     renderSelectedTargets,
     targetQuery,

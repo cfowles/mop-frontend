@@ -28,9 +28,6 @@ const LoginFormMaterial = ({
       />
     </div>
     <div className='buttons text-align-center'>
-      {/* <Submit disabled={isSubmitting}>
-              {isSubmitting ? 'Please wait...' : 'Next'}
-            </Submit> */}
       <button
         type='submit'
         className='center display-block ppp-btn btn'

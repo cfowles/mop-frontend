@@ -98,19 +98,3 @@ ConversationalInput.propTypes = {
 }
 
 export default ConversationalInput
-
-
-// <input
-// id='user-input'
-// className='user-input'
-// type='type'
-// name={inputType}
-// placeholder={inputPlaceholder}
-// onChange={updateStateFromValue(inputType)}
-// onBlur={updateStateFromValue(inputType)}
-// onKeyPress={event => {
-//   if (event.key === 'Enter') {
-//     saveInput(inputType)
-//   }
-// }}
-// />

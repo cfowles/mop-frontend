@@ -7,7 +7,6 @@ const Share = ({
     shareButtonsToggled,
     step
 }) => {
-    // const output = shareButtonsToggled ? shareButtons : '';
     const classes = step === 6 ? 'share ppp-step container active' : 'share ppp-step container'
     const shareButtonsClasses = shareButtonsToggled ? 'dropdown-submenu share-btns-extra toggled' : 'dropdown-submenu share-btns-extra'
 
