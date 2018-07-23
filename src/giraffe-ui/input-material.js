@@ -45,7 +45,28 @@ export const InputMaterial = ({
       {...rest}
     />
   )
-  const inputElement = type === 'textarea' ? textarea : input
+  const search = (
+    <input
+      type={type}
+      name={name}
+      id={name}
+      className={cx(
+          className,
+          stateRef ? 'has-input' : ''
+        )}
+      onChange={onChange}
+      onBlur={onChange}
+      ref={setRef}
+      {...rest}
+    />
+  )
+  let inputElement = input
+  if (type === 'textarea') {
+    inputElement = textarea
+  }
+  if (type === 'search') {
+    inputElement = search
+  }
   stateRef = stateRef || '' // eslint-disable-line
 
   return (
