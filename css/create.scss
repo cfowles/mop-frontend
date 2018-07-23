@@ -17,7 +17,7 @@ $bp-md: 768px;
 $bp-lg: 1008px;
 $bp-xl: 1440px;
 
-hr {
+#conversational hr, #ppp hr {
     border-top: 5px solid gray;
     margin: 20px 0;
 }
@@ -27,8 +27,7 @@ hr {
  ****************/
 
 /* General */
-
-.group {
+#ppp .group, #conversational .group {
     position: relative;
     margin-bottom: 45px;
     input,
@@ -107,7 +106,7 @@ hr {
     }
 }
 /* Checkboxes */
-#content .checkbox-wrap {
+#content #ppp .checkbox-wrap, #content #conversational .checkbox-wrap {
     display: block;
     position: relative;
     padding-left: 35px;
