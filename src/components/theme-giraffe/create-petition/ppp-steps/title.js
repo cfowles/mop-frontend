@@ -7,7 +7,8 @@ import Lightbulb from '../../../../giraffe-ui/svgs/lightbulb.svg'
 const Title = ({
   toggleOpen,
   updateStateFromValue,
-  getStateValue
+  getStateValue,
+  setRef
 }) => (
   <div className={cx('title', 'ppp-step', 'container', getStateValue('step') === 1 ? 'active' : '')}>
     <div className='row ppp-item'>
@@ -29,7 +30,7 @@ const Title = ({
       <div className='col-12'>
         <p>Start with a petition title - successful titles are brief, like a newspaper headline.</p>
       </div>
-      <InputMaterial name='title' type='textarea' className='bg-ice-blue' label='Your Petition Title' charLimit={50} stateRef={getStateValue('title')} onChange={updateStateFromValue('title')} />
+      <InputMaterial name='title' type='textarea' className='bg-ice-blue' label='Your Petition Title' charLimit={50} stateRef={getStateValue('title')} onChange={updateStateFromValue('title')} setRef={setRef} />
     </div>
     <button type='button' className='center display-block ppp-btn btn azure' name='title_next' id='title_next' onClick={toggleOpen('signupModalToggled')} disabled={!getStateValue('title')}>Next</button>
   </div>
@@ -38,7 +39,8 @@ const Title = ({
 Title.propTypes = {
     toggleOpen: PropTypes.func,
     updateStateFromValue: PropTypes.func,
-    getStateValue: PropTypes.func
+    getStateValue: PropTypes.func,
+    setRef: PropTypes.func
 }
 
 export default Title

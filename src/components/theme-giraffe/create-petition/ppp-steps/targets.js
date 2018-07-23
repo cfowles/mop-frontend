@@ -16,7 +16,8 @@ filteredTargets,
 load,
 updateQuery,
 renderCustomTarget,
-step
+step,
+pppRef
 }) => {
 const loadMoreButton = (
   <div className='col-12'>
@@ -51,6 +52,7 @@ return (
         label='Search a specific target'
         stateRef={getStateValue('targetQuery')}
         onChange={updateQuery}
+        ref={pppRef}
       />
       {!targetsLoaded ? 'Loading...' : ''}
       {renderTargets()}
@@ -81,7 +83,11 @@ Targets.propTypes = {
     PropTypes.array
   ]),
   load: PropTypes.number,
-  step: PropTypes.number
+  step: PropTypes.number,
+  pppRef: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.func
+  ])
 }
 
 export default Targets

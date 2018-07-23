@@ -26,7 +26,8 @@ const CreatePetitionFormConversation = ({
   targetQuery,
   saveInput,
   toggleEditBubble,
-  currentIndex
+  currentIndex,
+  setRef
 }) => {
   const section = getStateValue('section')
   const progressWidth = `${(section / 5) * 100}%`
@@ -80,6 +81,7 @@ const CreatePetitionFormConversation = ({
     updateStateFromValue={updateStateFromValue}
     toggleOpen={toggleOpen}
     getStateValue={getStateValue}
+    setRef={setRef}
   />)
   const chatend = (<ChatEnd
     getStateValue={getStateValue}
@@ -154,7 +156,8 @@ CreatePetitionFormConversation.propTypes = {
   targetQuery: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.string
-  ])
+  ]),
+  setRef: PropTypes.func
 }
 
 export default CreatePetitionFormConversation

@@ -10,7 +10,8 @@ const ConversationalInput = ({
   updateStateFromValue,
   targetQuery,
   toggleOpen,
-  getStateValue
+  getStateValue,
+  setRef
 }) => {
   const currentIndex = getStateValue('currentIndex')
   const errors = getStateValue('errors')
@@ -64,6 +65,7 @@ const ConversationalInput = ({
             onChange={updateStateFromValue(inputType)}
             onBlur={updateStateFromValue(inputType)}
             id='user-input'
+            setRef={setRef}
             onKeyPress={event => {
               if (event.key === 'Enter' && stateRef) {
                 event.preventDefault()
@@ -94,7 +96,8 @@ ConversationalInput.propTypes = {
     PropTypes.bool,
     PropTypes.string
   ]),
-  getStateValue: PropTypes.func
+  getStateValue: PropTypes.func,
+  setRef: PropTypes.func
 }
 
 export default ConversationalInput

@@ -23,25 +23,29 @@ const CreatePetitionForm = ({
   publish,
   targets,
   targetQuery,
-  step
+  step,
+  setRef
 }) => {
   const titleStep = (<Title
     toggleOpen={toggleOpen}
     updateStateFromValue={updateStateFromValue}
     getStateValue={getStateValue}
     nextStep={nextStep}
+    setRef={setRef}
   />)
   const summaryStep = (<Summary
     toggleOpen={toggleOpen}
     updateStateFromValue={updateStateFromValue}
     getStateValue={getStateValue}
     nextStep={nextStep}
+    setRef={setRef}
   />)
   const descriptionStep = (<Description
     toggleOpen={toggleOpen}
     updateStateFromValue={updateStateFromValue}
     getStateValue={getStateValue}
     nextStep={nextStep}
+    setRef={setRef}
   />)
   const targetsStep = (<CreateTargets
     toggleOpen={toggleOpen}
@@ -54,6 +58,7 @@ const CreatePetitionForm = ({
     targetQuery={targetQuery}
     theme='ppp'
     step={step}
+    setRef={setRef}
   />)
   const reviewStep = (<Review
     toggleOpen={toggleOpen}
@@ -142,7 +147,8 @@ CreatePetitionForm.propTypes = {
     PropTypes.bool,
     PropTypes.string
   ]),
-  step: PropTypes.number
+  step: PropTypes.number,
+  setRef: PropTypes.func
 }
 
 export default CreatePetitionForm

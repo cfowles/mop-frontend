@@ -12,6 +12,7 @@ export const InputMaterial = ({
   charLimit,
   stateRef,
   onChange,
+  setRef,
   ...rest
 }) => {
   const input = (
@@ -39,6 +40,8 @@ export const InputMaterial = ({
         )}
       onChange={onChange}
       onBlur={onChange}
+      inputRef={el => { setRef(el) }}
+      autoFocus
       {...rest}
     />
   )
@@ -77,5 +80,6 @@ InputMaterial.propTypes = {
     PropTypes.func,
     PropTypes.bool
   ]),
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  setRef: PropTypes.func
 }

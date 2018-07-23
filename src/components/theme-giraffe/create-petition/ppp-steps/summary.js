@@ -4,7 +4,7 @@ import { InputMaterial } from 'GiraffeUI/input-material'
 import cx from 'classnames'
 import Lightbulb from '../../../../giraffe-ui/svgs/lightbulb.svg'
 
-const Summary = ({ toggleOpen, updateStateFromValue, getStateValue, nextStep }) => (
+const Summary = ({ toggleOpen, updateStateFromValue, getStateValue, nextStep, setRef }) => (
   <div className={cx('statement', 'ppp-step', 'container', getStateValue('step') === 2 ? 'active' : '')}>
     <div className='row ppp-item'>
       <div className='col-12 ppp-heading'>
@@ -17,7 +17,7 @@ const Summary = ({ toggleOpen, updateStateFromValue, getStateValue, nextStep }) 
       <div className='col-12'>
         <p>In one to two sentences, tell us more about what you want your petition to accomplish.</p>
       </div>
-      <InputMaterial name='summary' type='textarea' className='bg-ice-blue' label='Your Petition Statement' charLimit={100} stateRef={getStateValue('summary')} onChange={updateStateFromValue('summary')} />
+      <InputMaterial name='summary' type='textarea' className='bg-ice-blue' label='Your Petition Statement' charLimit={100} stateRef={getStateValue('summary')} onChange={updateStateFromValue('summary')} setRef={setRef} />
     </div>
     <button
       type='button'
@@ -36,7 +36,8 @@ Summary.propTypes = {
   toggleOpen: PropTypes.func,
   updateStateFromValue: PropTypes.func,
   getStateValue: PropTypes.func,
-  nextStep: PropTypes.func
+  nextStep: PropTypes.func,
+  setRef: PropTypes.func
 }
 
 export default Summary

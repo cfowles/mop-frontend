@@ -4,7 +4,7 @@ import { InputMaterial } from 'GiraffeUI/input-material'
 import cx from 'classnames'
 import Lightbulb from '../../../../giraffe-ui/svgs/lightbulb.svg'
 
-const Description = ({ toggleOpen, updateStateFromValue, getStateValue, nextStep }) => (
+const Description = ({ toggleOpen, updateStateFromValue, getStateValue, nextStep, setRef }) => (
   <div className={cx('description', 'ppp-step', 'container', getStateValue('step') === 3 ? 'active' : '')}>
     <div className='row ppp-item'>
       <div className='col-12 ppp-heading'>
@@ -17,7 +17,7 @@ const Description = ({ toggleOpen, updateStateFromValue, getStateValue, nextStep
       <div className='col-12'>
         <p>Briefly describe why this issue is important and how it has affected you.</p>
       </div>
-      <InputMaterial name='description' type='textarea' className='bg-ice-blue' label='Your Petition Description' charLimit={500} stateRef={getStateValue('description')} onChange={updateStateFromValue('description')} />
+      <InputMaterial name='description' type='textarea' className='bg-ice-blue' label='Your Petition Description' charLimit={500} stateRef={getStateValue('description')} onChange={updateStateFromValue('description')} setRef={setRef} />
     </div>
     <button
       type='button'
@@ -37,7 +37,8 @@ Description.propTypes = {
     toggleOpen: PropTypes.func,
     updateStateFromValue: PropTypes.func,
     nextStep: PropTypes.func,
-    getStateValue: PropTypes.func
+    getStateValue: PropTypes.func,
+    setRef: PropTypes.func
 }
 
 export default Description

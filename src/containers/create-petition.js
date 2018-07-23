@@ -67,6 +67,7 @@ class CreatePetition extends React.Component {
       convoReviewToggled: false,
       loginToggled: false
     }
+    this.createRef = null
     this.nextStep = this.nextStep.bind(this)
     this.getSectionLengths = this.getSectionLengths.bind(this)
     this.callSection = this.callSection.bind(this)
@@ -84,12 +85,12 @@ class CreatePetition extends React.Component {
     this.onTargetRemove = this.onTargetRemove.bind(this)
     this.submitPetition = this.submitPetition.bind(this)
     this.validateAndContinue = this.validateAndContinue.bind(this)
+    this.setRef = this.setRef.bind(this)
   }
 
   componentDidMount() {
-    const uinput = document.getElementById('user-input')
-    if (uinput) {
-      uinput.focus()
+    if (this.createRef) {
+      this.createRef.focus()
     }
 
     this.getSectionLengths()
@@ -162,6 +163,10 @@ class CreatePetition extends React.Component {
 
   getStateValue(field) {
     return this.state[field]
+  }
+
+  setRef(ref) {
+    this.createRef = ref
   }
 
   updateStateFromValue(field, isCheckbox = false) {
@@ -243,20 +248,23 @@ class CreatePetition extends React.Component {
   }
 
   saveInput(inputType) {
-    const uinput = document.getElementById('user-input')
-    const tquery = document.getElementById('target-query')
+    // const uinput = document.getElementById('user-input')
+    const uinput = this.createRef
+    // const tquery = document.getElementById('target-query')
     return () => {
       this.setState({ errors: [] })
       if (!this.convoInputIsValid(inputType)) return
       this.nextBubble()
       this.setState({ currentBubble: 0 })
       uinput.value = ''
-      tquery.value = ''
+      // tquery.value = ''
+      /*
       if (this.state.section === 3) {
         setTimeout(() => tquery.focus(), 1000)
       } else {
         uinput.focus()
-      }
+      } */
+      uinput.focus()
       this.inputTimeout = setTimeout(() => {
         this.nextSection()
         this.callSection()
@@ -369,6 +377,7 @@ class CreatePetition extends React.Component {
             targetQuery={this.state.targetQuery}
             step={this.state.step}
             submitPetition={this.submitPetition}
+            setRef={this.setRef}
           />
         </div>
       )
@@ -391,6 +400,7 @@ class CreatePetition extends React.Component {
             targets={this.state.target}
             currentIndex={this.state.currentIndex}
             submitPetition={this.submitPetition}
+            setRef={this.setRef}
           />
         </div>
       )
