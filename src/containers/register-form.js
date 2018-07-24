@@ -52,8 +52,8 @@ class Register extends React.Component {
         passwordConfirm: passwordConfirm.value
       }
       if (this.props.includeZipAndPhone) {
-        fields[zip] = zip.value
-        fields[phone] = phone.value
+        fields.zip = zip.value
+        fields.phone = phone.value
       }
     }
     return fields
