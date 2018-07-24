@@ -105,7 +105,7 @@ const CreatePetitionForm = ({
         <div className='row'>
           <div className='col-12 heading-title-wrap'>
             <a href='https://front.moveon.org/'>
-              <img className='logo' src={`${Config.STATIC_ROOT}images/logo.svg`} alt='MoveOn Logo' />
+              <img className='logo' src={`${Config.STATIC_ROOT}images/logo-reverse-blue.svg`} alt='MoveOn Logo' />
             </a>
             <h2 className='bg-white'>
               {
