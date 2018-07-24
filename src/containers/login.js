@@ -17,6 +17,7 @@ class Login extends React.Component {
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.errorList = this.errorList.bind(this)
+    this.getFields = this.getFields.bind(this)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -26,6 +27,21 @@ class Login extends React.Component {
     }
   }
 
+  getFields() {
+    const material = this.props.useMaterialDesign
+    const { email, password } = material ? this.props : this
+    let fields = {}
+    if (material) {
+      fields = { email, password }
+    } else {
+      fields = {
+        email: email.value,
+        password: password.value
+      }
+    }
+    return fields
+  }
+
   /**
    * Validates the form for client side errors.
    * If valid returns true otherwise false.
@@ -33,17 +49,16 @@ class Login extends React.Component {
    * @returns {boolean}
    */
   validateForm() {
-    const material = this.props.useMaterialDesign
-    const { email, password } = material ? this.props : this
+    const { email, password } = this.getFields()
     const errors = []
-    if (!isValidEmail(material ? email : email.value)) {
-      if (material ? !email.length : !this.email.value.trim().length) {
+    if (!isValidEmail(email)) {
+      if (!email.trim().length) {
         errors.push({ message: 'Missing required entry for the Email field.' })
       } else {
         errors.push({ message: 'Invalid entry for the Email field.' })
       }
     }
-    if (material ? !password.length : !password.value.trim().length) {
+    if (!password.trim().length) {
       errors.push({ message: 'Missing required entry for the Password field.' })
     }
     if (errors.length) {
@@ -65,19 +80,13 @@ class Login extends React.Component {
     event.preventDefault()
     if (!this.validateForm()) return
 
-    const material = this.props.useMaterialDesign
-    const { email, password } = material ? this.props : this
-    const fields = {
-      email: material ? email : email.value,
-      password: material ? password : password.value
-    }
     const { dispatch, location } = this.props
 
     let successCallback = this.props.successCallback
-    if (!material && location.query.redirect) {
+    if (location.query.redirect) {
       successCallback = () => appLocation.push(location.query.redirect)
     }
-    dispatch(accountActions.login(fields, successCallback))
+    dispatch(accountActions.login(this.getFields(), successCallback))
   }
 
   render() {
@@ -109,7 +118,8 @@ class Login extends React.Component {
 }
 
 Login.defaultProps = {
-  successCallback: () => appLocation.push('/dashboard.html')
+  successCallback: () => appLocation.push('/dashboard.html'),
+  location: { query: {} }
 }
 
 Login.propTypes = {

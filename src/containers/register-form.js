@@ -18,45 +18,68 @@ class Register extends React.Component {
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.validateForm = this.validateForm.bind(this)
+    this.getFields = this.getFields.bind(this)
     this.errorList = this.errorList.bind(this)
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.formErrors.length) {
       this.setState({ presubmitErrors: null })
-      this.password.value = ''
-      this.passwordConfirm.value = ''
+      if (!this.props.useMaterialDesign) {
+        this.password.value = ''
+        this.passwordConfirm.value = ''
+      }
     }
   }
 
-  /**
-   * Validates the form for client side errors.
-   * If valid returns true otherwise false.
-   * If errors it will update the local state `presubmitErrors`
-   * @returns {boolean}
-   */
-  validateForm() {
+  getFields() {
     const material = this.props.useMaterialDesign
-    const { name, email, password, passwordConfirm, zip } = material ? this.props : this
+    const { name, email, password, passwordConfirm, zip, phone } = material ? this.props : this
+    let fields = {}
+    if (material) {
+      fields = {
+        name,
+        email,
+        zip,
+        password,
+        passwordConfirm
+      }
+    } else {
+      fields = {
+        name: name.value,
+        email: email.value,
+        password: password.value,
+        passwordConfirm: passwordConfirm.value
+      }
+      if (this.props.includeZipAndPhone) {
+        fields[zip] = zip.value
+        fields[phone] = phone.value
+      }
+    }
+    return fields
+  }
+
+  validateForm() {
+    const { name, email, password, passwordConfirm, zip } = this.getFields()
     const errors = []
-    if (material ? !name.length : !name.value.trim().length) {
+    if (!name.trim().length) {
       errors.push({ message: 'Missing required entry for the Name field.' })
     }
-    if (!isValidEmail(material ? email : email.value)) {
-      if (material ? !email.length : !this.email.value.trim().length) {
+    if (!isValidEmail(email)) {
+      if (!email.trim().length) {
         errors.push({ message: 'Missing required entry for the Email field.' })
       } else {
         errors.push({ message: 'Invalid entry for the Email field.' })
       }
     }
-    if (material ? !password.length : !password.value.trim().length) {
+    if (!password.trim().length) {
       errors.push({ message: 'Missing required entry for the Password field.' })
-    } else if (material ? (password !== passwordConfirm) : (password.value.trim() !== passwordConfirm.value.trim())) {
+    } else if (password.trim() !== passwordConfirm.trim()) {
       errors.push({
         message: 'Password and PasswordConfirm fields do not match.'
       })
     }
-    if (material ? !zip.length : (this.props.includeZipAndPhone && !zip.value.trim().length)) {
+    if (this.props.includeZipAndPhone && !zip.trim().length) {
       errors.push({ message: 'Missing required entry for the ZIP Code field.' })
     }
     if (errors.length) {
@@ -67,34 +90,10 @@ class Register extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    const material = this.props.useMaterialDesign
     const registerAction = Config.API_WRITABLE ? register : devLocalRegister
-    const { name, email, password, passwordConfirm, zip, phone } = material ? this.props : this
     if (this.validateForm()) {
-      let fields
-      if (material) {
-        fields = {
-          name,
-          email,
-          zip,
-          password,
-          passwordConfirm
-        }
-      } else {
-        fields = {
-          [name.name]: name.value,
-          [email.name]: email.value,
-          [password.name]: password.value,
-          [passwordConfirm.name]: passwordConfirm.value
-        }
-        if (this.props.includeZipAndPhone) {
-          fields[zip.name] = zip.value
-          fields[phone.name] = phone.value
-        }
-      }
-
       const { successCallback, isCreatingPetition, dispatch } = this.props
-      dispatch(registerAction(fields, { successCallback, isCreatingPetition }))
+      dispatch(registerAction(this.getFields(), { successCallback, isCreatingPetition }))
     }
   }
 
