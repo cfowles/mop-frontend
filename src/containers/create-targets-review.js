@@ -58,6 +58,7 @@ export class CreateTargetsReview extends React.Component {
     this.setState({ load: 10 })
     const u = this.props.updateStateFromValue('targetQuery')
     u(event)
+    console.log(this.props.targetQuery)
   }
 
   loadMoreTargets() {
@@ -111,12 +112,8 @@ export class CreateTargetsReview extends React.Component {
   }
 
   render() {
-    const { setSelected, setRef } = this.props
-
     return (
       <ReviewTargets
-        setSelected={setSelected}
-        setRef={setRef}
         step={this.props.step}
         nextStep={this.props.nextStep}
         toggleOpen={this.props.toggleOpen}
@@ -127,14 +124,13 @@ export class CreateTargetsReview extends React.Component {
         load={this.state.load}
         filteredTargets={this.state.filteredTargets}
         loadMoreTargets={this.loadMoreTargets}
+        setRef={this.props.setRef}
       />
     )
   }
 }
 
 CreateTargetsReview.propTypes = {
-  setSelected: PropTypes.func,
-  setRef: PropTypes.func,
   onTargetAdd: PropTypes.func,
   onTargetRemove: PropTypes.func,
   // eslint-disable-next-line
@@ -150,7 +146,8 @@ CreateTargetsReview.propTypes = {
   targetQuery: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.string
-  ])
+  ]),
+  setRef: PropTypes.func
 }
 function mapStateToProps(store) {
   return {

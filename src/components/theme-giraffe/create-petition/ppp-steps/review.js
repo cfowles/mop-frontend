@@ -13,7 +13,9 @@ const Review = ({
     onTargetAdd,
     onTargetRemove,
     getStateValue,
-    targets
+    targets,
+    setRef,
+    targetQuery
 }) => {
     const title = getStateValue('title')
     const summary = getStateValue('summary')
@@ -108,6 +110,8 @@ const Review = ({
               onTargetAdd={onTargetAdd}
               onTargetRemove={onTargetRemove}
               targets={targets}
+              setRef={setRef}
+              targetQuery={targetQuery}
             />
           </div>
           {editPetition ? edit.summary : review.summary}
@@ -139,7 +143,9 @@ Review.propTypes = {
     targets: PropTypes.oneOfType([
       PropTypes.bool,
       PropTypes.array
-    ])
+    ]),
+    setRef: PropTypes.func,
+    targetQuery: PropTypes.string
 }
 
 export default Review

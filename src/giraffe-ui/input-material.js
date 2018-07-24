@@ -40,8 +40,8 @@ export const InputMaterial = ({
         )}
       onChange={onChange}
       onBlur={onChange}
-      inputRef={el => { setRef(el) }}
-      autoFocus
+      inputRef={setRef ? el => { setRef(el) } : () => false}
+      // autoFocus
       {...rest}
     />
   )

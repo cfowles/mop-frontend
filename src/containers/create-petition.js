@@ -33,6 +33,7 @@ class CreatePetition extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      createRef: [],
       // User Data
       name: false,
       email: false,
@@ -67,7 +68,7 @@ class CreatePetition extends React.Component {
       convoReviewToggled: false,
       loginToggled: false
     }
-    this.createRef = null
+    this.targetHasFocused = false
     this.nextStep = this.nextStep.bind(this)
     this.getSectionLengths = this.getSectionLengths.bind(this)
     this.callSection = this.callSection.bind(this)
@@ -88,54 +89,65 @@ class CreatePetition extends React.Component {
     this.setRef = this.setRef.bind(this)
   }
 
-  componentDidMount() {
-    if (this.createRef) {
-      this.createRef.focus()
+  static getDerivedStateFromProps(props) {
+    let createType
+
+    if (props.params) {
+      createType = Object.prototype.hasOwnProperty.call(props.params, 'type') ? props.params.type : 'p'
+    } else {
+      createType = 'p'
     }
 
+    return {
+      createType
+    }
+  }
+
+  componentDidMount() {
     this.getSectionLengths()
     this.initSection = setTimeout(() => {
       this.callSection()
     }, 500)
   }
-
-
-    // --------------------
-    // TARGETS
-    // --------------------
-    onTargetAdd(target, { isCustom } = { isCustom: false }) {
-      return () => {
-        if (!isCustom && !target.label) return // target is invalid
-        if (this.state.target) {
-          if (this.state.target.find(old => old.label === target.label || old.name === target.name)) return // already exists
-        }
-        if (isCustom && !this.state.targetQuery) return // Trying to add a blank custom target
-        if (isCustom) {
-          this.setState({ customInputs: { name: '', email: '', title: '' } })
-        }
-        this.setState({ target: [...this.state.target, target], targetQuery: '' })
-        // Reset and focus on target search bar
-        const tquery = document.getElementById('target-query')
-        const rquery = document.getElementById('review-target-query')
-        if (tquery) {
-          tquery.value = ''
-          tquery.focus()
-        }
-        if (rquery) {
-          rquery.value = ''
-          rquery.focus()
-        }
-        setTimeout(() => this.scrollToBottom(), 200)
-      }
+  componentDidUpdate() {
+    if ((this.state.step === 4 || this.state.currentIndex === 20) && !this.targetHasFocused) {
+      console.log()
+      this.focusRef()
+      this.targetHasFocused = true
     }
+  }
 
-    onTargetRemove(target) {
-      return () => {
-        this.setState(state => ({
-          target: state.target.filter(e => e.label !== target.label)
-        }))
+  // --------------------
+  // TARGETS
+  // --------------------
+  onTargetAdd(target, { isCustom } = { isCustom: false }) {
+    return () => {
+      if (!isCustom && !target.label) return // target is invalid
+      if (this.state.target) {
+        if (this.state.target.find(old => old.label === target.label || old.name === target.name)) return // already exists
       }
+      if (isCustom && !this.state.targetQuery) return // Trying to add a blank custom target
+      if (isCustom) {
+        this.setState({ customInputs: { name: '', email: '', title: '' } })
+      }
+      this.setState({ target: [...this.state.target, target], targetQuery: '' })
+      setTimeout(() => {
+        const convoIndex = this.state.currentIndex === 20 ? 0 : 2
+        const ref = this.state.createType === 'p' ? this.state.createRef[this.state.step - 1] : this.state.createRef[convoIndex]
+        ref.value = ''
+        this.focusRef()
+        if (this.state.createType !== 'p') this.scrollToBottom()
+      }, 200)
     }
+  }
+
+  onTargetRemove(target) {
+    return () => {
+      this.setState(state => ({
+        target: state.target.filter(e => e.label !== target.label)
+      }))
+    }
+  }
 
   // --------------------
   // SHARED
@@ -166,7 +178,22 @@ class CreatePetition extends React.Component {
   }
 
   setRef(ref) {
-    this.createRef = ref
+    if (ref) {
+      this.setState(prevState => {
+        const newState = prevState.createRef.concat(ref)
+        return { createRef: newState }
+      }, this.focusRef)
+    }
+  }
+
+  focusRef() {
+    if (this.state.createType !== 'p' && this.state.createRef.length) {
+      if (this.state.currentIndex === 0) this.state.createRef[1].focus()
+      if (this.state.currentIndex === 20) this.state.createRef[0].focus()
+      if (this.state.currentIndex > 20) this.state.createRef[2].focus()
+    } else if (this.state.createType === 'p' && this.state.createRef.length && this.state.createRef[this.state.step - 1]) {
+      this.state.createRef[this.state.step - 1].focus()
+    }
   }
 
   updateStateFromValue(field, isCheckbox = false) {
@@ -248,22 +275,13 @@ class CreatePetition extends React.Component {
   }
 
   saveInput(inputType) {
-    // const uinput = document.getElementById('user-input')
-    const uinput = this.createRef
-    // const tquery = document.getElementById('target-query')
+    const uinput = this.state.createRef[1]
     return () => {
       this.setState({ errors: [] })
       if (!this.convoInputIsValid(inputType)) return
       this.nextBubble()
       this.setState({ currentBubble: 0 })
       uinput.value = ''
-      // tquery.value = ''
-      /*
-      if (this.state.section === 3) {
-        setTimeout(() => tquery.focus(), 1000)
-      } else {
-        uinput.focus()
-      } */
       uinput.focus()
       this.inputTimeout = setTimeout(() => {
         this.nextSection()
@@ -353,15 +371,7 @@ class CreatePetition extends React.Component {
 
 
   render() {
-    let createType
-
-    if (this.props.params) {
-      createType = Object.prototype.hasOwnProperty.call(this.props.params, 'type') ? this.props.params.type : 'p'
-    } else {
-      createType = 'p'
-    }
-
-    if (createType === 'p') {
+    if (this.state.createType === 'p') {
       return (
         <div className='moveon-petitions'>
           <CreatePetitionForm
@@ -408,8 +418,7 @@ class CreatePetition extends React.Component {
 }
 
 CreatePetition.propTypes = {
-  dispatch: PropTypes.func,
-  params: PropTypes.object
+  dispatch: PropTypes.func
 }
 
 export default withRouter(connect()(CreatePetition))

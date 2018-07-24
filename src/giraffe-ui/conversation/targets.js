@@ -12,7 +12,8 @@ load,
 updateQuery,
 renderCustomTarget,
 saveInput,
-currentIndex
+currentIndex,
+setRef
 }) => {
 const loadMoreButton = (
   <div className='col-12'>
@@ -36,6 +37,7 @@ return (
           label='Search a specific target'
           stateRef={getStateValue('targetQuery')}
           onChange={updateQuery}
+          setRef={setRef}
         />
         <button className='center display-block bg-white azure' onClick={saveInput('target')}>DONE</button>
       </div>
@@ -56,7 +58,8 @@ ConvoTargets.propTypes = {
   updateQuery: PropTypes.func,
   renderCustomTarget: PropTypes.func,
   saveInput: PropTypes.func,
-  currentIndex: PropTypes.number
+  currentIndex: PropTypes.number,
+  setRef: PropTypes.func
 }
 
 export default ConvoTargets

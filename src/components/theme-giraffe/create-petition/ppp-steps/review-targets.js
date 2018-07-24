@@ -10,13 +10,14 @@ const ReviewTargets = ({
     updateQuery,
     load,
     filteredTargets,
-    loadMoreTargets
+    loadMoreTargets,
+    setRef
 }) => {
     const loadMoreButton = (
       <div className='col-12'>
         <button type='button' className='xl300 center display-block btn bg-gray' name='load-more' id='review-load-more' onClick={loadMoreTargets}>Show More Suggestions</button>
       </div>
-)
+    )
     return (
       <div className='review-targets'>
         <div className='selection-pills'>
@@ -33,8 +34,9 @@ const ReviewTargets = ({
             id='review-target-query'
             stateRef={targetQuery}
             onChange={updateQuery}
+            setRef={setRef}
           />
-          <div className={cx('col-12', 'targets-dropdown', 'bg-azure', targetQuery && targetQuery.length ? 'toggled' : '')}>
+          <div className={cx('col-12', 'targets-dropdown', 'bg-azure', targetQuery ? 'toggled' : '')}>
             {renderTargets()}
             {load < filteredTargets.length ? loadMoreButton : ''}
           </div>
@@ -56,7 +58,8 @@ ReviewTargets.propTypes = {
       PropTypes.bool,
       PropTypes.array
     ]),
-    loadMoreTargets: PropTypes.func
+    loadMoreTargets: PropTypes.func,
+    setRef: PropTypes.func
 }
 
 export default ReviewTargets

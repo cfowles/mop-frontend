@@ -75,6 +75,7 @@ const CreatePetitionFormConversation = ({
     theme='convo'
     saveInput={saveInput}
     currentIndex={currentIndex}
+    setRef={setRef}
   />)
   const input = (<ConversationalInput
     saveInput={saveInput}
@@ -100,6 +101,7 @@ const CreatePetitionFormConversation = ({
     targets={targets}
     targetQuery={targetQuery}
     theme='convo'
+    setRef={setRef}
   />)
   const desktop = (<DesktopProgress
     getStateValue={getStateValue}

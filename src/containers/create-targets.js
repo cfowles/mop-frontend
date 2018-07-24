@@ -156,6 +156,7 @@ export class CreateTargets extends React.Component {
           onTargetAdd={this.props.onTargetAdd}
           getStateValue={this.props.getStateValue}
           step={this.props.step}
+          setRef={this.props.setRef}
         />
       )
     }
@@ -176,6 +177,7 @@ export class CreateTargets extends React.Component {
           saveInput={this.props.saveInput}
           getStateValue={this.props.getStateValue}
           currentIndex={this.props.currentIndex}
+          setRef={this.props.setRef}
         />
       )
   }
@@ -200,7 +202,8 @@ CreateTargets.propTypes = {
     PropTypes.bool,
     PropTypes.string
   ]),
-  step: PropTypes.number
+  step: PropTypes.number,
+  setRef: PropTypes.func
 }
 function mapStateToProps(store) {
   return {

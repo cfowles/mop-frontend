@@ -69,6 +69,7 @@ const CreatePetitionForm = ({
     onTargetRemove={onTargetRemove}
     targets={targets}
     targetQuery={targetQuery}
+    setRef={setRef}
   />)
   const shareStep = (<Share
     toggleOpen={toggleOpen}
