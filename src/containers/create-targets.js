@@ -196,7 +196,8 @@ CreateTargets.propTypes = {
   currentIndex: PropTypes.number,
   targets: PropTypes.oneOfType([
     PropTypes.bool,
-    PropTypes.array
+    PropTypes.array,
+    PropTypes.string
   ]),
   targetQuery: PropTypes.oneOfType([
     PropTypes.bool,

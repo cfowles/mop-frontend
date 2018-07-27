@@ -142,7 +142,8 @@ Review.propTypes = {
     getStateValue: PropTypes.func,
     targets: PropTypes.oneOfType([
       PropTypes.bool,
-      PropTypes.array
+      PropTypes.array,
+      PropTypes.string
     ]),
     setRef: PropTypes.func,
     targetQuery: PropTypes.string

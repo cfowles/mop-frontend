@@ -110,7 +110,8 @@ ChatBubble.propTypes = {
     toggleEditBubble: PropTypes.func,
     targets: PropTypes.oneOfType([
       PropTypes.bool,
-      PropTypes.array
+      PropTypes.array,
+      PropTypes.string
     ]),
     onTargetRemove: PropTypes.func
 }
