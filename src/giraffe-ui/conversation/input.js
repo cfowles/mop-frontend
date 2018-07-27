@@ -32,7 +32,7 @@ const ConversationalInput = ({
   if (inputType === 'description') stateRef = description
   if (inputType === 'target') {
     stateRef = targetQuery
-    inputType = 'targetQuery'
+    inputType = 'target'
   }
 
   const classes = charLimit > 0 ? 'bg-white user-input has-helper-text' : 'bg-white user-input'
@@ -55,7 +55,7 @@ const ConversationalInput = ({
         </div>
         <div className='bubble user show'>
           <InputMaterial
-            name={inputType}
+            name='userInput'
             type='textarea'
             className={classes}
             label={inputPlaceholder}

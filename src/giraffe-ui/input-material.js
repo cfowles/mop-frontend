@@ -26,6 +26,7 @@ export const InputMaterial = ({
         )}
       onChange={onChange}
       onBlur={onChange}
+      ref={setRef ? el => { setRef(el, name) } : () => false}
       {...rest}
     />
   )
@@ -40,7 +41,7 @@ export const InputMaterial = ({
         )}
       onChange={onChange}
       onBlur={onChange}
-      inputRef={setRef ? el => { setRef(el) } : () => false}
+      inputRef={setRef ? el => { setRef(el, name) } : () => false}
       // autoFocus
       {...rest}
     />
@@ -56,7 +57,7 @@ export const InputMaterial = ({
         )}
       onChange={onChange}
       onBlur={onChange}
-      ref={setRef}
+      ref={el => setRef(el, name)}
       {...rest}
     />
   )

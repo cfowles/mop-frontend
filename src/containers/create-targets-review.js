@@ -58,7 +58,6 @@ export class CreateTargetsReview extends React.Component {
     this.setState({ load: 10 })
     const u = this.props.updateStateFromValue('targetQuery')
     u(event)
-    console.log(this.props.targetQuery)
   }
 
   loadMoreTargets() {

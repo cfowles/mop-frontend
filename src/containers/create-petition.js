@@ -28,12 +28,14 @@ const CONVO_ERRORS = {
     description: 500
   }
 }
+const STEPS = ['title', 'summary', 'description', 'target', 'reviewTarget']
 
 class CreatePetition extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       createRef: [],
+      currentRef: false,
       // User Data
       name: false,
       email: false,
@@ -87,6 +89,14 @@ class CreatePetition extends React.Component {
     this.submitPetition = this.submitPetition.bind(this)
     this.validateAndContinue = this.validateAndContinue.bind(this)
     this.setRef = this.setRef.bind(this)
+    this.petitionRefs = {
+      userInput: false,
+      title: false,
+      summary: false,
+      description: false,
+      target: false,
+      reviewTarget: false
+    }
   }
 
   static getDerivedStateFromProps(props) {
@@ -110,11 +120,10 @@ class CreatePetition extends React.Component {
     }, 500)
   }
   componentDidUpdate() {
-    if ((this.state.step === 4 || this.state.currentIndex === 20) && !this.targetHasFocused) {
-      console.log()
-      this.focusRef()
-      this.targetHasFocused = true
-    }
+    // if ((this.state.step === 4 || this.state.currentIndex === 20) && !this.targetHasFocused) {
+    //   this.focusRef()
+    //   this.targetHasFocused = true
+    // }
   }
 
   // --------------------
@@ -132,12 +141,13 @@ class CreatePetition extends React.Component {
       }
       this.setState({ target: [...this.state.target, target], targetQuery: '' })
       setTimeout(() => {
-        const convoIndex = this.state.currentIndex === 20 ? 0 : 2
-        const ref = this.state.createType === 'p' ? this.state.createRef[this.state.step - 1] : this.state.createRef[convoIndex]
+        const currentStep = STEPS[this.state.step - 1]
+        const convoTarget = this.state.convoReviewToggled ? this.petitionRefs.reviewTarget : this.petitionRefs.target
+        const ref = this.state.createType === 'p' ? this.petitionRefs[currentStep] : convoTarget
         ref.value = ''
-        this.focusRef()
+        ref.focus()
         if (this.state.createType !== 'p') this.scrollToBottom()
-      }, 200)
+      }, 50)
     }
   }
 
@@ -177,22 +187,24 @@ class CreatePetition extends React.Component {
     return this.state[field]
   }
 
-  setRef(ref) {
-    if (ref) {
-      this.setState(prevState => {
-        const newState = prevState.createRef.concat(ref)
-        return { createRef: newState }
-      }, this.focusRef)
+  setRef(ref, label) {
+    if (ref && label) {
+      const theme = this.state.createType === 'p' ? 'ppp' : 'convo'
+      this.petitionRefs[label] = ref
+      if ((theme === 'ppp' && this.state.step === 1) || (theme === 'convo' && this.state.currentIndex === 0)) this.focusRef()
     }
   }
 
   focusRef() {
-    if (this.state.createType !== 'p' && this.state.createRef.length) {
-      if (this.state.currentIndex === 0) this.state.createRef[1].focus()
-      if (this.state.currentIndex === 20) this.state.createRef[0].focus()
-      if (this.state.currentIndex > 20) this.state.createRef[2].focus()
-    } else if (this.state.createType === 'p' && this.state.createRef.length && this.state.createRef[this.state.step - 1]) {
-      this.state.createRef[this.state.step - 1].focus()
+    if (this.state.createType === 'p') {
+      const key = STEPS[this.state.step - 1]
+      if (this.petitionRefs[key]) this.petitionRefs[key].focus()
+    } else if (this.petitionRefs.userInput) {
+      const index = this.state.currentIndex
+      this.petitionRefs.userInput.focus()
+      if (Object.prototype.hasOwnProperty.call(conversation[index], 'input') && conversation[index].input.type === 'target' && this.petitionRefs.target) {
+        this.petitionRefs.target.focus()
+      }
     }
   }
 
@@ -233,7 +245,7 @@ class CreatePetition extends React.Component {
     this.setState(prevState => {
       const newStep = prevState.step + 1
       return { step: newStep, signupModalToggled: false }
-    })
+    }, this.focusRef)
   }
 
   // --------------------
@@ -266,7 +278,10 @@ class CreatePetition extends React.Component {
   }
 
   nextBubble() {
-    setTimeout(() => this.scrollToBottom(), this.state.currentIndex === 19 ? 700 : 200)
+    setTimeout(() => {
+      this.focusRef()
+      this.scrollToBottom()
+    }, this.state.currentIndex === 19 ? 700 : 200)
     this.setState(prevState => {
       const newBubble = prevState.currentBubble + 1
       const newIndex = prevState.currentIndex + 1
@@ -275,7 +290,7 @@ class CreatePetition extends React.Component {
   }
 
   saveInput(inputType) {
-    const uinput = this.state.createRef[1]
+    const uinput = this.petitionRefs.userInput
     return () => {
       this.setState({ errors: [] })
       if (!this.convoInputIsValid(inputType)) return

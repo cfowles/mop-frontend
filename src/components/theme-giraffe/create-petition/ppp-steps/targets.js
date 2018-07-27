@@ -46,7 +46,7 @@ return (
         </div>
       </div>
       <InputMaterial
-        name='target-query'
+        name='target'
         type='search'
         className='bg-ice-blue'
         label='Search a specific target'

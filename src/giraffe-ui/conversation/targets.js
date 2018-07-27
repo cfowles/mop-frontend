@@ -31,7 +31,7 @@ return (
       </div>
       <div className='search-wrap'>
         <InputMaterial
-          name='target-query'
+          name='target'
           type='search'
           className='bg-white'
           label='Search a specific target'

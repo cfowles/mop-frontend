@@ -82,7 +82,7 @@ const ChatBubble = ({
             interactBubble = (
               <div className={innerClasses}>
                 {bubble.type === 'input' ? userInput : bubble.content}
-                {bubble.type === 'input' ? <span onClick={toggleEditBubble(inputType)} className='bubble-fab'><Edit /></span> : <span onClick={toggleOpen('tipModalToggled', bubble.tipID)} className='bubble-fab'><Lightbulb /></span>}
+                {bubble.type === 'input' ? <span onClick={toggleEditBubble(inputType)} className='bubble-fab'><Edit /></span> : <span onClick={toggleOpen('tipModalToggled')} className='bubble-fab'><Lightbulb /></span>}
               </div>
             )
         }

@@ -27,7 +27,7 @@ const ReviewTargets = ({
         </div>
         <div className='review-targets-search-wrap'>
           <InputMaterial
-            name='review-target-query'
+            name='reviewTarget'
             type='search'
             className='bg-ice-blue'
             label='Search a specific target'
