@@ -1,5 +1,6 @@
 export const conversation = [
   {
+    name: 'start',
     content: 'Hi 👋 Want to start a petition? That’s great! Petitions like yours are one of the most powerful ways to bring people together to create change.',
     showToLoggedIn: false,
     type: 'static',
@@ -7,6 +8,7 @@ export const conversation = [
     id: 0
   },
   {
+    name: 'start-description',
     content: 'I’ll ask you a few questions that will help build your petition in minutes.',
     showToLoggedIn: false,
     type: 'static',
@@ -14,6 +16,7 @@ export const conversation = [
     id: 1
   },
   {
+    name: 'start-email-ask',
     content: 'Let’s get started! Can you enter your email so you don’t lose your progress?',
     showToLoggedIn: false,
     type: 'static',
@@ -21,6 +24,7 @@ export const conversation = [
     id: 2
   },
   {
+    name: 'email-input',
     content: 'Enter your email',
     showToLoggedIn: false,
     type: 'input',
@@ -32,6 +36,7 @@ export const conversation = [
   },
   // Section 1: Title
   {
+    name: 'edit-tip',
     content: 'Excellent. Also, you can edit your answers at any time by clicking the pencil next to your response.',
     showToLoggedIn: true,
     type: 'static',
@@ -39,6 +44,7 @@ export const conversation = [
     id: 4
   },
   {
+    name: 'title-ask',
     content: 'What would you like the title of your petition to be?',
     showToLoggedIn: true,
     type: 'static',
@@ -46,6 +52,7 @@ export const conversation = [
     id: 5
   },
   {
+    name: 'title-description',
     content: 'Great titles should be brief, like a newspaper headline. 🗞️ For example “Mayor Jones: Save Dewey Elementary School',
     showToLoggedIn: true,
     type: 'static',
@@ -53,6 +60,7 @@ export const conversation = [
     id: 6
   },
   {
+    name: 'title-tips',
     content: 'More tips on titles',
     showToLoggedIn: true,
     type: 'tip',
@@ -61,6 +69,7 @@ export const conversation = [
     id: 7
   },
   {
+    name: 'title-input',
     content: 'Enter your petition title',
     showToLoggedIn: false,
     type: 'input',
@@ -72,6 +81,7 @@ export const conversation = [
   },
   // Section 2: Statement
   {
+    name: 'great-title',
     content: 'That’s a great title! 👍',
     showToLoggedIn: true,
     type: 'static',
@@ -79,6 +89,7 @@ export const conversation = [
     id: 9
   },
   {
+    name: 'statement-ask',
     content: 'Now for the petition statement, what is the change you want to see? 💬',
     showToLoggedIn: true,
     type: 'static',
@@ -86,6 +97,7 @@ export const conversation = [
     id: 10
   },
   {
+    name: 'statement-description',
     content: 'You will get a lot more signers if your message is short and sweet—one or two sentences at most.',
     showToLoggedIn: true,
     type: 'static',
@@ -93,6 +105,7 @@ export const conversation = [
     id: 11
   },
   {
+    name: 'statement-tips',
     content: 'More tips on petition statements',
     showToLoggedIn: true,
     type: 'tip',
@@ -101,6 +114,7 @@ export const conversation = [
     id: 12
   },
   {
+    name: 'statement-input',
     content: 'Enter your petition statement',
     showToLoggedIn: false,
     type: 'input',
@@ -112,6 +126,7 @@ export const conversation = [
   },
   // Section 3: Background
   {
+    name: 'background-ask',
     content: 'Great. Why are you starting this petition?',
     showToLoggedIn: true,
     type: 'static',
@@ -119,6 +134,7 @@ export const conversation = [
     id: 14
   },
   {
+    name: 'background-description',
     content: 'Adding a paragraph or two about this issue and why it matters to you goes a long way. ✍️',
     showToLoggedIn: true,
     type: 'static',
@@ -126,6 +142,7 @@ export const conversation = [
     id: 15
   },
   {
+    name: 'background-tips',
     content: 'More tips on petition backgrounds',
     showToLoggedIn: true,
     type: 'tip',
@@ -134,6 +151,7 @@ export const conversation = [
     id: 16
   },
   {
+    name: 'background-input',
     content: 'Enter your petition background',
     showToLoggedIn: false,
     type: 'input',
@@ -145,6 +163,7 @@ export const conversation = [
   },
   // Section 4: Targets
   {
+    name: 'target-ask',
     content: 'Just a couple more steps. Let’s find the best person or group of people to make decisions about this issue. Let’s find the best decision-maker(s) for your petition.',
     showToLoggedIn: true,
     type: 'static',
@@ -152,6 +171,7 @@ export const conversation = [
     id: 18
   },
   {
+    name: 'target-tips',
     content: 'Not sure whom to choose as your decision-maker?',
     showToLoggedIn: true,
     type: 'tip',
@@ -160,6 +180,7 @@ export const conversation = [
     id: 19
   },
   {
+    name: 'target-input',
     content: 'Search your Decision Maker',
     showToLoggedIn: false,
     type: 'input',
@@ -170,6 +191,7 @@ export const conversation = [
   },
   // Section 5: Review
   {
+    name: 'petition-review',
     content: 'Almost done. 💪 Let’s review your petition before we publish it.',
     showToLoggedIn: true,
     type: 'static',
@@ -177,6 +199,7 @@ export const conversation = [
     id: 21
   },
   {
+    name: 'review-target-input',
     content: 'Search your Decision Maker',
     showToLoggedIn: false,
     type: 'input',

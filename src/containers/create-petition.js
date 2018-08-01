@@ -281,7 +281,7 @@ class CreatePetition extends React.Component {
     setTimeout(() => {
       this.focusRef()
       this.scrollToBottom()
-    }, this.state.currentIndex === 19 ? 700 : 200)
+    }, conversation[this.state.currentIndex].name === 'target-tips' ? 700 : 200)
     this.setState(prevState => {
       const newBubble = prevState.currentBubble + 1
       const newIndex = prevState.currentIndex + 1
