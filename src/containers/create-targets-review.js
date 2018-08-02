@@ -98,13 +98,16 @@ export class CreateTargetsReview extends React.Component {
     }
     return false
   }
+
   renderCustomTarget() {
     if (this.props.targetQuery && this.state.filteredTargets.length === 0) {
       return (
-        <div className='add-target bg-ice-blue' onClick={this.props.onTargetAdd({ target_type: 'custom', name: this.props.targetQuery, email: '', title: '' }, { isCustom: true })}>
-          Add “{this.props.targetQuery}” as your target
+        // <div className='col-12'>
+        <div className='add-target bg-white' onClick={this.props.onTargetAdd({ target_type: 'custom', name: this.props.targetQuery, email: '', title: '' }, { isCustom: true })}>
+          <span>Add <span style={{ fontWeight: 'bold' }}>“{this.props.targetQuery}”</span> as your target</span>
           <div className='add'><AddSvg /></div>
         </div>
+        // </div>
       )
     }
     return false
@@ -118,6 +121,7 @@ export class CreateTargetsReview extends React.Component {
         toggleOpen={this.props.toggleOpen}
         renderTargets={this.renderTargets}
         renderSelectedTargets={this.renderSelectedTargets}
+        renderCustomTarget={this.renderCustomTarget}
         targetQuery={this.props.targetQuery}
         updateQuery={this.updateQuery}
         load={this.state.load}

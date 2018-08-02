@@ -6,6 +6,7 @@ import { InputMaterial } from 'GiraffeUI/input-material'
 const ReviewTargets = ({
     renderTargets,
     renderSelectedTargets,
+    renderCustomTarget,
     targetQuery,
     updateQuery,
     load,
@@ -19,7 +20,7 @@ const ReviewTargets = ({
       </div>
     )
     return (
-      <div className='review-targets'>
+      <div className='review-targets targets'>
         <div className='selection-pills'>
           <div className='row'>
             {renderSelectedTargets()}
@@ -39,6 +40,9 @@ const ReviewTargets = ({
           <div className={cx('col-12', 'targets-dropdown', 'bg-azure', targetQuery ? 'toggled' : '')}>
             {renderTargets()}
             {load < filteredTargets.length ? loadMoreButton : ''}
+            <div className='col-12'>
+              {renderCustomTarget()}
+            </div>
           </div>
         </div>
       </div>
@@ -59,7 +63,8 @@ ReviewTargets.propTypes = {
       PropTypes.array
     ]),
     loadMoreTargets: PropTypes.func,
-    setRef: PropTypes.func
+    setRef: PropTypes.func,
+    renderCustomTarget: PropTypes.func
 }
 
 export default ReviewTargets

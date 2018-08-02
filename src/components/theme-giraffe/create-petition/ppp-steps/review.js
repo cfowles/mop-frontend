@@ -15,7 +15,8 @@ const Review = ({
     getStateValue,
     targets,
     setRef,
-    targetQuery
+    targetQuery,
+    theme
 }) => {
     const title = getStateValue('title')
     const summary = getStateValue('summary')
@@ -125,9 +126,9 @@ const Review = ({
           name='review_next'
           id='review_next'
           disabled={isPublishing}
-          onClick={nextStep}
+          onClick={theme === 'convo' ? toggleOpen('signupModalToggled') : nextStep}
         >
-                Publish
+          Publish
         </button>
       </div>
     )
@@ -146,7 +147,8 @@ Review.propTypes = {
       PropTypes.string
     ]),
     setRef: PropTypes.func,
-    targetQuery: PropTypes.string
+    targetQuery: PropTypes.string,
+    theme: PropTypes.string
 }
 
 export default Review

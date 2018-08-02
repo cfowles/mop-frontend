@@ -95,7 +95,6 @@ const CreatePetitionFormConversation = ({
     toggleOpen={toggleOpen}
     updateStateFromValue={updateStateFromValue}
     getStateValue={getStateValue}
-    nextStep={publish}
     onTargetAdd={onTargetAdd}
     onTargetRemove={onTargetRemove}
     targets={targets}
@@ -112,6 +111,7 @@ const CreatePetitionFormConversation = ({
     toggleOpen={toggleOpen}
     updateStateFromValue={updateStateFromValue}
     type='conversational'
+    publish={publish}
   />)
   return (
     <div>
