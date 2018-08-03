@@ -132,7 +132,7 @@ class CreatePetition extends React.Component {
   onTargetAdd(target, { isCustom } = { isCustom: false }) {
     return () => {
       if (!isCustom && !target.label) return // target is invalid
-      if (this.state.target) {
+      if (!isCustom && this.state.target) {
         if (this.state.target.find(old => old.label === target.label || old.name === target.name)) return // already exists
       }
       if (isCustom && !this.state.targetQuery) return // Trying to add a blank custom target
