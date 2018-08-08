@@ -84,6 +84,9 @@ const Signup = ({
             <a onClick={toggleOpen('loginToggled')} style={linkStyle}>
               {getStateValue('loginToggled') ? 'Need an account? Click to register' : 'Already have an account? Click to login'}
             </a>
+            <a href='https://petitions.moveon.org/login/forgot_password.html' target='_blank' rel='noopener noreferrer' style={linkStyle}>
+              {getStateValue('loginToggled') ? 'Forgot your password?' : '' }
+            </a>
           </div>
         </div>
       </div>
