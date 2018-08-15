@@ -66,6 +66,13 @@ const ConversationalInput = ({
             onBlur={updateStateFromValue(inputType)}
             id='user-input'
             setRef={setRef}
+            onKeyPress={event => {
+              if (event.key === 'Enter' && inputType === 'email') {
+                event.preventDefault()
+                const s = saveInput(inputType)
+                s()
+              }
+            }}
           />
           <button className='bubble-submit' disabled={!getStateValue(inputType)} onClick={saveInput(inputType)}>
             <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>

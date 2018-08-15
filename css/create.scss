@@ -1624,8 +1624,15 @@ $bp-xl: 1440px;
                 .bar {
                     display: none;
                 }
+
                 label {
-                    display: none;
+                    // display: none;
+                    top: 50%;
+                    transform: translateY(-50%);
+                }
+                input:focus ~ label {
+                    top: 10px;
+                    font-size: 12px;
                 }
                 .helper-text {
                     position: absolute;
@@ -1643,7 +1650,7 @@ $bp-xl: 1440px;
                     border-radius: 5px;
                     background-color: #ffffff;
                     padding: 0 15px;
-                    padding: 10px 30px 8px 10px;
+                    padding: 14px 30px 8px 10px;
                     min-height: 50px;
                     font-size: 16px;
                     line-height: 28px;

@@ -106,7 +106,7 @@ const CreatePetitionFormConversation = ({
     getStateValue={getStateValue}
   />)
   const signup = (<Signup
-                        // afterSignup={nextStep}
+    afterSignup={publish}
     getStateValue={getStateValue}
     toggleOpen={toggleOpen}
     updateStateFromValue={updateStateFromValue}

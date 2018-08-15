@@ -33,7 +33,7 @@ const RegisterFormMaterial = ({
         />
         {type !== 'conversational' ? email : ''}
         <InputMaterial
-          type='number'
+          type='text'
           name='zip'
           label='Zip'
           stateRef={getStateValue('zip')}

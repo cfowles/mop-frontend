@@ -111,7 +111,7 @@ const CreatePetitionForm = ({
               {
               (step === 7 && `Congratulations, ${name}! Let’s get your first 10 signatures.`) ||
               (nearbyCount > 10 && `${nearbyCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} MoveOn members in your area have recently taken action.`) ||
-              ('There are millions of MoveOn members waiting for your petition.')
+              ('Millions of MoveOn members sign petitions.')
             }
             </h2>
           </div>
