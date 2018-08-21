@@ -14,10 +14,7 @@ const Title = ({
     <div className='row ppp-item'>
       <div className='col-12'>
         <p>
-                  Let’s launch your petition! From local to national, we want to give your voice a platform to help you create progressive change.
-        </p>
-        <p>
-                  Start with a petition title. It should be brief, like a newspaper headline.
+          Let’s launch your petition! Whether you’re working on the local or national level, we want to give you a toolset to help you create progressive change.
         </p>
       </div>
       <div className='col-12 ppp-heading'>
@@ -28,7 +25,7 @@ const Title = ({
         </div>
       </div>
       <div className='col-12'>
-        <p>Start with a petition title - successful titles are brief, like a newspaper headline.</p>
+        <p>Start with a petition title — successful titles are brief, like a newspaper headline.</p>
       </div>
       <InputMaterial name='title' type='textarea' className='bg-ice-blue' label='Your Petition Title' charLimit={50} stateRef={getStateValue('title')} onChange={updateStateFromValue('title')} setRef={setRef} />
     </div>

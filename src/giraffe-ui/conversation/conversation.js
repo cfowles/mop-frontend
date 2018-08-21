@@ -127,7 +127,7 @@ export const conversation = [
   // Section 3: Background
   {
     name: 'background-ask',
-    content: 'Great. Why are you starting this petition?',
+    content: 'Great. Now can you share why you are starting this petition?',
     showToLoggedIn: true,
     type: 'static',
     section: 3,

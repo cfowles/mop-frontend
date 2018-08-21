@@ -76,7 +76,7 @@ export const InputMaterial = ({
       <span className='bar' />
       <label>{label}</label>
       {
-        (!helperText && charLimit && <small className={cx('helper-text', stateRef.length > charLimit ? 'invalid' : '')}>{stateRef.length ? stateRef.length : '0'}/{charLimit} Characters</small>)
+        (!helperText && charLimit && <small className={cx('helper-text', stateRef.length > charLimit ? 'invalid' : '')}>Recommended length: {stateRef.length ? stateRef.length : '0'}/{charLimit} characters</small>)
         ||
         (helperText && !charLimit && <small className='helper-text'>{helperText}</small>)
       }

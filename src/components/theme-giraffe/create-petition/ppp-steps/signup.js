@@ -54,7 +54,7 @@ const Signup = ({
   }
   const display = loginToggled ? login : register
   const defaults = {
-    title: 'Your petition is important. Let’s make sure you don’t lose progress.',
+    title: 'Your petition is important. Let’s make sure you don’t your lose progress.',
     description: 'Provide your email and zip code to recover an incomplete petition draft and receive location specific suggestions to help you throughout your petition creation process.'
   }
   const conversational = {
