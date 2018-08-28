@@ -37,7 +37,7 @@ return (
       </div>
       <div className='col-12'>
         <p>
-          The decision-maker for your petition is the person or group that has the power to make your change. Let’s find the best decision-maker(s) for your petition.
+          The decision-maker for your petition is the person or group that has the power to make your change. Let’s find the best decision-maker(s) for your petition. (You can search your state by typing your state abbreviation and adding a dash. For example: ID- for Idaho. You can also add a custom target.)
         </p>
       </div>
       <div className='selection-pills col-12'>

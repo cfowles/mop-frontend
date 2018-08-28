@@ -164,7 +164,7 @@ export const conversation = [
   // Section 4: Targets
   {
     name: 'target-ask',
-    content: 'Just a couple more steps. Let’s find the best person or group of people to make decisions about this issue. Let’s find the best decision-maker(s) for your petition.',
+    content: 'Just a couple more steps. Let’s find the best person or group of people to make decisions about this issue. Let’s find the best decision-maker(s) for your petition. (You can search your state by typing your state abbreviation and adding a dash. For example: ID- for Idaho. You can also add a custom target.)',
     showToLoggedIn: true,
     type: 'static',
     section: 4,
