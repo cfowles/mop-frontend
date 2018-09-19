@@ -9,9 +9,9 @@ const Tip = ({
 }) => {
     const createType = getStateValue('createType')
     let currentTip
-    if (createType === 'c') {
-      if (getStateValue('section') === 0) currentTip = tips[0]
-      if (getStateValue('section') > 0) currentTip = tips[getStateValue('section') - 1]
+    if (createType === 'chat') {
+      if (getStateValue('currentTip') === 0) currentTip = tips[0]
+      if (getStateValue('currentTip') > 0) currentTip = tips[getStateValue('currentTip') - 1]
     } else {
       currentTip = tips[getStateValue('step') - 1]
     }

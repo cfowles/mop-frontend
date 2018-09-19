@@ -11,12 +11,12 @@ const ChatBubble = ({
     bubbleId,
     innerClasses,
     userInput,
-    toggleOpen,
     updateStateFromValue,
     getStateValue,
     toggleEditBubble,
     targets,
-    onTargetRemove
+    onTargetRemove,
+    toggleConvoTip
 }) => {
     const hasInput = Object.prototype.hasOwnProperty.call(bubble, 'input')
     const inputType = hasInput ? bubble.input.type : ''
@@ -82,7 +82,7 @@ const ChatBubble = ({
             interactBubble = (
               <div className={innerClasses}>
                 {bubble.type === 'input' ? userInput : bubble.content}
-                {bubble.type === 'input' ? <span onClick={toggleEditBubble(inputType)} className='bubble-fab'><Edit /></span> : <span onClick={toggleOpen('tipModalToggled')} className='bubble-fab'><Lightbulb /></span>}
+                {bubble.type === 'input' ? <span onClick={toggleEditBubble(inputType)} className='bubble-fab'><Edit /></span> : <span onClick={toggleConvoTip(bubble.tipID)} className='bubble-fab'><Lightbulb /></span>}
               </div>
             )
         }
@@ -97,7 +97,6 @@ const ChatBubble = ({
 }
 
 ChatBubble.propTypes = {
-    toggleOpen: PropTypes.func,
     bubble: PropTypes.object,
     bubbleId: PropTypes.number,
     innerClasses: PropTypes.string,
@@ -113,7 +112,8 @@ ChatBubble.propTypes = {
       PropTypes.array,
       PropTypes.string
     ]),
-    onTargetRemove: PropTypes.func
+    onTargetRemove: PropTypes.func,
+    toggleConvoTip: PropTypes.func
 }
 
 export default ChatBubble

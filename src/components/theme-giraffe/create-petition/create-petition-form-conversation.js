@@ -27,7 +27,8 @@ const CreatePetitionFormConversation = ({
   saveInput,
   toggleEditBubble,
   currentIndex,
-  setRef
+  setRef,
+  toggleConvoTip
 }) => {
   const section = getStateValue('section')
   const progressWidth = `${(section / 5) * 100}%`
@@ -61,6 +62,7 @@ const CreatePetitionFormConversation = ({
         toggleEditBubble={toggleEditBubble}
         targets={targets}
         onTargetRemove={onTargetRemove}
+        toggleConvoTip={toggleConvoTip}
       />
     )
   })
@@ -160,7 +162,8 @@ CreatePetitionFormConversation.propTypes = {
     PropTypes.bool,
     PropTypes.string
   ]),
-  setRef: PropTypes.func
+  setRef: PropTypes.func,
+  toggleConvoTip: PropTypes.func
 }
 
 export default CreatePetitionFormConversation

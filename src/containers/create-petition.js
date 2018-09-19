@@ -62,6 +62,7 @@ class CreatePetition extends React.Component {
       bubbleShow: false,
       bubbleLoading: false,
       bubbleEdit: false,
+      currentTip: 0,
       // Toggles
       signupModalToggled: false,
       tipModalToggled: false,
@@ -84,6 +85,7 @@ class CreatePetition extends React.Component {
     this.updateStateFromValue = this.updateStateFromValue.bind(this)
     this.getStateValue = this.getStateValue.bind(this)
     this.toggleOpen = this.toggleOpen.bind(this)
+    this.toggleConvoTip = this.toggleConvoTip.bind(this)
     this.onTargetAdd = this.onTargetAdd.bind(this)
     this.onTargetRemove = this.onTargetRemove.bind(this)
     this.submitPetition = this.submitPetition.bind(this)
@@ -312,6 +314,17 @@ class CreatePetition extends React.Component {
       this.setState({ errors: [] })
       if (!this.convoInputIsValid(inputType)) return
       this.setState({ bubbleEdit: false })
+    }
+  }
+
+  toggleConvoTip(i) {
+    return () => {
+      console.log(i)
+      this.setState({ currentTip: i })
+      this.setState(prevState => {
+        const prev = prevState.tipModalToggled
+        return { tipModalToggled: !prev }
+      })
     }
   }
 
