@@ -302,6 +302,7 @@ class CreatePetition extends React.Component {
       uinput.value = ''
       uinput.focus()
       this.inputTimeout = setTimeout(() => {
+        this.setState({})
         this.nextSection()
         this.callSection()
       }, 500)
@@ -319,7 +320,6 @@ class CreatePetition extends React.Component {
 
   toggleConvoTip(i) {
     return () => {
-      console.log(i)
       this.setState({ currentTip: i })
       this.setState(prevState => {
         const prev = prevState.tipModalToggled
