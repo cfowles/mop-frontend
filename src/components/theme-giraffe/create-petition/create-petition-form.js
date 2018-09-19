@@ -6,7 +6,6 @@ import Summary from './ppp-steps/summary'
 import Description from './ppp-steps/description'
 import CreateTargets from '../../../containers/create-targets'
 import Review from './ppp-steps/review'
-import Share from './ppp-steps/share'
 import Tip from './ppp-steps/tip'
 import Signup from './ppp-steps/signup'
 import '../../../../css/create.scss'
@@ -71,10 +70,6 @@ const CreatePetitionForm = ({
     targetQuery={targetQuery}
     setRef={setRef}
   />)
-  const shareStep = (<Share
-    toggleOpen={toggleOpen}
-    getStateValue={getStateValue}
-  />)
 
   const tip = (<Tip
     toggleOpen={toggleOpen}
@@ -119,13 +114,12 @@ const CreatePetitionForm = ({
       </div>
 
       <form id='petition_form'>
-        {step > 2 ? '' : titleStep}
-        {step > 3 ? '' : summaryStep}
-        {step < 2 || step > 4 ? '' : descriptionStep}
-        {step < 3 || step > 5 ? '' : targetsStep}
-        {step < 4 || step > 6 ? '' : reviewStep}
-        {step < 5 ? '' : shareStep}
-        {step < 5 ? tip : ''}
+        {titleStep}
+        {summaryStep}
+        {descriptionStep}
+        {targetsStep}
+        {reviewStep}
+        {tip}
       </form>
       {signup}
     </div>

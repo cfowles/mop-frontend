@@ -103,7 +103,8 @@ class CreatePetition extends React.Component {
     let createType
 
     if (props.params) {
-      createType = Object.prototype.hasOwnProperty.call(props.params, 'type') ? props.params.type : 'p'
+      const paramTheme = props.params.type
+      createType = paramTheme === 'chat' ? 'chat' : 'p'
     } else {
       createType = 'p'
     }
